@@ -25,10 +25,12 @@ La versión entregada está congelada en la etiqueta [`m52`](https://github.com/
 
 Necesitas Git y Python 3.10 o superior (recomendado: 3.12). No hace falta crear un archivo `.env`.
 
+**Antes de empezar:** la primera línea de cada bloque falla con `Necesitas Python 3.10 o superior` si tu Python es anterior (en macOS, el `python3` del sistema suele ser 3.9). En ese caso instala Python 3.12 desde [python.org](https://www.python.org/downloads/) (en macOS también con `brew install python@3.12`) y usa `python3.12` en lugar de `python3` en el bloque (en Windows, `py -3.12` en lugar de `py`). Para crear el entorno escribe `python3.12 -m venv --clear .venv` (Windows: `py -3.12 -m venv --clear .venv`): `--clear` reemplaza un `.venv` que ya exista, y sin él el entorno conserva Python 3.9.
+
 ### macOS y Linux
 
 ```bash
-python3 --version
+python3 -c "import sys; assert sys.version_info >= (3, 10), 'Necesitas Python 3.10 o superior'"
 git clone https://github.com/pipeTawns-x/Houndxpress.git
 cd Houndxpress/backend
 python3 -m venv .venv
@@ -38,12 +40,10 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-`python3 --version` debe mostrar 3.10 o superior. En macOS, el `python3` del sistema puede ser 3.9; en ese caso instala Python 3.12 desde [python.org](https://www.python.org/downloads/) o con `brew install python@3.12` y crea el entorno con `python3.12 -m venv .venv`.
-
 ### Windows (PowerShell o cmd)
 
 ```powershell
-py --version
+py -c "import sys; assert sys.version_info >= (3, 10), 'Necesitas Python 3.10 o superior'"
 git clone https://github.com/pipeTawns-x/Houndxpress.git
 cd Houndxpress\backend
 py -m venv .venv
@@ -52,29 +52,29 @@ py -m venv .venv
 .venv\Scripts\python manage.py runserver
 ```
 
-No hace falta activar el entorno virtual: cada comando usa directamente el Python de `.venv`. Si `py` no existe, usa `python` en su lugar (`python --version`, `python -m venv .venv`). Si la versión es menor a 3.10, instala Python 3.12 desde [python.org](https://www.python.org/downloads/) y usa `py -3.12 -m venv .venv`.
+No hace falta activar el entorno virtual: cada comando usa directamente el Python de `.venv`. Si `py` no existe, usa `python` en su lugar (en la primera línea y en `python -m venv .venv`).
 
-### Resultado esperado
-
-La consola muestra `Starting development server at http://127.0.0.1:8000/`. La advertencia `WARNING: This is a development server` es normal en local. Abre <http://127.0.0.1:8000/> en el navegador: redirige a `/api/v1/health/`, donde la página de la API navegable de Django REST Framework muestra `"status": "ok"` y `"database": "ok"`. Detén el servidor con `Ctrl+C`.
+Resultado esperado en cualquier sistema: la consola muestra `Starting development server at http://127.0.0.1:8000/`. La advertencia `WARNING: This is a development server` es normal en local. Abre <http://127.0.0.1:8000/> en el navegador: redirige a `/api/v1/health/`, donde la página de la API navegable de Django REST Framework muestra `"status": "ok"` y `"database": "ok"`. Detén el servidor con `Ctrl+C`.
 
 ## Verificar la instalación
 
-Con el servidor encendido, desde otra terminal (en Windows escribe `curl.exe`). La respuesta esperada es `{"status":"ok","database":"ok"}`:
+Con el servidor encendido, abre otra terminal y ejecuta (en Windows, `curl.exe`):
 
 ```bash
 curl http://127.0.0.1:8000/api/v1/health/
 ```
 
-Pruebas y lint, dentro de `backend/` y con el entorno virtual activo:
+La respuesta esperada es `{"status":"ok","database":"ok"}`.
+
+Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv`, sin activarlo):
 
 ```bash
-python -m pip install -r requirements-dev.txt
-python manage.py test
-python -m ruff check .
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python manage.py test
+.venv/bin/python -m ruff check .
 ```
 
-En Windows, escribe `.venv\Scripts\python` en lugar de `python` (por ejemplo, `.venv\Scripts\python manage.py test`). Resultado esperado: `Ran 13 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
+En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 13 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
 
 ## Configuración
 
