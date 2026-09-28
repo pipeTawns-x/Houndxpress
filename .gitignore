@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Python & Django
+*.pyc
+__pycache__/
+venv/
+.venv/
+db.sqlite3
+*.log
+
+# Frontend (Node/React)
+node_modules/
+dist/
+build/
+
+# Variables de entorno
+.env
