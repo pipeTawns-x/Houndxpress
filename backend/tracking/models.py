@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+"""Waybill tracking domain models. Intentionally empty in M52; the schema lands in M54."""
