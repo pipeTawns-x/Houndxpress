@@ -1,6 +1,6 @@
 """Operational endpoints. They report whether the service can serve; no business logic."""
 
-from django.db import DatabaseError, connections
+from django.db import Error, connections
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ def database_is_available(alias: str = "default") -> bool:
         with connections[alias].cursor() as cursor:
             cursor.execute("SELECT 1")
             cursor.fetchone()
-    except DatabaseError:
+    except Error:
         return False
     return True
 

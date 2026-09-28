@@ -17,7 +17,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Servidor local con entorno virtual y pip | sección *Inicio rápido*; jobs `readme (bash)` y `readme (powershell)` en [`ci.yml`](.github/workflows/ci.yml) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/.env.example`](backend/.env.example), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
-| Lint y 12 pruebas automáticas en Linux (Python 3.10 y 3.12) y Windows | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 13 pruebas automáticas en Linux (Python 3.10 y 3.12) y Windows | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
 La versión entregada está congelada en la etiqueta [`m52`](https://github.com/pipeTawns-x/Houndxpress/tree/m52). Para ejecutar exactamente esa versión después de clonar: `git checkout m52`.
 
@@ -74,7 +74,7 @@ python manage.py test
 python -m ruff check .
 ```
 
-En Windows, escribe `.venv\Scripts\python` en lugar de `python` (por ejemplo, `.venv\Scripts\python manage.py test`). Resultado esperado: `Ran 12 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
+En Windows, escribe `.venv\Scripts\python` en lugar de `python` (por ejemplo, `.venv\Scripts\python manage.py test`). Resultado esperado: `Ran 13 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
 
 ## Configuración
 

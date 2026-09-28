@@ -1,6 +1,6 @@
 from unittest import mock
 
-from django.db import OperationalError, connections
+from django.db import InterfaceError, OperationalError, connections
 from django.test import TestCase
 
 from core.views import database_is_available
@@ -25,6 +25,14 @@ class HealthEndpointTests(TestCase):
             connections["default"], "cursor", side_effect=OperationalError("down")
         ):
             self.assertFalse(database_is_available())
+
+    def test_health_returns_503_on_database_interface_error(self):
+        with mock.patch.object(
+            connections["default"], "cursor", side_effect=InterfaceError("connection closed")
+        ):
+            response = self.client.get(HEALTH_URL)
+        self.assertEqual(response.status_code, 503)
+        self.assertEqual(response.json(), {"status": "error", "database": "unavailable"})
 
     def test_health_rejects_write_methods(self):
         response = self.client.post(HEALTH_URL)
