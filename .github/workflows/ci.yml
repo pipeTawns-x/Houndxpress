@@ -73,7 +73,11 @@ jobs:
           test "$(cat health.json)" = '{"status":"ok","database":"ok"}'
 
   readme-powershell:
-    # Replays the README Windows block, one step per line so no failure is masked.
+    # Windows counterpart of readme (bash). It runs the README Windows steps (version check,
+    # venv, pip install, migrate) with the setup-python interpreter (`python`), because the
+    # `py` launcher is not guaranteed on the runner image. It ends with `manage.py check`
+    # instead of the foreground `runserver`; the server itself is exercised by readme (bash).
+    # One step per line so no failure is masked.
     name: readme (powershell)
     runs-on: windows-latest
     timeout-minutes: 10
@@ -86,7 +90,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - run: python --version
+      - run: python -c "import sys; assert sys.version_info >= (3, 10), 'Necesitas Python 3.10 o superior'"
       - run: python -m venv .venv
       - run: .venv\Scripts\python -m pip install -r requirements.txt
       - run: .venv\Scripts\python manage.py migrate
