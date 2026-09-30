@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import { LoaderCircle } from "lucide-react";
+import { cx } from "../../lib/bem.ts";
 import { buttonClasses } from "./buttonStyles.ts";
 import type { ButtonStyleOptions } from "./buttonStyles.ts";
 
@@ -23,12 +24,12 @@ export function Button({
   return (
     <button
       type={type}
-      className={[buttonClasses({ variant, size, tone, fullWidth }), className].filter(Boolean).join(" ")}
+      className={cx(buttonClasses({ variant, size, tone, fullWidth }), className)}
       disabled={disabled === true || loading}
       aria-busy={loading || undefined}
       {...props}
     >
-      {loading ? <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> : null}
+      {loading ? <LoaderCircle className="button__spinner" aria-hidden="true" /> : null}
       {children}
     </button>
   );

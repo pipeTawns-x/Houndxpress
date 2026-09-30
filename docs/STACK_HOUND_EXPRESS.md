@@ -23,7 +23,8 @@ Estas decisiones llegaron después de la etiqueta `m52` y no cambian el backend.
 
 | Tema | Decisión | Motivo |
 |---|---|---|
-| Frontend | React 19 + TypeScript + Vite + Tailwind CSS 4 en `frontend/` | React es lo que enseña el módulo de front-end del programa. La API de DRF necesita un cliente, y una SPA la consume sin plantillas de Django. |
+| Frontend | React 19 + TypeScript + Vite en `frontend/` | React es lo que enseña el módulo de front-end del programa. La API de DRF necesita un cliente, y una SPA la consume sin plantillas de Django. |
+| Estilos del frontend | Sass con la metodología BEM y carpetas 7-1 (`frontend/src/styles/`), sin Tailwind | Lo pide el Módulo 10 del documento oficial ([`REQUISITOS_EBAC.md`](REQUISITOS_EBAC.md)). Los tokens de diseño viven en `abstracts/_tokens.scss` y se exponen también como propiedades personalizadas en `:root`. |
 | Estado del frontend | Redux Toolkit: un slice de guías con thunks que reciben el `GuideRepository` como argumento extra | Lo pide el Módulo 32 del documento oficial ([`REQUISITOS_EBAC.md`](REQUISITOS_EBAC.md)). Los reducers guardan lo que devuelve el repositorio; la regla de etapas sigue en `src/domain/`. |
 | Pruebas del frontend | Jest 30 con Testing Library | Lo pide el Módulo 34 del documento oficial. |
 | Datos del frontend | Interfaz `GuideRepository` con una implementación de demostración (`localStorage`) y una HTTP para M64 | Las tablas de guías llegan en M54 y los endpoints en M64. La interfaz se puede probar hoy sin fingir que el backend ya lo hace. |
@@ -63,7 +64,7 @@ Versiones de `frontend/package-lock.json`; licencia leída del `package.json` de
 | lucide-react | 1.49.0 | ISC | ejecución |
 | @fontsource-variable/inter, @fontsource-variable/plus-jakarta-sans | 5.3.0 | OFL-1.1 | ejecución (tipografías autoalojadas) |
 | vite, @vitejs/plugin-react | 8.3.1, 6.1.1 | MIT | desarrollo |
-| tailwindcss, @tailwindcss/vite | 4.3.3 | MIT | desarrollo |
+| sass | 1.105.1 | MIT | desarrollo (compila los estilos; trae chokidar, immutable y readdirp, MIT) |
 | typescript | 6.0.3 | Apache-2.0 | desarrollo |
 | jest, jest-environment-jsdom, @types/jest | 30.5.2, 30.5.2, 30.0.0 | MIT | desarrollo |
 | @swc/jest, @swc/core | 0.2.39, 1.16.12 | MIT, Apache-2.0 | desarrollo (compila TypeScript para Jest) |
@@ -73,7 +74,7 @@ Versiones de `frontend/package-lock.json`; licencia leída del `package.json` de
 
 Árbol completo del lockfile: MIT, Apache-2.0, ISC, BSD, BlueOak, CC0 y MIT-0, más dos casos que se aceptan por ser solo de compilación y no llegar al código servido:
 
-- `lightningcss` (MPL-2.0), que Tailwind y Vite usan para procesar CSS. MPL-2.0 es copyleft débil por archivo: obliga a compartir cambios a los archivos de lightningcss, no al código que lo usa, y este proyecto no los modifica.
+- `lightningcss` (MPL-2.0), que Vite usa para procesar CSS. MPL-2.0 es copyleft débil por archivo: obliga a compartir cambios a los archivos de lightningcss, no al código que lo usa, y este proyecto no los modifica.
 - `caniuse-lite` (CC-BY-4.0), la tabla de compatibilidad de navegadores.
 
 Algunas versiones están fijadas por debajo de la última para cumplir `engines: node >=20.19`: react-router 8 y `@testing-library/jest-dom` 6.10 exigen Node 22. Jest usa `@swc/jest` porque `ts-jest` falla con `verbatimModuleSyntax` y TypeScript 6 al emitir CommonJS. TypeScript queda en 6.0 porque `typescript-eslint` 8.71 no admite la 7. El detalle está en [`frontend/README.md`](../frontend/README.md#notas-de-mantenimiento).

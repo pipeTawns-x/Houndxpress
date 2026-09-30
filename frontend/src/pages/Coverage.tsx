@@ -16,39 +16,39 @@ export default function Coverage() {
       />
 
       <Section aria-labelledby="titulo-mapa">
-        <div className="reveal flex flex-col gap-10">
+        <div className="section__stack">
           <SectionHeader
             id="titulo-mapa"
             eyebrow="Mapa de la red"
             title="Dos hubs en USA y diez puntos de entrada en LATAM"
             description="Combinamos tecnología y logística para facilitar envíos de comercio electrónico a cualquier destino."
           />
-          <NetworkMap className="mx-auto w-full max-w-4xl" />
+          <NetworkMap className="network-map--wide" />
         </div>
       </Section>
 
       <Section tone="surface" aria-labelledby="titulo-hubs">
-        <div className="reveal flex flex-col gap-10">
+        <div className="section__stack">
           <SectionHeader
             id="titulo-hubs"
             eyebrow="Hubs estratégicos"
             title="Hubs a lo largo de México y Estados Unidos"
             description="Múltiples puntos de entrada y salida del país, con almacenes para reducir costos y tiempos de traslado."
           />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="card-grid">
             {HUBS.map((hub) => (
-              <li key={hub.id} className="flex h-full flex-col gap-3 rounded-2xl bg-white p-6 shadow-soft ring-1 ring-line transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lift">
-                <span className="flex size-11 items-center justify-center rounded-xl bg-aqua-100 text-aqua-700">
-                  <MapPin className="size-5" aria-hidden="true" />
+              <li key={hub.id} className="hub-card">
+                <span className="hub-card__icon-box">
+                  <MapPin className="hub-card__icon" aria-hidden="true" />
                 </span>
-                <div className="flex flex-col gap-0.5">
-                  <h3 className="text-h3 font-bold">{hub.name}</h3>
-                  <p className="text-label text-muted">{hub.region}</p>
+                <div className="hub-card__heading">
+                  <h3 className="hub-card__title">{hub.name}</h3>
+                  <p className="hub-card__region">{hub.region}</p>
                 </div>
-                <p className="text-base text-ink">{hub.role}</p>
-                <ul className="mt-auto flex flex-wrap gap-2">
+                <p className="hub-card__role">{hub.role}</p>
+                <ul className="hub-card__details">
                   {hub.details.map((detail) => (
-                    <li key={detail} className="rounded-full bg-aqua-100 px-3 py-1 text-label font-semibold text-navy-800">
+                    <li key={detail} className="hub-card__detail">
                       {detail}
                     </li>
                   ))}
@@ -60,26 +60,26 @@ export default function Coverage() {
       </Section>
 
       <Section aria-labelledby="titulo-paises">
-        <div className="reveal flex flex-col gap-10">
+        <div className="section__stack">
           <SectionHeader
             id="titulo-paises"
             eyebrow="Latinoamérica"
             title="Ampliamos nuestra presencia en América Latina"
             description="Operamos en Argentina, Brasil, Chile, Colombia y México."
           />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="card-grid">
             {COUNTRIES.map((country) => (
-              <li key={country.name} className="flex flex-col gap-2 rounded-2xl bg-white p-6 ring-1 ring-line">
-                <div className="flex items-center gap-3">
-                  <Globe className="size-5 text-aqua-700" aria-hidden="true" />
-                  <h3 className="text-h3 font-bold">{country.name}</h3>
+              <li key={country.name} className="country-card">
+                <div className="country-card__heading">
+                  <Globe className="country-card__icon" aria-hidden="true" />
+                  <h3 className="country-card__title">{country.name}</h3>
                 </div>
-                <p className="text-label font-semibold text-aqua-700">{country.status}</p>
-                <p className="text-base text-muted">{country.text}</p>
+                <p className="country-card__status">{country.status}</p>
+                <p className="country-card__text">{country.text}</p>
               </li>
             ))}
           </ul>
-          <ButtonLink to="/contacto" size="lg" className="self-start">
+          <ButtonLink to="/contacto" size="lg" className="section__action">
             Habla con nuestro equipo
           </ButtonLink>
         </div>

@@ -15,14 +15,11 @@ import { readGuideParam, trackingPath } from "../lib/routes.ts";
 
 function InvalidGuide({ number }: { number: string }) {
   return (
-    <article
-      aria-label={`Guía ${number} con formato incorrecto`}
-      className="flex items-start gap-3 rounded-2xl bg-danger-soft p-5 ring-1 ring-danger/30"
-    >
-      <CircleAlert className="mt-0.5 size-5 shrink-0 text-danger" aria-hidden="true" />
-      <div className="flex flex-col gap-1">
-        <h3 className="text-base font-bold break-all text-danger">{number}</h3>
-        <p className="text-base text-ink">
+    <article aria-label={`Guía ${number} con formato incorrecto`} className="invalid-guide">
+      <CircleAlert className="invalid-guide__icon" aria-hidden="true" />
+      <div className="invalid-guide__body">
+        <h3 className="invalid-guide__title">{number}</h3>
+        <p className="invalid-guide__text">
           Este número no tiene el formato correcto: son 16 dígitos que inician con 21, o 22 caracteres alfanuméricos.
         </p>
       </div>
@@ -68,8 +65,8 @@ export default function Tracking() {
         description="Escribe tu número de guía y mira en cuál de las cinco etapas va tu envío."
       />
 
-      <Container className="relative z-10 -mt-10 flex flex-col gap-6 pb-16 md:pb-24">
-        <div className="rounded-3xl bg-white p-5 shadow-lift ring-1 ring-line sm:p-8">
+      <Container className="tracking-page">
+        <div className="tracking-page__search">
           <TrackingSearch
             initialValue={numbers.map(formatGuideNumber).join("\n")}
             onSearch={(found) => {
@@ -81,17 +78,17 @@ export default function Tracking() {
         {/* Antes de buscar, las guías de ejemplo invitan a probar; después, primero va el resultado. */}
         {lookup.status === "idle" ? <DemoNotice /> : null}
 
-        <section aria-labelledby="resultados" aria-live="polite" className="flex flex-col gap-6">
+        <section aria-labelledby="resultados" aria-live="polite" className="tracking-page__results">
           {lookup.status === "idle" ? (
-            <div className="flex flex-col items-center gap-3 rounded-3xl bg-surface px-6 py-12 text-center">
-              <PackageSearch className="size-10 text-aqua-700" aria-hidden="true" />
-              <h2 id="resultados" className="text-h3 font-bold">
+            <div className="empty-state">
+              <PackageSearch className="empty-state__icon" aria-hidden="true" />
+              <h2 id="resultados" className="empty-state__title">
                 Aquí verás el resultado
               </h2>
-              <p className="max-w-md text-base text-muted">
+              <p className="empty-state__text">
                 Escribe tu número de guía arriba. ¿No lo tienes? Lo encuentras en la página donde compraste, y muchas
                 veces llega por correo.{" "}
-                <Link to="/preguntas" className="font-semibold text-aqua-700 underline underline-offset-2 hover:text-navy-800">
+                <Link to="/preguntas" className="text-link">
                   Ver preguntas frecuentes
                 </Link>
                 .
@@ -100,23 +97,23 @@ export default function Tracking() {
           ) : null}
 
           {lookup.status === "loading" ? (
-            <div className="flex items-center justify-center gap-3 rounded-3xl bg-surface px-6 py-12 text-muted">
-              <LoaderCircle className="size-5 animate-spin" aria-hidden="true" />
-              <h2 id="resultados" className="text-base font-semibold text-muted">
+            <div className="loading-state">
+              <LoaderCircle className="loading-state__icon" aria-hidden="true" />
+              <h2 id="resultados" className="loading-state__label">
                 Buscando tu guía…
               </h2>
             </div>
           ) : null}
 
           {lookup.status === "error" ? (
-            <div className="flex flex-col items-start gap-4 rounded-3xl bg-danger-soft p-6 ring-1 ring-danger/30">
-              <div className="flex items-start gap-3">
-                <CircleAlert className="mt-0.5 size-5 shrink-0 text-danger" aria-hidden="true" />
-                <div className="flex flex-col gap-1">
-                  <h2 id="resultados" className="text-h3 font-bold text-danger">
+            <div className="error-panel">
+              <div className="error-panel__header">
+                <CircleAlert className="error-panel__icon" aria-hidden="true" />
+                <div className="error-panel__body">
+                  <h2 id="resultados" className="error-panel__title">
                     No pudimos consultar tu guía
                   </h2>
-                  <p className="text-base text-ink">{lookup.message}</p>
+                  <p className="error-panel__text">{lookup.message}</p>
                 </div>
               </div>
               <Button variant="secondary" onClick={lookup.retry}>
@@ -127,10 +124,10 @@ export default function Tracking() {
 
           {lookup.status === "done" ? (
             <>
-              <h2 id="resultados" className="text-h2 font-bold">
-                Resultado <span className="sr-only">de tu búsqueda</span>
+              <h2 id="resultados" className="tracking-page__title">
+                Resultado <span className="visually-hidden">de tu búsqueda</span>
               </h2>
-              <p className="-mt-3 text-base text-muted">
+              <p className="tracking-page__summary">
                 {summary(lookup.results)}
                 {total > numbers.length
                   ? ` La dirección traía ${String(total)} guías y solo se buscan las primeras ${String(numbers.length)}.`

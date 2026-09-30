@@ -1,0 +1,85 @@
+// Campo de formulario: etiqueta visible arriba; ayuda y error debajo.
+//
+//   .field__control            input, textarea o select (--input · --textarea · --select)
+//   .field__control--invalid   borde rojo cuando hay error
+
+@use "../abstracts" as *;
+
+.field {
+  @include stack(space(1.5));
+
+  &__label {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+  }
+
+  &__optional {
+    margin-left: space(1);
+    font-weight: 400;
+    color: $color-muted;
+  }
+
+  &__hint {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  // Campo con un botón a la derecha (por ejemplo, "Generar").
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: space(3);
+  }
+
+  &__row-main {
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  &__control {
+    @include form-control;
+    padding-inline: space(4);
+    @include type(base);
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: $color-surface;
+      color: $color-muted;
+    }
+
+    &--input {
+      height: space(12);
+    }
+
+    &--textarea {
+      min-height: space(28);
+      padding-block: space(3);
+    }
+
+    &--select {
+      height: space(12);
+      padding-right: space(11);
+      appearance: none;
+    }
+
+    &--invalid {
+      @include form-control-invalid;
+    }
+  }
+
+  // Envoltorio del select: sostiene el chevron.
+  &__select {
+    position: relative;
+  }
+
+  &__select-icon {
+    @include square(1rem);
+    position: absolute;
+    top: 50%;
+    right: space(4);
+    translate: 0 -50%;
+    pointer-events: none;
+    color: $color-navy-800;
+  }
+}

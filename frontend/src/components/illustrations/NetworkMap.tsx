@@ -1,14 +1,7 @@
 import { useId } from "react";
 import { NETWORK_NODES, NETWORK_ROUTES } from "../../content/coverage.ts";
-import type { NetworkNode } from "../../content/coverage.ts";
+import { bem, cx } from "../../lib/bem.ts";
 import { MAP_HEIGHT as HEIGHT, MAP_WIDTH as WIDTH, arcPath, project } from "../../lib/projection.ts";
-
-const SIDE_CLASSES: Record<NetworkNode["side"], string> = {
-  left: "-translate-x-full -translate-y-1/2 pr-2.5",
-  right: "-translate-y-1/2 pl-2.5",
-  top: "-translate-x-1/2 -translate-y-full pb-2",
-  bottom: "-translate-x-1/2 pt-2",
-};
 
 /**
  * Mapa de la red: retícula de puntos y nodos en las coordenadas reales de cada
@@ -23,21 +16,14 @@ export function NetworkMap({ className }: { className?: string }) {
   const points = new Map(NETWORK_NODES.map((node) => [node.id, project(node.lat, node.lon)]));
 
   return (
-    <figure
-      className={[
-        "on-dark relative m-0 overflow-hidden rounded-3xl bg-navy-950 ring-1 ring-navy-700",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      <div className="relative m-2 sm:m-3" style={{ aspectRatio: `${String(WIDTH)} / ${String(HEIGHT)}` }}>
+    <figure className={cx("network-map", className)}>
+      <div className="network-map__stage" style={{ aspectRatio: `${String(WIDTH)} / ${String(HEIGHT)}` }}>
         <svg
           viewBox={`0 0 ${String(WIDTH)} ${String(HEIGHT)}`}
           role="img"
           aria-labelledby={titleId}
           aria-describedby={descId}
-          className="absolute inset-0 size-full"
+          className="network-map__svg"
         >
           <title id={titleId}>Mapa de la red de Hound Express</title>
           <desc id={descId}>
@@ -46,7 +32,7 @@ export function NetworkMap({ className }: { className?: string }) {
           </desc>
           <defs>
             <pattern id={dotsId} width="20" height="20" patternUnits="userSpaceOnUse">
-              <circle cx="10" cy="10" r="1.4" className="fill-navy-700" />
+              <circle cx="10" cy="10" r="1.4" className="network-map__dot" />
             </pattern>
             <radialGradient id={`${uid}-glow`} cx="30%" cy="20%" r="70%">
               <stop offset="0" stopColor="#4cbed8" stopOpacity="0.16" />
@@ -65,7 +51,7 @@ export function NetworkMap({ className }: { className?: string }) {
                 <path
                   key={`${fromId}-${toId}`}
                   d={arcPath(from, to)}
-                  className="animate-route-flow stroke-aqua-500"
+                  className="network-map__route"
                   strokeWidth="2.5"
                   strokeDasharray="6 6"
                   opacity="0.85"
@@ -81,13 +67,13 @@ export function NetworkMap({ className }: { className?: string }) {
             return (
               <g key={node.id}>
                 {node.primary ? (
-                  <circle cx={point.x} cy={point.y} r={radius + 8} className="fill-aqua-500/20" />
+                  <circle cx={point.x} cy={point.y} r={radius + 8} className="network-map__node-halo" />
                 ) : null}
                 <circle
                   cx={point.x}
                   cy={point.y}
                   r={radius}
-                  className={node.kind === "latam" ? "fill-navy-950 stroke-aqua-400" : "fill-aqua-500 stroke-navy-950"}
+                  className={bem("network-map__node", { latam: node.kind === "latam" })}
                   strokeWidth={node.kind === "latam" ? 3 : 2.5}
                 />
               </g>
@@ -102,11 +88,7 @@ export function NetworkMap({ className }: { className?: string }) {
             <span
               key={node.id}
               aria-hidden="true"
-              className={[
-                "absolute font-sans text-[11px] leading-none font-semibold whitespace-nowrap text-white [text-shadow:0_0_4px_var(--color-navy-950),0_0_8px_var(--color-navy-950)] sm:text-sm",
-                SIDE_CLASSES[node.side],
-                node.minor ? "hidden sm:block" : "",
-              ].join(" ")}
+              className={bem("network-map__label", node.side, { minor: node.minor })}
               style={{ left: `${String((point.x / WIDTH) * 100)}%`, top: `${String((point.y / HEIGHT) * 100)}%` }}
             >
               {node.label}
@@ -115,7 +97,7 @@ export function NetworkMap({ className }: { className?: string }) {
         })}
       </div>
 
-      <figcaption className="sr-only">
+      <figcaption className="visually-hidden">
         Ciudades de la red de Hound Express:
         <ul>
           {NETWORK_NODES.map((node) => (

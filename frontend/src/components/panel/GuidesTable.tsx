@@ -49,9 +49,9 @@ function GuideActions({
 }) {
   const next = nextStage(guide.currentStage);
   const helpId = `ayuda-${guide.number}`;
-  const spoken = <span className="sr-only"> (guía {formatGuideNumber(guide.number)})</span>;
+  const spoken = <span className="visually-hidden"> (guía {formatGuideNumber(guide.number)})</span>;
   return (
-    <div className="flex flex-col gap-2">
+    <div className="guide-actions">
       {next ? (
         <Button data-advance={guide.number} loading={busy} onClick={onAdvance}>
           Avanzar a {getStage(next).shortLabel}
@@ -63,13 +63,13 @@ function GuideActions({
             Avanzar etapa
             {spoken}
           </Button>
-          <p id={helpId} className="text-label text-muted">
+          <p id={helpId} className="guide-actions__help">
             Ya se entregó: no hay una etapa siguiente.
           </p>
         </>
       )}
       <Button data-history={guide.number} variant="secondary" onClick={onHistory}>
-        <History className="size-4" aria-hidden="true" />
+        <History className="button__icon" aria-hidden="true" />
         Historial
         {spoken}
       </Button>
@@ -142,8 +142,8 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
   const filtered = query.trim() !== "" || stageFilter !== "all";
 
   return (
-    <div ref={root} className="flex flex-col gap-6">
-      <div className="grid gap-4 md:grid-cols-3">
+    <div ref={root} className="guides-table">
+      <div className="guides-table__filters">
         <TextField
           label="Buscar por número o destinatario"
           type="search"
@@ -189,30 +189,30 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
         </Select>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <p role="status" className="text-label text-muted">
+      <div className="guides-table__feedback">
+        <p role="status" className="guides-table__count">
           {filtered
             ? `${String(visible.length)} de ${String(guides.length)} guías, de la más reciente a la más antigua.`
             : `${String(guides.length)} guías, de la más reciente a la más antigua.`}
         </p>
         <div role="status" aria-live="polite">
           {notice?.kind === "ok" ? (
-            <p className="rounded-2xl bg-success-soft p-4 text-base text-ink ring-1 ring-success/30">{notice.text}</p>
+            <p className="notice notice--success">{notice.text}</p>
           ) : null}
         </div>
         {notice?.kind === "error" ? (
-          <p role="alert" className="flex items-start gap-2 rounded-2xl bg-danger-soft p-4 text-base text-danger ring-1 ring-danger/30">
-            <CircleAlert className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+          <p role="alert" className="notice notice--danger guides-table__error">
+            <CircleAlert className="guides-table__error-icon" aria-hidden="true" />
             {notice.text}
           </p>
         ) : null}
       </div>
 
       {visible.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 rounded-3xl bg-surface px-6 py-12 text-center">
-          <SearchX className="size-10 text-aqua-700" aria-hidden="true" />
-          <h3 className="text-h3 font-bold">{filtered ? "Ninguna guía coincide" : "Todavía no hay guías"}</h3>
-          <p className="max-w-md text-base text-muted">
+        <div className="empty-state">
+          <SearchX className="empty-state__icon" aria-hidden="true" />
+          <h3 className="empty-state__title">{filtered ? "Ninguna guía coincide" : "Todavía no hay guías"}</h3>
+          <p className="empty-state__text">
             {filtered
               ? "Cambia la búsqueda o el filtro de etapa para ver más guías."
               : "Registra la primera guía con el formulario de arriba."}
@@ -230,41 +230,39 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
           ) : null}
         </div>
       ) : isWide ? (
-        <div className="overflow-x-auto rounded-2xl bg-white ring-1 ring-line">
-          <table className="w-full border-collapse text-left">
-            <caption className="sr-only">Guías registradas, de la más reciente a la más antigua</caption>
-            <thead className="bg-surface text-label text-muted">
+        <div className="guides-table__scroll">
+          <table className="guides-table__table">
+            <caption className="visually-hidden">Guías registradas, de la más reciente a la más antigua</caption>
+            <thead className="guides-table__head">
               <tr>
-                <th scope="col" className="px-3 py-3 font-semibold">Guía y destinatario</th>
-                <th scope="col" className="px-3 py-3 font-semibold">Ruta y servicio</th>
-                <th scope="col" className="px-3 py-3 font-semibold">Etapa</th>
-                <th scope="col" className="px-3 py-3 font-semibold">Última actualización</th>
-                <th scope="col" className="px-3 py-3 font-semibold">Acciones</th>
+                <th scope="col" className="guides-table__th">Guía y destinatario</th>
+                <th scope="col" className="guides-table__th">Ruta y servicio</th>
+                <th scope="col" className="guides-table__th">Etapa</th>
+                <th scope="col" className="guides-table__th">Última actualización</th>
+                <th scope="col" className="guides-table__th">Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-line">
+            <tbody>
               {visible.map((guide) => (
-                <tr key={guide.number} className="align-top">
-                  <th scope="row" className="px-3 py-4 text-left font-normal">
-                    <span className="block font-display text-base font-bold text-navy-800 tabular-nums">
-                      {formatGuideNumber(guide.number)}
-                    </span>
-                    <span className="block text-label text-muted">{guide.recipient}</span>
+                <tr key={guide.number} className="guides-table__row">
+                  <th scope="row" className="guides-table__cell guides-table__cell--row-header">
+                    <span className="guides-table__number">{formatGuideNumber(guide.number)}</span>
+                    <span className="guides-table__recipient">{guide.recipient}</span>
                   </th>
-                  <td className="px-3 py-4 text-base text-ink">
-                    <span className="flex flex-wrap items-center gap-x-1.5">
+                  <td className="guides-table__cell guides-table__cell--route">
+                    <span className="guides-table__route">
                       {guide.origin}
-                      <ArrowRight className="size-3.5 text-aqua-700" aria-hidden="true" />
-                      <span className="sr-only">hacia</span>
+                      <ArrowRight className="guides-table__arrow" aria-hidden="true" />
+                      <span className="visually-hidden">hacia</span>
                       {guide.destination}
                     </span>
-                    <span className="block text-label text-muted">{SERVICE_WINDOWS[guide.service].label}</span>
+                    <span className="guides-table__service">{SERVICE_WINDOWS[guide.service].label}</span>
                   </td>
-                  <td className="px-3 py-4">
+                  <td className="guides-table__cell">
                     <StageBadge code={guide.currentStage} />
                   </td>
-                  <td className="px-3 py-4 text-label text-ink tabular-nums">{formatDateTime(lastUpdate(guide))}</td>
-                  <td className="px-3 py-4">
+                  <td className="guides-table__cell guides-table__cell--date">{formatDateTime(lastUpdate(guide))}</td>
+                  <td className="guides-table__cell">
                     <GuideActions
                       guide={guide}
                       busy={busy.has(guide.number)}
@@ -282,30 +280,28 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
           </table>
         </div>
       ) : (
-        <ul className="flex flex-col gap-4">
+        <ul className="guides-table__cards">
           {visible.map((guide) => (
-            <li key={guide.number} className="flex flex-col gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-line">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex flex-col">
-                  <span className="font-display text-lg font-bold text-navy-800 tabular-nums">
-                    {formatGuideNumber(guide.number)}
-                  </span>
-                  <span className="text-label text-muted">{guide.recipient}</span>
+            <li key={guide.number} className="guides-table__card">
+              <div className="guides-table__card-header">
+                <div className="guides-table__card-id">
+                  <span className="guides-table__card-number">{formatGuideNumber(guide.number)}</span>
+                  <span className="guides-table__recipient">{guide.recipient}</span>
                 </div>
                 <StageBadge code={guide.currentStage} />
               </div>
-              <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-label">
-                <dt className="text-muted">Ruta</dt>
-                <dd className="text-ink">
+              <dl className="guides-table__details">
+                <dt className="guides-table__term">Ruta</dt>
+                <dd className="guides-table__detail">
                   {guide.origin}
                   <span aria-hidden="true"> → </span>
-                  <span className="sr-only"> hacia </span>
+                  <span className="visually-hidden"> hacia </span>
                   {guide.destination}
                 </dd>
-                <dt className="text-muted">Servicio</dt>
-                <dd className="text-ink">{SERVICE_WINDOWS[guide.service].label}</dd>
-                <dt className="text-muted">Actualizada</dt>
-                <dd className="text-ink tabular-nums">{formatDateTime(lastUpdate(guide))}</dd>
+                <dt className="guides-table__term">Servicio</dt>
+                <dd className="guides-table__detail">{SERVICE_WINDOWS[guide.service].label}</dd>
+                <dt className="guides-table__term">Actualizada</dt>
+                <dd className="guides-table__detail guides-table__detail--date">{formatDateTime(lastUpdate(guide))}</dd>
               </dl>
               <GuideActions
                 guide={guide}

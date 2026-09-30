@@ -1,0 +1,173 @@
+// Resultado del rastreo de una guía: número, etapa, datos del envío, línea de tiempo y eventos.
+
+@use "../abstracts" as *;
+
+.guide-card {
+  @include stack(space(8));
+  padding: space(5);
+  @include card($radius-3xl);
+
+  @include up(sm) {
+    padding: space(8);
+  }
+
+  &__header {
+    @include stack(space(4));
+  }
+
+  &__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: space(3);
+  }
+
+  &__id {
+    @include stack(space(1));
+  }
+
+  &__kicker {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__number {
+    font-family: $font-display;
+    @include type("2xl");
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+    font-variant-numeric: tabular-nums;
+    color: $color-navy-800;
+
+    @include up(sm) {
+      @include type("3xl");
+    }
+  }
+
+  &__summary {
+    @include type(base);
+    color: $color-ink;
+  }
+
+  &__summary-stage {
+    font-weight: $font-weight-semibold;
+  }
+
+  &__summary-note {
+    color: $color-muted;
+  }
+
+  // Ruta, servicio y entrega: tres columnas desde 640 px.
+  &__facts {
+    display: grid;
+    gap: space(5) space(8);
+    padding: space(5);
+    border-radius: $radius-2xl;
+    background-color: $color-surface;
+
+    @include up(sm) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__fact {
+    @include stack(space(0.5));
+  }
+
+  &__term {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__value {
+    @include type(base);
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+
+    &--route {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: space(2);
+    }
+  }
+
+  &__value-note {
+    display: block;
+    @include type(label);
+    font-weight: 400;
+    color: $color-muted;
+  }
+
+  &__arrow {
+    @include square(space(4));
+    color: $color-aqua-700;
+  }
+
+  &__section {
+    @include stack(space(4));
+  }
+
+  &__section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: space(2);
+  }
+
+  &__section-title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__section-note {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  // Eventos del más reciente al más antiguo, separados por una línea.
+  &__events {
+    @include stack;
+    border-radius: $radius-2xl;
+    @include ring($color-line);
+  }
+
+  &__event {
+    @include stack(space(0.5));
+    padding: space(4);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-line;
+    }
+
+    @include up(sm) {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: space(6);
+    }
+  }
+
+  &__event-main {
+    @include stack(space(0.5));
+  }
+
+  &__event-title {
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+  }
+
+  &__event-place {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__event-time {
+    @include type(label);
+    white-space: nowrap;
+    color: $color-ink;
+    font-variant-numeric: tabular-nums;
+  }
+}

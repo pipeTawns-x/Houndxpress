@@ -466,7 +466,7 @@
       "id": "spa",
       "type": "frontend",
       "label": "Frontend React",
-      "sublabel": "Vite · Tailwind · Router",
+      "sublabel": "Vite · Sass · Redux · Router",
       "pos": [
         287,
         300

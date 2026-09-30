@@ -34,7 +34,7 @@ def architecture() -> dict:
     y, h = 300, 64
     main = [
         ("users", "external", "Visitantes y personal", "navegador · móvil", 170, None),
-        ("spa", "frontend", "Frontend React", "Vite · Tailwind · Router", 170, "HTTPS"),
+        ("spa", "frontend", "Frontend React", "Vite · Sass · Redux · Router", 170, "HTTPS"),
         ("proxy", "cloud", "Proxy /api", "Vite :5173 · nginx :8080", 170, "fetch /api"),
         ("api", "backend", "API Django + DRF", "Django 5.2 · :8000", 170, "HTTP :8000"),
         ("db", "database", "SQLite", "db.sqlite3", 150, "ORM · SQL"),

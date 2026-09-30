@@ -4,6 +4,7 @@ import { Search, SearchX } from "lucide-react";
 import { Accordion, AccordionItem } from "../components/ui/Accordion.tsx";
 import { FaqAnswer } from "../components/ui/FaqAnswer.tsx";
 import { TextField } from "../components/ui/fields.tsx";
+import { buttonClasses } from "../components/ui/buttonStyles.ts";
 import { ButtonLink } from "../components/ui/ButtonLink.tsx";
 import { Container, PageHeader } from "../components/ui/Section.tsx";
 import { FAQ } from "../content/faq.ts";
@@ -23,9 +24,9 @@ export default function Faq() {
         title="Respuestas a las consultas más comunes"
         description="Si no encuentras lo que necesitas, escríbenos y nuestro equipo de soporte te ayudará."
       />
-      <Container className="flex max-w-4xl flex-col gap-8 py-14 md:py-20">
-        <div className="flex flex-col gap-3">
-          <div className="relative">
+      <Container className="faq-page">
+        <div className="faq-page__search">
+          <div className="faq-page__search-field">
             <TextField
               label="Buscar en las preguntas"
               type="search"
@@ -36,12 +37,12 @@ export default function Faq() {
               placeholder="Ej. aduana, domicilio, recoger…"
               autoComplete="off"
               required={false}
-              className="pl-12"
+              className="faq-page__input"
               aria-describedby="faq-count"
             />
-            <Search className="pointer-events-none absolute bottom-3.5 left-4 size-5 text-muted" aria-hidden="true" />
+            <Search className="faq-page__search-icon" aria-hidden="true" />
           </div>
-          <p id="faq-count" role="status" className="text-label text-muted">
+          <p id="faq-count" role="status" className="faq-page__count">
             {filtering
               ? `${String(results.length)} de ${String(FAQ.length)} preguntas coinciden con tu búsqueda.`
               : `${String(FAQ.length)} preguntas.`}
@@ -57,20 +58,18 @@ export default function Faq() {
             ))}
           </Accordion>
         ) : (
-          <div className="flex flex-col items-center gap-4 rounded-3xl bg-surface px-6 py-14 text-center">
-            <SearchX className="size-10 text-aqua-700" aria-hidden="true" />
-            <h2 className="text-h3 font-bold">No encontramos preguntas con “{query.trim()}”</h2>
-            <p className="max-w-md text-base text-muted">
-              Prueba con otras palabras o cuéntanos tu duda y te respondemos.
-            </p>
-            <div className="flex flex-wrap justify-center gap-3">
+          <div className="empty-state empty-state--tall">
+            <SearchX className="empty-state__icon" aria-hidden="true" />
+            <h2 className="empty-state__title">No encontramos preguntas con “{query.trim()}”</h2>
+            <p className="empty-state__text">Prueba con otras palabras o cuéntanos tu duda y te respondemos.</p>
+            <div className="empty-state__actions">
               <ButtonLink to="/contacto">Escríbenos</ButtonLink>
               <button
                 type="button"
                 onClick={() => {
                   setQuery("");
                 }}
-                className="inline-flex h-10 items-center rounded-xl px-4 text-sm font-semibold text-navy-800 hover:bg-navy-800/5"
+                className={buttonClasses({ variant: "ghost" })}
               >
                 Ver todas las preguntas
               </button>
@@ -78,9 +77,9 @@ export default function Faq() {
           </div>
         )}
 
-        <p className="text-base text-muted">
+        <p className="faq-page__tracking">
           ¿Ya tienes tu número de guía?{" "}
-          <Link to="/rastreo" className="font-semibold text-aqua-700 underline underline-offset-2 hover:text-navy-800">
+          <Link to="/rastreo" className="text-link">
             Rastrea tu paquete
           </Link>
           .

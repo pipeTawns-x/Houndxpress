@@ -6,16 +6,16 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle.ts";
 export default function NotFound() {
   useDocumentTitle("Página no encontrada");
   return (
-    <Container className="flex flex-col items-center gap-8 py-20 text-center md:py-28">
-      <LostPackageIllustration className="w-56 sm:w-64" />
-      <div className="flex max-w-lg flex-col gap-3">
-        <p className="eyebrow text-aqua-700">Error 404</p>
-        <h1 className="text-h1 font-extrabold tracking-tight">Esta página no está en la ruta</h1>
-        <p className="text-lead text-muted">
+    <Container className="not-found">
+      <LostPackageIllustration className="not-found__art" />
+      <div className="not-found__copy">
+        <p className="eyebrow">Error 404</p>
+        <h1 className="not-found__title">Esta página no está en la ruta</h1>
+        <p className="not-found__text">
           La dirección que abriste no existe o cambió de lugar. Vuelve al inicio o rastrea tu paquete desde aquí.
         </p>
       </div>
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="not-found__actions">
         <ButtonLink to="/" size="lg">
           Ir al inicio
         </ButtonLink>

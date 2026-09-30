@@ -1,6 +1,6 @@
 # 04 · Sistema de diseño y pantallas
 
-Especificación visual del rediseño. Los tokens viven en `frontend/src/index.css` (bloque `@theme` de Tailwind) y la ruta `/disenos` de la aplicación los muestra en vivo.
+Especificación visual del rediseño. Los tokens viven en `frontend/src/styles/abstracts/_tokens.scss` (variables de Sass, también expuestas como propiedades personalizadas en `:root`) y la ruta `/disenos` de la aplicación los muestra en vivo.
 
 ## 1. Color
 
@@ -48,7 +48,7 @@ Reglas:
 
 ## 3. Espacio, forma y movimiento
 
-- Retícula de 4 px. Secciones: `py-20` en escritorio, `py-14` en móvil. Contenedor de 1200 px con 16 px de margen lateral en móvil.
+- Retícula de 4 px. Secciones: 80 px de relleno vertical en escritorio y 56 px en móvil. Contenedor de 1200 px con 16 px de margen lateral en móvil.
 - Radios: 12 px (controles), 16 px (tarjetas), 24 px (bloques grandes y héroe), completo para insignias.
 - Sombras: suave (`0 1px 2px` + `0 8px 24px` con marino al 6–8%). Sin sombras duras.
 - Movimiento: 150–250 ms, `ease-out`. Aparición suave de secciones y trazado de rutas en el héroe. Todo se apaga con `prefers-reduced-motion: reduce`.

@@ -28,17 +28,17 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
   override render(): ReactNode {
     if (!this.state.failed) return this.props.children;
     return (
-      <Container className="flex flex-col items-center gap-6 py-20 text-center md:py-28">
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-danger-soft text-danger">
-          <TriangleAlert className="size-7" aria-hidden="true" />
+      <Container className="error-state">
+        <span className="error-state__icon-box">
+          <TriangleAlert className="error-state__icon" aria-hidden="true" />
         </span>
-        <div className="flex max-w-lg flex-col gap-3">
-          <h1 className="text-h1 font-extrabold tracking-tight">No pudimos mostrar esta pantalla</h1>
-          <p className="text-lead text-muted">
+        <div className="error-state__copy">
+          <h1 className="error-state__title">No pudimos mostrar esta pantalla</h1>
+          <p className="error-state__text">
             Puede ser un problema de conexión. Recarga la página; si sigue igual, vuelve al inicio.
           </p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="error-state__actions">
           <Button
             size="lg"
             onClick={() => {

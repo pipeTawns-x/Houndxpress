@@ -2,16 +2,13 @@ import { useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router";
 import { Menu, X } from "lucide-react";
 import { NAV_ITEMS } from "../../content/site.ts";
+import { bem } from "../../lib/bem.ts";
 import { ButtonLink } from "../ui/ButtonLink.tsx";
 import { Container } from "../ui/Section.tsx";
 
-const navLinkClasses =
-  "rounded-lg px-3 py-2 text-label font-semibold text-navy-800 transition-colors duration-200 " +
-  "hover:bg-navy-800/5 aria-[current=page]:bg-aqua-100 aria-[current=page]:text-navy-800";
-
-const drawerLinkClasses =
-  "flex items-center justify-between rounded-xl px-4 py-3.5 font-display text-xl font-bold text-navy-800 " +
-  "transition-colors duration-200 hover:bg-navy-800/5 aria-[current=page]:bg-aqua-100";
+/** El enlace de la página actual lleva el modificador `--active` (react-router además pone `aria-current="page"`). */
+const navLinkClass = ({ isActive }: { isActive: boolean }) => bem("site-header__link", { active: isActive });
+const drawerLinkClass = ({ isActive }: { isActive: boolean }) => bem("mobile-menu__link", { active: isActive });
 
 export interface HeaderProps {
   menuOpen: boolean;
@@ -38,24 +35,24 @@ export function Header({ menuOpen, onMenuToggle, onMenuClose }: HeaderProps) {
   }, [menuOpen, onMenuClose]);
 
   return (
-    <header className="sticky top-0 z-40 isolate">
+    <header className="site-header">
       {/* El desenfoque va en una capa aparte: un ancestro con backdrop-filter rompería el cajón `fixed`. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 border-b border-line bg-white/85 backdrop-blur-md" />
-      <Container className="flex h-16 items-center justify-between gap-4">
-        <Link to="/" aria-label="Hound Express, ir al inicio" className="flex shrink-0 items-center rounded-lg">
-          <img src="/brand/logo-hound-express.svg" alt="" width="104" height="36" className="h-9 w-auto" />
+      <div aria-hidden="true" className="site-header__backdrop" />
+      <Container className="site-header__bar">
+        <Link to="/" aria-label="Hound Express, ir al inicio" className="site-header__logo">
+          <img src="/brand/logo-hound-express.svg" alt="" width="104" height="36" className="site-header__logo-img" />
         </Link>
 
-        <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Principal" className="site-header__nav">
           {NAV_ITEMS.map((item) => (
-            <NavLink key={item.to} to={item.to} className={navLinkClasses}>
+            <NavLink key={item.to} to={item.to} className={navLinkClass}>
               {item.label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden items-center gap-2 lg:flex">
+        <div className="site-header__actions">
+          <div className="site-header__cta">
             <ButtonLink to="/rastreo">Rastrear</ButtonLink>
             <ButtonLink to="/panel" variant="secondary">
               Panel
@@ -67,27 +64,31 @@ export function Header({ menuOpen, onMenuToggle, onMenuClose }: HeaderProps) {
             aria-expanded={menuOpen}
             aria-controls="menu-movil"
             onClick={onMenuToggle}
-            className="inline-flex size-11 items-center justify-center rounded-xl text-navy-800 transition-colors duration-200 hover:bg-navy-800/5 lg:hidden"
+            className="site-header__toggle"
           >
-            {menuOpen ? <X className="size-6" aria-hidden="true" /> : <Menu className="size-6" aria-hidden="true" />}
-            <span className="sr-only">{menuOpen ? "Cerrar menú" : "Abrir menú"}</span>
+            {menuOpen ? (
+              <X className="site-header__toggle-icon" aria-hidden="true" />
+            ) : (
+              <Menu className="site-header__toggle-icon" aria-hidden="true" />
+            )}
+            <span className="visually-hidden">{menuOpen ? "Cerrar menú" : "Abrir menú"}</span>
           </button>
         </div>
       </Container>
 
       {menuOpen ? (
-        <div id="menu-movil" className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-white lg:hidden">
-          <nav aria-label="Menú móvil" className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-6 sm:px-6">
-            <ul className="flex flex-col gap-1">
+        <div id="menu-movil" className="mobile-menu">
+          <nav aria-label="Menú móvil" className="mobile-menu__nav">
+            <ul className="mobile-menu__list">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to}>
-                  <NavLink to={item.to} className={drawerLinkClasses} onClick={onMenuClose}>
+                  <NavLink to={item.to} className={drawerLinkClass} onClick={onMenuClose}>
                     {item.label}
                   </NavLink>
                 </li>
               ))}
             </ul>
-            <div className="flex flex-col gap-3">
+            <div className="mobile-menu__actions">
               <ButtonLink to="/rastreo" size="lg" fullWidth onClick={onMenuClose}>
                 Rastrear
               </ButtonLink>

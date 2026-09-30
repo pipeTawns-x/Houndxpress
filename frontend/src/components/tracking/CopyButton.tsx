@@ -31,20 +31,24 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
   }
 
   return (
-    <span className="inline-flex items-center gap-2">
+    <span className="copy-button">
       <button
         type="button"
         onClick={() => {
           void copy();
         }}
-        className="inline-flex h-10 items-center gap-1.5 rounded-xl px-3 text-label font-semibold text-navy-800 ring-1 ring-edge transition-colors duration-200 hover:bg-aqua-100"
+        className="copy-button__button"
       >
-        {state === "copied" ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
+        {state === "copied" ? (
+          <Check className="copy-button__icon" aria-hidden="true" />
+        ) : (
+          <Copy className="copy-button__icon" aria-hidden="true" />
+        )}
         {label}
       </button>
-      <span role="status" className="text-label font-medium text-aqua-700">
+      <span role="status" className="copy-button__status">
         {state === "copied" ? "Copiado" : ""}
-        {state === "failed" ? <span className="text-danger">No se pudo copiar</span> : ""}
+        {state === "failed" ? <span className="copy-button__error">No se pudo copiar</span> : ""}
       </span>
     </span>
   );

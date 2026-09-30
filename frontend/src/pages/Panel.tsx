@@ -43,16 +43,16 @@ function ResetDemo({ onReset }: { onReset: () => Promise<void> }) {
     );
   }
   return (
-    <div role="group" aria-label="Confirmar restablecimiento" className="flex flex-col gap-3">
-      <p className="text-label font-semibold text-ink">
+    <div role="group" aria-label="Confirmar restablecimiento" className="reset-demo">
+      <p className="reset-demo__text">
         Se borrarán las guías que registraste y los avances que hiciste en este navegador. ¿Continuar?
       </p>
       {failed ? (
-        <p role="alert" className="text-label font-semibold text-danger">
+        <p role="alert" className="reset-demo__error">
           No se pudo restablecer. Inténtalo de nuevo.
         </p>
       ) : null}
-      <div className="flex flex-wrap gap-2">
+      <div className="reset-demo__actions">
         <Button
           loading={working}
           onClick={() => {
@@ -89,28 +89,28 @@ export default function Panel() {
         title="Panel de operaciones"
         description="Registra guías, avánzalas por las cinco etapas y consulta el historial de cada una. Solo se puede avanzar a la etapa siguiente."
       >
-        <div className="mt-6">
+        <div className="page-header__extra">
           <ApiStatus tone="dark" />
         </div>
       </PageHeader>
 
-      <Container className="flex flex-col gap-12 py-10 md:py-14">
+      <Container className="panel-page">
         <DemoNotice>{reset ? <ResetDemo onReset={reset} /> : null}</DemoNotice>
 
         {status === "loading" ? (
-          <div role="status" className="flex items-center justify-center gap-3 rounded-3xl bg-surface px-6 py-16 text-muted">
-            <LoaderCircle className="size-5 animate-spin" aria-hidden="true" />
+          <div role="status" className="loading-state loading-state--tall">
+            <LoaderCircle className="loading-state__icon" aria-hidden="true" />
             Cargando guías…
           </div>
         ) : null}
 
         {status === "error" ? (
-          <div role="alert" className="flex flex-col items-start gap-4 rounded-3xl bg-danger-soft p-6 ring-1 ring-danger/30">
-            <div className="flex items-start gap-3">
-              <CircleAlert className="mt-0.5 size-5 shrink-0 text-danger" aria-hidden="true" />
-              <div className="flex flex-col gap-1">
-                <h2 className="text-h3 font-bold text-danger">No se pudieron cargar las guías</h2>
-                <p className="text-base text-ink">{error}</p>
+          <div role="alert" className="error-panel">
+            <div className="error-panel__header">
+              <CircleAlert className="error-panel__icon" aria-hidden="true" />
+              <div className="error-panel__body">
+                <h2 className="error-panel__title">No se pudieron cargar las guías</h2>
+                <p className="error-panel__text">{error}</p>
               </div>
             </div>
             <Button variant="secondary" onClick={reload}>
@@ -123,17 +123,17 @@ export default function Panel() {
           <>
             <StageSummary guides={guides} />
 
-            <section aria-labelledby="registrar" className="flex flex-col gap-5">
-              <h2 id="registrar" className="text-h2 font-bold">
+            <section aria-labelledby="registrar" className="panel-page__section">
+              <h2 id="registrar" className="panel-page__title">
                 Registrar guía
               </h2>
-              <div className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-line sm:p-8">
+              <div className="panel-page__card">
                 <RegisterGuideForm existingNumbers={guides.map((guide) => guide.number)} onCreate={create} />
               </div>
             </section>
 
-            <section aria-labelledby="lista" className="flex flex-col gap-5">
-              <h2 id="lista" className="text-h2 font-bold">
+            <section aria-labelledby="lista" className="panel-page__section">
+              <h2 id="lista" className="panel-page__title">
                 Guías
               </h2>
               <GuidesTable guides={guides} onAdvance={advance} onHistory={setHistoryNumber} />

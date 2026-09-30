@@ -7,7 +7,7 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 | Ruta | Qué es |
 |---|---|
 | `backend/` | Django 5.2 LTS + DRF. `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (`/api/v1/health/`), `tracking` (guías, vacía hasta M54). |
-| `frontend/` | React + TypeScript + Vite + Tailwind 4. Sitio público rediseñado, rastreo, panel de operaciones e índice de diseños (`/disenos`). |
+| `frontend/` | React + TypeScript + Vite + Sass (BEM, estructura 7-1 en `src/styles/`). Sitio público rediseñado, rastreo, panel de operaciones e índice de diseños (`/disenos`). |
 | `docs/REQUISITOS_EBAC.md` | Requisitos citados del documento oficial del proyecto (PDF de EBAC) y su estado. Manda sobre cualquier decisión técnica que lo contradiga. |
 | `docs/STACK_HOUND_EXPRESS.md` | Decisiones técnicas y licencias. Toda dependencia nueva se agrega a su tabla en el mismo commit. |
 | `docs/diseno/` | Proceso de rediseño: investigación → propuesta → abogado del diablo → arquitecto → sistema de diseño → revisión. Incluye el loop para Claude Design. |

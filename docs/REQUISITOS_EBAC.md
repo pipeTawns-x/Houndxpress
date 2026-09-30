@@ -20,7 +20,7 @@ Criterio de evaluación: "la calidad del producto final y la capacidad de satisf
 | "Actualizar el estado de una guía seleccionando la siguiente etapa en el flujo" | 21 | Cumple | Botón "Avanzar a {siguiente etapa}", regla en `src/domain/guide.ts` |
 | "Consultar el estado actual de una guía y su historial de cambios" | 21 | Cumple | `/rastreo` y cajón de historial del panel |
 | HTML "semánticamente correcto, enfocándose en la jerarquía del contenido y la accesibilidad" | 6 | Cumple | Un `h1` por página, landmarks, enlace para saltar al contenido |
-| "Uso de SASS" y "aplicar la metodología BEM y refactorizar los estilos a Sass" | 10 | En curso | Migración de Tailwind a Sass con BEM |
+| "Uso de SASS" y "aplicar la metodología BEM y refactorizar los estilos a Sass" | 10 | Cumple | Sass con BEM y carpetas 7-1 en `frontend/src/styles/`; `sass` reemplazó a Tailwind |
 | "Completamente responsiva" | 10 | Cumple | Capturas en 390 y 1440 px, sin desbordes horizontales en 360 a 1440 px |
 | JavaScript: "validación de formularios y dinamismo en la UI" | 21 | Cumple | Validación del registro, del rastreo y del contacto |
 | "Migrar la aplicación a React y TypeScript" | 30 | Cumple | React 19 + TypeScript estricto |

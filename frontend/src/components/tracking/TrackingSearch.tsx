@@ -8,6 +8,7 @@ import {
   parseTrackingInput,
   splitGuideNumbers,
 } from "../../domain/index.ts";
+import { bem, cx } from "../../lib/bem.ts";
 import { Button } from "../ui/Button.tsx";
 
 export interface TrackingSearchProps {
@@ -81,9 +82,7 @@ export function TrackingSearch({ onSearch, initialValue = "", examples = [], cla
     ? `Una guía por línea o separadas por coma. Máximo ${String(MAX_TRACKED_GUIDES)}.`
     : GUIDE_NUMBER_HINT;
   const describedBy = [hintId, error ? errorId : ""].filter(Boolean).join(" ");
-  const controlClasses =
-    "block w-full rounded-xl border bg-white text-ink placeholder:text-muted transition-colors duration-150 " +
-    (error ? "border-danger" : "border-edge hover:border-navy-800");
+  const controlClass = (kind: "input" | "textarea") => bem("tracking-search__control", kind, { invalid: Boolean(error) });
 
   return (
     <form
@@ -91,15 +90,15 @@ export function TrackingSearch({ onSearch, initialValue = "", examples = [], cla
       aria-label="Rastrear guía"
       noValidate
       onSubmit={submit}
-      className={["flex flex-col gap-4", className].filter(Boolean).join(" ")}
+      className={cx("tracking-search", className)}
     >
-      <div className="flex flex-col gap-2">
-        <label htmlFor={fieldId} className="text-label font-semibold text-navy-800">
+      <div className="tracking-search__field">
+        <label htmlFor={fieldId} className="tracking-search__label">
           {multiple ? "Números de guía" : "Número de guía"}
         </label>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-          <div className="relative flex-1">
+        <div className="tracking-search__row">
+          <div className="tracking-search__control-wrap">
             {multiple ? (
               <textarea
                 ref={fieldRef}
@@ -114,14 +113,11 @@ export function TrackingSearch({ onSearch, initialValue = "", examples = [], cla
                 spellCheck={false}
                 autoComplete="off"
                 placeholder={"2148 2139 0765 0312\n2103 9584 7201 6654"}
-                className={`${controlClasses} min-h-32 px-4 py-3 text-base tabular-nums`}
+                className={controlClass("textarea")}
               />
             ) : (
               <>
-                <Search
-                  className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-muted"
-                  aria-hidden="true"
-                />
+                <Search className="tracking-search__icon" aria-hidden="true" />
                 <input
                   ref={fieldRef}
                   id={fieldId}
@@ -138,55 +134,44 @@ export function TrackingSearch({ onSearch, initialValue = "", examples = [], cla
                   autoComplete="off"
                   autoCapitalize="characters"
                   placeholder="Ej. 2148 2139 0765 0312"
-                  className={`${controlClasses} h-14 pr-4 pl-12 text-lg tabular-nums`}
+                  className={controlClass("input")}
                 />
               </>
             )}
           </div>
-          <Button type="submit" size="lg" className="sm:h-14 sm:px-8">
-            <Search className="size-5" aria-hidden="true" />
+          <Button type="submit" size="lg" className="tracking-search__submit">
+            <Search className="button__icon" aria-hidden="true" />
             {multiple ? "Rastrear guías" : "Rastrear"}
           </Button>
         </div>
 
-        <p id={hintId} className="text-label text-muted">
+        <p id={hintId} className="tracking-search__hint">
           {hint}
         </p>
         {error ? (
-          <p id={errorId} className="flex items-start gap-1.5 text-label font-medium text-danger">
-            <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <p id={errorId} className="inline-error">
+            <CircleAlert className="inline-error__icon" aria-hidden="true" />
             <span>{error}</span>
           </p>
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <div className="tracking-search__footer">
         <button
           type="button"
           role="switch"
           aria-checked={multiple}
           onClick={toggleMultiple}
-          className="group inline-flex items-center gap-3 rounded-lg text-label font-semibold text-navy-800"
+          className="tracking-search__switch"
         >
-          <span
-            aria-hidden="true"
-            className={[
-              "relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200",
-              multiple ? "bg-aqua-700" : "bg-edge",
-            ].join(" ")}
-          >
-            <span
-              className={[
-                "absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-soft transition-transform duration-200",
-                multiple ? "translate-x-5" : "",
-              ].join(" ")}
-            />
+          <span aria-hidden="true" className={bem("tracking-search__switch-track", { on: multiple })}>
+            <span className={bem("tracking-search__switch-thumb", { on: multiple })} />
           </span>
           Rastreo múltiple
         </button>
 
         {examples.length > 0 ? (
-          <div className="flex flex-wrap items-center gap-2 text-label text-muted">
+          <div className="tracking-search__examples">
             <span>Prueba con una guía de ejemplo:</span>
             {examples.map((example) => (
               <button
@@ -196,7 +181,7 @@ export function TrackingSearch({ onSearch, initialValue = "", examples = [], cla
                   setValue(multiple ? example : formatGuideNumber(example));
                   setError(null);
                 }}
-                className="rounded-lg bg-aqua-100 px-2.5 py-1 font-semibold text-navy-800 tabular-nums transition-colors duration-200 hover:bg-aqua-500"
+                className="tracking-search__example"
               >
                 {formatGuideNumber(example)}
               </button>

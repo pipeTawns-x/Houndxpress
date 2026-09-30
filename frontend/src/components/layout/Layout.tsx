@@ -11,7 +11,7 @@ import { RouteEffects } from "./RouteEffects.tsx";
 
 function PageLoading() {
   return (
-    <div role="status" className="flex min-h-[50vh] items-center justify-center text-muted">
+    <div role="status" className="page-loading">
       Cargando…
     </div>
   );
@@ -37,14 +37,11 @@ export function Layout() {
 
   return (
     <ApiHealthContext.Provider value={apiHealth}>
-      <a
-        href="#contenido"
-        className="sr-only rounded-xl bg-aqua-500 px-4 py-3 font-semibold text-navy-950 focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
-      >
+      <a href="#contenido" className="skip-link">
         Saltar al contenido
       </a>
       <Header menuOpen={menuOpen} onMenuToggle={toggleMenu} onMenuClose={closeMenu} />
-      <main id="contenido" tabIndex={-1} inert={menuOpen} className="min-h-[60vh]">
+      <main id="contenido" tabIndex={-1} inert={menuOpen} className="site-main">
         <ErrorBoundary key={pathname}>
           <Suspense fallback={<PageLoading />}>
             <Outlet />

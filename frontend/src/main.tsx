@@ -1,6 +1,6 @@
 import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/inter";
-import "./index.css";
+import "./styles/main.scss";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";

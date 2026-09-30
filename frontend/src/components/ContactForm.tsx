@@ -56,8 +56,8 @@ export function ContactForm({ onOpenMail = defaultOpenMail }: ContactFormProps) 
   }
 
   return (
-    <form noValidate onSubmit={submit} aria-label="Formulario de contacto" className="flex flex-col gap-5">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form noValidate onSubmit={submit} aria-label="Formulario de contacto" className="contact-form">
+      <div className="contact-form__grid">
         <TextField
           label="Nombre"
           name="name"
@@ -138,25 +138,25 @@ export function ContactForm({ onOpenMail = defaultOpenMail }: ContactFormProps) 
         error={errors.privacy}
       />
 
-      <div className="flex flex-col gap-4 rounded-2xl bg-aqua-100 p-5">
-        <p className="flex items-start gap-3 text-base text-ink">
-          <Mail className="mt-0.5 size-5 shrink-0 text-aqua-700" aria-hidden="true" />
+      <div className="contact-form__how">
+        <p className="contact-form__how-text">
+          <Mail className="contact-form__how-icon" aria-hidden="true" />
           <span>
-            <strong className="font-semibold">Así funciona:</strong> este sitio no envía ni guarda tu mensaje. Al
-            continuar se abre tu aplicación de correo con el mensaje ya escrito para <strong>{CONTACT_EMAIL}</strong>, y
-            tú decides si lo mandas.
+            <strong className="contact-form__how-title">Así funciona:</strong> este sitio no envía ni guarda tu mensaje.
+            Al continuar se abre tu aplicación de correo con el mensaje ya escrito para <strong>{CONTACT_EMAIL}</strong>,
+            y tú decides si lo mandas.
           </span>
         </p>
-        <Button type="submit" size="lg" className="self-start">
+        <Button type="submit" size="lg" className="contact-form__submit">
           Abrir mi correo con el mensaje
         </Button>
       </div>
 
       <div role="status" aria-live="polite">
         {mailto ? (
-          <p className="rounded-2xl bg-white p-5 text-base text-ink ring-1 ring-aqua-700">
+          <p className="contact-form__sent">
             Preparamos el correo y le pedimos a tu aplicación que lo abra. Revísalo y envíalo desde ahí. Si no se abrió,{" "}
-            <a href={mailto} className="font-semibold text-aqua-700 underline underline-offset-2 hover:text-navy-800">
+            <a href={mailto} className="text-link">
               ábrelo de nuevo
             </a>{" "}
             o escribe directamente a {CONTACT_EMAIL}.

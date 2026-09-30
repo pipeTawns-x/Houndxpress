@@ -148,7 +148,7 @@ Houndxpress/
 │   ├── STACK_HOUND_EXPRESS.md # Decisiones técnicas y licencias de las dependencias
 │   ├── diseno/                # Investigación, propuesta, abogado del diablo, arquitecto y sistema de diseño
 │   └── diagramas/             # Diagramas interactivos (HTML) y sus fuentes
-├── frontend/                  # React + TypeScript + Vite + Tailwind
+├── frontend/                  # React + TypeScript + Vite + Sass (BEM)
 │   ├── src/domain/            # Etapas, tipos y reglas de avance (sin React)
 │   ├── src/services/          # Repositorio de guías (demostración y HTTP) y estado de la API
 │   ├── src/pages/             # Una pantalla por ruta

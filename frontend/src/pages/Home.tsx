@@ -24,26 +24,23 @@ import { isDemoData } from "../services/index.ts";
 function Hero() {
   const navigate = useNavigate();
   return (
-    <section aria-labelledby="titulo-inicio" className="on-dark relative overflow-hidden bg-navy-950 pt-14 pb-28 md:pt-20 md:pb-32">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_34rem_at_78%_-8%,rgb(76_190_216/0.2),transparent_62%)]"
-      />
-      <HeroIllustration className="pointer-events-none absolute -top-6 -right-24 hidden w-[34rem] sm:-right-10 sm:block sm:opacity-30 lg:top-1/2 lg:right-[max(1rem,calc(50%-38rem))] lg:w-[36rem] lg:-translate-y-1/2 lg:opacity-100" />
-      <Container className="relative">
-        <div className="flex max-w-xl animate-rise flex-col gap-6">
-          <div className="flex flex-col gap-4">
-            <p className="eyebrow text-aqua-500">Logística cross-border para ecommerce</p>
-            <h1 id="titulo-inicio" className="text-display font-extrabold tracking-tight text-white">
+    <section aria-labelledby="titulo-inicio" className="hero">
+      <div aria-hidden="true" className="hero__glow" />
+      <HeroIllustration className="hero__art" />
+      <Container className="hero__container">
+        <div className="hero__content">
+          <div className="hero__intro">
+            <p className="eyebrow eyebrow--dark">Logística cross-border para ecommerce</p>
+            <h1 id="titulo-inicio" className="hero__title">
               Movemos tu ecommerce de local a global
             </h1>
-            <p className="max-w-xl text-lead text-navy-300">
+            <p className="hero__lead">
               Expertos en logística y comercio internacional. Conectamos tu negocio con Estados Unidos y Latinoamérica, y
               te mostramos en qué etapa va cada envío.
             </p>
           </div>
 
-          <div className="on-light rounded-3xl bg-white p-5 shadow-lift sm:p-6">
+          <div className="hero__search">
             <TrackingSearch
               examples={isDemoData ? DEMO_GUIDE_NUMBERS.slice(0, 2) : []}
               onSearch={(numbers) => {
@@ -52,13 +49,13 @@ function Hero() {
             />
           </div>
 
-          <div className="flex flex-col gap-2 text-label text-navy-300">
+          <div className="hero__notes">
             <p>¿No tienes tu número? Está en el correo de tu compra.</p>
             {isDemoData ? (
-              <p className="flex items-start gap-2">
-                <TriangleAlert className="mt-0.5 size-4 shrink-0 text-aqua-500" aria-hidden="true" />
+              <p className="hero__demo">
+                <TriangleAlert className="hero__demo-icon" aria-hidden="true" />
                 <span>
-                  <strong className="font-semibold text-white">Datos de demostración:</strong> las guías de ejemplo no
+                  <strong className="hero__demo-title">Datos de demostración:</strong> las guías de ejemplo no
                   son reales y se guardan solo en este navegador.
                 </span>
               </p>
@@ -72,9 +69,9 @@ function Hero() {
 
 function Stats() {
   return (
-    <section aria-label="Hound Express en cifras" className="relative z-10 -mt-14">
+    <section aria-label="Hound Express en cifras" className="stats">
       <Container>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="stats__list">
           {STATS.map((stat) => (
             <li key={stat.label}>
               <StatCard value={stat.value} label={stat.label} description={stat.description} />
@@ -89,14 +86,14 @@ function Stats() {
 function ServicesSection() {
   return (
     <Section aria-labelledby="titulo-servicios">
-      <div className="reveal flex flex-col gap-10">
+      <div className="section__stack">
         <SectionHeader
           id="titulo-servicios"
           eyebrow="Servicios"
           title="Todo lo que tu ecommerce necesita para cruzar fronteras"
           description="Desarrollamos las soluciones logísticas y aduanales para que tu ecommerce compita a nivel internacional, con toda tu operación en un solo sistema."
         />
-        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="card-grid">
           {SERVICES.map((service) => (
             <li key={service.id}>
               <ServiceCard
@@ -109,16 +106,16 @@ function ServicesSection() {
             </li>
           ))}
           <li>
-            <div className="on-dark flex h-full flex-col justify-between gap-6 rounded-2xl bg-navy-800 p-6 text-white">
-              <div className="flex flex-col gap-2">
-                <h3 className="font-display text-h3 font-bold text-white">Tu ecommerce merece más que envíos</h3>
-                <p className="text-base text-navy-300">
+            <div className="promo-card">
+              <div className="promo-card__body">
+                <h3 className="promo-card__title">Tu ecommerce merece más que envíos</h3>
+                <p className="promo-card__text">
                   Merece una logística que cuide cada detalle. Conoce todos los servicios y cuéntanos qué necesitas.
                 </p>
               </div>
-              <ButtonLink to="/servicios" tone="dark" variant="secondary" className="self-start">
+              <ButtonLink to="/servicios" tone="dark" variant="secondary" className="promo-card__action">
                 Ver todos los servicios
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <ArrowRight className="button__icon" aria-hidden="true" />
               </ButtonLink>
             </div>
           </li>
@@ -131,22 +128,20 @@ function ServicesSection() {
 function JourneySection() {
   return (
     <Section tone="surface" aria-labelledby="titulo-recorrido">
-      <div className="reveal flex flex-col gap-10">
+      <div className="section__stack">
         <SectionHeader
           id="titulo-recorrido"
           eyebrow="Seguimiento"
           title="Cómo viaja tu paquete"
           description="Cada guía pasa por cinco etapas, siempre en el mismo orden. Cada etapa la registra un departamento responsable."
         />
-        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <ol className="journey__list">
           {STAGES.map((stage) => (
-            <li key={stage.code} className="flex flex-col gap-3 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-line">
-              <span className="flex size-10 items-center justify-center rounded-full bg-aqua-500 font-display font-bold text-navy-950">
-                {stage.order}
-              </span>
-              <h3 className="text-h3 font-bold">{stage.label}</h3>
-              <p className="text-label font-semibold text-aqua-700">Responsable: {stage.department}</p>
-              <p className="text-base text-muted">{stage.description}</p>
+            <li key={stage.code} className="journey__step">
+              <span className="journey__number">{stage.order}</span>
+              <h3 className="journey__title">{stage.label}</h3>
+              <p className="journey__owner">Responsable: {stage.department}</p>
+              <p className="journey__text">{stage.description}</p>
             </li>
           ))}
         </ol>
@@ -158,28 +153,28 @@ function JourneySection() {
 function CoverageSection() {
   return (
     <Section aria-labelledby="titulo-cobertura">
-      <div className="reveal grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        <div className="flex flex-col gap-6">
+      <div className="coverage-teaser">
+        <div className="coverage-teaser__copy">
           <SectionHeader
             id="titulo-cobertura"
             eyebrow="Cobertura"
             title="Conectamos a toda Latinoamérica"
             description="Miami es el centro operativo para los envíos a LATAM y Laredo es nuestro centro de EE. UU. hacia México. Combinamos tecnología y logística para facilitar envíos de comercio electrónico a cualquier destino."
           />
-          <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+          <ul className="coverage-teaser__hubs">
             {HUBS.map((hub) => (
-              <li key={hub.id} className="flex items-start gap-2 text-base">
-                <Check className="mt-1 size-4 shrink-0 text-aqua-700" aria-hidden="true" />
+              <li key={hub.id} className="coverage-teaser__hub">
+                <Check className="coverage-teaser__check" aria-hidden="true" />
                 <span>
-                  <strong className="font-semibold text-navy-800">{hub.name}</strong>
-                  <span className="block text-label text-muted">{hub.region}</span>
+                  <strong className="coverage-teaser__hub-name">{hub.name}</strong>
+                  <span className="coverage-teaser__hub-region">{hub.region}</span>
                 </span>
               </li>
             ))}
           </ul>
-          <ButtonLink to="/cobertura" variant="secondary" className="self-start">
+          <ButtonLink to="/cobertura" variant="secondary" className="section__action">
             Ver la cobertura completa
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <ArrowRight className="button__icon" aria-hidden="true" />
           </ButtonLink>
         </div>
         <NetworkMap />
@@ -196,21 +191,21 @@ function PanelPreview() {
     { number: "2154 3029 6817 0435", stage: "cargo_delivered", route: "Laredo, TX → Guadalajara, Jal." },
   ] as const;
   return (
-    <div aria-hidden="true" className="rounded-2xl border border-navy-700 bg-navy-900 p-4 shadow-lift sm:p-5">
-      <div className="mb-4 flex gap-3">
+    <div aria-hidden="true" className="panel-preview">
+      <div className="panel-preview__stats">
         {["Total", "En tránsito", "Entregadas"].map((label, index) => (
-          <div key={label} className="flex-1 rounded-xl bg-navy-800 p-3">
-            <p className="text-xs text-navy-300">{label}</p>
-            <p className="font-display text-2xl font-extrabold text-white">{[8, 4, 2][index]}</p>
+          <div key={label} className="panel-preview__stat">
+            <p className="panel-preview__stat-label">{label}</p>
+            <p className="panel-preview__stat-value">{[8, 4, 2][index]}</p>
           </div>
         ))}
       </div>
-      <div className="flex flex-col divide-y divide-navy-700 rounded-xl bg-navy-800">
+      <div className="panel-preview__rows">
         {rows.map((row) => (
-          <div key={row.number} className="flex flex-wrap items-center justify-between gap-2 p-3">
-            <div className="flex flex-col">
-              <span className="font-semibold text-white tabular-nums">{row.number}</span>
-              <span className="text-xs text-navy-300">{row.route}</span>
+          <div key={row.number} className="panel-preview__row">
+            <div className="panel-preview__row-info">
+              <span className="panel-preview__row-number">{row.number}</span>
+              <span className="panel-preview__row-route">{row.route}</span>
             </div>
             <StageBadge code={row.stage} />
           </div>
@@ -223,12 +218,9 @@ function PanelPreview() {
 function PanelSection() {
   return (
     <Section tone="dark" aria-labelledby="titulo-panel">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(44rem_24rem_at_10%_110%,rgb(76_190_216/0.16),transparent_65%)]"
-      />
-      <div className="reveal relative grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        <div className="flex flex-col gap-6">
+      <div aria-hidden="true" className="section__glow section__glow--panel" />
+      <div className="panel-teaser">
+        <div className="panel-teaser__copy">
           <SectionHeader
             id="titulo-panel"
             tone="dark"
@@ -236,18 +228,18 @@ function PanelSection() {
             title="Ten el control de tu operación"
             description="Registra guías, avánzalas etapa por etapa y consulta el historial de cada una. El panel solo permite pasar a la etapa siguiente, así ningún paso se salta."
           />
-          <ul className="flex flex-col gap-3 text-base text-navy-300">
-            <li className="flex items-start gap-3">
-              <Check className="mt-1 size-4 shrink-0 text-aqua-500" aria-hidden="true" />
+          <ul className="panel-teaser__points">
+            <li className="panel-teaser__point">
+              <Check className="panel-teaser__check" aria-hidden="true" />
               Visualiza el estado de tus envíos en un solo lugar.
             </li>
-            <li className="flex items-start gap-3">
-              <Check className="mt-1 size-4 shrink-0 text-aqua-500" aria-hidden="true" />
+            <li className="panel-teaser__point">
+              <Check className="panel-teaser__check" aria-hidden="true" />
               Cada avance queda en un historial que no se edita ni se borra.
             </li>
           </ul>
-          <ButtonLink to="/panel" size="lg" className="self-start">
-            <LayoutDashboard className="size-5" aria-hidden="true" />
+          <ButtonLink to="/panel" size="lg" className="section__action">
+            <LayoutDashboard className="button__icon" aria-hidden="true" />
             Abrir el panel
           </ButtonLink>
         </div>
@@ -260,29 +252,26 @@ function PanelSection() {
 function AlliancesSection() {
   return (
     <Section tone="surface" aria-labelledby="titulo-alianzas">
-      <div className="reveal flex flex-col gap-10">
+      <div className="section__stack">
         <SectionHeader
           id="titulo-alianzas"
           eyebrow="Alianzas y afiliaciones"
           title="Con la confianza de las instituciones del comercio internacional"
           description="Unimos esfuerzos con socios clave para maximizar el valor de tu empresa mediante un ecosistema cross border."
         />
-        <ul className="grid gap-5 md:grid-cols-2">
+        <ul className="alliances__list">
           {ALLIANCES.marketplaces.map((alliance) => (
-            <li key={alliance.name} className="flex flex-col gap-2 rounded-2xl bg-white p-6 shadow-soft ring-1 ring-line">
-              <h3 className="text-h3 font-bold">{alliance.name}</h3>
-              <p className="text-base text-muted">{alliance.text}</p>
+            <li key={alliance.name} className="alliances__card">
+              <h3 className="alliances__name">{alliance.name}</h3>
+              <p className="alliances__text">{alliance.text}</p>
             </li>
           ))}
         </ul>
-        <div className="flex flex-col gap-3">
-          <p className="text-label font-semibold text-muted">Estamos afiliados a</p>
-          <ul className="flex flex-wrap gap-3">
+        <div className="alliances__members">
+          <p className="alliances__members-label">Estamos afiliados a</p>
+          <ul className="alliances__members-list">
             {ALLIANCES.memberships.map((name) => (
-              <li
-                key={name}
-                className="rounded-full bg-white px-5 py-2 font-display text-base font-bold text-navy-800 ring-1 ring-line"
-              >
+              <li key={name} className="alliances__member">
                 {name}
               </li>
             ))}
@@ -297,17 +286,17 @@ function FaqSection() {
   const featured = FEATURED_FAQ_IDS.flatMap((id) => FAQ.find((entry) => entry.id === id) ?? []);
   return (
     <Section aria-labelledby="titulo-preguntas">
-      <div className="reveal grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-        <div className="flex flex-col gap-6">
+      <div className="faq-teaser">
+        <div className="faq-teaser__intro">
           <SectionHeader
             id="titulo-preguntas"
             eyebrow="Preguntas frecuentes"
             title="Respuestas a lo que más nos preguntan"
             description="Resolvemos las dudas de quien espera un paquete."
           />
-          <ButtonLink to="/preguntas" variant="secondary" className="self-start">
+          <ButtonLink to="/preguntas" variant="secondary" className="section__action">
             Ver todas las preguntas
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <ArrowRight className="button__icon" aria-hidden="true" />
           </ButtonLink>
         </div>
         <Accordion>
@@ -326,12 +315,9 @@ function ContactSection() {
   const mexico = CONTACTS[0];
   return (
     <Section tone="surface" aria-labelledby="titulo-contacto">
-      <div className="on-dark reveal relative overflow-hidden rounded-3xl bg-navy-800 px-6 py-12 text-center sm:px-12 md:py-16">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(40rem_20rem_at_50%_-20%,rgb(76_190_216/0.22),transparent_65%)]"
-        />
-        <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6">
+      <div className="contact-cta">
+        <div aria-hidden="true" className="contact-cta__glow" />
+        <div className="contact-cta__inner">
           <SectionHeader
             id="titulo-contacto"
             tone="dark"
@@ -340,20 +326,20 @@ function ContactSection() {
             title="Estamos a un mensaje de distancia"
             description="Cuéntanos qué necesita tu ecommerce y un representante se pondrá en contacto contigo."
           />
-          <div className="flex flex-col items-center gap-3 sm:flex-row">
+          <div className="contact-cta__actions">
             <ButtonLink to="/contacto" size="lg">
               Escríbenos
             </ButtonLink>
             {mexico ? (
               <ButtonAnchor href={telHref(mexico.phone)} size="lg" variant="secondary" tone="dark">
-                <Phone className="size-5" aria-hidden="true" />
+                <Phone className="button__icon" aria-hidden="true" />
                 {mexico.phone}
               </ButtonAnchor>
             ) : null}
           </div>
-          <p className="text-label text-navy-300">
+          <p className="contact-cta__note">
             ¿Buscas tu paquete? Ve directo al{" "}
-            <Link to="/rastreo" className="font-semibold text-white underline underline-offset-2 hover:text-aqua-400">
+            <Link to="/rastreo" className="text-link text-link--inverse">
               rastreo
             </Link>
             .

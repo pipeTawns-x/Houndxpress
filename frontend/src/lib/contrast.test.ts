@@ -1,5 +1,5 @@
 import { COLOR_TOKENS, CONTRAST_PAIRS, tokenHex } from "../content/designTokens.ts";
-import indexCss from "../index.css?raw";
+import tokensScss from "../styles/abstracts/_tokens.scss?raw";
 import { contrastLevel, contrastRatio, formatRatio } from "./contrast.ts";
 
 /** Contrastes que publica docs/diseno/04-sistema-de-diseno.md. */
@@ -55,19 +55,19 @@ describe("contraste WCAG", () => {
 });
 
 describe("tokens de color", () => {
-  it("coinciden con el bloque @theme de index.css", () => {
+  it("coinciden con las variables $color-* de styles/abstracts/_tokens.scss", () => {
     for (const token of COLOR_TOKENS) {
-      const match = new RegExp(`--color-${token.name}:\\s*(#[0-9a-fA-F]{6})`).exec(indexCss);
-      expect({ token: `--color-${token.name}`, foundInIndexCss: match !== null }).toEqual({
-        token: `--color-${token.name}`,
-        foundInIndexCss: true,
+      const match = new RegExp(`\\$color-${token.name}:\\s*(#[0-9a-fA-F]{6})`).exec(tokensScss);
+      expect({ token: `$color-${token.name}`, foundInTokensScss: match !== null }).toEqual({
+        token: `$color-${token.name}`,
+        foundInTokensScss: true,
       });
       expect(match?.[1]?.toUpperCase()).toBe(token.hex.toUpperCase());
     }
   });
 
-  it("index.css no define colores que la guía de estilo no muestre", () => {
-    const inCss = [...indexCss.matchAll(/--color-([a-z0-9-]+):\s*#[0-9a-fA-F]{6}/g)].map((match) => match[1]);
+  it("_tokens.scss no define colores que la guía de estilo no muestre", () => {
+    const inCss = [...tokensScss.matchAll(/\$color-([a-z0-9-]+):\s*#[0-9a-fA-F]{6}/g)].map((match) => match[1]);
     const documented = COLOR_TOKENS.map((token) => token.name);
     // "white" es el único que no aparece como muestra.
     expect(inCss.filter((name) => name !== "white" && !documented.includes(name ?? ""))).toEqual([]);

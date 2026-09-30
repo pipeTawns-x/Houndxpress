@@ -9,7 +9,7 @@ export function FaqAnswer({ entry }: { entry: FaqEntry }) {
         <p key={text}>{text}</p>
       ))}
       {entry.bullets ? (
-        <ul className="flex list-disc flex-col gap-1 pl-5 marker:text-aqua-700">
+        <ul className="faq-answer__list">
           {entry.bullets.map((bullet) => (
             <li key={bullet}>{bullet}</li>
           ))}
@@ -18,10 +18,7 @@ export function FaqAnswer({ entry }: { entry: FaqEntry }) {
       {entry.afterBullets ? <p>{entry.afterBullets}</p> : null}
       {entry.link ? (
         <p>
-          <Link
-            to={entry.link.to}
-            className="font-semibold text-aqua-700 underline underline-offset-2 hover:text-navy-800"
-          >
+          <Link to={entry.link.to} className="text-link">
             {entry.link.label}
           </Link>
         </p>

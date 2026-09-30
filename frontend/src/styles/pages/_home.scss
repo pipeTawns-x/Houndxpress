@@ -1,0 +1,502 @@
+// Inicio (`/`): héroe con el buscador, cifras, servicios, recorrido de las cinco etapas,
+// cobertura, vista previa del panel, alianzas, preguntas y contacto.
+// Cada bloque de esta página es independiente: `hero`, `stats`, `promo-card`, `journey`,
+// `coverage-teaser`, `panel-teaser`, `panel-preview`, `alliances`, `faq-teaser` y `contact-cta`.
+
+@use "../abstracts" as *;
+
+// --- Héroe -------------------------------------------------------------------
+.hero {
+  @include on-dark;
+  position: relative;
+  overflow: hidden;
+  padding-top: space(14);
+  padding-bottom: space(28);
+  background-color: $color-navy-950;
+
+  @include up(md) {
+    padding-top: space(20);
+    padding-bottom: space(32);
+  }
+
+  &__glow {
+    @include cover;
+    @include aqua-glow(60rem 34rem, 78% -8%, 0.2, 62%);
+    pointer-events: none;
+  }
+
+  // Ilustración de rutas: oculta en teléfonos, tenue a la derecha en tabletas y completa en escritorio.
+  &__art {
+    position: absolute;
+    top: -(space(6));
+    right: -(space(24));
+    display: none;
+    width: 34rem;
+    pointer-events: none;
+
+    @include up(sm) {
+      right: -(space(10));
+      display: block;
+      opacity: 0.3;
+    }
+
+    @include up(lg) {
+      top: 50%;
+      right: max(1rem, calc(50% - 38rem));
+      width: 36rem;
+      translate: 0 -50%;
+      opacity: 1;
+    }
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__content {
+    @include stack(space(6));
+    max-width: 36rem;
+
+    // Sin `motion-safe` a propósito: con movimiento reducido, la regla de `base/_accessibility.scss`
+    // acorta esta animación a 0.01 ms y el contenido queda en su estado final. Así el navegador
+    // pinta el héroe igual que antes de migrar (con la animación dentro de `motion-safe`, el texto
+    // del héroe cambiaba de suavizado de bordes).
+    animation: rise 0.7s ease-out both;
+  }
+
+  &__intro {
+    @include stack(space(4));
+  }
+
+  &__title {
+    @include type(display);
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+    color: $color-white;
+  }
+
+  &__lead {
+    max-width: 36rem;
+    @include type(lead);
+    color: $color-navy-300;
+  }
+
+  // Tarjeta blanca del buscador dentro del héroe oscuro.
+  &__search {
+    @include on-light;
+    padding: space(5);
+    border-radius: $radius-3xl;
+    background-color: $color-white;
+    box-shadow: $shadow-lift;
+
+    @include up(sm) {
+      padding: space(6);
+    }
+  }
+
+  &__notes {
+    @include stack(space(2));
+    @include type(label);
+    color: $color-navy-300;
+  }
+
+  &__demo {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+  }
+
+  &__demo-icon {
+    @include square(space(4));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-aqua-500;
+  }
+
+  &__demo-title {
+    font-weight: $font-weight-semibold;
+    color: $color-white;
+  }
+}
+
+// --- Cifras: montadas sobre el borde inferior del héroe ------------------------
+.stats {
+  position: relative;
+  z-index: 10;
+  margin-top: -(space(14));
+
+  &__list {
+    display: grid;
+    gap: space(4);
+
+    @include up(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+}
+
+// --- Tarjeta de cierre de la rejilla de servicios -------------------------------
+.promo-card {
+  @include on-dark;
+  @include stack(space(6));
+  justify-content: space-between;
+  height: 100%;
+  padding: space(6);
+  border-radius: $radius-2xl;
+  background-color: $color-navy-800;
+  color: $color-white;
+
+  &__body {
+    @include stack(space(2));
+  }
+
+  &__title {
+    font-family: $font-display;
+    @include type(h3);
+    font-weight: $font-weight-bold;
+    color: $color-white;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-navy-300;
+  }
+
+  &__action {
+    align-self: flex-start;
+  }
+}
+
+// --- Cómo viaja tu paquete: las cinco etapas -----------------------------------
+.journey {
+  &__list {
+    display: grid;
+    gap: space(4);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  &__step {
+    @include stack(space(3));
+    padding: space(5);
+    @include card;
+  }
+
+  &__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include square(space(10));
+    border-radius: $radius-full;
+    background-color: $color-aqua-500;
+    font-family: $font-display;
+    font-weight: $font-weight-bold;
+    color: $color-navy-950;
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__owner {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-aqua-700;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// --- Cobertura: lista de hubs y mapa -------------------------------------------
+.coverage-teaser {
+  display: grid;
+  align-items: center;
+  gap: space(10);
+  @include reveal-on-scroll;
+
+  @include up(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(14);
+  }
+
+  &__copy {
+    @include stack(space(6));
+  }
+
+  &__hubs {
+    display: grid;
+    gap: space(3) space(6);
+
+    @include up(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__hub {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+    @include type(base);
+  }
+
+  &__check {
+    @include square(space(4));
+    flex-shrink: 0;
+    margin-top: space(1);
+    color: $color-aqua-700;
+  }
+
+  &__hub-name {
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+  }
+
+  &__hub-region {
+    display: block;
+    @include type(label);
+    color: $color-muted;
+  }
+}
+
+// --- Panel de operaciones: texto y vista previa sobre marino ---------------------
+.panel-teaser {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: space(10);
+  @include reveal-on-scroll;
+
+  @include up(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(14);
+  }
+
+  &__copy {
+    @include stack(space(6));
+  }
+
+  &__points {
+    @include stack(space(3));
+    @include type(base);
+    color: $color-navy-300;
+  }
+
+  &__point {
+    display: flex;
+    align-items: flex-start;
+    gap: space(3);
+  }
+
+  &__check {
+    @include square(space(4));
+    flex-shrink: 0;
+    margin-top: space(1);
+    color: $color-aqua-500;
+  }
+}
+
+// Vista previa decorativa del panel: no es interactiva.
+.panel-preview {
+  padding: space(4);
+  border: 1px solid $color-navy-700;
+  border-radius: $radius-2xl;
+  background-color: $color-navy-900;
+  box-shadow: $shadow-lift;
+
+  @include up(sm) {
+    padding: space(5);
+  }
+
+  &__stats {
+    display: flex;
+    gap: space(3);
+    margin-bottom: space(4);
+  }
+
+  &__stat {
+    flex: 1 1 0%;
+    padding: space(3);
+    border-radius: $radius-xl;
+    background-color: $color-navy-800;
+  }
+
+  &__stat-label {
+    @include type(xs);
+    color: $color-navy-300;
+  }
+
+  &__stat-value {
+    font-family: $font-display;
+    @include type("2xl");
+    font-weight: $font-weight-extrabold;
+    color: $color-white;
+  }
+
+  &__rows {
+    @include stack;
+    border-radius: $radius-xl;
+    background-color: $color-navy-800;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(2);
+    padding: space(3);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-navy-700;
+    }
+  }
+
+  &__row-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__row-number {
+    font-weight: $font-weight-semibold;
+    color: $color-white;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__row-route {
+    @include type(xs);
+    color: $color-navy-300;
+  }
+}
+
+// --- Alianzas y afiliaciones ---------------------------------------------------------
+.alliances {
+  &__list {
+    display: grid;
+    gap: space(5);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__card {
+    @include stack(space(2));
+    padding: space(6);
+    @include card;
+  }
+
+  &__name {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+
+  &__members {
+    @include stack(space(3));
+  }
+
+  &__members-label {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-muted;
+  }
+
+  &__members-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(3);
+  }
+
+  &__member {
+    padding: space(2) space(5);
+    border-radius: $radius-full;
+    background-color: $color-white;
+    font-family: $font-display;
+    @include type(base);
+    font-weight: $font-weight-bold;
+    color: $color-navy-800;
+    @include ring($color-line);
+  }
+}
+
+// --- Preguntas frecuentes: texto a la izquierda y acordeón a la derecha ------------------
+.faq-teaser {
+  display: grid;
+  gap: space(10);
+  @include reveal-on-scroll;
+
+  @include up(lg) {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: space(14);
+  }
+
+  &__intro {
+    @include stack(space(6));
+  }
+}
+
+// --- Contacto: llamada a la acción sobre marino --------------------------------------------
+.contact-cta {
+  @include on-dark;
+  position: relative;
+  overflow: hidden;
+  padding: space(12) space(6);
+  border-radius: $radius-3xl;
+  background-color: $color-navy-800;
+  text-align: center;
+  @include reveal-on-scroll;
+
+  @include up(sm) {
+    padding-inline: space(12);
+  }
+
+  @include up(md) {
+    padding-block: space(16);
+  }
+
+  &__glow {
+    @include cover;
+    @include aqua-glow(40rem 20rem, 50% -20%, 0.22);
+    pointer-events: none;
+  }
+
+  &__inner {
+    @include stack(space(6));
+    position: relative;
+    align-items: center;
+    max-width: 42rem;
+    margin-inline: auto;
+  }
+
+  &__actions {
+    @include stack(space(3));
+    align-items: center;
+
+    @include up(sm) {
+      flex-direction: row;
+    }
+  }
+
+  &__note {
+    @include type(label);
+    color: $color-navy-300;
+  }
+}

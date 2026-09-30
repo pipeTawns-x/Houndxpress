@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
+import buttonStyles from "../../styles/components/_button.scss?raw";
 import { Accordion, AccordionItem } from "./Accordion.tsx";
 import { ApiStatus } from "./ApiStatus.tsx";
 import { Button } from "./Button.tsx";
@@ -89,9 +90,11 @@ describe("Button", () => {
 
   it("el botón principal es aqua con texto navy-950", () => {
     render(<Button>Rastrear</Button>);
-    const classes = screen.getByRole("button").className;
-    expect(classes).toContain("bg-aqua-500");
-    expect(classes).toContain("text-navy-950");
+    expect(screen.getByRole("button")).toHaveClass("button--primary");
+    // La variante principal declara sus colores en el parcial del botón.
+    const primary = /&--primary\s*\{([\s\S]*?)@include hover/.exec(buttonStyles)?.[1] ?? "";
+    expect(primary).toContain("background-color: $color-aqua-500");
+    expect(primary).toContain("color: $color-navy-950");
   });
 });
 

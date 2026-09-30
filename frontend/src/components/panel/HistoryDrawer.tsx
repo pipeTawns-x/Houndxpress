@@ -23,60 +23,56 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
   const stage = getStage(guide.currentStage);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
-      <div
-        aria-hidden="true"
-        onClick={onClose}
-        className="absolute inset-0 animate-fade-in bg-navy-950/60 backdrop-blur-sm"
-      />
+    <div className="history-drawer">
+      <div aria-hidden="true" onClick={onClose} className="history-drawer__backdrop" />
       <div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="relative flex h-full w-full max-w-md animate-slide-in flex-col gap-6 overflow-y-auto bg-white p-5 shadow-lift focus:outline-none sm:p-6"
+        className="history-drawer__panel"
       >
-        <header className="flex items-start justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <p className="text-label text-muted">Historial de la guía</p>
-            <h2 id={titleId} className="font-display text-2xl font-extrabold tracking-tight text-navy-800 tabular-nums">
+        <header className="history-drawer__header">
+          <div className="history-drawer__heading">
+            <p className="history-drawer__kicker">Historial de la guía</p>
+            <h2 id={titleId} className="history-drawer__title">
               {formatGuideNumber(guide.number)}
             </h2>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="-mt-1 -mr-2 shrink-0" aria-label="Cerrar historial">
-            <X className="size-5" aria-hidden="true" />
+          <Button variant="ghost" size="icon" onClick={onClose} className="history-drawer__close" aria-label="Cerrar historial">
+            <X className="button__icon" aria-hidden="true" />
           </Button>
         </header>
 
-        <div className="flex flex-col gap-3 rounded-2xl bg-surface p-4">
-          <StageBadge code={guide.currentStage} className="self-start" />
-          <p className="text-label text-ink">
-            <strong className="font-semibold">{stage.label}</strong> · {stage.department}
+        <div className="history-drawer__summary">
+          <StageBadge code={guide.currentStage} className="history-drawer__badge" />
+          <p className="history-drawer__stage">
+            <strong className="history-drawer__stage-name">{stage.label}</strong> · {stage.department}
           </p>
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-label">
-            <dt className="text-muted">Destinatario</dt>
-            <dd className="font-semibold text-navy-800">{guide.recipient}</dd>
-            <dt className="text-muted">Ruta</dt>
-            <dd className="font-semibold text-navy-800">
+          <dl className="history-drawer__details">
+            <dt className="history-drawer__term">Destinatario</dt>
+            <dd className="history-drawer__value">{guide.recipient}</dd>
+            <dt className="history-drawer__term">Ruta</dt>
+            <dd className="history-drawer__value">
               {guide.origin}
               <span aria-hidden="true"> → </span>
-              <span className="sr-only"> hacia </span>
+              <span className="visually-hidden"> hacia </span>
               {guide.destination}
             </dd>
-            <dt className="text-muted">Servicio</dt>
-            <dd className="font-semibold text-navy-800">{SERVICE_WINDOWS[guide.service].label}</dd>
-            <dt className="text-muted">Registrada</dt>
-            <dd className="font-semibold text-navy-800">{formatDateTime(guide.createdAt)}</dd>
+            <dt className="history-drawer__term">Servicio</dt>
+            <dd className="history-drawer__value">{SERVICE_WINDOWS[guide.service].label}</dd>
+            <dt className="history-drawer__term">Registrada</dt>
+            <dd className="history-drawer__value">{formatDateTime(guide.createdAt)}</dd>
           </dl>
         </div>
 
-        <section aria-labelledby={`${titleId}-eventos`} className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h3 id={`${titleId}-eventos`} className="text-h3 font-bold">
+        <section aria-labelledby={`${titleId}-eventos`} className="history-drawer__events">
+          <div className="history-drawer__events-header">
+            <h3 id={`${titleId}-eventos`} className="history-drawer__events-title">
               Eventos
             </h3>
-            <p className="text-label text-muted">{TIME_ZONE_NOTE}</p>
+            <p className="history-drawer__note">{TIME_ZONE_NOTE}</p>
           </div>
           <StageTimeline currentStage={guide.currentStage} history={guide.history} layout="vertical" showDetails />
         </section>

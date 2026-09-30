@@ -109,10 +109,10 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
       onSubmit={(event) => {
         void submit(event);
       }}
-      className="flex flex-col gap-5"
+      className="register-form"
     >
-      <div className="grid gap-5 md:grid-cols-2">
-        <div className="md:col-span-2">
+      <div className="register-form__grid">
+        <div className="register-form__wide">
           <TextField
             label="Número de guía"
             name="number"
@@ -124,10 +124,10 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
               update("number", event.target.value);
             }}
             error={errors.number}
-            className="tabular-nums"
+            className="register-form__number"
             action={
               <Button variant="secondary" size="lg" onClick={generate}>
-                <Dices className="size-5" aria-hidden="true" />
+                <Dices className="button__icon" aria-hidden="true" />
                 Generar
               </Button>
             }
@@ -187,26 +187,26 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
         ))}
       </datalist>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="register-form__footer">
         <Button type="submit" size="lg" loading={saving}>
           Registrar guía
         </Button>
-        <p className="text-label text-muted">
+        <p className="register-form__footnote">
           Toda guía nueva nace en “{getStage("cargo_received").label}”.
         </p>
       </div>
 
       <div role="status" aria-live="polite">
         {created ? (
-          <p className="rounded-2xl bg-success-soft p-4 text-base text-ink ring-1 ring-success/30">
-            <strong className="font-semibold text-success">Guía registrada.</strong> La guía{" "}
-            <span className="font-semibold tabular-nums">{formatGuideNumber(created.number)}</span> quedó en “
+          <p className="notice notice--success">
+            <strong className="register-form__success-title">Guía registrada.</strong> La guía{" "}
+            <span className="register-form__success-number">{formatGuideNumber(created.number)}</span> quedó en “
             {getStage(created.currentStage).label}” y ya aparece en la lista.
           </p>
         ) : null}
       </div>
       {formError ? (
-        <p role="alert" className="rounded-2xl bg-danger-soft p-4 text-base text-danger ring-1 ring-danger/30">
+        <p role="alert" className="notice notice--danger">
           {formError}
         </p>
       ) : null}

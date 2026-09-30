@@ -1,0 +1,39 @@
+// Encabezado de las páginas interiores: banda marino con un brillo aqua tenue y retícula de puntos.
+
+@use "../abstracts" as *;
+
+.page-header {
+  @include on-dark;
+  position: relative;
+  overflow: hidden;
+  background-color: $color-navy-950;
+
+  &__glow {
+    @include cover;
+    @include aqua-glow(50rem 24rem, 85% -20%, 0.18);
+    pointer-events: none;
+  }
+
+  &__dots {
+    @include cover;
+    @include dot-grid;
+    pointer-events: none;
+    opacity: 0.6;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+    mask-image: linear-gradient(to bottom, black, transparent);
+  }
+
+  // Contenido extra bajo la descripción (por ejemplo, el estado de la API en el panel).
+  &__extra {
+    margin-top: space(6);
+  }
+
+  &__inner {
+    position: relative;
+    padding-block: space(14);
+
+    @include up(md) {
+      padding-block: space(20);
+    }
+  }
+}

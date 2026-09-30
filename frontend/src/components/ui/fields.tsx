@@ -1,6 +1,7 @@
 import { useId } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { ChevronDown, CircleAlert } from "lucide-react";
+import { bem, cx } from "../../lib/bem.ts";
 
 interface FieldChrome {
   label: string;
@@ -12,12 +13,9 @@ interface FieldChrome {
   required?: boolean;
 }
 
-const controlClasses =
-  "block w-full rounded-xl border bg-white px-4 text-base text-ink placeholder:text-muted " +
-  "transition-colors duration-150 disabled:cursor-not-allowed disabled:bg-surface disabled:text-muted";
-
-function borderClasses(hasError: boolean): string {
-  return hasError ? "border-danger" : "border-edge hover:border-navy-800";
+/** Clases del control (input, textarea o select): `field__control field__control--input field__control--invalid`. */
+function controlClasses(kind: "input" | "textarea" | "select", hasError: boolean, className?: string): string {
+  return cx(bem("field__control", kind, { invalid: hasError }), className);
 }
 
 interface ChromeIds {
@@ -42,20 +40,20 @@ function FieldFrame({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={ids.controlId} className="text-label font-semibold text-navy-800">
+    <div className="field">
+      <label htmlFor={ids.controlId} className="field__label">
         {chrome.label}
-        {chrome.optional ? <span className="ml-1 font-normal text-muted">(opcional)</span> : null}
+        {chrome.optional ? <span className="field__optional">(opcional)</span> : null}
       </label>
       {children}
       {chrome.hint ? (
-        <p id={ids.hintId} className="text-label text-muted">
+        <p id={ids.hintId} className="field__hint">
           {chrome.hint}
         </p>
       ) : null}
       {chrome.error ? (
-        <p id={ids.errorId} className="flex items-start gap-1.5 text-label font-medium text-danger">
-          <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+        <p id={ids.errorId} className="inline-error">
+          <CircleAlert className="inline-error__icon" aria-hidden="true" />
           <span>{chrome.error}</span>
         </p>
       ) : null}
@@ -91,20 +89,20 @@ export function TextField({
   const chrome = { label, hint, error, optional };
   const ids = useChromeIds(id);
   const input = (
-      <input
-        id={ids.controlId}
-        aria-invalid={error ? true : undefined}
-        aria-required={(required ?? !optional) ? true : undefined}
-        aria-describedby={describedBy(ids, chrome, extraDescribedBy)}
-        {...props}
-        className={[controlClasses, "h-12", borderClasses(Boolean(error)), className].filter(Boolean).join(" ")}
-      />
+    <input
+      id={ids.controlId}
+      aria-invalid={error ? true : undefined}
+      aria-required={(required ?? !optional) ? true : undefined}
+      aria-describedby={describedBy(ids, chrome, extraDescribedBy)}
+      {...props}
+      className={controlClasses("input", Boolean(error), className)}
+    />
   );
   return (
     <FieldFrame ids={ids} chrome={chrome}>
       {action ? (
-        <div className="flex items-start gap-3">
-          <div className="min-w-0 flex-1">{input}</div>
+        <div className="field__row">
+          <div className="field__row-main">{input}</div>
           {action}
         </div>
       ) : (
@@ -137,9 +135,7 @@ export function TextArea({
         aria-required={(required ?? !optional) ? true : undefined}
         aria-describedby={describedBy(ids, chrome, extraDescribedBy)}
         {...props}
-        className={[controlClasses, "min-h-28 py-3", borderClasses(Boolean(error)), className]
-          .filter(Boolean)
-          .join(" ")}
+        className={controlClasses("textarea", Boolean(error), className)}
       />
     </FieldFrame>
   );
@@ -163,23 +159,18 @@ export function Select({
   const ids = useChromeIds(id);
   return (
     <FieldFrame ids={ids} chrome={chrome}>
-      <div className="relative">
+      <div className="field__select">
         <select
           id={ids.controlId}
           aria-invalid={error ? true : undefined}
           aria-required={(required ?? !optional) ? true : undefined}
           aria-describedby={describedBy(ids, chrome, extraDescribedBy)}
           {...props}
-          className={[controlClasses, "h-12 appearance-none pr-11", borderClasses(Boolean(error)), className]
-            .filter(Boolean)
-            .join(" ")}
+          className={controlClasses("select", Boolean(error), className)}
         >
           {children}
         </select>
-        <ChevronDown
-          className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-navy-800"
-          aria-hidden="true"
-        />
+        <ChevronDown className="field__select-icon" aria-hidden="true" />
       </div>
     </FieldFrame>
   );
@@ -194,23 +185,23 @@ export type CheckboxProps = Omit<ComponentProps<"input">, "id" | "type"> & {
 export function Checkbox({ label, error, id, className, ...props }: CheckboxProps) {
   const ids = useChromeIds(id);
   return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-start gap-3">
+    <div className="checkbox">
+      <div className="checkbox__row">
         <input
           id={ids.controlId}
           type="checkbox"
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? ids.errorId : undefined}
           {...props}
-          className={["mt-0.5 size-5 shrink-0 accent-aqua-700", className].filter(Boolean).join(" ")}
+          className={cx("checkbox__input", className)}
         />
-        <label htmlFor={ids.controlId} className="text-base text-ink">
+        <label htmlFor={ids.controlId} className="checkbox__label">
           {label}
         </label>
       </div>
       {error ? (
-        <p id={ids.errorId} className="flex items-start gap-1.5 text-label font-medium text-danger">
-          <CircleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+        <p id={ids.errorId} className="inline-error">
+          <CircleAlert className="inline-error__icon" aria-hidden="true" />
           <span>{error}</span>
         </p>
       ) : null}

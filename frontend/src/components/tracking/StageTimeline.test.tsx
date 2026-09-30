@@ -79,11 +79,13 @@ describe("línea de tiempo de etapas", () => {
 
   it("es horizontal desde 768 px solo en el diseño responsivo", () => {
     renderAt("vehicle_loaded");
-    expect(screen.getByRole("list", { name: "Etapas del envío" }).className).toContain("md:grid-cols-5");
+    expect(screen.getByRole("list", { name: "Etapas del envío" }).className).toContain("stage-timeline--responsive");
   });
 
   it("siempre vertical dentro de un cajón", () => {
     renderAt("vehicle_loaded", { layout: "vertical" });
-    expect(screen.getByRole("list", { name: "Etapas del envío" }).className).not.toContain("md:grid");
+    const list = screen.getByRole("list", { name: "Etapas del envío" });
+    expect(list.className).toContain("stage-timeline--vertical");
+    expect(list.className).not.toContain("stage-timeline--responsive");
   });
 });

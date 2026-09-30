@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link } from "react-router";
 import { TriangleAlert } from "lucide-react";
 import { formatGuideNumber } from "../../domain/index.ts";
+import { cx } from "../../lib/bem.ts";
 import { DEMO_GUIDE_NUMBERS, DEMO_GUIDE_ROUTES } from "../../services/demoData.ts";
 import { isDemoData } from "../../services/index.ts";
 
@@ -25,28 +26,25 @@ export function DemoNotice({
 }) {
   if (!demo) return null;
   return (
-    <aside
-      aria-label="Aviso de datos de demostración"
-      className={["rounded-2xl border border-warning/30 bg-warning-soft p-4 md:p-5", className].filter(Boolean).join(" ")}
-    >
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div className="flex min-w-0 items-start gap-3">
-          <TriangleAlert className="mt-0.5 size-5 shrink-0 text-warning" aria-hidden="true" />
-          <div className="flex min-w-0 flex-col gap-2">
-            <p className="text-base text-ink">
-              <strong className="font-semibold text-warning">Datos de demostración:</strong> se guardan solo en este
+    <aside aria-label="Aviso de datos de demostración" className={cx("demo-notice", className)}>
+      <div className="demo-notice__layout">
+        <div className="demo-notice__main">
+          <TriangleAlert className="demo-notice__icon" aria-hidden="true" />
+          <div className="demo-notice__content">
+            <p className="demo-notice__text">
+              <strong className="demo-notice__title">Datos de demostración:</strong> se guardan solo en este
               navegador. No son guías reales de Hound Express.
             </p>
             {showExamples ? (
-              <div className="flex flex-col gap-1.5">
-                <p className="text-label font-semibold text-ink">Guías de ejemplo para probar</p>
-                <ul className="flex flex-wrap gap-2">
+              <div className="demo-notice__examples">
+                <p className="demo-notice__examples-title">Guías de ejemplo para probar</p>
+                <ul className="demo-notice__list">
                   {DEMO_GUIDE_NUMBERS.map((number) => (
                     <li key={number}>
                       <Link
                         to={`/rastreo?guia=${number}`}
                         title={DEMO_GUIDE_ROUTES[number]}
-                        className="inline-flex rounded-lg bg-white px-2.5 py-1 font-semibold text-label text-navy-800 tabular-nums ring-1 ring-warning/30 transition-colors hover:bg-aqua-100"
+                        className="demo-notice__link"
                       >
                         {formatGuideNumber(number)}
                       </Link>
@@ -57,7 +55,7 @@ export function DemoNotice({
             ) : null}
           </div>
         </div>
-        {children ? <div className="shrink-0">{children}</div> : null}
+        {children ? <div className="demo-notice__actions">{children}</div> : null}
       </div>
     </aside>
   );

@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 
 // Django corre en :8000 durante el desarrollo. Con este proxy el navegador
 // habla siempre con el mismo origen y no hace falta configurar CORS.
@@ -13,7 +12,7 @@ const proxy = {
 };
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   server: { proxy },
   preview: { proxy },
 });

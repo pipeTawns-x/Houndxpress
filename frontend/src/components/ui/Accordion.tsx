@@ -11,23 +11,17 @@ export function AccordionItem({
   children: ReactNode;
 }) {
   return (
-    <details
-      open={defaultOpen}
-      className="group rounded-2xl bg-white ring-1 ring-line transition-shadow duration-200 open:shadow-soft"
-    >
-      <summary className="flex cursor-pointer list-none items-start justify-between gap-4 rounded-2xl p-5 text-left font-display text-lg font-bold text-navy-800">
+    <details open={defaultOpen} className="accordion__item">
+      <summary className="accordion__summary">
         <span>{question}</span>
-        <ChevronDown
-          className="mt-1 size-5 shrink-0 text-aqua-700 transition-transform duration-200 group-open:rotate-180"
-          aria-hidden="true"
-        />
+        <ChevronDown className="accordion__icon" aria-hidden="true" />
       </summary>
-      <div className="flex flex-col gap-3 px-5 pb-5 text-base text-muted">{children}</div>
+      <div className="accordion__body">{children}</div>
     </details>
   );
 }
 
 /** Lista de preguntas con `<details>`/`<summary>`. */
 export function Accordion({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-3">{children}</div>;
+  return <div className="accordion">{children}</div>;
 }

@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { STAGES, findEventIn, stageIndex } from "../../domain/index.ts";
 import type { StageCode, StageEvent } from "../../domain/index.ts";
+import { bem, cx } from "../../lib/bem.ts";
 import { formatDateTime } from "../../lib/format.ts";
 
 type StepStatus = "complete" | "current" | "pending";
@@ -46,10 +47,7 @@ export function StageTimeline({
   const horizontal = layout === "responsive";
 
   return (
-    <ol
-      aria-label="Etapas del envío"
-      className={["flex flex-col", horizontal ? "md:grid md:grid-cols-5" : "", className].filter(Boolean).join(" ")}
-    >
+    <ol aria-label="Etapas del envío" className={cx(bem("stage-timeline", horizontal ? "responsive" : "vertical"), className)}>
       {STAGES.map((stage, index) => {
         const status = statusFor(index, currentIndex);
         const event = findEventIn(history, stage.code);
@@ -58,64 +56,35 @@ export function StageTimeline({
           <li
             key={stage.code}
             aria-current={status === "current" ? "step" : undefined}
-            className={[
-              "relative flex gap-4 pb-8 last:pb-0",
-              horizontal ? "md:flex-col md:gap-3 md:pr-3 md:pb-0" : "",
-            ].join(" ")}
+            className={bem("stage-timeline__step", status)}
           >
             {isLast ? null : (
               <span
                 aria-hidden="true"
-                className={[
-                  "absolute top-12 bottom-2 left-5 w-0.5 -translate-x-1/2",
-                  index < currentIndex ? "bg-aqua-500" : "bg-line",
-                  horizontal
-                    ? "md:top-5 md:right-2 md:bottom-auto md:left-12 md:h-0.5 md:w-auto md:translate-x-0 md:-translate-y-1/2"
-                    : "",
-                ].join(" ")}
+                className={bem("stage-timeline__connector", { done: index < currentIndex })}
               />
             )}
 
-            <span className="relative flex size-10 shrink-0 items-center justify-center">
-              {status === "current" ? (
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0 animate-ring-pulse rounded-full border-2 border-aqua-500"
-                />
-              ) : null}
-              <span
-                aria-hidden="true"
-                className={[
-                  "relative flex size-10 items-center justify-center rounded-full font-display text-base font-bold",
-                  status === "complete" ? "bg-aqua-500 text-navy-950" : "",
-                  status === "current" ? "bg-navy-800 text-white ring-4 ring-aqua-500" : "",
-                  status === "pending" ? "bg-surface text-muted ring-1 ring-edge" : "",
-                ].join(" ")}
-              >
-                {status === "complete" ? <Check className="size-5" strokeWidth={3} /> : stage.order}
+            <span className="stage-timeline__marker">
+              {status === "current" ? <span aria-hidden="true" className="stage-timeline__pulse" /> : null}
+              <span aria-hidden="true" className={bem("stage-timeline__badge", status)}>
+                {status === "complete" ? <Check className="stage-timeline__check" strokeWidth={3} /> : stage.order}
               </span>
             </span>
 
-            <div className="flex min-w-0 flex-col gap-0.5 pt-0.5">
-              <p className="font-display text-base leading-snug font-bold text-navy-800">{stage.label}</p>
-              <p className="text-label text-muted">{stage.department}</p>
-              <p
-                className={[
-                  "inline-flex items-center gap-1 text-label font-semibold",
-                  status === "pending" ? "text-muted" : "text-aqua-700",
-                ].join(" ")}
-              >
-                {STATUS_TEXT[status]}
-              </p>
+            <div className="stage-timeline__body">
+              <p className="stage-timeline__name">{stage.label}</p>
+              <p className="stage-timeline__department">{stage.department}</p>
+              <p className={bem("stage-timeline__status", { pending: status === "pending" })}>{STATUS_TEXT[status]}</p>
               {event ? (
-                <time dateTime={event.at} className="text-label text-ink tabular-nums">
+                <time dateTime={event.at} className="stage-timeline__time">
                   {formatDateTime(event.at)}
                 </time>
               ) : null}
               {showDetails && event ? (
                 <>
-                  <p className="text-label text-ink">{event.location}</p>
-                  {event.note ? <p className="text-label text-muted">{event.note}</p> : null}
+                  <p className="stage-timeline__detail">{event.location}</p>
+                  {event.note ? <p className="stage-timeline__note">{event.note}</p> : null}
                 </>
               ) : null}
             </div>
