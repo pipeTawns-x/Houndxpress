@@ -1,103 +1,173 @@
-# Loop 1 · Claude Design (Opus 5.5): rediseño de Hound Express
+# Loop 1 · Claude Design (Opus 5.5): rediseño de Hound Express, versión 2
 
-**Para qué:** que Claude Design, con Opus 5.5 razonando, produzca el rediseño completo de la web de Hound Express. La entrega es un `.zip` que después consume el [Loop 2 de Claude Code](02-LOOP-CLAUDE-CODE.md).
+**Para qué:** que Claude Design produzca el rediseño completo, 1 a 1 con el sitio actual, y lo entregue a Claude Code con su función de handoff. Después sigue el [Loop 2 de Claude Code](02-LOOP-CLAUDE-CODE.md).
 
-**Cómo usarlo:**
+## Qué cambió respecto a la versión 1 del loop
 
-1. Abre un proyecto nuevo en Claude Design con Opus 5.5.
-2. Adjunta los archivos de "Adjuntos" (abajo).
-3. Pega el bloque "Prompt" completo.
-4. Contesta solo cuando te pida aprobar al final de cada vuelta.
+La primera corrida en Claude Design gastó uso y produjo poco. Estas son las causas probables y lo que hace esta versión:
 
-Para no gastar créditos:
+| Versión 1 | Versión 2 | Por qué |
+|---|---|---|
+| Un solo prompt con 12 pantallas, 2 anchos, estados y siete pasos de debate | Seis lotes cortos, un mensaje por lote | Cada turno regenera HTML y arrastra el historial completo. Un pedido gigante se corta a medias |
+| Diagnóstico, abogado del diablo y arquitecto dentro de Claude Design | Ya están hechos (`docs/diseno/00` a `05`). El brief trae las conclusiones y la crítica de cada lote la hace Claude Code con Opus 5.5 | Claude Design sirve para dibujar; el debate en prosa gasta el mismo uso sin producir pantallas |
+| Adjuntar archivos sueltos en cada mensaje | Un kit armado por script que se enlaza una vez | El contexto vive en archivos del proyecto, no en el chat |
+| Dos maquetas por pantalla y PNG a 1x y 2x | Un HTML responsivo por pantalla, revisado en 390 y 1440 px | La mitad del trabajo y es lo que Claude Code implementa |
+| `.zip` armado a mano | Botón de handoff a Claude Code y exportación de carpeta como respaldo | Es la función nativa: pasa archivos, historial y README |
+| 10 pantallas | 14 plantillas, incluidas País, Alianza, Medios y Legal | El sitio actual tiene 19 páginas; "1 a 1" exige cubrirlas todas |
 
-- No le pidas cambios sueltos entre vueltas: junta tus comentarios y dáselos en el paso 6.
-- Si una vuelta sale bien, di "aprobado" y sigue.
+Fuentes de las funciones de Claude Design que usa este loop: [anuncio de Anthropic](https://www.anthropic.com/news/claude-design-anthropic-labs) (sistema de diseño leído del código, comentarios en línea, perillas de ajuste, exportación a HTML y handoff) y [tutorial de Claude Academy](https://academy.claude.com/tutorials/using-claude-design-for-prototypes-and-ux) (enlazar solo el directorio relevante, pedir estados vacío, error y cargando antes del handoff). Si un botón tiene otro nombre en tu versión, busca la misma función en el menú de compartir o exportar.
 
-## Adjuntos (del repositorio `pipeTawns-x/Houndxpress`)
+## Quién hace qué
 
-| Archivo | Para qué le sirve |
-|---|---|
-| `docs/REQUISITOS_EBAC.md` | Lo que el proyecto oficial exige (frontend y backend) |
-| `docs/diseno/00-investigacion.md` | Diagnóstico del sitio actual: contenido, paleta, problemas |
-| `docs/diseno/04-sistema-de-diseno.md` | Tokens y componentes de la versión 1, para mejorarlos, no para empezar de cero |
-| `docs/diseno/capturas/inicio-escritorio.jpg`, `rastreo-resultado-movil.jpg`, `panel-escritorio.jpg` | Cómo se ve hoy la versión 1 |
-| `frontend/public/brand/logo-hound-express.svg` | Logotipo oficial |
+| Paso | Dónde | Modelo | Qué produce |
+|---|---|---|---|
+| Kit | Claude Code local | Opus 5.5 | `kit-claude-design/` con el brief, el contenido y la versión 1 |
+| Lotes 0 a 5 | Claude Design | Opus 5.5 | Pantallas HTML, `DESIGN.md`, `tokens.json` y documentos de cierre |
+| Revisión de lote | Claude Code local | Opus 5.5 | Un mensaje de cambios listo para pegar en Claude Design |
+| Handoff | Claude Design → Claude Code local | Opus 5.5 | `docs/diseno/claude-design/` en la rama, con commit y push |
+| Implementación | Claude Code en la nube | Sonnet 5.5 | El frontend, con el Loop 2 |
 
-URLs del sitio actual, para que las visite si puede:
+## Antes de empezar (una vez)
 
-- <https://www.hound-express.com/hx/>
-- <https://www.hound-express.com/tracking.html>
+1. Si el tutor dejó comentarios en la entrega de frontend, pégalos en la sección 9 de [`kit/BRIEF.md`](kit/BRIEF.md).
+2. Arma el kit desde la raíz del repositorio:
+
+   ```bash
+   bash docs/loops/armar-kit-claude-design.sh
+   ```
+
+3. En Claude Design: proyecto nuevo, modelo Opus 5.5, y enlaza **solo** la carpeta `kit-claude-design/`. No enlaces el repositorio completo: trae diagramas de miles de líneas, `node_modules` y `.git`, y Claude Academy recomienda enlazar solo el directorio que importa.
+
+## Reglas para no gastar de más
+
+1. Un mensaje por lote. Si un lote sale bien, responde solo "aprobado, sigue con el lote N".
+2. Los ajustes chicos (un texto, un espacio, un color) se hacen con **comentarios en línea** sobre el elemento o con las **perillas**, no con un mensaje nuevo que regenere todo.
+3. Junta tus comentarios en un solo mensaje por lote.
+4. Si un lote sale mal dos veces, no insistas: exporta y pide la revisión en Claude Code.
+5. No pidas rehacer lotes aprobados. Un cambio global se hace en el componente o el token.
 
 ---
 
-## Prompt
+## Lote 0 · Sistema de diseño
 
-Eres el equipo de diseño de producto de **Hound Express**, empresa de logística cross-border para ecommerce entre Estados Unidos y Latinoamérica. Tiene hubs en Laredo y Miami, 10 puntos de entrada en LATAM y más de 15,000 m² de almacenes. Vas a rediseñar su web completa y un panel interno de guías. Es el proyecto de graduación de un alumno de EBAC (Full Stack Python), así que el diseño debe poder construirse con **React + TypeScript + Sass con metodología BEM + Redux**. Trabaja en español de México.
+```text
+Lee 00-BRIEF.md completo y los archivos que cita. Trabaja el lote 0: sistema de diseño v2.
 
-### Contexto fijo (no se discute)
+Entrega una sola pantalla, sistema.html, con:
+- paleta con la razón de contraste calculada junto a cada par de texto y fondo;
+- escala tipográfica, espaciado, radios, sombras y anillo de foco;
+- estos componentes con su bloque BEM y todos sus estados: site-header (con menú móvil abierto), button, text-field, guide-search (simple y múltiple), stage-timeline (horizontal y vertical), stage-badge, stat-card, service-card, demo-notice, api-status, accordion, site-footer.
 
-1. **Marca:** logotipo del sabueso en marino `#18233E` y aqua `#4CBED8`. El aqua nunca va como texto sobre fondo claro (contraste 2.2:1); sobre claro usa `#167088`. Tipografías: Plus Jakarta Sans para títulos e Inter para texto, sin agregar más.
-2. **Proceso de negocio:** cada guía pasa por cinco etapas en orden estricto, cada una con su responsable:
-   1. Recepción de carga (Aduana)
-   2. Vehículo cargado (Aduana)
-   3. Vehículo liberado (Operaciones)
-   4. Vehículo en camino (Seguridad)
-   5. Carga entregada (KAM)
+Parte de 03-sistema-v1.md y de tokens-v1/: conserva lo que funciona, corrige lo que no y explica cada cambio en una línea.
+Crea perillas de ajuste para el tono del marino de fondo, el radio base y la densidad del espaciado.
+Cierra con la autoevaluación del Brief §11.
+```
 
-   **La interfaz solo permite avanzar a la etapa siguiente.** El problema real es que solo 31 de cada 100 guías seguían el orden y los errores costaron 200k MXN.
-3. **Funciones obligatorias** (documento oficial): registrar guías con un formulario, actualizar el estado eligiendo la etapa siguiente, y consultar el estado actual y el historial de cambios de una guía.
-4. **Número de guía:** 16 dígitos que inician con 21, o 22 caracteres alfanuméricos.
-5. **Usuarios:**
-   - Vendedor de ecommerce que evalúa el servicio.
-   - Destinatario que rastrea desde el celular (75–80% de las compras en México son móviles).
-   - Personal de Aduana, Operaciones, Seguridad y KAM que opera el panel.
+## Lote 1 · Dirección con el Inicio
 
-### Pantallas (cada una en 390 px y 1440 px)
+```text
+Lote 1: Inicio (inicio.html) con el sistema del lote 0.
 
-Inicio · Rastreo (vacío, resultado, múltiple, no encontrada, formato inválido) · Servicios · Cobertura · Nosotros · Preguntas frecuentes · Contacto · Panel de operaciones (resumen por etapa, registrar guía, lista con filtros, avanzar etapa, cajón de historial, estados vacío, cargando y error) · Índice de diseños · 404.
+Haz dos direcciones, A y B, de la misma pantalla, cada una responsiva. Cambia la composición del héroe y el ritmo de las secciones; la marca y los componentes no cambian.
+En las dos, el buscador de guía se ve sin desplazarse en 390 × 844 y en 1440 × 900.
+Contenido: la sección "Inicio" de 01-CONTENIDO-1A1.md, completa.
 
-### Plus de "web avanzada" (prioriza en este orden y marca cuáles entran)
+Cierra con la autoevaluación y con tres líneas por dirección: qué gana y qué pierde.
+```
 
-1. Línea de tiempo de rastreo animada, con enlace para compartir (`?guia=`) y rastreo de hasta 10 guías.
-2. Panel con indicadores (total, en tránsito, entregadas, distribución por etapa) e historial que no se edita.
-3. Mapa de red propio (SVG) con hubs y rutas.
-4. Modo oscuro con los mismos tokens.
-5. Microinteracciones con `prefers-reduced-motion` respetado.
-6. Versión en inglés (el sitio actual es bilingüe).
+**Pausa obligatoria:** elige A o B y pide la revisión en Claude Code (abajo) antes del lote 2. Es la decisión que arrastran todas las demás pantallas.
 
-### Criterios de aceptación
+## Lote 2 · Rastreo
 
-1. Contraste AA en todo el texto. Ningún estado se comunica solo con color.
-2. Sin desplazamiento horizontal desde 360 px. Menú móvil operable con teclado y `Esc`.
-3. Buscador de guía visible en la primera pantalla del Inicio, en móvil y escritorio.
-4. Ilustraciones propias (rutas, nodos, paquetes); nada de fotos de banco.
-5. Cada componente tiene nombre de bloque BEM (`guide-card`, `guide-card__header`, `guide-card--delivered`) para que el código lo copie tal cual.
+```text
+Lote 2: Rastreo (rastreo.html) con la dirección aprobada.
 
-### Loop de trabajo
+Un solo HTML con un conmutador de estados visible arriba: vacío, cargando, resultado, múltiple (3 guías), no encontrada y formato inválido.
+Usa las guías de ejemplo de contenido-v1/demoData.ts.
+Línea de tiempo según Brief §6. Incluye copiar número y enlace para compartir con ?guia=.
+En 390 px, el resultado va primero y el aviso de demostración debajo.
 
-Máximo **dos vueltas completas**. Detente antes si en una vuelta el abogado ya no tiene objeciones de confianza alta.
+Cierra con la autoevaluación.
+```
 
-1. **Diagnóstico** (breve): qué conservar y qué corregir del sitio actual y de la versión 1 adjunta. Solo hallazgos, con evidencia.
-2. **Propuesta:** dirección visual, arquitectura de información y lista de plus que entran.
-3. **Abogado del diablo:** ataca la propuesta. Formato por objeción:
-   - supuesto que rompe
-   - evidencia (pantalla y elemento)
-   - consecuencia
-   - confianza (alta, media o baja)
+## Lote 3 · Panel de operaciones
 
-   Revisa sobre todo jerarquía del buscador, línea de tiempo en 390 px, contraste, densidad del panel y si cada componente se puede hacer con Sass + BEM.
-4. **Arquitecto:** decide cada objeción (se atiende, se reduce o se descarta) con su razón.
-5. **Diseño:** aplica las decisiones y muestra las pantallas.
-6. **Mi revisión:** espera mis comentarios y aplícalos todos juntos.
-7. **Segunda revisión del abogado** y **versión final del arquitecto**.
+```text
+Lote 3: Panel de operaciones (panel.html).
 
-### Entregable final (un solo `.zip`)
+Conmutador de estados: con datos, vacío, cargando, error de la API, guía entregada (sin avance posible), cajón de historial abierto y formulario de registro con errores por campo.
+No negociable (Brief §4): el único avance posible es a la etapa siguiente y el botón dice "Avanzar a {siguiente etapa}"; el historial no se edita.
+Incluye los indicadores: total, en tránsito, entregadas y distribución por etapa.
+El dispositivo principal es escritorio; en 390 px la tabla se vuelve tarjetas.
 
-- `DESIGN.md`: tokens (color con contraste calculado, tipografía, espaciado, radios, sombras, breakpoints 640/768/1024/1280), reglas de uso y el inventario de componentes con su bloque BEM, elementos y modificadores.
-- `tokens.json` con los mismos valores.
-- Cada pantalla en HTML (o PNG a 1x y 2x), en móvil y escritorio, con los nombres de la lista de pantallas.
-- `decisiones.md`: objeciones, veredictos y cambios de cada vuelta.
-- `plus.md`: qué plus entraron, en qué pantallas y cómo se ven sus estados.
+Cierra con la autoevaluación.
+```
 
-No escribas código de la aplicación: eso lo hace Claude Code con este paquete.
+**Pausa recomendada:** revisión en Claude Code. Es la pantalla con más lógica y la que más revisa el tutor.
+
+## Lote 4a · Servicios, cobertura y alianzas
+
+```text
+Lote 4a: servicios.html, cobertura.html, pais.html (instancia México, con un selector que lista los otros cuatro países) y alianza.html (instancia Amazon LATAM).
+
+Reutiliza los componentes que ya existen. Si creas un bloque nuevo, dilo con su nombre BEM.
+Contenido: las secciones correspondientes de 01-CONTENIDO-1A1.md, completas, con los textos de contenido-v1/. No inventes cifras.
+
+Cierra con la autoevaluación.
+```
+
+## Lote 4b · Nosotros, medios, preguntas, contacto y legal
+
+```text
+Lote 4b: nosotros.html, medios.html, preguntas.html (con buscador y estado sin resultados), contacto.html (con errores por campo y el aviso de mailto) y legal.html (instancia Privacidad).
+
+Mismas reglas del lote 4a.
+
+Cierra con la autoevaluación.
+```
+
+## Lote 5 · Cierre y documentos del handoff
+
+```text
+Lote 5: 404.html y disenos.html (índice con enlace a cada pantalla y la guía de estilo).
+Decide qué plus del Brief §8 entran y por qué. Si entra el modo oscuro, muéstralo en inicio, rastreo y panel.
+
+Antes de crear los documentos, repasa cada pantalla con datos distintos: 1 guía, 10 guías, destinatario con nombre largo, lista vacía y error.
+
+Crea en el proyecto:
+- DESIGN.md: tokens (color con contraste calculado, tipografía, espaciado, radios, sombras, breakpoints 640/768/1024/1280), reglas de uso e inventario de componentes: bloque BEM, elementos, modificadores, estados y pantallas donde aparece.
+- tokens.json con los mismos valores.
+- pantallas.md: ruta nueva → archivo HTML → estados incluidos → página del sitio actual que reemplaza.
+- decisiones.md: qué cambió respecto a la v1 y por qué, cada comentario de revisión y qué se hizo con él, y los pendientes para Hound Express.
+- plus.md: qué plus entraron, en qué pantallas y cómo se ven sus estados.
+```
+
+**Pausa obligatoria:** revisión final en Claude Code antes del handoff.
+
+---
+
+## Revisión de un lote en Claude Code (Opus 5.5, local)
+
+1. En Claude Design, exporta el proyecto como HTML o carpeta.
+2. Descomprímelo en `docs/diseno/claude-design/revisiones/lote-N/`.
+3. Pega esto en Claude Code:
+
+```text
+Revisa el lote N de Claude Design que está en docs/diseno/claude-design/revisiones/lote-N/.
+Usa la skill abogado-del-diablo contra docs/loops/kit/BRIEF.md y docs/loops/kit/CONTENIDO-1A1.md.
+Abre cada HTML en el navegador en 390 y 1440 px y captura lo que revises.
+Devuélveme un solo mensaje de cambios, máximo 10 y ordenados por impacto, listo para pegar en Claude Design. Cada cambio con pantalla, elemento, problema y corrección. Nada de elogios.
+```
+
+4. Pega ese mensaje en Claude Design tal cual.
+
+## Handoff
+
+1. En Claude Design, usa **Hand off to Claude Code**. Como respaldo, exporta también la carpeta del proyecto.
+2. En Claude Code local (Opus 5.5):
+
+```text
+Integra el handoff de Claude Design en docs/diseno/claude-design/. Verifica que estén DESIGN.md, tokens.json, pantallas.md, decisiones.md, plus.md y un HTML por cada fila de pantallas.md. Si falta algo, dímelo antes de hacer commit. Luego commit y push a la rama del PR.
+```
+
+3. Abre la sesión en la nube con **Sonnet 5.5** y pega el prompt del [Loop 2](02-LOOP-CLAUDE-CODE.md).
