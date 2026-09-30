@@ -296,7 +296,7 @@ describe("panel de operaciones", () => {
 
   it("no llama al repositorio cuando el formulario tiene errores", async () => {
     const base = createTestRepository();
-    const create = vi.fn(base.create);
+    const create = vi.fn<GuideRepository["create"]>((input) => base.create(input));
     const { user } = await openPanel({ ...base, create });
     const form = await fillForm(user, { number: "123" });
     await user.click(within(form).getByRole("button", { name: "Registrar guía" }));
