@@ -1,6 +1,6 @@
-# Decisiones técnicas de Hound Express (M52)
+# Decisiones técnicas de Hound Express
 
-Este documento registra las decisiones que ya están en el código de la etiqueta `m52`. Las decisiones de dominio (tablas, historial de etapas, reglas de avance) se documentarán en `docs/DECISIONS.md` al iniciar M54, antes de crear la primera tabla.
+Este documento registra las decisiones que están en el código. El resumen y la tabla del backend corresponden a la etiqueta `m52`; la sección [Después de M52](#después-de-m52-frontend-docker-y-diagramas) agrega el frontend, Docker y los diagramas. Las decisiones de dominio (tablas, historial de etapas, reglas de avance) se documentarán en `docs/DECISIONS.md` al iniciar M54, antes de crear la primera tabla.
 
 ## Resumen
 
@@ -17,9 +17,24 @@ Este documento registra las decisiones que ya están en el código de la etiquet
 | Flujo de etapas | Sin librería de máquina de estados | `django-viewflow` tiene licencia AGPLv3+ (copyleft) y `django-fsm` está marcado como inactivo. El flujo es lineal: la única etapa válida es la siguiente. |
 | Idioma | Código e identificadores en inglés; documentación y textos para usuarios en español | El código sigue la convención de la industria. El equipo de Hound Express y el tutor leen español. |
 
+## Después de M52: frontend, Docker y diagramas
+
+Estas decisiones llegaron después de la etiqueta `m52` y no cambian el backend. El razonamiento completo, con las objeciones del abogado del diablo, está en [`docs/diseno/03-arquitecto.md`](diseno/03-arquitecto.md).
+
+| Tema | Decisión | Motivo |
+|---|---|---|
+| Frontend | React 19 + TypeScript + Vite + Tailwind CSS 4 en `frontend/` | React es lo que enseña el módulo de front-end del programa. La API de DRF necesita un cliente, y una SPA la consume sin plantillas de Django. |
+| Datos del frontend | Interfaz `GuideRepository` con una implementación de demostración (`localStorage`) y una HTTP para M64 | Las tablas de guías llegan en M54 y los endpoints en M64. La interfaz se puede probar hoy sin fingir que el backend ya lo hace. |
+| Estado de la API | El frontend consulta `GET /api/v1/health/` de verdad | Es el único endpoint que existe; demuestra la integración sin inventar otros. |
+| Mismo origen | Vite (desarrollo) y nginx (Docker) reenvían `/api`, `/admin` y `/static` a Django | Sin CORS ni paquetes extra en el backend. |
+| Docker | `docker-compose.yml` propio con dos servicios: `backend` (Python 3.12 slim, usuario sin privilegios, `runserver`) y `frontend` (compilación con Node 22, servida por nginx) | Levanta todo con un comando sin instalar Python ni Node. No reemplaza la ruta local: la plantilla del curso se descartó por sus servicios extra y su licencia, no por usar Docker. Es un entorno de desarrollo: la base SQLite vive dentro del contenedor y se pierde con `docker compose down`. |
+| Diagramas | Skill Archify 3.0.1 en `.claude/skills/archify/` | Diagramas interactivos validados en un navegador real, generados desde JSON versionado. Es herramienta de documentación, no parte del producto. |
+
 ## Licencias de las dependencias
 
-Ninguna dependencia es copyleft. El repositorio no incluye licencia propia hasta que se formalice la cesión a Hound Express.
+Ninguna dependencia que llega al producto es copyleft (la única excepción de desarrollo está explicada en la sección del frontend). El repositorio no incluye licencia propia hasta que se formalice la cesión a Hound Express.
+
+### Backend (Python)
 
 | Paquete | Licencia | Uso |
 |---|---|---|
@@ -33,6 +48,38 @@ Ninguna dependencia es copyleft. El repositorio no incluye licencia propia hasta
 | ruff | MIT | desarrollo |
 
 Cada dependencia nueva se revisa en PyPI y se agrega a esta tabla en el mismo commit. No se aceptan licencias AGPL ni GPL.
+
+### Frontend (npm)
+
+Versiones de `frontend/package-lock.json`; licencia leída del `package.json` de cada paquete instalado.
+
+| Paquete | Versión | Licencia | Uso |
+|---|---|---|---|
+| react, react-dom | 19.3.0 | MIT | ejecución |
+| react-router | 7.18.4 | MIT | ejecución |
+| lucide-react | 1.49.0 | ISC | ejecución |
+| @fontsource-variable/inter, @fontsource-variable/plus-jakarta-sans | 5.3.0 | OFL-1.1 | ejecución (tipografías autoalojadas) |
+| vite, @vitejs/plugin-react | 8.3.1, 6.1.1 | MIT | desarrollo |
+| tailwindcss, @tailwindcss/vite | 4.3.3 | MIT | desarrollo |
+| typescript | 6.0.3 | Apache-2.0 | desarrollo |
+| vitest, jsdom | 4.1.11, 29.1.1 | MIT | desarrollo |
+| @testing-library/react, dom, user-event, jest-dom | 16.3.3, 10.4.2, 14.6.7, 6.9.1 | MIT | desarrollo |
+| eslint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals | 10.11.0, 10.0.1, 8.71.0, 7.1.1, 0.5.7, 17.12.0 | MIT | desarrollo |
+| @types/react, @types/react-dom, @types/node | 19.3.0, 19.3.0, 22.20.4 | MIT | desarrollo |
+
+Árbol completo del lockfile: MIT, Apache-2.0, ISC, BSD, BlueOak, CC0 y MIT-0, más dos casos que se aceptan por ser solo de compilación y no llegar al código servido:
+
+- `lightningcss` (MPL-2.0), que Tailwind y Vite usan para procesar CSS. MPL-2.0 es copyleft débil por archivo: obliga a compartir cambios a los archivos de lightningcss, no al código que lo usa, y este proyecto no los modifica.
+- `caniuse-lite` (CC-BY-4.0), la tabla de compatibilidad de navegadores.
+
+Algunas versiones están fijadas por debajo de la última para cumplir `engines: node >=20.19`: react-router 8, `@testing-library/jest-dom` 6.10 y las versiones siguientes de Vitest y jsdom exigen Node 22. TypeScript queda en 6.0 porque `typescript-eslint` 8.71 no admite la 7. El detalle está en [`frontend/README.md`](../frontend/README.md#notas-de-mantenimiento).
+
+### Herramientas del repositorio
+
+| Herramienta | Versión | Licencia | Uso |
+|---|---|---|---|
+| Archify (`.claude/skills/archify/`) | 3.0.1 | MIT (Copyright tt-a1i y Cocoon AI) | Genera los diagramas de `docs/diagramas/`. Los HTML generados incluyen el visor de Archify (MIT) y la tipografía JetBrains Mono (OFL-1.1, con su licencia dentro del archivo). Son documentación, no parte del producto. |
+| Imágenes base de Docker | `python:3.12-slim`, `node:22-alpine`, `nginx:1.29-alpine` | Las de cada proyecto (PSF, MIT, BSD-2-Clause) | Solo para `docker compose`; no se distribuyen en el repositorio. |
 
 ## Regenerar `requirements*.txt`
 

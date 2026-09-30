@@ -55,3 +55,4 @@ Cuando se inició el rediseño no había créditos de Claude Design, así que el
 | Arquitecto | [`03-arquitecto.md`](03-arquitecto.md) |
 | Rediseño | [`04-sistema-de-diseno.md`](04-sistema-de-diseno.md) y la aplicación en `frontend/` |
 | Segunda revisión y versión final | [`05-revision-del-rediseno.md`](05-revision-del-rediseno.md) |
+| Índice de diseños con capturas | [`indice.md`](indice.md) |

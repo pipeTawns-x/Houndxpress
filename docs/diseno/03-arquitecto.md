@@ -28,7 +28,7 @@ Respuesta a cada objeción de [`02-abogado-del-diablo.md`](02-abogado-del-diablo
 | Calidad | ESLint + `tsc --noEmit` | Se ejecutan en CI. |
 | Estado | Hooks de React y un repositorio de datos | El volumen no justifica Redux. |
 
-Ninguna dependencia nueva es copyleft; la tabla de licencias está en [`docs/STACK_HOUND_EXPRESS.md`](../STACK_HOUND_EXPRESS.md).
+Ninguna dependencia que llega al navegador es copyleft; la única de compilación con copyleft débil (lightningcss, MPL-2.0) está explicada junto a la tabla de licencias en [`docs/STACK_HOUND_EXPRESS.md`](../STACK_HOUND_EXPRESS.md).
 
 ## Estructura
 

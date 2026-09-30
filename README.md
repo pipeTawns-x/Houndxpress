@@ -1,10 +1,14 @@
-# Hound Express: API de seguimiento de guías
+# Hound Express: seguimiento de guías
 
-Backend en Django para registrar las guías de Hound Express y asegurar que cada una avance por las cinco etapas del proceso en el orden establecido. Es el proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBAC, con Hound Express como empresa aliada.
+Backend en Django y frontend en React para registrar las guías de Hound Express y asegurar que cada una avance por las cinco etapas del proceso en el orden establecido. Es el proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBAC, con Hound Express como empresa aliada.
 
-**Estado actual: entregable M52, el esqueleto del proyecto.** Todavía no hay tablas de guías ni endpoints de negocio; llegan en M54 y M64 (ver [Hoja de ruta](#hoja-de-ruta)).
+**Estado actual:**
 
-## Qué contiene esta versión
+- **Backend: entregable M52, el esqueleto del proyecto** (etiqueta `m52`). Todavía no hay tablas de guías ni endpoints de negocio; llegan en M54 y M64 (ver [Hoja de ruta](#hoja-de-ruta)).
+- **Frontend: rediseño del sitio de Hound Express** con rastreo y panel de operaciones. Funciona con **datos de demostración** guardados en el navegador hasta que existan los endpoints de guías; lo único que consulta del backend hoy es su estado (`/api/v1/health/`). Ver [Frontend](#frontend).
+- **Docker:** todo el proyecto se levanta con `docker compose up --build` (ver [Con Docker](#con-docker)).
+
+## Qué contiene la entrega M52
 
 Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions.
 
@@ -88,18 +92,74 @@ Todas las variables son opcionales en desarrollo. La plantilla es [`backend/.env
 
 Con `DJANGO_DEBUG=false` el proyecto no arranca si falta alguna de las dos últimas, y rechaza claves que empiecen con `django-insecure`. En esta versión la base de datos es SQLite (`backend/db.sqlite3`, creada por `migrate`).
 
+## Frontend
+
+Rediseño del sitio de Hound Express en una sola aplicación: sitio público, rastreo de guías y panel de operaciones para el personal. El proceso de diseño (investigación del sitio actual, propuesta, abogado del diablo, arquitecto y revisión) está en [`docs/diseno/`](docs/diseno/).
+
+| Ruta | Pantalla |
+|---|---|
+| `/` | Inicio con buscador de guía, cifras, servicios, las cinco etapas y cobertura |
+| `/rastreo` | Rastreo simple o múltiple con línea de tiempo de etapas; acepta `?guia=NUMERO` |
+| `/servicios`, `/cobertura`, `/nosotros`, `/preguntas`, `/contacto` | Sitio institucional |
+| `/panel` | Panel de operaciones: resumen por etapa, registro de guías, lista con filtro, avance a la etapa siguiente e historial |
+| `/disenos` | Índice de diseños: todas las pantallas y la guía de estilo en vivo |
+
+Necesitas Node 20.19 o superior (recomendado: 22). Con el backend encendido en otra terminal (ver [Inicio rápido](#inicio-rápido)):
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Abre <http://localhost:5173/>. Vite reenvía `/api` y `/admin` a Django en `127.0.0.1:8000`, así que el pie de página y el panel muestran "API en línea" cuando el backend responde. Sin backend, la aplicación funciona igual y muestra "API sin conexión".
+
+**Datos de demostración.** Las guías del rastreo y del panel se guardan solo en tu navegador (`localStorage`) y la interfaz lo indica. Guías de ejemplo para probar el rastreo: `2148 2139 0765 0312` (Recepción de carga), `2176 6402 1583 9927` (Vehículo liberado), `2119 8753 0246 7781` (Vehículo en camino) y `2154 3029 6817 0435` (Carga entregada); la lista completa está en [`frontend/README.md`](frontend/README.md#guías-de-ejemplo). El panel tiene un botón para restablecerlas. Cuando existan los endpoints de M64, `VITE_DATA_SOURCE=api` cambia al repositorio HTTP sin tocar las pantallas.
+
+Pruebas y calidad, desde `frontend/`: `npm run lint`, `npm run typecheck`, `npm test` y `npm run build`. Resultado esperado: lint y tipos sin errores, `Tests  235 passed (235)` y la compilación en `frontend/dist/`. Detalle en [`frontend/README.md`](frontend/README.md).
+
+## Con Docker
+
+Si prefieres no instalar Python ni Node, con Docker Desktop abierto:
+
+```bash
+git clone https://github.com/pipeTawns-x/Houndxpress.git
+cd Houndxpress
+docker compose up --build
+```
+
+Abre <http://localhost:8080/> para el frontend; nginx reenvía `/api`, `/admin` y `/static` a Django, que también responde directo en <http://localhost:8000/>. Comprueba la API a través de nginx con `curl http://localhost:8080/api/v1/health/` (en Windows, `curl.exe`): la respuesta esperada es `{"status":"ok","database":"ok"}`. Para el panel de administración: `docker compose exec backend python manage.py createsuperuser`. Detén todo con `Ctrl+C` y borra los contenedores con `docker compose down`.
+
+Es un entorno de desarrollo: Django corre con `runserver` y `DJANGO_DEBUG=true`, y la base SQLite vive dentro del contenedor, así que `docker compose down` la borra. El job `docker compose` de [`ci.yml`](.github/workflows/ci.yml) reproduce este bloque en cada push.
+
+## Diagramas
+
+[`docs/diagramas/`](docs/diagramas/) contiene diagramas interactivos de la arquitectura, del ciclo de vida de una guía y de las consultas del frontend, generados con [Archify](https://github.com/tt-a1i/archify). Son archivos HTML autónomos: se abren con doble clic y se exportan a PNG para los documentos de entrega.
+
 ## Estructura del repositorio
 
 ```text
 Houndxpress/
-├── .github/workflows/ci.yml   # Lint, pruebas y los comandos de este README en cada push
+├── .github/workflows/ci.yml   # Lint, pruebas, frontend, Docker y los comandos de este README en cada push
+├── .claude/skills/archify/    # Skill Archify para generar diagramas (MIT)
+├── CLAUDE.md                  # Contexto del proyecto para agentes de IA
+├── docker-compose.yml         # backend + frontend (nginx) para desarrollo
 ├── docs/
-│   └── STACK_HOUND_EXPRESS.md # Decisiones técnicas y licencias de las dependencias
+│   ├── STACK_HOUND_EXPRESS.md # Decisiones técnicas y licencias de las dependencias
+│   ├── diseno/                # Investigación, propuesta, abogado del diablo, arquitecto y sistema de diseño
+│   └── diagramas/             # Diagramas interactivos (HTML) y sus fuentes
+├── frontend/                  # React + TypeScript + Vite + Tailwind
+│   ├── src/domain/            # Etapas, tipos y reglas de avance (sin React)
+│   ├── src/services/          # Repositorio de guías (demostración y HTTP) y estado de la API
+│   ├── src/pages/             # Una pantalla por ruta
+│   ├── Dockerfile, nginx.conf # Imagen de producción del SPA y proxy a Django
+│   └── package.json           # Scripts: dev, build, lint, typecheck, test
 └── backend/                   # Proyecto Django: aquí vive manage.py
     ├── config/                # settings, urls, wsgi y asgi
     ├── accounts/              # Modelo de usuario del sistema
     ├── core/                  # Plataforma: punto de salud /api/v1/health/
     ├── tracking/              # Dominio de guías y etapas (tablas a partir de M54)
+    ├── Dockerfile             # Imagen de desarrollo de la API
     ├── requirements.txt       # Dependencias de ejecución con versiones fijas
     ├── requirements-dev.txt   # Lo anterior más herramientas de desarrollo (ruff)
     ├── pyproject.toml         # Declaración de dependencias; uv.lock fija el árbol completo
@@ -135,15 +195,17 @@ Problemas que reporta la empresa, citados del documento del proyecto:
 | M64 | Endpoints GET (estado actual de una guía), POST (registrar una guía) y PUT (actualizar el estatus) con validación del orden de etapas | Planeado |
 | M66 | Entrega final y documentación para ejecutar el proyecto en local | Planeado |
 
-**Interfaz para operadores:** no iniciada. Su tecnología se decidirá y documentará en M64.
+**Interfaz para operadores:** el panel de `/panel` ya aplica la regla de avance con datos de demostración; en M64 se conecta a los endpoints reales cambiando `VITE_DATA_SOURCE` a `api`.
 
 ## Decisiones técnicas
 
-El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md). En resumen: Django 5.2 LTS con Django REST Framework; proyecto local con `manage.py` en lugar de la plantilla Docker del curso; SQLite en esta etapa; modelo de usuario propio desde el inicio; ninguna dependencia con licencia copyleft. Los archivos `requirements*.txt` se generan desde `backend/uv.lock` y no se editan a mano; los comandos están en ese documento.
+El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md). En resumen: Django 5.2 LTS con Django REST Framework; proyecto local con `manage.py` en lugar de la plantilla Docker del curso, más un `docker-compose.yml` propio de dos servicios; frontend en React con Vite y Tailwind; SQLite en esta etapa; modelo de usuario propio desde el inicio; ninguna dependencia con licencia copyleft. Los archivos `requirements*.txt` se generan desde `backend/uv.lock` y no se editan a mano; los comandos están en ese documento.
 
 ## Derechos de uso
 
 Este repositorio no incluye una licencia de código abierto. El proyecto se cederá a Hound Express según los términos del programa, y el aviso de licencia se agregará cuando se formalice esa cesión. Las licencias de las dependencias están en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md).
+
+El logotipo de `frontend/public/brand/` y los datos públicos del sitio (cifras, teléfonos, preguntas frecuentes) son de Hound Express y se usan porque el proyecto se desarrolla para la empresa; el frontend es un rediseño académico, no el sitio oficial. La skill de `.claude/skills/archify/` conserva su licencia MIT original.
 
 ## Autor
 
