@@ -38,3 +38,6 @@ build/
 
 # Claude Design kit, rebuilt by docs/loops/armar-kit-claude-design.sh
 /kit-claude-design/
+
+# Graphify output, rebuilt with: graphify update .
+/graphify-out/

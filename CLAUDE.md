@@ -27,6 +27,32 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 7. Antes de decidir tecnología, revisar `docs/REQUISITOS_EBAC.md`: el frontend debe usar Sass con BEM, React, TypeScript, Redux y Jest porque el documento oficial lo pide.
 8. Regla de negocio central: una guía solo avanza a la etapa siguiente (Recepción de carga → Vehículo cargado → Vehículo liberado → Vehículo en camino → Carga entregada).
 
+## Ramas
+
+Cuatro ramas, con nombre que dice qué contiene. No se crean otras.
+
+| Rama | Contiene | Recibe cambios de |
+|---|---|---|
+| `main` | El producto integrado. Solo lo que ya pasó por `pruebas`. | `pruebas` |
+| `pruebas` | Integración de frontend y backend: suite completa, `docker compose` y CI en verde. | `frontend` y `backend` |
+| `frontend` | Rediseño y aplicación React (`frontend/`, `docs/diseno/`, `docs/loops/`). | trabajo directo |
+| `backend` | Django y DRF de cada práctica del LMS (`backend/`). | trabajo directo |
+
+- Flujo: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`.
+- Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`).
+- PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
+- Antes de hacer push: `git fetch` y rebase sobre la rama remota. Otro agente puede haber subido algo. Nunca `--force`.
+
+## Errores que ya cometimos (reglas para no repetirlos)
+
+Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENCODE.md).
+
+1. No reinterpretar el objetivo de Eduardo. Si algo parece innecesario o "no bloqueante", pregunta su plan antes de opinar.
+2. Verificar el estado en el código antes de escribirlo en un documento (el loop 2 decía "Sass con BEM" cuando todavía era Tailwind).
+3. Antes de diseñar, inventariar todas las URLs del sitio vivo (la investigación v1 cubrió 5 de 19 páginas).
+4. Las herramientas de diseño trabajan por lotes de una o dos pantallas, nunca con todo en un solo prompt.
+5. En zsh, `"$B:ruta"` se rompe por el modificador `:`; usa `"${B}:ruta"`. Si falta una herramienta preferida (`sd`), comprueba con `command -v` y usa otra.
+
 ## Comandos
 
 ```bash
@@ -51,4 +77,4 @@ M52 esqueleto Django (entregado, etiqueta `m52`) · M54 tablas de guías e histo
 
 ## Herramientas locales de Eduardo
 
-Graphify, Engram y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto; en local, el grafo de Graphify del proyecto se llama **Hound Express** y se alimenta de este repositorio.
+Graphify, Engram, OpenCode (con el MCP de Pencil) y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto. En local, el grafo se regenera con `graphify update .` (sin LLM) en `graphify-out/`, que git ignora; en Engram, el proyecto es `Houndxpress`.

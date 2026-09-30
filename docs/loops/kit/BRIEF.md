@@ -11,7 +11,7 @@ Sitio actual: <https://www.hound-express.com/hx/> y <https://www.hound-express.c
 ## 2. Proyecto
 
 - Proyecto de graduación de EBAC (*Profesión: Desarrollador Full Stack Python*) con Hound Express como empresa aliada.
-- Consigna vigente (M52): "Procura atender los comentarios hechos por el tutor y tener el proyecto lo más pulido posible." Los comentarios del tutor están en §9.
+- Consigna vigente (M52): "Procura atender los comentarios hechos por el tutor y tener el proyecto lo más pulido posible." Ver §9: no hubo entrega de frontend previa de Hound Express.
 - El diseño se construye con **React + TypeScript + Sass con metodología BEM + Redux**. Consecuencia: nada que dependa de Tailwind, de una librería de componentes ni de CSS-in-JS. Cada componente es un bloque BEM.
 - El panel y el rastreo usan **datos de demostración** hasta que exista la API (módulo 64). La interfaz lo dice con el bloque `demo-notice`.
 - Requisitos oficiales citados: `02-REQUISITOS_EBAC.md`.
@@ -90,9 +90,7 @@ El proceso de diagnóstico, propuesta, abogado del diablo y arquitecto ya se hiz
 
 ## 9. Comentarios del tutor
 
-<!-- Pega aquí, tal cual, los comentarios que dejó el tutor en la entrega de frontend. Si no hay, escribe "Sin comentarios". -->
-
-Sin comentarios registrados todavía.
+No aplica. En el curso de frontend, Eduardo eligió un proyecto externo, así que no existe una entrega previa de Hound Express con comentarios. Este rediseño **es** el frontend que la lección M52 pide "recuperar": funcional, no al 100%, y crece con cada práctica del backend.
 
 ## 10. Cómo trabajar (para ahorrar uso)
 
