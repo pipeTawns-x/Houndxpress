@@ -8,6 +8,7 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 |---|---|
 | `backend/` | Django 5.2 LTS + DRF. `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (`/api/v1/health/`), `tracking` (guías, vacía hasta M54). |
 | `frontend/` | React + TypeScript + Vite + Tailwind 4. Sitio público rediseñado, rastreo, panel de operaciones e índice de diseños (`/disenos`). |
+| `docs/REQUISITOS_EBAC.md` | Requisitos citados del documento oficial del proyecto (PDF de EBAC) y su estado. Manda sobre cualquier decisión técnica que lo contradiga. |
 | `docs/STACK_HOUND_EXPRESS.md` | Decisiones técnicas y licencias. Toda dependencia nueva se agrega a su tabla en el mismo commit. |
 | `docs/diseno/` | Proceso de rediseño: investigación → propuesta → abogado del diablo → arquitecto → sistema de diseño → revisión. Incluye el loop para Claude Design. |
 | `docs/diagramas/` | Diagramas Archify (HTML autónomo) y sus fuentes JSON en `fuentes/generar.py`. |
@@ -23,7 +24,8 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 4. Las etiquetas de entrega (`m52`, …) no se mueven sin que Eduardo lo pida.
 5. No afirmar nada que no se haya ejecutado: pruebas, capturas y estados del CI se reportan con su salida.
 6. El panel y el rastreo usan datos de demostración hasta M64; la interfaz y el README lo dicen explícitamente.
-7. Regla de negocio central: una guía solo avanza a la etapa siguiente (Recepción de carga → Vehículo cargado → Vehículo liberado → Vehículo en camino → Carga entregada).
+7. Antes de decidir tecnología, revisar `docs/REQUISITOS_EBAC.md`: el frontend debe usar Sass con BEM, React, TypeScript, Redux y Jest porque el documento oficial lo pide.
+8. Regla de negocio central: una guía solo avanza a la etapa siguiente (Recepción de carga → Vehículo cargado → Vehículo liberado → Vehículo en camino → Carga entregada).
 
 ## Comandos
 
