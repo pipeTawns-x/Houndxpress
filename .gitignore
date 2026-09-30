@@ -32,3 +32,12 @@ media/
 node_modules/
 dist/
 build/
+
+# Claude Code agent worktrees (temporary)
+.claude/worktrees/
+
+# Claude Design kit, rebuilt by docs/loops/armar-kit-claude-design.sh
+/kit-claude-design/
+
+# Graphify output, rebuilt with: graphify update .
+/graphify-out/

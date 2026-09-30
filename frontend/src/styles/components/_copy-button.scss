@@ -1,0 +1,41 @@
+// Botón "Copiar número": avisa el resultado con texto, no solo con el icono.
+
+@use "../abstracts" as *;
+
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: space(1.5);
+    height: space(10);
+    padding-inline: space(3);
+    border-radius: $radius-xl;
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+    @include ring($color-edge);
+    @include transition-colors($duration-base);
+
+    @include hover {
+      background-color: $color-aqua-100;
+    }
+  }
+
+  &__icon {
+    @include square(space(4));
+  }
+
+  &__status {
+    @include type(label);
+    font-weight: $font-weight-medium;
+    color: $color-aqua-700;
+  }
+
+  &__error {
+    color: $color-danger;
+  }
+}

@@ -1,0 +1,98 @@
+// Nosotros (`/nosotros`): filosofía, los seis ejes de la cultura e impacto social.
+
+@use "../abstracts" as *;
+
+// Filosofía: título a la izquierda y tres párrafos a la derecha desde 1024 px.
+.philosophy {
+  display: grid;
+  gap: space(10);
+  @include reveal-on-scroll;
+
+  @include up(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space(16);
+  }
+
+  &__text {
+    @include stack(space(5));
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// Eje de la cultura Hound Express.
+.axis-card {
+  @include stack(space(3));
+  padding: space(6);
+  @include card;
+
+  &__icon-box {
+    @include icon-box;
+  }
+
+  &__icon {
+    @include square(space(6));
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// Impacto social: la tarjeta de educación ocupa dos columnas desde 1024 px.
+.impact {
+  display: grid;
+  gap: space(5);
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  &__card {
+    @include stack(space(3));
+    padding: space(6);
+    @include card($shadow: null);
+
+    &--wide {
+      @include up(lg) {
+        grid-column: span 2 / span 2;
+      }
+    }
+  }
+
+  &__icon {
+    @include square(space(6));
+    color: $color-aqua-700;
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+
+  &__highlight {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+    @include type(base);
+    color: $color-ink;
+  }
+
+  &__highlight-icon {
+    @include square(space(5));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-aqua-700;
+  }
+}

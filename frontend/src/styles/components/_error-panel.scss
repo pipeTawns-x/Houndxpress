@@ -1,0 +1,40 @@
+// Panel de error de una carga: icono, título, mensaje y un botón para intentar de nuevo.
+
+@use "../abstracts" as *;
+
+.error-panel {
+  @include stack(space(4));
+  align-items: flex-start;
+  padding: space(6);
+  border-radius: $radius-3xl;
+  background-color: $color-danger-soft;
+  @include ring(with-alpha($color-danger, 0.3));
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: space(3);
+  }
+
+  &__icon {
+    @include square(space(5));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-danger;
+  }
+
+  &__body {
+    @include stack(space(1));
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+    color: $color-danger;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-ink;
+  }
+}

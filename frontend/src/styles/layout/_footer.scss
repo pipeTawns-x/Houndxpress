@@ -1,0 +1,137 @@
+// Pie de página sobre navy-950: marca, enlaces, contacto por país, horario y aviso académico.
+
+@use "../abstracts" as *;
+
+.site-footer {
+  @include on-dark;
+  background-color: $color-navy-950;
+  color: $color-navy-300;
+
+  &__grid {
+    display: grid;
+    gap: space(10);
+    padding-block: space(14);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: 1.3fr 0.8fr 1.6fr 1fr;
+      gap: space(12);
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: space(4);
+  }
+
+  &__logo {
+    height: space(11);
+    width: auto;
+  }
+
+  &__tagline {
+    font-family: $font-display;
+    @include type(lg);
+    font-weight: $font-weight-bold;
+    color: $color-white;
+  }
+
+  &__blurb {
+    max-width: 20rem;
+    @include type(label);
+  }
+
+  &__heading {
+    margin-bottom: space(4);
+    font-family: $font-display;
+    @include type(base);
+    font-weight: $font-weight-bold;
+    color: $color-white;
+  }
+
+  &__list {
+    @include stack(space(2.5));
+    @include type(label);
+
+    &--contacts {
+      gap: space(5);
+    }
+
+    &--hours {
+      gap: space(3);
+    }
+  }
+
+  &__link {
+    border-radius: $radius-sm;
+    color: $color-navy-300;
+    @include transition-colors($duration-base);
+
+    @include hover {
+      color: $color-white;
+    }
+
+    &--icon {
+      display: inline-flex;
+      align-items: center;
+      gap: space(2);
+    }
+
+    &--wrap {
+      word-break: break-all;
+    }
+  }
+
+  &__contact {
+    @include stack(space(1.5));
+  }
+
+  &__country {
+    font-weight: $font-weight-semibold;
+    color: $color-white;
+  }
+
+  &__place {
+    font-weight: 400;
+    color: $color-navy-300;
+  }
+
+  &__icon {
+    @include square(space(4));
+    flex-shrink: 0;
+    color: $color-aqua-500;
+
+    &--clock {
+      margin-top: space(0.5);
+    }
+  }
+
+  &__hours {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+  }
+
+  &__days {
+    display: block;
+    font-weight: $font-weight-semibold;
+    color: $color-white;
+  }
+
+  &__bottom {
+    border-top: 1px solid $color-navy-700;
+  }
+
+  &__bottom-inner {
+    padding-block: space(6);
+  }
+
+  &__note {
+    @include type(label);
+  }
+}

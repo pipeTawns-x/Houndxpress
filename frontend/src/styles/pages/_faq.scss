@@ -1,0 +1,47 @@
+// Preguntas frecuentes (`/preguntas`): buscador de texto y acordeón.
+//
+// La columna ocupa el ancho del contenedor (1200 px), igual que en la versión anterior de los estilos:
+// el máximo de 896 px que traía el diseño nunca se aplicaba porque el del contenedor (1200 px) le ganaba.
+
+@use "../abstracts" as *;
+
+.faq-page {
+  @include stack(space(8));
+  padding-block: space(14);
+
+  @include up(md) {
+    padding-block: space(20);
+  }
+
+  &__search {
+    @include stack(space(3));
+  }
+
+  &__search-field {
+    position: relative;
+  }
+
+  // Deja sitio al icono de la lupa dentro del campo.
+  &__input {
+    padding-left: space(12);
+  }
+
+  &__search-icon {
+    @include square(space(5));
+    position: absolute;
+    bottom: space(3.5);
+    left: space(4);
+    pointer-events: none;
+    color: $color-muted;
+  }
+
+  &__count {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__tracking {
+    @include type(base);
+    color: $color-muted;
+  }
+}

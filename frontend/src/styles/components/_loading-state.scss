@@ -1,0 +1,32 @@
+// Indicador de carga dentro de la página: icono que gira y texto sobre fondo gris suave.
+
+@use "../abstracts" as *;
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space(3);
+  padding: space(12) space(6);
+  border-radius: $radius-3xl;
+  background-color: $color-surface;
+  color: $color-muted;
+
+  &--tall {
+    padding-block: space(16);
+  }
+
+  &__icon {
+    @include square(space(5));
+
+    @include motion-safe {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &__label {
+    @include type(base);
+    font-weight: $font-weight-semibold;
+    color: $color-muted;
+  }
+}

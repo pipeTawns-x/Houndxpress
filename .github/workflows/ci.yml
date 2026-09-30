@@ -95,3 +95,44 @@ jobs:
       - run: .venv\Scripts\python -m pip install -r requirements.txt
       - run: .venv\Scripts\python manage.py migrate
       - run: .venv\Scripts\python manage.py check
+
+  frontend:
+    name: frontend (node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: frontend/.nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  docker:
+    # Replays the README Docker block: both images build, nginx serves the SPA and forwards /api to Django.
+    name: docker compose
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker compose up --build --detach --wait --wait-timeout 180
+      - name: nginx forwards the API to Django
+        run: test "$(curl -fsS http://127.0.0.1:8080/api/v1/health/)" = '{"status":"ok","database":"ok"}'
+      - name: nginx serves the SPA on client-side routes
+        run: |
+          curl -fsS http://127.0.0.1:8080/ | grep -q '<div id="root">'
+          curl -fsS http://127.0.0.1:8080/rastreo | grep -q '<div id="root">'
+      - name: Django admin is reachable through nginx
+        run: curl -fsS -o /dev/null http://127.0.0.1:8080/admin/login/
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down --volumes

@@ -1,0 +1,20 @@
+// Enlace "Saltar al contenido": invisible hasta que recibe el foco con el teclado.
+
+@use "../abstracts" as *;
+
+.skip-link {
+  @include visually-hidden;
+  border-radius: $radius-xl;
+  background-color: $color-aqua-500;
+  font-weight: $font-weight-semibold;
+  color: $color-navy-950;
+
+  &:focus {
+    @include not-visually-hidden;
+    position: fixed;
+    top: space(3);
+    left: space(3);
+    z-index: $z-overlay;
+    padding: space(3) space(4);
+  }
+}
