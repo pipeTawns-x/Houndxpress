@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/*
+ * Tokens del sistema de diseño (docs/diseno/04-sistema-de-diseno.md).
+ * Todo el color, la tipografía, el radio y la sombra salen de este bloque.
+ *
+ * Regla de contraste: el aqua de marca (#4CBED8) nunca es color de texto
+ * sobre fondo claro (2.2:1). Sobre claro se usa aqua-700.
+ */
+@theme {
+  --color-*: initial;
+
+  --color-white: #ffffff;
+
+  /* Marino de marca */
+  --color-navy-950: #0b1426;
+  --color-navy-900: #111c33;
+  --color-navy-800: #18233e;
+  --color-navy-700: #24324f;
+  --color-navy-300: #afc0d6;
+
+  /* Aqua de marca */
+  --color-aqua-700: #167088;
+  --color-aqua-500: #4cbed8;
+  --color-aqua-400: #6fd0e4;
+  --color-aqua-100: #e8f7fb;
+
+  /* Apoyo y texto */
+  --color-sky-600: #2f6fc0;
+  --color-ink: #0f172a;
+  --color-muted: #475569;
+  --color-line: #e2e8f0;
+  --color-surface: #f6f8fb;
+  /* Borde de campos de formulario: 3.8:1 sobre blanco (WCAG 1.4.11). */
+  --color-edge: #75849a;
+
+  /* Estados */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+  /* Fondos suaves de cada estado; el texto del estado sobre ellos pasa 4.5:1. */
+  --color-success-soft: #f0faf3;
+  --color-warning-soft: #fff8ec;
+  --color-danger-soft: #fef2f2;
+  --color-sky-soft: #f1f7fe;
+
+  /* Tipografía: Plus Jakarta Sans para títulos, Inter para texto. */
+  --font-display: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(2.25rem, 5vw, 4rem);
+  --text-display--line-height: 1.05;
+  --text-h1: clamp(2rem, 4vw, 3rem);
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.4;
+
+  /* Sombras suaves: marino al 6-8 %. */
+  --shadow-soft: 0 1px 2px rgb(24 35 62 / 0.06), 0 8px 24px rgb(24 35 62 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(24 35 62 / 0.06), 0 16px 36px rgb(24 35 62 / 0.12);
+
+  --animate-rise: rise 0.7s ease-out both;
+  --animate-ring-pulse: ring-pulse 2s ease-out infinite;
+  --animate-route-flow: route-flow 2.4s linear infinite;
+  --animate-slide-in: slide-in 0.25s ease-out both;
+  --animate-fade-in: fade-in 0.2s ease-out both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes ring-pulse {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+
+  @keyframes route-flow {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-navy-800);
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /*
+   * Foco visible: anillo aqua de 3 px con 2 px de separación. El aro marino
+   * de 2 px que llena la separación da el contraste que el aqua solo no da
+   * sobre fondo claro (WCAG 1.4.11).
+   */
+  :focus-visible {
+    outline: 3px solid var(--color-aqua-500);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-navy-800);
+  }
+
+  .on-dark :focus-visible {
+    box-shadow: none;
+  }
+
+  /* Una tarjeta clara dentro de una sección oscura vuelve a usar el aro marino. */
+  .on-dark .on-light :focus-visible {
+    box-shadow: 0 0 0 2px var(--color-navy-800);
+  }
+
+  ::selection {
+    background-color: var(--color-aqua-500);
+    color: var(--color-navy-950);
+  }
+
+  /* <main> recibe el foco al navegar; no es interactivo y no necesita anillo. */
+  main:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* Retícula de puntos sutil para fondos oscuros. */
+@utility bg-dot-grid {
+  background-image: radial-gradient(rgb(175 192 214 / 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Sobretítulo: mayúsculas con tracking amplio. El color lo pone quien lo usa. */
+@utility eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/*
+ * Aparición suave al entrar en pantalla (solo donde el navegador soporta scroll timelines).
+ * Solo se desplaza: el contenido nunca queda invisible, aunque no se llegue a hacer scroll
+ * (capturas de página completa, impresión).
+ */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: reveal-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    transform: translateY(28px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Trazado de las rutas del héroe. */
+@utility draw-route {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-route 2.2s ease-out 0.2s forwards;
+}
+
+@keyframes draw-route {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Movimiento reducido: nada se anima ni se desplaza suavemente. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .draw-route,
+  .animate-route-flow,
+  .animate-ring-pulse {
+    animation: none !important;
+  }
+
+  .draw-route {
+    stroke-dashoffset: 0;
+  }
+}
