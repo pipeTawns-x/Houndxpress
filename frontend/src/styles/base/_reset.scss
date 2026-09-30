@@ -1,6 +1,6 @@
-// Reinicio de estilos. Parte de la idea de modern-normalize (MIT): sin márgenes,
-// `border-box`, listas y encabezados sin estilo propio, imágenes en bloque y
-// controles que heredan la tipografía.
+// Reinicio de estilos. Parte de la idea de modern-normalize y del preflight de
+// Tailwind (ambos MIT): sin márgenes, `border-box`, listas y encabezados sin
+// estilo propio, imágenes en bloque y controles que heredan la tipografía.
 
 @use "../abstracts" as *;
 
