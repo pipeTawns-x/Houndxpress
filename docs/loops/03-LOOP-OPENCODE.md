@@ -13,7 +13,7 @@
 | Rama | Qué tiene |
 |---|---|
 | `main` | Esqueleto Django de M52 (etiqueta `m52`, 13 pruebas), README probado en CI. Rama `backend` idéntica al crearse. |
-| `frontend` | Todo lo de `main` más: React 19 + TypeScript + Vite + Redux Toolkit + Jest + Sass con BEM (estructura 7-1), rastreo, panel de guías con datos de demostración, Docker, diagramas Archify, documentos de diseño `docs/diseno/00` a `05` y los loops `docs/loops/`. PR #1. |
+| `frontend` | Todo lo de `main` más: React 19 + TypeScript + Vite + Redux Toolkit + Jest + Sass con BEM (estructura 7-1), rastreo, panel de guías con datos de demostración, Docker, diagramas Archify, documentos de diseño `docs/diseno/00` a `05` y los loops `docs/loops/`. PR #2 hacia `pruebas` (el #1 se cerró al renombrar la rama). |
 | `pruebas` | Creada desde `main`, vacía de trabajo propio. |
 
 **Requisitos oficiales:** `docs/REQUISITOS_EBAC.md` (cita el PDF de 32 páginas del proyecto; el PDF no está en el repositorio: pídele la ruta a Eduardo). Pendientes según ese archivo: M54 (tablas e historial), M64 (endpoints GET, POST y PUT con DRF), SEO completo (robots, sitemap, Open Graph), publicación estática (módulo 39).
@@ -32,7 +32,7 @@
 No aceptes nada de este documento como cierto sin comprobarlo. Entrega a Eduardo una tabla "afirmación → cómo lo verificaste → confirmado o refutado":
 
 1. **LMS.** Con la skill `ebac-lms-reader` y el navegador de Eduardo, lista las prácticas del curso de backend (M52, M54, M59 si existe, M64, M66 y las que haya), con su entregable literal. Compáralas con `docs/REQUISITOS_EBAC.md` y con la "Hoja de ruta" de `CLAUDE.md`.
-2. **Repositorio.** Comprueba en el código lo que dice la tabla de estado de arriba: pruebas que pasan, Sass con BEM sin restos de Tailwind, etiqueta `m52` en `main`, PR #1 y su rama base.
+2. **Repositorio.** Comprueba en el código lo que dice la tabla de estado de arriba: pruebas que pasan, Sass con BEM sin restos de Tailwind, etiqueta `m52` en `main`, PR #2 y su rama base.
 3. **Sitio actual.** Comprueba que las 19 URLs de `CONTENIDO-1A1.md` existen y que no falta ninguna.
 4. **Los loops.** Busca contradicciones entre `BRIEF.md`, los loops 1 y 2, `CLAUDE.md` y `REQUISITOS_EBAC.md`. Cada contradicción es una regla nueva o una corrección.
 
