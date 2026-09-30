@@ -116,7 +116,7 @@ Abre <http://localhost:5173/>. Vite reenvía `/api` y `/admin` a Django en `127.
 
 **Datos de demostración.** Las guías del rastreo y del panel se guardan solo en tu navegador (`localStorage`) y la interfaz lo indica. Guías de ejemplo para probar el rastreo: `2148 2139 0765 0312` (Recepción de carga), `2176 6402 1583 9927` (Vehículo liberado), `2119 8753 0246 7781` (Vehículo en camino) y `2154 3029 6817 0435` (Carga entregada); la lista completa está en [`frontend/README.md`](frontend/README.md#guías-de-ejemplo). El panel tiene un botón para restablecerlas. Cuando existan los endpoints de M64, `VITE_DATA_SOURCE=api` cambia al repositorio HTTP sin tocar las pantallas.
 
-Pruebas y calidad, desde `frontend/`: `npm run lint`, `npm run typecheck`, `npm test` y `npm run build`. Resultado esperado: lint y tipos sin errores, `Tests  235 passed (235)` y la compilación en `frontend/dist/`. Detalle en [`frontend/README.md`](frontend/README.md).
+Pruebas y calidad, desde `frontend/`: `npm run lint`, `npm run typecheck`, `npm test` y `npm run build`. Resultado esperado: lint y tipos sin errores, `Tests:       278 passed, 278 total` y la compilación en `frontend/dist/`. Detalle en [`frontend/README.md`](frontend/README.md).
 
 ## Con Docker
 

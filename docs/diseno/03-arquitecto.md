@@ -24,9 +24,9 @@ Respuesta a cada objeción de [`02-abogado-del-diablo.md`](02-abogado-del-diablo
 | Rutas | React Router | Rutas reales (`/rastreo?guia=…`) que se pueden compartir. |
 | Iconos | `lucide-react` (ISC) | Trazo uniforme, se importan solo los usados. |
 | Tipografías | `@fontsource-variable/plus-jakarta-sans` e `@fontsource-variable/inter` (OFL) | Autoalojadas: sin peticiones a Google Fonts. |
-| Pruebas | Vitest + Testing Library | Mismo motor que Vite. |
+| Pruebas | Jest + Testing Library | Lo pide el Módulo 34 del documento oficial. La primera versión usó Vitest; se migró el 30 de septiembre al leer [`REQUISITOS_EBAC.md`](../REQUISITOS_EBAC.md). |
 | Calidad | ESLint + `tsc --noEmit` | Se ejecutan en CI. |
-| Estado | Hooks de React y un repositorio de datos | El volumen no justifica Redux. |
+| Estado | Redux Toolkit sobre el repositorio de datos | Lo pide el Módulo 32 del documento oficial. La primera versión usaba solo hooks porque este documento aún no se conocía. |
 
 Ninguna dependencia que llega al navegador es copyleft; la única de compilación con copyleft débil (lightningcss, MPL-2.0) está explicada junto a la tabla de licencias en [`docs/STACK_HOUND_EXPRESS.md`](../STACK_HOUND_EXPRESS.md).
 
