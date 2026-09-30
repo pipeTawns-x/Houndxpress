@@ -32,3 +32,6 @@ media/
 node_modules/
 dist/
 build/
+
+# Claude Code agent worktrees (temporary)
+.claude/worktrees/
