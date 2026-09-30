@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { MAX_TRACKED_GUIDES, parseTrackingInput, splitGuideNumbers } from "./index.ts";
 
 const A = "2148213907650312";

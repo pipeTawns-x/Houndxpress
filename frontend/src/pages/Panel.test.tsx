@@ -1,7 +1,8 @@
 import { screen, waitFor, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import { createTestRepository, renderApp } from "../test/renderApp.tsx";
+import type { NewGuideInput } from "../domain/index.ts";
 import type { GuideRepository } from "../services/guideRepository.ts";
+import { stubGlobal } from "../test/stubGlobal.ts";
 
 const IN_TRANSIT_ROW = /2119 8753 0246 7781/;
 const FIRST_STAGE_ROW = /2148 2139 0765 0312/;
@@ -264,11 +265,11 @@ describe("panel de operaciones", () => {
   });
 
   it("usa tarjetas en pantallas angostas", async () => {
-    vi.stubGlobal("matchMedia", (query: string) => ({
+    stubGlobal("matchMedia", (query: string) => ({
       matches: false,
       media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
     }));
     await openPanel();
     expect(screen.queryByRole("table")).not.toBeInTheDocument();
@@ -282,10 +283,10 @@ describe("panel de operaciones", () => {
 
   it("muestra un error con opción de reintentar si no se pueden leer las guías", async () => {
     const failing = {
-      list: vi.fn().mockRejectedValueOnce(new Error("La API no respondió")).mockResolvedValue([]),
-      get: vi.fn(),
-      create: vi.fn(),
-      advance: vi.fn(),
+      list: jest.fn().mockRejectedValueOnce(new Error("La API no respondió")).mockResolvedValue([]),
+      get: jest.fn(),
+      create: jest.fn(),
+      advance: jest.fn(),
     };
     const { user } = await renderApp("/panel", failing);
     expect(await screen.findByText("La API no respondió")).toBeInTheDocument();
@@ -296,7 +297,7 @@ describe("panel de operaciones", () => {
 
   it("no llama al repositorio cuando el formulario tiene errores", async () => {
     const base = createTestRepository();
-    const create = vi.fn<GuideRepository["create"]>((input) => base.create(input));
+    const create = jest.fn((input: NewGuideInput) => base.create(input));
     const { user } = await openPanel({ ...base, create });
     const form = await fillForm(user, { number: "123" });
     await user.click(within(form).getByRole("button", { name: "Registrar guía" }));

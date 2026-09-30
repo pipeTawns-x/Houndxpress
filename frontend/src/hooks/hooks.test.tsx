@@ -1,18 +1,15 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
-import type { ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
-import { RepositoryContext } from "./useRepository.ts";
 import { useApiHealth } from "./useApiHealth.ts";
 import { useDocumentTitle } from "./useDocumentTitle.ts";
 import { useGuides } from "./useGuides.ts";
 import { useMediaQuery } from "./useMediaQuery.ts";
-import { createTestRepository } from "../test/renderApp.tsx";
+import { createProviders, createTestRepository } from "../test/renderApp.tsx";
 import type { GuideRepository } from "../services/guideRepository.ts";
+import { stubGlobal } from "../test/stubGlobal.ts";
 
+/** Envuelve el hook en un almacén de Redux nuevo que lee del repositorio dado. */
 function withRepository(repository: GuideRepository) {
-  return function Wrapper({ children }: { children: ReactNode }) {
-    return <RepositoryContext.Provider value={repository}>{children}</RepositoryContext.Provider>;
-  };
+  return createProviders(repository).Providers;
 }
 
 describe("useDocumentTitle", () => {
@@ -28,9 +25,9 @@ describe("useDocumentTitle", () => {
 
 describe("useApiHealth", () => {
   it("pasa de 'checking' a 'online' cuando la API responde bien", async () => {
-    vi.stubGlobal(
+    stubGlobal(
       "fetch",
-      vi.fn(() => Promise.resolve(new Response(JSON.stringify({ status: "ok", database: "ok" })))),
+      jest.fn(() => Promise.resolve(new Response(JSON.stringify({ status: "ok", database: "ok" })))),
     );
     const { result } = renderHook(() => useApiHealth());
     expect(result.current).toBe("checking");
@@ -56,7 +53,7 @@ describe("useMediaQuery", () => {
   it("sigue los cambios de la media query", () => {
     let matches = false;
     const listeners = new Set<() => void>();
-    vi.stubGlobal("matchMedia", (query: string) => ({
+    stubGlobal("matchMedia", (query: string) => ({
       get matches() {
         return matches;
       },
@@ -111,7 +108,7 @@ describe("useGuides", () => {
     await act(async () => {
       await result.current.advance("2148213907650312", { location: "Miami, FL" });
     });
-    expect(result.current.reset).toBeTypeOf("function");
+    expect(typeof result.current.reset).toBe("function");
     await act(async () => {
       await result.current.reset?.();
     });
@@ -120,8 +117,8 @@ describe("useGuides", () => {
     const withoutReset: GuideRepository = {
       list: () => Promise.resolve([]),
       get: () => Promise.resolve(null),
-      create: vi.fn(),
-      advance: vi.fn(),
+      create: jest.fn(),
+      advance: jest.fn(),
     };
     const other = renderHook(() => useGuides(), { wrapper: withRepository(withoutReset) });
     await waitFor(() => {
@@ -131,8 +128,8 @@ describe("useGuides", () => {
   });
 
   it("informa el error de lectura y permite reintentar", async () => {
-    const list = vi.fn().mockRejectedValueOnce(new Error("Sin conexión con la API")).mockResolvedValue([]);
-    const repository: GuideRepository = { list, get: vi.fn(), create: vi.fn(), advance: vi.fn() };
+    const list = jest.fn().mockRejectedValueOnce(new Error("Sin conexión con la API")).mockResolvedValue([]);
+    const repository: GuideRepository = { list, get: jest.fn(), create: jest.fn(), advance: jest.fn() };
     const { result } = renderHook(() => useGuides(), { wrapper: withRepository(repository) });
     await waitFor(() => {
       expect(result.current.status).toBe("error");
@@ -145,6 +142,47 @@ describe("useGuides", () => {
     await waitFor(() => {
       expect(result.current.status).toBe("ready");
     });
+  });
+
+  it("dos componentes con el mismo almacén ven la misma lista: lo que crea uno lo ve el otro", async () => {
+    const { Providers } = createProviders(createTestRepository());
+    const first = renderHook(() => useGuides(), { wrapper: Providers });
+    const second = renderHook(() => useGuides(), { wrapper: Providers });
+    await waitFor(() => {
+      expect(first.result.current.status).toBe("ready");
+      expect(second.result.current.status).toBe("ready");
+    });
+
+    await act(async () => {
+      await first.result.current.create({
+        number: "2100000000000001",
+        origin: "Laredo, TX",
+        destination: "Monterrey, N.L.",
+        recipient: "Ana Ruiz",
+        service: "standard",
+      });
+    });
+    expect(second.result.current.guides).toHaveLength(9);
+    expect(second.result.current.guides[0]?.number).toBe("2100000000000001");
+  });
+
+  it("al volver a montarse muestra la lista que el almacén ya tenía y la actualiza sin pasar por 'loading'", async () => {
+    const repository = createTestRepository();
+    const list = jest.spyOn(repository, "list");
+    const { Providers } = createProviders(repository);
+    const first = renderHook(() => useGuides(), { wrapper: Providers });
+    await waitFor(() => {
+      expect(first.result.current.status).toBe("ready");
+    });
+    first.unmount();
+
+    const second = renderHook(() => useGuides(), { wrapper: Providers });
+    expect(second.result.current.status).toBe("ready");
+    expect(second.result.current.guides).toHaveLength(8);
+    await waitFor(() => {
+      expect(list).toHaveBeenCalledTimes(2);
+    });
+    expect(second.result.current.status).toBe("ready");
   });
 
   it("deja pasar el error de una operación para que la muestre quien la llamó", async () => {

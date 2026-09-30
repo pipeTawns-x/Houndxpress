@@ -1,5 +1,4 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
 import { STAGES } from "../../domain/index.ts";
 import type { StageCode, StageEvent } from "../../domain/index.ts";
 import { StageTimeline } from "./StageTimeline.tsx";

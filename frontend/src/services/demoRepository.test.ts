@@ -1,4 +1,3 @@
-import { describe, expect, it, vi } from "vitest";
 import { DomainError } from "../domain/index.ts";
 import type { NewGuideInput } from "../domain/index.ts";
 import { DEMO_GUIDE_NUMBERS } from "./demoData.ts";
@@ -145,7 +144,7 @@ describe("demoRepository", () => {
 
   describe("cuando localStorage falla", () => {
     it("funciona en memoria si acceder al almacenamiento lanza una excepción", async () => {
-      const getStorage = vi.fn(() => {
+      const getStorage = jest.fn(() => {
         throw new DOMException("Acceso denegado", "SecurityError");
       });
       const repository = createDemoRepository({ getStorage, now: () => NOW });
@@ -175,10 +174,10 @@ describe("demoRepository", () => {
     });
 
     it("con el localStorage real de jsdom bloqueado también funciona", async () => {
-      vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      jest.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
         throw new Error("bloqueado");
       });
-      vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      jest.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
         throw new Error("bloqueado");
       });
       const repository = createDemoRepository();

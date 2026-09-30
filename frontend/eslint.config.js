@@ -28,13 +28,21 @@ export default defineConfig([
     },
   },
   {
-    // Las pruebas exportan utilidades y no componentes: Fast Refresh no aplica.
+    // Las pruebas exportan utilidades y no componentes: Fast Refresh no aplica. Jest aporta describe, it, expect y jest.
     files: ["**/*.test.{ts,tsx}", "src/test/**"],
+    languageOptions: { globals: globals.jest },
     rules: { "react-refresh/only-export-components": "off" },
   },
   {
+    // Configuración de Jest y de Vite: se ejecuta en Node.
     files: ["**/*.js"],
     extends: [js.configs.recommended, tseslint.configs.disableTypeChecked],
     languageOptions: { globals: globals.node },
+  },
+  {
+    // Los sustitutos que Jest carga con require (jest/*.cjs) son CommonJS.
+    files: ["**/*.cjs"],
+    extends: [js.configs.recommended, tseslint.configs.disableTypeChecked],
+    languageOptions: { sourceType: "commonjs", globals: globals.node },
   },
 ]);

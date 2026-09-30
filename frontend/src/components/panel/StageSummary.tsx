@@ -1,4 +1,4 @@
-import { STAGES, isDelivered } from "../../domain/index.ts";
+import { summarizeGuides } from "../../domain/index.ts";
 import type { Guide, StageCode } from "../../domain/index.ts";
 import { StatCard } from "../ui/StatCard.tsx";
 
@@ -12,12 +12,7 @@ const SEGMENT_COLORS: Record<StageCode, string> = {
 
 /** Resumen del panel: total, en tránsito (etapas 1 a 4), entregadas y distribución por etapa. */
 export function StageSummary({ guides }: { guides: readonly Guide[] }) {
-  const total = guides.length;
-  const delivered = guides.filter(isDelivered).length;
-  const counts = STAGES.map((stage) => ({
-    stage,
-    count: guides.filter((guide) => guide.currentStage === stage.code).length,
-  }));
+  const { total, delivered, byStage: counts } = summarizeGuides(guides);
 
   return (
     <section aria-labelledby="resumen" className="flex flex-col gap-5">

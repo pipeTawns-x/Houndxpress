@@ -1,5 +1,4 @@
 import { screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
 import { FAQ } from "../content/faq.ts";
 import { renderApp } from "../test/renderApp.tsx";
 

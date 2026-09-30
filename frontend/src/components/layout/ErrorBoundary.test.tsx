@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import { describe, expect, it, vi } from "vitest";
 import { ErrorBoundary } from "./ErrorBoundary.tsx";
 
 function Broken(): never {
@@ -9,7 +8,7 @@ function Broken(): never {
 
 describe("ErrorBoundary", () => {
   it("muestra un mensaje con salidas en lugar de una pantalla en blanco cuando una pantalla falla", () => {
-    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    jest.spyOn(console, "error").mockImplementation(() => undefined);
     render(
       <MemoryRouter>
         <ErrorBoundary>

@@ -1,18 +1,18 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
 import { HEALTH_ENDPOINT, HEALTH_TIMEOUT_MS, getApiHealth } from "./health.ts";
+import { stubGlobal } from "../test/stubGlobal.ts";
 
 function respond(body: unknown, init: ResponseInit = { status: 200 }): Response {
   return new Response(typeof body === "string" ? body : JSON.stringify(body), init);
 }
 
 function stubFetch(implementation: (input: string, init?: RequestInit) => Promise<Response>) {
-  const mock = vi.fn(implementation);
-  vi.stubGlobal("fetch", mock);
+  const mock = jest.fn(implementation);
+  stubGlobal("fetch", mock);
   return mock;
 }
 
 afterEach(() => {
-  vi.useRealTimers();
+  jest.useRealTimers();
 });
 
 describe("getApiHealth", () => {
@@ -51,7 +51,7 @@ describe("getApiHealth", () => {
   });
 
   it("responde offline si la API no contesta en 4 segundos", async () => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
     let aborted = false;
     stubFetch(
       (_input, init) =>
@@ -63,9 +63,9 @@ describe("getApiHealth", () => {
         }),
     );
     const result = getApiHealth();
-    await vi.advanceTimersByTimeAsync(HEALTH_TIMEOUT_MS - 1);
+    await jest.advanceTimersByTimeAsync(HEALTH_TIMEOUT_MS - 1);
     expect(aborted).toBe(false);
-    await vi.advanceTimersByTimeAsync(1);
+    await jest.advanceTimersByTimeAsync(1);
     await expect(result).resolves.toBe("offline");
     expect(aborted).toBe(true);
     expect(HEALTH_TIMEOUT_MS).toBe(4000);

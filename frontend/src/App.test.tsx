@@ -1,5 +1,4 @@
 import { screen, waitFor, within } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import { scrollToMock } from "./test/mocks.ts";
 import { renderApp } from "./test/renderApp.tsx";
 
@@ -69,7 +68,7 @@ describe("rutas", () => {
   });
 
   it("un enlace con #ancla se desplaza a esa sección en lugar de volver arriba", async () => {
-    const scrollIntoView = vi.fn();
+    const scrollIntoView = jest.fn();
     Object.defineProperty(Element.prototype, "scrollIntoView", { configurable: true, value: scrollIntoView });
     try {
       const { user } = await renderApp("/");

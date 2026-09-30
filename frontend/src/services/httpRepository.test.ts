@@ -1,8 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
 import { createSeedGuides } from "./demoData.ts";
 import { RepositoryError } from "./guideRepository.ts";
 import { createHttpRepository } from "./httpRepository.ts";
 import { createGuideRepository, resolveDataSource } from "./index.ts";
+import { stubGlobal } from "../test/stubGlobal.ts";
 
 const [GUIDE] = createSeedGuides();
 if (!GUIDE) throw new Error("Sin guías de ejemplo");
@@ -12,7 +12,7 @@ function json(body: unknown, status = 200): Response {
 }
 
 function setup(response: Response | (() => Promise<Response>)) {
-  const fetchImpl = vi.fn((...args: [string, RequestInit?]) => {
+  const fetchImpl = jest.fn((...args: [string, RequestInit?]) => {
     void args;
     return typeof response === "function" ? response() : Promise.resolve(response);
   });
@@ -149,8 +149,8 @@ describe("selección del repositorio", () => {
   });
 
   it("el repositorio de la API llama al fetch global", async () => {
-    const mock = vi.fn(() => Promise.resolve(json([])));
-    vi.stubGlobal("fetch", mock);
+    const mock = jest.fn(() => Promise.resolve(json([])));
+    stubGlobal("fetch", mock);
     await createGuideRepository("api").list();
     expect(mock).toHaveBeenCalledTimes(1);
   });

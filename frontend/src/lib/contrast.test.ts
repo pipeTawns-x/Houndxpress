@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { COLOR_TOKENS, CONTRAST_PAIRS, tokenHex } from "../content/designTokens.ts";
 import indexCss from "../index.css?raw";
 import { contrastLevel, contrastRatio, formatRatio } from "./contrast.ts";
@@ -46,7 +45,11 @@ describe("contraste WCAG", () => {
   it("el aqua de marca nunca aprueba como texto sobre blanco, y las combinaciones a usar sí aprueban AA", () => {
     for (const pair of CONTRAST_PAIRS) {
       const level = contrastLevel(contrastRatio(tokenHex(pair.foreground), tokenHex(pair.background)));
-      expect(level !== "Insuficiente", pair.label).toBe(pair.verdict === "usar");
+      // Jest no admite un mensaje como segundo argumento de expect: la etiqueta viaja en el objeto comparado.
+      expect({ pair: pair.label, passes: level !== "Insuficiente" }).toEqual({
+        pair: pair.label,
+        passes: pair.verdict === "usar",
+      });
     }
   });
 });
@@ -55,7 +58,10 @@ describe("tokens de color", () => {
   it("coinciden con el bloque @theme de index.css", () => {
     for (const token of COLOR_TOKENS) {
       const match = new RegExp(`--color-${token.name}:\\s*(#[0-9a-fA-F]{6})`).exec(indexCss);
-      expect(match, `--color-${token.name} en index.css`).not.toBeNull();
+      expect({ token: `--color-${token.name}`, foundInIndexCss: match !== null }).toEqual({
+        token: `--color-${token.name}`,
+        foundInIndexCss: true,
+      });
       expect(match?.[1]?.toUpperCase()).toBe(token.hex.toUpperCase());
     }
   });

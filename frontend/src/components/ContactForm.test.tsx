@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
 import { ContactForm } from "./ContactForm.tsx";
 
 async function fill(user: ReturnType<typeof userEvent.setup>) {
@@ -13,7 +12,7 @@ async function fill(user: ReturnType<typeof userEvent.setup>) {
 
 describe("formulario de contacto", () => {
   it("dice antes de enviar que abrirá el correo y que no envía ni guarda nada", () => {
-    render(<ContactForm onOpenMail={vi.fn()} />);
+    render(<ContactForm onOpenMail={jest.fn()} />);
     expect(screen.getByText(/este sitio no envía ni guarda tu mensaje/)).toBeInTheDocument();
     expect(screen.getByText("sclientes1@hound-express.com")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Abrir mi correo con el mensaje" })).toBeInTheDocument();
@@ -21,7 +20,7 @@ describe("formulario de contacto", () => {
   });
 
   it("valida en el cliente, muestra un error por campo y enfoca el primero", async () => {
-    const onOpenMail = vi.fn();
+    const onOpenMail = jest.fn<void, [string]>();
     const user = userEvent.setup();
     render(<ContactForm onOpenMail={onOpenMail} />);
     await user.click(screen.getByRole("button", { name: "Abrir mi correo con el mensaje" }));
@@ -39,7 +38,7 @@ describe("formulario de contacto", () => {
 
   it("valida el número de guía solo si se escribió", async () => {
     const user = userEvent.setup();
-    render(<ContactForm onOpenMail={vi.fn()} />);
+    render(<ContactForm onOpenMail={jest.fn()} />);
     await fill(user);
     await user.type(screen.getByLabelText(/Número de guía/), "123");
     await user.click(screen.getByRole("button", { name: "Abrir mi correo con el mensaje" }));
@@ -47,7 +46,7 @@ describe("formulario de contacto", () => {
   });
 
   it("con datos válidos arma el mailto y lo entrega para abrirlo, sin decir que el mensaje se envió", async () => {
-    const onOpenMail = vi.fn();
+    const onOpenMail = jest.fn<void, [string]>();
     const user = userEvent.setup();
     render(<ContactForm onOpenMail={onOpenMail} />);
     await fill(user);

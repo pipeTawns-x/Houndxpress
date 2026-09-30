@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { STAGES, canAdvance, getStage, nextStage, stageIndex } from "./index.ts";
 import { STAGE_CODES } from "./types.ts";
 

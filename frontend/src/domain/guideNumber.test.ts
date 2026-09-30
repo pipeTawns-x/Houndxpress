@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { formatGuideNumber, generateGuideNumber, isValidGuideNumber, normalizeGuideNumber } from "./index.ts";
 
 describe("número de guía", () => {

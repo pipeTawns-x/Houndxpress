@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { STAGE_CODES, formatGuideNumber, isGuide, isValidGuideNumber, stageIndex } from "../domain/index.ts";
 import readme from "../../README.md?raw";
 import { DEMO_GUIDE_NUMBERS, DEMO_GUIDE_ROUTES, SEED_REFERENCE_DATE, createSeedGuides } from "./demoData.ts";

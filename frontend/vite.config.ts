@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -16,13 +16,4 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: { proxy },
   preview: { proxy },
-  test: {
-    environment: "jsdom",
-    setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.test.{ts,tsx}"],
-    // Los estilos no se procesan en las pruebas, salvo los que se importan como texto (`?raw`) para revisarlos.
-    css: { include: [/\?raw$/] },
-    restoreMocks: true,
-    unstubGlobals: true,
-  },
 });
