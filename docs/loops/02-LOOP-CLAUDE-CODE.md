@@ -16,6 +16,20 @@ El repositorio ya tiene la versión 1 funcionando: React 19 + TypeScript + Sass 
 
 ---
 
+## Herramientas (opcional, se instalan una vez)
+
+Los comandos se copiaron de los README de cada proyecto el 30 de septiembre de 2026; el detalle está en [`docs/herramientas/INVESTIGACION.md`](../herramientas/INVESTIGACION.md).
+
+```text
+/plugin marketplace add Hainrixz/abogado-del-diablo
+/plugin install abogado-del-diablo@abogado-del-diablo
+/plugin marketplace add Hainrixz/the-architect
+/plugin install the-architect@soyenriquerocha
+npx impeccable install
+```
+
+`abogado-del-diablo` y `the-architect` se usan en la fase 0. `impeccable` audita el diseño en la fase 6 (`/impeccable init` la primera vez).
+
 ## Prompt
 
 Vas a implementar el rediseño de Hound Express que está en `docs/diseno/claude-design/` sobre el frontend existente en `frontend/`. Antes de escribir código lee, en este orden y una sola vez:
