@@ -41,3 +41,5 @@ build/
 
 # Graphify output, rebuilt with: graphify update .
 /graphify-out/
+# Local AI runtime state
+.atl/

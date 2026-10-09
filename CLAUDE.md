@@ -52,6 +52,14 @@ Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENC
 3. Antes de diseñar, inventariar todas las URLs del sitio vivo (la investigación v1 cubrió 5 de 19 páginas).
 4. Las herramientas de diseño trabajan por lotes de una o dos pantallas, nunca con todo en un solo prompt.
 5. En zsh, `"$B:ruta"` se rompe por el modificador `:`; usa `"${B}:ruta"`. Si falta una herramienta preferida (`sd`), comprueba con `command -v` y usa otra.
+6. El inventario del sitio sale del sitemap (`/hx/page-sitemap.xml`, 26 páginas), no de los enlaces del Inicio. `/hx/en/` es un espejo completo hecho con Weglot, no una plantilla. Hay tres URLs de rastreo.
+7. Un documento commiteado cita rutas que existen en el repositorio, no los nombres del kit que genera un script.
+8. "Cumple" en `REQUISITOS_EBAC.md` exige evidencia en la capa que nombra el requisito. Una regla demostrada en el frontend con datos de demostración no cumple un requisito de API.
+9. Los módulos del PDF (M52, M54, M64, M66) no se numeran igual que el LMS (M0 a M37). En el LMS se busca por título de la asignación. M59 no existe.
+10. Antes de pedirle un archivo a Eduardo, búscalo en su Mac. El PDF oficial está en `~/Desktop/houndxpress.pdf`.
+11. Cita las consignas completas y en su contexto. Anota los plus que tienen fuente, por ejemplo DELETE en la p. 21 del PDF.
+12. Las ramas locales sobrantes también rompen la regla de cuatro ramas: worktrees viejos y ramas cuya remota ya se borró. Se eliminan al terminar.
+13. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
 
 ## Comandos
 
@@ -73,8 +81,8 @@ node .claude/skills/archify/bin/archify.mjs finalize <tipo> docs/diagramas/fuent
 
 ## Hoja de ruta del LMS
 
-M52 esqueleto Django (entregado, etiqueta `m52`) · M54 tablas de guías e historial inmutable · M64 endpoints GET/POST/PUT con validación del orden de etapas · M66 entrega final. El contrato de datos que el frontend ya usa está en `docs/diseno/03-arquitecto.md`; M54 lo confirma o lo cambia en ambos lados a la vez.
+Numeración del PDF oficial (p. 22); en el LMS, la lección de M52 es la asignación 4.13.11 "Proyecto Empresa Aliada - M52 Entregable 9". M52 esqueleto Django (etiqueta `m52`; el repositorio no registra si la URL ya se envió en el LMS) · M54 tablas de guías e historial inmutable · M64 endpoints GET/POST/PUT con validación del orden de etapas · M66 entrega final. El contrato de datos que el frontend ya usa está en `docs/diseno/03-arquitecto.md`; M54 lo confirma o lo cambia en ambos lados a la vez.
 
 ## Herramientas locales de Eduardo
 
-Graphify, Engram, OpenCode (con el MCP de Pencil) y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto. En local, el grafo se regenera con `graphify update .` (sin LLM) en `graphify-out/`, que git ignora; en Engram, el proyecto es `Houndxpress`.
+Graphify, Engram, OpenCode (con el MCP de Pencil) y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto. En local, el grafo se regenera con `graphify update .` (sin LLM) en `graphify-out/`, que git ignora; en Engram, el proyecto es `houndxpress`.
