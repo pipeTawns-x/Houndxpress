@@ -1,0 +1,84 @@
+// Tarjeta de servicio: icono en cuadro aqua suave, título, texto y lista de puntos.
+// Se eleva al pasar el cursor.
+
+@use "../abstracts" as *;
+
+.service-card {
+  @include stack(space(4));
+  height: 100%;
+  padding: space(6);
+  @include card;
+  @include transition((translate, box-shadow), $duration-base, $ease-out);
+
+  @include hover {
+    translate: 0 (-(space(1)));
+    @include ring($color-line, $shadow-lift);
+  }
+
+  &__icon-box {
+    @include icon-box;
+  }
+
+  &__icon {
+    @include square(space(6));
+  }
+
+  &__body {
+    @include stack(space(2));
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+
+  &__points {
+    @include stack(space(2));
+    @include type(label);
+    color: $color-ink;
+  }
+
+  &__point {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+  }
+
+  &__check {
+    @include square(space(4));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-aqua-700;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: space(1.5);
+    margin-top: auto;
+    padding-top: space(2);
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-aqua-700;
+
+    @include hover {
+      color: $color-navy-800;
+    }
+  }
+
+  &__arrow {
+    @include square(space(4));
+    @include transition-transform($duration-base);
+
+    @media (hover: hover) {
+      .service-card:hover & {
+        translate: space(1) 0;
+      }
+    }
+  }
+}

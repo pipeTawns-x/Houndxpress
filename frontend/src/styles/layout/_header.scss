@@ -1,0 +1,111 @@
+// Encabezado fijo con navegación. Desde 1024 px muestra la navegación completa;
+// por debajo, un botón abre el cajón (`mobile-menu`).
+
+@use "../abstracts" as *;
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  isolation: isolate;
+
+  // El desenfoque va en una capa aparte: un ancestro con backdrop-filter rompería el cajón `fixed`.
+  &__backdrop {
+    @include cover;
+    z-index: -10;
+    border-bottom: 1px solid $color-line;
+    background-color: with-alpha($color-white, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(4);
+    height: space(16);
+  }
+
+  &__logo {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    border-radius: $radius-lg;
+  }
+
+  &__logo-img {
+    height: space(9);
+    width: auto;
+  }
+
+  &__nav {
+    display: none;
+    align-items: center;
+    gap: space(1);
+
+    @include up(lg) {
+      display: flex;
+    }
+  }
+
+  &__link {
+    padding: space(2) space(3);
+    border-radius: $radius-lg;
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+    @include transition-colors($duration-base);
+
+    @include hover {
+      background-color: with-alpha($color-navy-800, 0.05);
+    }
+
+    // Página actual: gana al hover.
+    &--active,
+    &--active:hover {
+      background-color: $color-aqua-100;
+      color: $color-navy-800;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+  }
+
+  // "Rastrear" y "Panel": solo con la navegación completa.
+  &__cta {
+    display: none;
+    align-items: center;
+    gap: space(2);
+
+    @include up(lg) {
+      display: flex;
+    }
+  }
+
+  // Botón del cajón móvil: desaparece desde 1024 px.
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    @include square(space(11));
+    border-radius: $radius-xl;
+    color: $color-navy-800;
+    @include transition-colors($duration-base);
+
+    @include hover {
+      background-color: with-alpha($color-navy-800, 0.05);
+    }
+
+    @include up(lg) {
+      display: none;
+    }
+  }
+
+  &__toggle-icon {
+    @include square(space(6));
+  }
+}

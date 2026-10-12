@@ -1,0 +1,155 @@
+// Botón. También es el aspecto de los enlaces que parecen botones.
+//
+//   Variante   --primary (aqua) · --secondary (contorno) · --ghost
+//   Tamaño     --md (40 px) · --lg (48 px) · --icon (44 px, cuadrado)
+//   Tono       --light · --dark (sobre fondos marino)
+//   Ancho      --full
+
+@use "../abstracts" as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space(2);
+  border-radius: $radius-xl;
+  font-weight: $font-weight-semibold;
+  white-space: nowrap;
+  user-select: none;
+  @include transition((background-color, color, border-color, transform), $duration-base, $ease-out);
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:active {
+    translate: 0 1px;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  &:disabled:active {
+    translate: 0 0;
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  // --- Tamaños -------------------------------------------------------------
+  &--md {
+    @include type(sm);
+    height: space(10);
+    padding-inline: space(4);
+  }
+
+  &--lg {
+    @include type(base);
+    height: space(12);
+    padding-inline: space(6);
+  }
+
+  &--icon {
+    @include type(sm);
+    @include square(space(11));
+  }
+
+  // Icono dentro del botón: 16 px en el tamaño mediano y 20 px en el grande.
+  &__icon {
+    @include square(1rem);
+
+    .button--lg &,
+    .button--icon & {
+      @include square(1.25rem);
+    }
+  }
+
+  // Indicador de carga.
+  &__spinner {
+    @include square(1rem);
+    @include motion-safe {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  // --- Variantes -----------------------------------------------------------
+  &--primary {
+    background-color: $color-aqua-500;
+    color: $color-navy-950;
+
+    @include hover {
+      background-color: $color-aqua-400;
+    }
+
+    &:disabled {
+      background-color: $color-line;
+      color: $color-muted;
+    }
+
+    &.button--dark:disabled {
+      background-color: $color-navy-700;
+      color: $color-navy-300;
+    }
+  }
+
+  &--secondary {
+    border: 2px solid $color-navy-800;
+    color: $color-navy-800;
+
+    @include hover {
+      background-color: $color-navy-800;
+      color: $color-white;
+    }
+
+    &:disabled {
+      border-color: $color-line;
+      color: $color-muted;
+      background-color: transparent;
+    }
+
+    &.button--dark {
+      border-color: with-alpha($color-white, 0.4);
+      color: $color-white;
+
+      @include hover {
+        border-color: $color-white;
+        background-color: with-alpha($color-white, 0.1);
+      }
+
+      &:disabled {
+        border-color: $color-navy-700;
+        color: $color-navy-300;
+        background-color: transparent;
+      }
+    }
+  }
+
+  &--ghost {
+    color: $color-navy-800;
+
+    @include hover {
+      background-color: with-alpha($color-navy-800, 0.05);
+    }
+
+    &:disabled {
+      color: $color-muted;
+      background-color: transparent;
+    }
+
+    &.button--dark {
+      color: $color-white;
+
+      @include hover {
+        background-color: with-alpha($color-white, 0.1);
+      }
+
+      &:disabled {
+        color: $color-navy-300;
+        background-color: transparent;
+      }
+    }
+  }
+}

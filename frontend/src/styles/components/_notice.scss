@@ -1,0 +1,28 @@
+// Aviso de resultado de una acción: `--success` (fondo verde suave), `--danger` (rojo suave)
+// o `--info` (azul suave).
+
+@use "../abstracts" as *;
+
+.notice {
+  padding: space(4);
+  border-radius: $radius-2xl;
+  @include type(base);
+
+  &--success {
+    background-color: $color-success-soft;
+    color: $color-ink;
+    @include ring(with-alpha($color-success, 0.3));
+  }
+
+  &--info {
+    background-color: $color-sky-soft;
+    color: $color-ink;
+    @include ring(with-alpha($color-sky-600, 0.3));
+  }
+
+  &--danger {
+    background-color: $color-danger-soft;
+    color: $color-danger;
+    @include ring(with-alpha($color-danger, 0.3));
+  }
+}

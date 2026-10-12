@@ -1,0 +1,29 @@
+# Local development stack: the Django API and the built frontend behind nginx.
+# Usage: docker compose up --build   →   http://localhost:8080
+name: houndxpress
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      DJANGO_DEBUG: "true"
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/', timeout=3)"
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      backend:
+        condition: service_healthy

@@ -1,0 +1,76 @@
+// Rastreo (`/rastreo`): el buscador sube sobre el borde del encabezado y debajo van los resultados.
+
+@use "../abstracts" as *;
+
+.tracking-page {
+  @include stack(space(6));
+  position: relative;
+  z-index: 10;
+  margin-top: -(space(10));
+  padding-bottom: space(16);
+
+  @include up(md) {
+    padding-bottom: space(24);
+  }
+
+  &__search {
+    padding: space(5);
+    border-radius: $radius-3xl;
+    background-color: $color-white;
+    @include ring($color-line, $shadow-lift);
+
+    @include up(sm) {
+      padding: space(8);
+    }
+  }
+
+  &__results {
+    @include stack(space(6));
+  }
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+  }
+
+  // Pegado al título: cancela la separación de la columna.
+  &__summary {
+    margin-top: -(space(3));
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// Número con formato incorrecto dentro de una búsqueda de varias guías.
+.invalid-guide {
+  display: flex;
+  align-items: flex-start;
+  gap: space(3);
+  padding: space(5);
+  border-radius: $radius-2xl;
+  background-color: $color-danger-soft;
+  @include ring(with-alpha($color-danger, 0.3));
+
+  &__icon {
+    @include square(space(5));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-danger;
+  }
+
+  &__body {
+    @include stack(space(1));
+  }
+
+  &__title {
+    @include type(base);
+    font-weight: $font-weight-bold;
+    word-break: break-all;
+    color: $color-danger;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-ink;
+  }
+}

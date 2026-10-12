@@ -1,0 +1,110 @@
+// Mapa de la red: retícula de puntos y nodos en las coordenadas reales de cada ciudad,
+// unidos por arcos. Las etiquetas son HTML para conservar un tamaño legible en móvil.
+
+@use "../abstracts" as *;
+
+.network-map {
+  @include on-dark;
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: $radius-3xl;
+  background-color: $color-navy-950;
+  @include ring($color-navy-700);
+
+  // Mapa centrado de hasta 896 px de ancho (página de cobertura).
+  &--wide {
+    width: 100%;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  &__stage {
+    position: relative;
+    margin: space(2);
+
+    @include up(sm) {
+      margin: space(3);
+    }
+  }
+
+  &__svg {
+    @include cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__dot {
+    fill: $color-navy-700;
+  }
+
+  &__route {
+    stroke: $color-aqua-500;
+
+    @include motion-safe {
+      animation: route-flow 2.4s linear infinite;
+    }
+  }
+
+  &__node-halo {
+    fill: with-alpha($color-aqua-500, 0.2);
+  }
+
+  &__node {
+    fill: $color-aqua-500;
+    stroke: $color-navy-950;
+
+    // Puntos de entrada en Latinoamérica: nodo hueco.
+    &--latam {
+      fill: $color-navy-950;
+      stroke: $color-aqua-400;
+    }
+  }
+
+  // Etiqueta de una ciudad. `--left`, `--right`, `--top` y `--bottom` dicen de qué lado del nodo va.
+  &__label {
+    position: absolute;
+    font-family: $font-sans;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: $font-weight-semibold;
+    white-space: nowrap;
+    color: $color-white;
+    text-shadow:
+      0 0 4px $color-navy-950,
+      0 0 8px $color-navy-950;
+
+    @include up(sm) {
+      font-size: 0.875rem;
+    }
+
+    &--left {
+      padding-right: space(2.5);
+      translate: -100% -50%;
+    }
+
+    &--right {
+      padding-left: space(2.5);
+      translate: 0 -50%;
+    }
+
+    &--top {
+      padding-bottom: space(2);
+      translate: -50% -100%;
+    }
+
+    &--bottom {
+      padding-top: space(2);
+      translate: -50% 0;
+    }
+
+    // Ciudades secundarias: solo desde 640 px, para que el mapa respire en móvil.
+    &--minor {
+      display: none;
+
+      @include up(sm) {
+        display: block;
+      }
+    }
+  }
+}

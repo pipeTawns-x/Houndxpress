@@ -1,0 +1,90 @@
+// Aviso de datos de demostración: banda `warning` con icono, guías de ejemplo y acciones.
+
+@use "../abstracts" as *;
+
+.demo-notice {
+  padding: space(4);
+  border: 1px solid with-alpha($color-warning, 0.3);
+  border-radius: $radius-2xl;
+  background-color: $color-warning-soft;
+
+  @include up(md) {
+    padding: space(5);
+  }
+
+  &__layout {
+    @include stack(space(4));
+
+    @include up(md) {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  &__main {
+    display: flex;
+    align-items: flex-start;
+    gap: space(3);
+    min-width: 0;
+  }
+
+  &__icon {
+    @include square(space(5));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-warning;
+  }
+
+  &__content {
+    @include stack(space(2));
+    min-width: 0;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-ink;
+  }
+
+  &__title {
+    font-weight: $font-weight-semibold;
+    color: $color-warning;
+  }
+
+  &__examples {
+    @include stack(space(1.5));
+  }
+
+  &__examples-title {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-ink;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+  }
+
+  &__link {
+    display: inline-flex;
+    padding: space(1) space(2.5);
+    border-radius: $radius-lg;
+    background-color: $color-white;
+    font-weight: $font-weight-semibold;
+    @include type(label);
+    color: $color-navy-800;
+    font-variant-numeric: tabular-nums;
+    @include ring(with-alpha($color-warning, 0.3));
+    @include transition-colors;
+
+    @include hover {
+      background-color: $color-aqua-100;
+    }
+  }
+
+  &__actions {
+    flex-shrink: 0;
+  }
+}

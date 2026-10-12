@@ -1,0 +1,34 @@
+// Los tokens de `abstracts/_tokens.scss` como propiedades personalizadas, para
+// que el código en ejecución (JavaScript, SVG, estilos en línea) los lea con
+// `getComputedStyle(document.documentElement).getPropertyValue("--color-aqua-500")`.
+
+@use "sass:list";
+@use "../abstracts" as *;
+
+:root {
+  @each $name, $value in $colors {
+    --color-#{$name}: #{$value};
+  }
+
+  --font-display: #{$font-display};
+  --font-sans: #{$font-sans};
+
+  @each $role, $step in $type-scale {
+    --text-#{$role}: #{list.nth($step, 1)};
+    --text-#{$role}--line-height: #{list.nth($step, 2)};
+  }
+
+  --radius-sm: #{$radius-sm};
+  --radius-lg: #{$radius-lg};
+  --radius-xl: #{$radius-xl};
+  --radius-2xl: #{$radius-2xl};
+  --radius-3xl: #{$radius-3xl};
+
+  --shadow-soft: #{$shadow-soft};
+  --shadow-lift: #{$shadow-lift};
+
+  --container-max: #{$container-max};
+
+  // Aro marino del anillo de foco sobre fondo claro. Las superficies oscuras lo apagan.
+  @include on-light;
+}

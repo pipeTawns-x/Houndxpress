@@ -1,0 +1,18 @@
+// Mensaje de error en línea: icono y texto (el estado nunca se comunica solo con color).
+
+@use "../abstracts" as *;
+
+.inline-error {
+  display: flex;
+  align-items: flex-start;
+  gap: space(1.5);
+  @include type(label);
+  font-weight: $font-weight-medium;
+  color: $color-danger;
+
+  &__icon {
+    @include square(1rem);
+    flex-shrink: 0;
+    margin-top: space(0.5);
+  }
+}

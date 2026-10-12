@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "3a3834d2-ef5f-4d52-b379-8fa5678c7505",
+  "status": "current",
+  "command": "deliver",
+  "type": "sequence",
+  "input": "/home/user/Houndxpress/docs/diagramas/fuentes/secuencia-consultas.json",
+  "output": "/home/user/Houndxpress/docs/diagramas/secuencia-consultas.html",
+  "specification": {
+    "sha256": "9aa48a9d617498b752a0fce95bfef8cbb202880ad316406b44ddf13922a6d491",
+    "bytes": 34283
+  },
+  "artifact": {
+    "sha256": "814fda68ab11374f50a69e2fd52f8d563f1b07119826d9d8ee67508dfeb52540",
+    "bytes": 764041
+  }
+}

@@ -1,0 +1,7 @@
+// Punto de entrada de las abstracciones. Cada parcial las trae con:
+//   @use "../abstracts" as *;
+// Nada de esta carpeta emite CSS: son variables, funciones y mixins.
+
+@forward "tokens";
+@forward "breakpoints";
+@forward "mixins";

@@ -1,0 +1,38 @@
+// Un parcial por bloque BEM. El orden importa donde un bloque se "mezcla" con otro
+// (por ejemplo, `tracking-search__submit` ajusta un `button`): `button` va antes.
+
+@forward "button";
+@forward "field";
+@forward "checkbox";
+@forward "inline-error";
+@forward "text-link";
+@forward "eyebrow";
+@forward "section-header";
+@forward "card-grid";
+@forward "accordion";
+@forward "faq-answer";
+@forward "api-status";
+@forward "demo-notice";
+@forward "notice";
+@forward "empty-state";
+@forward "loading-state";
+@forward "error-panel";
+@forward "error-state";
+@forward "page-loading";
+@forward "service-card";
+@forward "stat-card";
+@forward "stage-badge";
+@forward "stage-timeline";
+@forward "tracking-search";
+@forward "guide-card";
+@forward "guide-not-found";
+@forward "copy-button";
+@forward "guides-table";
+@forward "guide-actions";
+@forward "history-drawer";
+@forward "register-form";
+@forward "stage-summary";
+@forward "contact-form";
+@forward "network-map";
+@forward "hero-illustration";
+@forward "lost-package";

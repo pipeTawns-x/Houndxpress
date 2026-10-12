@@ -1,0 +1,42 @@
+// Encabezado de sección: sobretítulo, título y descripción. `--center` lo centra.
+
+@use "../abstracts" as *;
+
+.section-header {
+  @include stack(space(3));
+  max-width: 48rem;
+
+  &--center {
+    align-items: center;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  &__title {
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+
+    // h1 del encabezado de página.
+    &--page {
+      @include type(h1);
+    }
+
+    // h2 de las secciones.
+    &--section {
+      @include type(h2);
+    }
+
+    &--dark {
+      color: $color-white;
+    }
+  }
+
+  &__description {
+    @include type(lead);
+    color: $color-muted;
+
+    &--dark {
+      color: $color-navy-300;
+    }
+  }
+}
