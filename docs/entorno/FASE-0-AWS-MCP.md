@@ -69,7 +69,7 @@ Elija conscientemente el plan de cuenta antes de crear o unirse a una organizaci
 - **Paid:** implica aceptar la facturación aplicable; no equivale a un límite de gasto garantizado.
 - Crear una organización o unirse a AWS Organizations convierte automáticamente la cuenta al plan **Paid**.
 
-Por tanto, esta guía **no propone crear Organizations ni habilitar SSO para acceso a cuentas mientras Eduardo no acepte explícitamente Paid**. Mantener Free implica dejar pendiente ese camino de acceso. [Planes oficiales de AWS Free Tier](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html).
+Por tanto, esta guía **no propone crear Organizations ni habilitar SSO para acceso a cuentas mientras Eduardo no acepte explícitamente Paid**. Mantener Free deja pendiente ese camino SSO, pero permite el acceso local mediante `aws login` descrito en la sección 4. [Planes oficiales de AWS Free Tier](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier-plans.html).
 
 Una instancia de IAM Identity Center de tipo **account** sirve para aplicaciones compatibles, **no para acceso SSO a cuentas AWS**. No es un atajo para obtener ese acceso sin Organizations. [Tipos de instancia oficiales de IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/identity-center-instances.html).
 
@@ -83,7 +83,22 @@ En AWS Budgets, configure manualmente un presupuesto de costos **mensual de 5 US
 
 **Las alertas no son un límite duro de gasto:** no bloquean automáticamente el consumo ni garantizan detener cargos exactamente en esos importes. Revise su configuración y el estado de entrega del correo. [Creación oficial de presupuestos y notificaciones](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-create.html).
 
-## 4. Acceso AWS posterior — bloqueado hasta consentimiento y preparación
+## 4. Acceso local Free con `aws login`
+
+AWS CLI 2.32.0 o posterior permite acceso local con credenciales temporales mediante autenticación en el navegador, sin llaves permanentes ni Organizations. Eduardo debe preparar un usuario IAM con MFA y permisos mínimos; nunca usar root. La identidad necesita `SignInLocalDevelopmentAccess` para autenticarse y permisos separados de lectura para los servicios autorizados. Esa política de inicio de sesión no sustituye los permisos de servicio.
+
+Con usuario, MFA, región y presupuesto preparados, Eduardo ejecuta:
+
+```bash
+aws login --profile houndxpress-readonly
+aws sts get-caller-identity --profile houndxpress-readonly
+```
+
+Verifique localmente la identidad y reporte solo si corresponde al usuario esperado. No comparta códigos, tokens, URLs de autorización ni cachés. Las credenciales se renuevan durante una sesión de hasta 12 horas según el principal; después hay que iniciar sesión otra vez. SDK antiguos pueden necesitar adaptación posterior. Este flujo no crea recursos ni requiere cambiar a Paid.
+
+Fuente: [autenticación local oficial de AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sign-in.html).
+
+### Alternativa posterior Paid: IAM Identity Center
 
 **No ejecutar ahora.** Requisitos previos, todos obligatorios:
 
