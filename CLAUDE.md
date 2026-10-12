@@ -60,12 +60,14 @@ Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENC
 11. Cita las consignas completas y en su contexto. Anota los plus que tienen fuente, por ejemplo DELETE en la p. 21 del PDF.
 12. Las ramas locales sobrantes también rompen la regla de cuatro ramas: worktrees viejos y ramas cuya remota ya se borró. Se eliminan al terminar.
 13. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
+14. En Codex, npm y el git con red se corren fuera del sandbox; dentro, npm ci deja node_modules a medias.
 
 ## Comandos
 
 ```bash
 # Backend (desde backend/)
 python -m pip install -r requirements-dev.txt
+# Si la .venv la creó uv (no trae pip): uv pip install -r requirements-dev.txt --python .venv/bin/python
 python manage.py test && python -m ruff check . && python -m ruff format --check .
 
 # Frontend (desde frontend/)
