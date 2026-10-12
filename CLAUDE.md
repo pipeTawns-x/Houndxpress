@@ -29,19 +29,30 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 
 ## Ramas
 
-Cuatro ramas, con nombre que dice qué contiene. No se crean otras.
+Cinco ramas, con nombre que dice qué contiene. No se crean otras.
 
 | Rama | Contiene | Recibe cambios de |
 |---|---|---|
-| `main` | El producto integrado. Solo lo que ya pasó por `pruebas`. | `pruebas` |
-| `pruebas` | Integración de frontend y backend: suite completa, `docker compose` y CI en verde. | `frontend` y `backend` |
-| `frontend` | Rediseño y aplicación React (`frontend/`, `docs/diseno/`, `docs/loops/`). | trabajo directo |
+| `frontend` | Rediseño y aplicación React (`frontend/`, `docs/diseno/`). | trabajo directo |
 | `backend` | Django y DRF de cada práctica del LMS (`backend/`). | trabajo directo |
+| `practicas-ebac` | Entorno escolar: prácticas del LMS, entregas, documentos de curso y loops. | `frontend`, `backend` y trabajo escolar directo |
+| `pruebas` | Integración del producto: suite completa, `docker compose` y CI en verde. | `frontend`, `backend` y producto filtrado de `practicas-ebac` |
+| `main` | El producto integrado, limpio y profesional. Solo lo que ya pasó por `pruebas`. | `pruebas` |
 
-- Flujo: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`.
+- Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`. El código y la documentación de producto de `practicas-ebac` siguen el mismo camino, con el filtro escolar aplicado antes de entrar en `pruebas`.
+- **Filtro de salida escolar:** no pasan `docs/loops/`, las entregas y mensajes del LMS, las notas de práctica, los documentos Word, las capturas de práctica ni los prompts. Solo pasan código y documentación en tono de producto. Revisar el diff de salida; no integrar toda la rama escolar sin filtrar ni copiar el árbol completo, porque puede reintroducir archivos eliminados.
+- Un agente por rama y un worktree por rama. No compartir la escritura de una misma rama entre agentes.
 - Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`).
 - PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
-- Antes de hacer push: `git fetch` y rebase sobre la rama remota. Otro agente puede haber subido algo. Nunca `--force`.
+- La rama escolar publicada se sincroniza mediante **merge**, no rebase: conservar su historial compartido. Antes de publicar, obtener y revisar los cambios remotos e integrarlos mediante merge si corresponde. Nunca usar `--force` ni `--force-with-lease`.
+
+## Ejecución local y permisos
+
+- El agente solo ejecuta Git local, incluidos commits; no ejecuta Git con red ni publica cambios. Eduardo ejecuta `fetch`, `pull`, `push` y la publicación de PR, además de todos los comandos de npm y Homebrew.
+- Cuando se necesite una operación reservada a Eduardo, entregar un único bloque de comandos con el directorio de ejecución y pedirle que lo ejecute. Detenerse y esperar su salida antes de continuar; no asumir éxito.
+- El agente nunca ejecuta `npm ci`, ni siquiera fuera del sandbox, y no accede a credenciales, llaveros ni archivos de secretos. No cambiar helpers de credenciales ni buscar atajos de autenticación.
+- El sandbox de mínimo privilegio es intencional. Un bloqueo de permisos no autoriza elevar privilegios, desactivar restricciones ni ejecutar la operación por otra vía: corresponde pedir el bloque a Eduardo y esperar.
+- Estas reglas y la sección Ramas prevalecen sobre instrucciones anteriores de los loops o skills que indiquen rebase de la rama escolar publicada, push del agente, npm fuera del sandbox o acceso a credenciales.
 
 ## Errores que ya cometimos (reglas para no repetirlos)
 
@@ -58,11 +69,13 @@ Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENC
 9. Los módulos del PDF (M52, M54, M64, M66) no se numeran igual que el LMS (M0 a M37). En el LMS se busca por título de la asignación. M59 no existe.
 10. Antes de pedirle un archivo a Eduardo, búscalo en su Mac. El PDF oficial está en `~/Desktop/houndxpress.pdf`.
 11. Cita las consignas completas y en su contexto. Anota los plus que tienen fuente, por ejemplo DELETE en la p. 21 del PDF.
-12. Las ramas locales sobrantes también rompen la regla de cuatro ramas: worktrees viejos y ramas cuya remota ya se borró. Se eliminan al terminar.
+12. Las ramas locales sobrantes también rompen la regla de cinco ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
 13. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
-14. En Codex, npm y el git con red se corren fuera del sandbox; dentro, npm ci deja node_modules a medias.
+14. En Codex, npm y Git con red los ejecuta Eduardo, no el agente. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
 
 ## Comandos
+
+Referencia para Eduardo. Los comandos de npm los ejecuta únicamente él; el agente entrega el bloque necesario y espera la salida antes de reportar resultados.
 
 ```bash
 # Backend (desde backend/)
