@@ -1,9 +1,8 @@
 ---
 name: ebac-practicas-hound
 description: "Trigger: M54, M64, M66, entregables, LMS. Prepara prácticas Hound con trazabilidad y filtro escolar."
-license: Apache-2.0
 metadata:
-  author: "Hound Express"
+  author: "Eduardo Torres"
   version: "1.0"
 ---
 
@@ -12,6 +11,8 @@ Usa esta skill para preparar o revisar entregas M54, M64 y M66.
 Inputs: título de asignación LMS, consigna completa, requisito y evidencias reales.
 
 ## Hard Rules
+- Backend: python manage.py test y python -m ruff check . / format --check . autorizados en sandbox, desde backend/ y dentro del alcance asignado; ante bloqueo, detenerse. npm exclusivamente Eduardo.
+- No ejecutar Git ni lanzar subagentes; no leer secretos, instalar, desplegar, modificar configuración personal ni iniciar fase 6. No eludir el sandbox.
 - Prioriza REQUISITOS_EBAC; no confundas numeración del PDF y del LMS ni inventes M59.
 - M54: Guide, StatusHistory y User; entrega models.py o SQL adjuntos.
 - M64: viewsets, prefijo api/, crear-guia, actualizar-guia/ID, obtener-guia/ID; eliminar es opcional. Entrega ZIP o URL y evidencia Postman.

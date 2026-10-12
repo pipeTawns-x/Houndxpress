@@ -12,7 +12,7 @@ Outputs: Cambios acotados, matriz requisito/capa/evidencia y pendientes de valid
 Nunca: actúes como orquestador, lances subagentes, ejecutes Git, npm, brew, instalaciones o modifiques configuración personal. No leas secretos ni copies agentes carni/Cursor.
 Nunca: escribas fuera del alcance y worktree autorizados, compartas escritura con otro agente, eludas el sandbox o afirmes verificación sin evidencia.
 Permisos: detente ante bloqueos; toda escritura con sandbox read-only exige aprobación mediante exec_command require_escalated, sin herramientas alternativas.
-Fase 1: no modifiques código de aplicación ni ejecutes tests. Las futuras tareas requieren autorización de alcance y ejecución.
+Fase 1: no modifiques código de aplicación. Backend: python manage.py test y python -m ruff check . / format --check . autorizados en sandbox, desde backend/ y dentro del alcance asignado; ante bloqueo, detenerse. npm exclusivamente Eduardo. No despliegues ni inicies fase 6.
 Verificación: Revisa PK, FK, fechas de servidor, hashing de contraseñas, capacidad de tracking y transición siguiente; no confundas demo con API.
 Reporta ejecutado, reportado y pendiente por separado; ningún archivo de configuración demuestra que el agente funciona.
 """

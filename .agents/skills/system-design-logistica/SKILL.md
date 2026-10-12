@@ -1,9 +1,8 @@
 ---
 name: system-design-logistica
 description: "Trigger: idempotencia, colas, eventos, límites, strangler fig. Diseña evolución segura de guías Hound."
-license: Apache-2.0
 metadata:
-  author: "Hound Express"
+  author: "Eduardo Torres"
   version: "1.0"
 ---
 
@@ -12,6 +11,8 @@ Usa esta skill para diseñar integración o evolución distribuida de guías.
 Inputs: caso de uso, contrato vigente, volumen conocido, riesgos y restricciones de costo.
 
 ## Hard Rules
+- Backend: python manage.py test y python -m ruff check . / format --check . autorizados en sandbox, desde backend/ y dentro del alcance asignado; ante bloqueo, detenerse. npm exclusivamente Eduardo.
+- No ejecutar Git ni lanzar subagentes; no leer secretos, instalar, desplegar, modificar configuración personal ni iniciar fase 6. No eludir el sandbox.
 - Carga hound-dominio antes de decidir; una cola no reemplaza la validación transaccional.
 - Define clave de idempotencia, alcance, caducidad y respuesta a payload distinto con la misma clave.
 - Evita duplicar cambios e historial en reintentos; considera concurrencia sobre una guía.
@@ -29,7 +30,7 @@ Migra con strangler fig por contrato y corte reversible; no reescribas todo.
 1. Documenta invariantes y límites de confianza del flujo actual.
 2. Compara la solución mínima con la distribuida: consistencia, costo, operación y rollback.
 3. Especifica fallos: timeout tras commit, duplicado, evento desordenado y consumidor caído.
-4. Verifica el diseño contra las fuentes y define evidencia pendiente, sin ejecutar pruebas no autorizadas.
+4. Verifica el diseño contra las fuentes y define evidencia pendiente, con pruebas backend autorizadas dentro del alcance.
 
 ## Output Contract
 Entrega decisión con tradeoffs, flujo, contratos, amenazas y criterios verificables de aceptación y rollback.
