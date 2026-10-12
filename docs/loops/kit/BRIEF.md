@@ -2,11 +2,13 @@
 
 Este archivo es el contexto fijo del proyecto. Léelo completo antes de cada lote y **no lo repitas en tus respuestas**: cítalo por sección (por ejemplo, "Brief §4").
 
+**Rutas.** Este brief viaja al kit de diseño como `00-BRIEF.md`. Los nombres sin carpeta (`01-CONTENIDO-1A1.md`, `03-sistema-v1.md`, `tokens-v1/`…) son los del **kit**; entre paréntesis va la ruta del **repositorio**, que es donde vive el original. Si lees esto dentro del kit, usa el nombre sin paréntesis.
+
 ## 1. Cliente
 
 **Hound Express**: logística cross-border para ecommerce entre Estados Unidos y Latinoamérica. Hubs en Laredo (Texas) y Miami (Florida), 10 puntos de entrada en LATAM, más de 15,000 m² de almacenes, más de 3,000 puntos de recolección en México. Lema: "We move ecommerce globally!".
 
-Sitio actual: <https://www.hound-express.com/hx/> y <https://www.hound-express.com/tracking.html>. El contenido que hay que conservar, página por página, está en `01-CONTENIDO-1A1.md`.
+Sitio actual: <https://www.hound-express.com/hx/> y <https://www.hound-express.com/tracking.html>. El contenido que hay que conservar, página por página, está en `01-CONTENIDO-1A1.md` (repositorio: `docs/loops/kit/CONTENIDO-1A1.md`).
 
 ## 2. Proyecto
 
@@ -14,7 +16,7 @@ Sitio actual: <https://www.hound-express.com/hx/> y <https://www.hound-express.c
 - Consigna vigente (M52): "Procura atender los comentarios hechos por el tutor y tener el proyecto lo más pulido posible." Ver §9: no hubo entrega de frontend previa de Hound Express.
 - El diseño se construye con **React + TypeScript + Sass con metodología BEM + Redux**. Consecuencia: nada que dependa de Tailwind, de una librería de componentes ni de CSS-in-JS. Cada componente es un bloque BEM.
 - El panel y el rastreo usan **datos de demostración** hasta que exista la API (módulo 64). La interfaz lo dice con el bloque `demo-notice`.
-- Requisitos oficiales citados: `02-REQUISITOS_EBAC.md`.
+- Requisitos oficiales citados: `02-REQUISITOS_EBAC.md` (repositorio: `docs/REQUISITOS_EBAC.md`).
 
 ## 3. Marca (fija)
 
@@ -26,9 +28,9 @@ Sitio actual: <https://www.hound-express.com/hx/> y <https://www.hound-express.c
 
 Tipografías: **Plus Jakarta Sans** (títulos) e **Inter** (texto). Ninguna otra.
 
-Logotipo: `brand/logo-hound-express.svg` y `brand/logo-hound-express-blanco.svg`. Es el único recurso gráfico de la empresa que se reutiliza; las ilustraciones son propias (rutas, nodos, paquetes, SVG). Sin fotos de banco.
+Logotipo: `brand/logo-hound-express.svg` y `brand/logo-hound-express-blanco.svg` (repositorio: `frontend/public/brand/`). Es el único recurso gráfico de la empresa que se reutiliza; las ilustraciones son propias (rutas, nodos, paquetes, SVG). Sin fotos de banco.
 
-La paleta y tipografía completas de la versión 1 están en `03-sistema-v1.md` y `tokens-v1/`. Mejóralas; no empieces de cero.
+La paleta y tipografía completas de la versión 1 están en `03-sistema-v1.md` y `tokens-v1/` (repositorio: `docs/diseno/04-sistema-de-diseno.md`, más `frontend/src/styles/abstracts/` y `frontend/src/content/designTokens.ts`). Mejóralas; no empieces de cero.
 
 ## 4. Proceso de negocio (fijo)
 
@@ -59,7 +61,7 @@ Funciones obligatorias: registrar guías con un formulario; actualizar el estado
 
 ## 6. Decisiones cerradas en la versión 1 (no se vuelven a discutir)
 
-El proceso de diagnóstico, propuesta, abogado del diablo y arquitecto ya se hizo (`04-decisiones-v1.md`). Se mantienen:
+El proceso de diagnóstico, propuesta, abogado del diablo y arquitecto ya se hizo (`04-decisiones-v1.md`; repositorio: `docs/diseno/03-arquitecto.md`). Se mantienen:
 
 1. El rastreo vive dentro del sitio, con la misma navegación, y el buscador está en la primera pantalla del Inicio.
 2. El resultado del rastreo es una línea de tiempo con las cinco etapas: horizontal desde 768 px, vertical en móvil.
@@ -101,4 +103,4 @@ No aplica. En el curso de frontend, Eduardo eligió un proyecto externo, así qu
 
 ## 11. Autoevaluación al cerrar cada lote
 
-Una tabla con una fila por pantalla del lote y estas columnas: contraste AA, sin color como único indicador, 390 px sin desplazamiento horizontal, bloques BEM nombrados, contenido de `01-CONTENIDO-1A1.md` completo. Marca cada celda con "sí" o con el problema concreto. No declares "sí" sin haberlo revisado.
+Una tabla con una fila por pantalla del lote y estas columnas: contraste AA, sin color como único indicador, 390 px sin desplazamiento horizontal, bloques BEM nombrados, contenido de `01-CONTENIDO-1A1.md` (repositorio: `docs/loops/kit/CONTENIDO-1A1.md`) completo. Marca cada celda con "sí" o con el problema concreto. No declares "sí" sin haberlo revisado.

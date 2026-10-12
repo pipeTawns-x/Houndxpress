@@ -24,11 +24,13 @@ done
 cp "$root/frontend/src/services/demoData.ts" "$out/contenido-v1/"
 
 cp "$root/frontend/src/content/designTokens.ts" "$out/tokens-v1/"
-if [ -d "$root/frontend/src/styles/abstracts" ]; then
-  cp "$root"/frontend/src/styles/abstracts/*.scss "$out/tokens-v1/"
-else
-  cp "$root/frontend/src/index.css" "$out/tokens-v1/"
+# Los tokens viven en Sass desde la migración a BEM: abstracts/ es la única fuente.
+if [ ! -d "$root/frontend/src/styles/abstracts" ]; then
+  echo "Faltan los tokens: no existe frontend/src/styles/abstracts/." >&2
+  echo "Antes existía frontend/src/index.css; la migración a Sass lo eliminó." >&2
+  exit 1
 fi
+cp "$root"/frontend/src/styles/abstracts/*.scss "$out/tokens-v1/"
 
 for shot in inicio-escritorio inicio-movil rastreo-resultado-movil panel-escritorio; do
   cp "$root/docs/diseno/capturas/$shot.jpg" "$out/capturas-v1/"
