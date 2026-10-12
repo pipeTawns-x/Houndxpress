@@ -20,7 +20,7 @@ Respuesta a cada objeción de [`02-abogado-del-diablo.md`](02-abogado-del-diablo
 | Tema | Decisión | Motivo |
 |---|---|---|
 | Base | React 19 + TypeScript + Vite | React es lo que enseña el módulo de front-end del programa; Vite compila en segundos y sirve el proxy a Django en desarrollo. |
-| Estilos | Tailwind CSS 4 con tokens en `@theme` | Un solo lugar para colores, tipografía y espaciado; sin hojas CSS paralelas. |
+| Estilos | Sass con metodología BEM y carpetas 7-1 en `src/styles/` | Los tokens viven en `abstracts/_tokens.scss` y se exponen como propiedades personalizadas en `:root`. Lo pide el Módulo 10 del documento oficial. La primera versión usó Tailwind 4 con `@theme`; se migró a Sass. |
 | Rutas | React Router | Rutas reales (`/rastreo?guia=…`) que se pueden compartir. |
 | Iconos | `lucide-react` (ISC) | Trazo uniforme, se importan solo los usados. |
 | Tipografías | `@fontsource-variable/plus-jakarta-sans` e `@fontsource-variable/inter` (OFL) | Autoalojadas: sin peticiones a Google Fonts. |
@@ -38,12 +38,14 @@ frontend/
 ├── public/brand/            # logotipos de Hound Express
 ├── src/
 │   ├── main.tsx, App.tsx    # arranque y rutas
-│   ├── index.css            # Tailwind y tokens (@theme)
+│   ├── styles/              # Sass 7-1 con BEM: abstracts/, base/, components/, layout/, pages/ y main.scss
 │   ├── domain/              # tipos, etapas y reglas puras (sin React)
 │   ├── services/            # repositorio de guías (demo y HTTP) y salud de la API
+│   ├── store/               # Redux Toolkit (estado de las guías)
 │   ├── hooks/               # useGuides, useApiHealth, useDocumentTitle
 │   ├── components/          # piezas reutilizables (layout, ui, tracking, illustrations)
 │   ├── content/             # textos del sitio: servicios, cobertura, preguntas
+│   ├── config/, lib/        # configuración de entorno y utilidades (BEM, contraste, rutas)
 │   └── pages/               # una carpeta o archivo por ruta
 └── tests en src/**/*.test.ts(x)
 ```
