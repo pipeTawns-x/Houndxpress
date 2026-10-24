@@ -1,7 +1,11 @@
 # Respaldo manual: GGA_PROVIDER=opencode:opencode/big-pickle
-PROVIDER="opencode:opencode/nemotron-3-ultra-free"
+# Provider vigente: modelo accesible con la sesión autenticada de opencode en esta máquina.
+# El anterior (opencode/nemotron-3-ultra-free) quedó con API key expirada y bloqueaba todo commit.
+PROVIDER="opencode:nvidia/minimaxai/minimax-m3.1-flash"
+# Agente dedicado: revisor read-only que no delega ni ejecuta comandos.
+OPENCODE_AGENT="gga-review"
 RULES_FILE="AGENTS.md"
 STRICT_MODE="true"
-TIMEOUT="300"
+TIMEOUT="900"
 FILE_PATTERNS="*.py,*.ts,*.tsx,*.js,*.jsx,*.scss"
 EXCLUDE_PATTERNS="*.test.*,*.spec.*,*/tests/*,test_*.py,*_test.py,tests.py,*.d.ts,backend/*/migrations/*"

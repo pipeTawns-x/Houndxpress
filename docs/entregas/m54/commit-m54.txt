@@ -1,0 +1,17 @@
+feat(backend): agrega entidades de guía con historial inmutable
+
+Implementa Guide, StatusHistory y el campo department en accounts.User
+para M54 (Entregable 10).
+
+- El historial es de solo inserción: no admite actualizaciones ni borrados.
+- Una guía solo avanza a la etapa siguiente; no se saltan ni retroceden etapas.
+- current_stage es estado derivado y solo cambia al registrar historial.
+- El número de guía se valida en el modelo y con una restricción en la base.
+- Incluye migraciones, fixture de demostración y suite completa en verde.
+
+Commits publicados:
+- 6380d52 feat(backend): agrega entidades de guía con historial inmutable
+- 0fc74ad chore(workflow): habilita revisión GGA real y publicación con aprobación
+
+Tag: m54
+PR: https://github.com/pipeTawns-x/Houndxpress/pull/3
