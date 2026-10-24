@@ -1,7 +1,9 @@
-Implements the M54 tracking module (Guide + StatusHistory) with an immutable stage history and database-level constraints.
+Implementa el módulo de tracking del M54 (`Guide` + `StatusHistory`) con historial de etapas inmutable y restricciones a nivel de base de datos.
 
-PR: https://github.com/pipeTawns-x/Houndxpress/pull/3
-Commit: 6380d52 · Tag: m54
+PR: https://github.com/pipeTawns-x/Houndxpress/pull/4
+Commits: merge `7a0f3924` · código M54 `b950efb` · Tag: `m54`
+
+El PR #3 se cerró por conflictos y fue reemplazado por el PR #4.
 
 ## Qué incluye
 

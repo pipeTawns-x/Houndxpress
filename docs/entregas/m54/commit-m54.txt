@@ -10,8 +10,8 @@ para M54 (Entregable 10).
 - Incluye migraciones, fixture de demostración y suite completa en verde.
 
 Commits publicados:
-- 6380d52 feat(backend): agrega entidades de guía con historial inmutable
-- 0fc74ad chore(workflow): habilita revisión GGA real y publicación con aprobación
+- b950efb feat(backend): agrega entidades de guía con historial inmutable
+- e6eafdf chore(workflow): habilita revisión GGA real y publicación con aprobación
 
 Tag: m54
-PR: https://github.com/pipeTawns-x/Houndxpress/pull/3
+PR: https://github.com/pipeTawns-x/Houndxpress/pull/4
