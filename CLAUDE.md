@@ -42,13 +42,15 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras.
 - Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`. El código y la documentación de producto de `practicas-ebac` siguen el mismo camino, con el filtro escolar aplicado antes de entrar en `pruebas`.
 - **Filtro de salida escolar:** no pasan `docs/loops/`, las entregas y mensajes del LMS, las notas de práctica, los documentos Word, las capturas de práctica ni los prompts. Solo pasan código y documentación en tono de producto. Revisar el diff de salida; no integrar toda la rama escolar sin filtrar ni copiar el árbol completo, porque puede reintroducir archivos eliminados.
 - Un agente por rama y un worktree por rama. No compartir la escritura de una misma rama entre agentes.
-- Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`).
+- Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
 - PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
 - La rama escolar publicada se sincroniza mediante **merge**, no rebase: conservar su historial compartido. Antes de publicar, obtener y revisar los cambios remotos e integrarlos mediante merge si corresponde. Nunca usar `--force` ni `--force-with-lease`.
 
 ## Ejecución local y permisos
 
-- El agente solo ejecuta Git local, incluidos commits; no ejecuta Git con red ni publica cambios. Eduardo ejecuta `fetch`, `pull`, `push` y la publicación de PR, además de todos los comandos de npm y Homebrew.
+- El agente ejecuta Git local, incluidos commits. No ejecuta Git con red ni publica cambios sin la aprobación explícita de Eduardo en la sesión.
+- Con aprobación explícita de Eduardo en la conversación, el agente puede ejecutar `push`, crear y publicar tags, y abrir PRs con `gh`. Condiciones: (a) la aprobación consta en la conversación, (b) el agente anuncia cada comando y muestra su salida real, (c) nunca usa `--force` ni `--force-with-lease`, y (d) el trabajo publicado ya pasó el gate de PR de la rama (pruebas, linter, migraciones y revisión GGA).
+- Sin esa aprobación, el agente entrega un único bloque de comandos a Eduardo y espera su salida. Eduardo conserva `fetch`, `pull` y todos los comandos de npm y Homebrew.
 - Cuando se necesite una operación reservada a Eduardo, entregar un único bloque de comandos con el directorio de ejecución y pedirle que lo ejecute. Detenerse y esperar su salida antes de continuar; no asumir éxito.
 - El agente nunca ejecuta `npm ci`, ni siquiera fuera del sandbox, y no accede a credenciales, llaveros ni archivos de secretos. No cambiar helpers de credenciales ni buscar atajos de autenticación.
 - El sandbox de mínimo privilegio es intencional. Un bloqueo de permisos no autoriza elevar privilegios, desactivar restricciones ni ejecutar la operación por otra vía: corresponde pedir el bloque a Eduardo y esperar.
@@ -71,7 +73,7 @@ Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENC
 11. Cita las consignas completas y en su contexto. Anota los plus que tienen fuente, por ejemplo DELETE en la p. 21 del PDF.
 12. Las ramas locales sobrantes también rompen la regla de cinco ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
 13. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
-14. En Codex, npm y Git con red los ejecuta Eduardo, no el agente. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
+14. En Codex, npm lo ejecuta Eduardo, no el agente. Git con red también lo ejecuta Eduardo, salvo autorización explícita del propio Eduardo en la sesión. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
 
 ## Comandos
 

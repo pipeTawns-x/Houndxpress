@@ -43,3 +43,5 @@ build/
 /graphify-out/
 # Local AI runtime state
 .atl/
+# Spec-driven artifacts stay local to the working session.
+openspec/
