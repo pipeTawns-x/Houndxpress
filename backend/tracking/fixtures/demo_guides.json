@@ -1,0 +1,218 @@
+[
+  {
+    "model": "tracking.guide",
+    "pk": 1,
+    "fields": {
+      "tracking_number": "2148302917560231",
+      "origin": "Miami, FL",
+      "destination": "Ciudad de M\u00e9xico",
+      "recipient": "Mariana Ortega Villase\u00f1or",
+      "service_level": "priority",
+      "current_stage": "cargo_received",
+      "is_archived": false,
+      "created_at": "2026-10-05T14:10:00Z",
+      "updated_at": "2026-10-05T14:10:00Z"
+    }
+  },
+  {
+    "model": "tracking.guide",
+    "pk": 2,
+    "fields": {
+      "tracking_number": "2160715480239854",
+      "origin": "Houston, TX",
+      "destination": "Monterrey, NL",
+      "recipient": "H\u00e9ctor Salinas Garza",
+      "service_level": "standard",
+      "current_stage": "vehicle_released",
+      "is_archived": false,
+      "created_at": "2026-10-02T09:30:00Z",
+      "updated_at": "2026-10-03T08:20:00Z"
+    }
+  },
+  {
+    "model": "tracking.guide",
+    "pk": 3,
+    "fields": {
+      "tracking_number": "2175529046813377",
+      "origin": "Los \u00c1ngeles, CA",
+      "destination": "Guadalajara, JAL",
+      "recipient": "Valeria Dom\u00ednguez R\u00edos",
+      "service_level": "priority",
+      "current_stage": "vehicle_in_transit",
+      "is_archived": false,
+      "created_at": "2026-10-01T10:05:00Z",
+      "updated_at": "2026-10-03T21:45:00Z"
+    }
+  },
+  {
+    "model": "tracking.guide",
+    "pk": 4,
+    "fields": {
+      "tracking_number": "2183396152704418",
+      "origin": "Miami, FL",
+      "destination": "Ciudad de M\u00e9xico",
+      "recipient": "Rodrigo Esquivel Montes",
+      "service_level": "standard",
+      "current_stage": "cargo_delivered",
+      "is_archived": true,
+      "created_at": "2026-10-01T08:15:00Z",
+      "updated_at": "2026-10-04T16:25:00Z"
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 1,
+    "fields": {
+      "guide": 1,
+      "stage": "cargo_received",
+      "timestamp": "2026-10-05T14:10:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Miami, FL",
+      "note": "Carga recibida y pesada en el almac\u00e9n de origen."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 2,
+    "fields": {
+      "guide": 2,
+      "stage": "cargo_received",
+      "timestamp": "2026-10-02T09:30:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Houston, TX",
+      "note": "Carga recibida y registrada."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 3,
+    "fields": {
+      "guide": 2,
+      "stage": "vehicle_loaded",
+      "timestamp": "2026-10-02T15:45:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Houston, TX",
+      "note": "Carga asignada y cargada en el veh\u00edculo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 4,
+    "fields": {
+      "guide": 2,
+      "stage": "vehicle_released",
+      "timestamp": "2026-10-03T08:20:00Z",
+      "updated_by": null,
+      "location": "Laredo, TX",
+      "note": "Veh\u00edculo liberado en el cruce fronterizo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 5,
+    "fields": {
+      "guide": 3,
+      "stage": "cargo_received",
+      "timestamp": "2026-10-01T10:05:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Los \u00c1ngeles, CA",
+      "note": "Carga recibida y registrada."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 6,
+    "fields": {
+      "guide": 3,
+      "stage": "vehicle_loaded",
+      "timestamp": "2026-10-01T18:30:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Los \u00c1ngeles, CA",
+      "note": "Carga asignada y cargada en el veh\u00edculo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 7,
+    "fields": {
+      "guide": 3,
+      "stage": "vehicle_released",
+      "timestamp": "2026-10-03T09:10:00Z",
+      "updated_by": null,
+      "location": "Laredo, TX",
+      "note": "Veh\u00edculo liberado en el cruce fronterizo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 8,
+    "fields": {
+      "guide": 3,
+      "stage": "vehicle_in_transit",
+      "timestamp": "2026-10-03T21:45:00Z",
+      "updated_by": null,
+      "location": "Monterrey, NL",
+      "note": "Veh\u00edculo en camino hacia el destino."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 9,
+    "fields": {
+      "guide": 4,
+      "stage": "cargo_received",
+      "timestamp": "2026-10-01T08:15:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Miami, FL",
+      "note": "Carga recibida y registrada."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 10,
+    "fields": {
+      "guide": 4,
+      "stage": "vehicle_loaded",
+      "timestamp": "2026-10-01T14:00:00Z",
+      "updated_by": null,
+      "location": "Almac\u00e9n Miami, FL",
+      "note": "Carga asignada y cargada en el veh\u00edculo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 11,
+    "fields": {
+      "guide": 4,
+      "stage": "vehicle_released",
+      "timestamp": "2026-10-03T07:30:00Z",
+      "updated_by": null,
+      "location": "Laredo, TX",
+      "note": "Veh\u00edculo liberado en el cruce fronterizo."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 12,
+    "fields": {
+      "guide": 4,
+      "stage": "vehicle_in_transit",
+      "timestamp": "2026-10-03T20:10:00Z",
+      "updated_by": null,
+      "location": "San Luis Potos\u00ed, SLP",
+      "note": "Veh\u00edculo en camino hacia el destino."
+    }
+  },
+  {
+    "model": "tracking.statushistory",
+    "pk": 13,
+    "fields": {
+      "guide": 4,
+      "stage": "cargo_delivered",
+      "timestamp": "2026-10-04T16:25:00Z",
+      "updated_by": null,
+      "location": "Ciudad de M\u00e9xico",
+      "note": "Entrega confirmada con firma del destinatario."
+    }
+  }
+]
