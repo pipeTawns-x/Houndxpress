@@ -47,7 +47,9 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras. Esta tabla de
 
 ## Ejecución local y permisos
 
-- El agente solo ejecuta Git local, incluidos commits; no ejecuta Git con red ni publica cambios. Eduardo ejecuta `fetch`, `pull`, `push` y la publicación de PR, además de todos los comandos de npm y Homebrew.
+- El agente ejecuta Git local, incluidos commits. No ejecuta Git con red ni publica cambios sin la aprobación explícita de Eduardo en la sesión.
+- Con aprobación explícita de Eduardo en la conversación, el agente puede ejecutar `push`, crear y publicar tags, y abrir PRs con `gh`. Condiciones: (a) la aprobación consta en la conversación, (b) el agente anuncia cada comando y muestra su salida real, (c) nunca usa `--force` ni `--force-with-lease`, y (d) el trabajo publicado ya pasó el gate de PR de la rama (pruebas, linter, migraciones y revisión GGA).
+- Sin esa aprobación, el agente entrega un único bloque de comandos a Eduardo y espera su salida. Eduardo conserva `fetch`, `pull` y todos los comandos de npm y Homebrew.
 - Cuando se necesite una operación reservada a Eduardo, entregar un único bloque de comandos con el directorio de ejecución y pedirle que lo ejecute. Detenerse y esperar su salida antes de continuar; no asumir éxito.
 - El agente nunca ejecuta `npm ci`, ni siquiera fuera del sandbox, y no accede a credenciales, llaveros ni archivos de secretos. No cambiar helpers de credenciales ni buscar atajos de autenticación.
 - El sandbox de mínimo privilegio es intencional. Un bloqueo de permisos no autoriza elevar privilegios, desactivar restricciones ni ejecutar la operación por otra vía: corresponde pedir el bloque a Eduardo y esperar.
@@ -67,7 +69,7 @@ El registro completo vive solo en `practicas-ebac`: consultar con `git show orig
 7. No confundir una regla demostrada en el frontend con datos de demostración con una validación implementada en la API.
 8. Las ramas locales sobrantes también rompen la regla de cinco ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
 9. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
-10. En Codex, npm y Git con red los ejecuta Eduardo, no el agente. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
+10. En Codex, npm lo ejecuta Eduardo, no el agente. Git con red también lo ejecuta Eduardo, salvo autorización explícita del propio Eduardo en la sesión. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
 
 ## Comandos
 
