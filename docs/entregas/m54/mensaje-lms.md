@@ -29,7 +29,7 @@ Además:
 - Una guía solo avanza a la etapa siguiente: el modelo rechaza saltos, retrocesos y etapas después de "Carga entregada". Es el problema que describe el documento del proyecto (solo 31 de cada 100 guías seguían el orden).
 - El historial es de solo inserción: no se puede editar ni borrar, ni desde el código ni desde el admin.
 - La etapa actual no se puede escribir a mano: se deriva del historial. Cualquier intento de cambiarla por una vía alternativa queda bloqueado y la base de datos también lo rechaza.
-- El número de guía se valida (16 dígitos que empiezan con 21, o 22 caracteres) también en la base de datos.
+- El número de guía se valida (16 dígitos que empiezan con 21, o 22 caracteres alfanuméricos en mayúscula) también en la base de datos.
 - Hay un fixture con cuatro guías de demostración en etapas distintas.
 - Agregué 73 pruebas automáticas de estas reglas; junto con las del M52 son 86, todas en verde.
 
