@@ -2,11 +2,11 @@
 #    uv export --frozen --no-hashes --no-dev --no-emit-project -o requirements.txt
 asgiref==3.12.1
     # via django
-django==5.2.17
+django==5.2.18
     # via
     #   djangorestframework
     #   houndxpress-backend
-djangorestframework==3.18.1
+djangorestframework==3.18.3
     # via houndxpress-backend
 python-dotenv==1.2.3
     # via houndxpress-backend
