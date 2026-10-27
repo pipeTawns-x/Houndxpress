@@ -16,7 +16,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | API con Django REST Framework: punto de salud que consulta la base de datos | [`backend/core/views.py`](backend/core/views.py), [`backend/core/tests/test_health.py`](backend/core/tests/test_health.py) |
 | Servidor local con entorno virtual y pip | sección *Inicio rápido*; jobs `readme (bash)` y `readme (powershell)` en [`ci.yml`](.github/workflows/ci.yml) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt) |
-| Configuración por variables de entorno, sin secretos en el repositorio | [`backend/.env.example`](backend/.env.example), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
+| Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Lint y 13 pruebas automáticas en Linux (Python 3.10 y 3.12) y Windows | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
 La versión entregada está congelada en la etiqueta [`m52`](https://github.com/pipeTawns-x/Houndxpress/tree/m52). Para ejecutar exactamente esa versión después de clonar: `git checkout m52`.
@@ -78,7 +78,7 @@ En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resul
 
 ## Configuración
 
-Todas las variables son opcionales en desarrollo. La plantilla es [`backend/.env.example`](backend/.env.example); cópiala como `backend/.env` si quieres cambiar algún valor.
+Todas las variables son opcionales en desarrollo: `DJANGO_DEBUG`, `DJANGO_SECRET_KEY` y `DJANGO_ALLOWED_HOSTS`. Para cambiar alguna, defínela en el entorno o en el archivo privado `backend/.env`, que git ignora. Las notas sobre cada variable van como comentarios dentro de ese mismo archivo.
 
 | Variable | Valor por defecto | Obligatoria cuando |
 |---|---|---|
@@ -102,8 +102,7 @@ Houndxpress/
     ├── tracking/              # Dominio de guías y etapas (tablas a partir de M54)
     ├── requirements.txt       # Dependencias de ejecución con versiones fijas
     ├── requirements-dev.txt   # Lo anterior más herramientas de desarrollo (ruff)
-    ├── pyproject.toml         # Declaración de dependencias; uv.lock fija el árbol completo
-    └── .env.example           # Variables de entorno opcionales
+    └── pyproject.toml         # Declaración de dependencias; uv.lock fija el árbol completo
 ```
 
 ## Contexto del negocio
