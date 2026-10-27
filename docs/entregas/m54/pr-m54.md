@@ -2,7 +2,7 @@
 
 Título: `M54.1: dependencias parcheadas y controles ASVS 5.0 nivel 1`
 PR: de `m54-1-entrega` a `practicas-ebac` (commits de `backend` aplicados con cherry-pick, como en el PR #4). El número se asigna al abrirlo.
-Commits: `f2fa222` · `6099863` · `db4125c` · `d5b3abc` · `3a750a6` · `c902416` · `60981a5` · `a0da889` · Tag: `m54.1`
+Commits: `f2fa222` · `6099863` · `db4125c` · `d5b3abc` · `3a750a6` · `c902416` · `60981a5` · `a0da889` · `79c1eb5` · `ec950c4` · Tag: `m54.1`
 
 Actualiza dependencias con avisos de seguridad y cubre con pruebas los controles de OWASP ASVS 5.0 nivel 1. El modelo de datos y las migraciones no cambian desde M54.
 
@@ -11,6 +11,8 @@ Actualiza dependencias con avisos de seguridad y cubre con pruebas los controles
 - Dependencias: Django 5.2.18 y DRF 3.18.3 (`f2fa222`).
 - Configuración según ASVS 5.0 nivel 1, con pruebas: HSTS, cookies `__Host-`, límite de peticiones, JSON en UTF-8 y política de contraseñas (`6099863`). El límite de peticiones identifica al cliente por `REMOTE_ADDR` (`c902416`).
 - `SECURITY.md` con los plazos de parche y las reglas de autorización (`d5b3abc`).
+- Frontend: vite 8.3.3, zod 4.6.7 y source-map-js 1.2.2, instalados con `--ignore-scripts` y con más de 3 días publicados (`ec950c4`). Riesgo aceptado: `deepmerge` 4.3.1, de severidad baja, sin versión corregida y usado solo por Jest.
+- Checklist ASVS cruzado con los 20 controles del curso de hacking ético de Big School (`79c1eb5`).
 - Se elimina `backend/.env.example` y `.gitignore` deja de permitirlo (`db4125c`, `3a750a6`, `a0da889`). `.gitignore` ignora llaves y secretos, y el README actualiza el conteo de pruebas (`60981a5`).
 
 ## Cómo probarlo
@@ -24,6 +26,8 @@ python manage.py test
 ```
 
 Resultado esperado: `Ran 108 tests` y `OK`. Además: ruff limpio, `makemigrations` sin cambios pendientes, `check --deploy` con 0 avisos y OSV, gitleaks y semgrep con 0 hallazgos.
+
+Desde `frontend/`: `npm ci --ignore-scripts` y `npm test`. Resultado esperado: 278 pruebas en 24 suites, con build, lint y typecheck en verde.
 
 Entrega del LMS: Proyecto Empresa Aliada - M54 Entregable 10 (etiqueta `m54.1`).
 
