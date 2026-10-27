@@ -1,17 +1,17 @@
 # M54.1
 
 Título: `M54.1: dependencias parcheadas y controles ASVS 5.0 nivel 1`
-PR: de `backend` a `practicas-ebac`. El número se asigna al abrirlo.
-Commits: `edc8fc4` · `3e08281` · `9b334c0` · `f77c825` · `a50b656` · `40972dd` · `aed7967` · Tag: `m54.1`
+PR: de `m54-1-entrega` a `practicas-ebac` (commits de `backend` aplicados con cherry-pick, como en el PR #4). El número se asigna al abrirlo.
+Commits: `f2fa222` · `6099863` · `db4125c` · `d5b3abc` · `3a750a6` · `c902416` · `60981a5` · `a0da889` · Tag: `m54.1`
 
 Actualiza dependencias con avisos de seguridad y cubre con pruebas los controles de OWASP ASVS 5.0 nivel 1. El modelo de datos y las migraciones no cambian desde M54.
 
 ## Qué incluye
 
-- Dependencias: Django 5.2.18 y DRF 3.18.3 (`edc8fc4`).
-- Configuración según ASVS 5.0 nivel 1, con pruebas: HSTS, cookies `__Host-`, límite de peticiones, JSON en UTF-8 y política de contraseñas (`3e08281`). El límite de peticiones identifica al cliente por `REMOTE_ADDR` (`40972dd`).
-- `SECURITY.md` con los plazos de parche y las reglas de autorización (`f77c825`).
-- Se elimina `backend/.env.example` y `.gitignore` deja de permitirlo (`9b334c0`, `a50b656`). `.gitignore` ignora llaves y secretos, y el README actualiza el conteo de pruebas (`aed7967`).
+- Dependencias: Django 5.2.18 y DRF 3.18.3 (`f2fa222`).
+- Configuración según ASVS 5.0 nivel 1, con pruebas: HSTS, cookies `__Host-`, límite de peticiones, JSON en UTF-8 y política de contraseñas (`6099863`). El límite de peticiones identifica al cliente por `REMOTE_ADDR` (`c902416`).
+- `SECURITY.md` con los plazos de parche y las reglas de autorización (`d5b3abc`).
+- Se elimina `backend/.env.example` y `.gitignore` deja de permitirlo (`db4125c`, `3a750a6`, `a0da889`). `.gitignore` ignora llaves y secretos, y el README actualiza el conteo de pruebas (`60981a5`).
 
 ## Cómo probarlo
 
