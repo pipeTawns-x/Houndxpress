@@ -1,4 +1,4 @@
-"""HTTP security controls from OWASP ASVS 5.0 level 1 (docs/entregas/m54/asvs-l1-checklist.md)."""
+"""HTTP security controls from OWASP ASVS 5.0 level 1."""
 
 from unittest import mock
 
