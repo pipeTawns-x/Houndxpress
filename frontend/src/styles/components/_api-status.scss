@@ -1,0 +1,49 @@
+// Estado de la API: punto de color y texto ("API en línea · BD ok").
+//
+//   .api-status__dot--checking · --online · --offline
+//   .api-status--dark   sobre fondo marino (en línea se dibuja en aqua)
+
+@use "../abstracts" as *;
+
+.api-status {
+  display: inline-flex;
+  align-items: center;
+  gap: space(2);
+  padding: space(1) space(3);
+  border-radius: $radius-full;
+  @include type(label);
+  font-weight: $font-weight-medium;
+  background-color: $color-white;
+  color: $color-ink;
+  @include ring($color-line);
+
+  &--dark {
+    background-color: $color-navy-900;
+    color: $color-navy-300;
+    @include ring($color-navy-700);
+  }
+
+  &__dot {
+    @include square(space(2.5));
+    border-radius: $radius-full;
+
+    &--checking {
+      background-color: $color-navy-300;
+      @include motion-safe {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+    }
+
+    &--online {
+      background-color: $color-success;
+
+      .api-status--dark & {
+        background-color: $color-aqua-500;
+      }
+    }
+
+    &--offline {
+      background-color: $color-danger;
+    }
+  }
+}

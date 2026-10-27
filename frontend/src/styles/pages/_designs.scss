@@ -1,0 +1,346 @@
+// Índice de diseños (`/disenos`): guía de estilo viva con pantallas, paleta, tipografía y componentes.
+
+@use "../abstracts" as *;
+
+// Lista blanca con una línea entre filas (contrastes y escala tipográfica).
+@mixin ruled-list {
+  @include stack;
+  border-radius: $radius-2xl;
+  background-color: $color-white;
+  @include ring($color-line);
+}
+
+.designs-page {
+  @include stack(space(14));
+  padding-block: space(14);
+
+  @include up(md) {
+    padding-block: space(20);
+  }
+
+  &__cards {
+    display: grid;
+    gap: space(5);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+// Sección de la guía: título, descripción y muestra. Se separan con una línea.
+.design-section {
+  @include stack(space(6));
+  scroll-margin-top: space(20);
+  padding-top: space(12);
+  border-top: 1px solid $color-line;
+
+  &:first-child {
+    padding-top: 0;
+    border-top-width: 0;
+  }
+
+  &__intro {
+    @include stack(space(2));
+    max-width: 48rem;
+  }
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+    letter-spacing: $tracking-tight;
+  }
+
+  &__description {
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// --- Pantallas ------------------------------------------------------------------
+.screen-grid {
+  display: grid;
+  gap: space(4);
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.screen-link {
+  @include stack(space(2));
+  height: 100%;
+  padding: space(5);
+  @include card;
+  @include transition((translate, box-shadow), $duration-base, $ease-out);
+
+  @include hover {
+    translate: 0 (-(space(1)));
+    @include ring($color-line, $shadow-lift);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(2);
+    font-family: $font-display;
+    @include type(lg);
+    font-weight: $font-weight-bold;
+    color: $color-navy-800;
+  }
+
+  &__arrow {
+    @include square(space(4));
+    color: $color-aqua-700;
+    @include transition-transform($duration-base);
+
+    @media (hover: hover) {
+      .screen-link:hover & {
+        translate: space(1) 0;
+      }
+    }
+  }
+
+  &__path {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-aqua-700;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// --- Paleta ---------------------------------------------------------------------
+.swatch-grid {
+  display: grid;
+  gap: space(4);
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: $radius-2xl;
+  background-color: $color-white;
+  @include ring($color-line);
+
+  &__color {
+    height: space(20);
+  }
+
+  &__info {
+    @include stack(space(1.5));
+    padding: space(4);
+  }
+
+  &__name {
+    font-family: $font-display;
+    @include type(base);
+    font-weight: $font-weight-bold;
+    color: $color-navy-800;
+  }
+
+  &__hex {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-ink;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__usage {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__contrast {
+    @include type(label);
+    color: $color-ink;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.contrast-list {
+  @include ruled-list;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: space(1) space(6);
+    padding: space(4);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-line;
+    }
+  }
+
+  &__label {
+    @include type(base);
+    color: $color-ink;
+  }
+
+  &__value {
+    @include type(base);
+    color: $color-ink;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__strong {
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// --- Tipografía -----------------------------------------------------------------
+.type-scale {
+  @include ruled-list;
+
+  &__row {
+    @include stack(space(2));
+    padding: space(5);
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-line;
+    }
+  }
+
+  &__label {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  // Muestra de cada estilo de la escala.
+  &__sample {
+    color: $color-navy-800;
+
+    &--display {
+      font-family: $font-display;
+      @include type(display);
+      font-weight: $font-weight-extrabold;
+    }
+
+    &--h1 {
+      font-family: $font-display;
+      @include type(h1);
+      font-weight: $font-weight-extrabold;
+    }
+
+    &--h2 {
+      font-family: $font-display;
+      @include type(h2);
+      font-weight: $font-weight-bold;
+    }
+
+    &--h3 {
+      font-family: $font-display;
+      @include type(h3);
+      font-weight: $font-weight-bold;
+    }
+
+    &--lead {
+      @include type(lead);
+    }
+
+    &--body {
+      @include type(base);
+    }
+
+    &--label {
+      @include type(label);
+      font-weight: $font-weight-semibold;
+    }
+
+    &--number {
+      font-weight: $font-weight-semibold;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// --- Muestras de botones, campos, insignias y línea de tiempo ------------------------
+.showcase {
+  padding: space(6);
+  border-radius: $radius-2xl;
+  background-color: $color-white;
+  @include ring($color-line);
+
+  &--stack {
+    @include stack(space(6));
+  }
+
+  // Botones sobre marino.
+  &--dark {
+    @include on-dark;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: space(3);
+    background-color: $color-navy-950;
+    box-shadow: none;
+  }
+
+  &--fields {
+    display: grid;
+    gap: space(5);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &--badges {
+    @include stack(space(5));
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: space(3);
+  }
+
+  &__wide {
+    @include up(md) {
+      grid-column: span 2 / span 2;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(3);
+  }
+
+  &__notice {
+    display: flex;
+    align-items: flex-start;
+    gap: space(2);
+  }
+
+  &__notice-icon {
+    @include square(space(5));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    color: $color-sky-600;
+  }
+}

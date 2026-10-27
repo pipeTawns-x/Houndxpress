@@ -1,0 +1,49 @@
+// Formulario para registrar una guía. Toda guía nueva nace en "Recepción de carga".
+
+@use "../abstracts" as *;
+
+.register-form {
+  @include stack(space(5));
+
+  &__grid {
+    display: grid;
+    gap: space(5);
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // Campo que ocupa las dos columnas desde 768 px.
+  &__wide {
+    @include up(md) {
+      grid-column: span 2 / span 2;
+    }
+  }
+
+  &__number {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: space(4);
+  }
+
+  &__footnote {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__success-title {
+    font-weight: $font-weight-semibold;
+    color: $color-success;
+  }
+
+  &__success-number {
+    font-weight: $font-weight-semibold;
+    font-variant-numeric: tabular-nums;
+  }
+}

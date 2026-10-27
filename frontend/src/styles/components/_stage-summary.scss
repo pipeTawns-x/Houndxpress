@@ -1,0 +1,102 @@
+// Resumen del panel: total, en tránsito, entregadas y distribución por etapa.
+
+@use "../abstracts" as *;
+
+// Color de cada etapa en la barra y en la leyenda.
+@mixin stage-tones {
+  &--received {
+    background-color: $color-navy-300;
+  }
+
+  &--loaded {
+    background-color: $color-sky-600;
+  }
+
+  &--released {
+    background-color: $color-aqua-700;
+  }
+
+  &--in-transit {
+    background-color: $color-aqua-500;
+  }
+
+  &--delivered {
+    background-color: $color-success;
+  }
+}
+
+.stage-summary {
+  @include stack(space(5));
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+  }
+
+  &__stats {
+    display: grid;
+    gap: space(4);
+
+    @include up(sm) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__distribution {
+    @include stack(space(4));
+    padding: space(5);
+    @include card;
+  }
+
+  &__distribution-title {
+    @include type(base);
+    font-weight: $font-weight-bold;
+    color: $color-navy-800;
+  }
+
+  &__bar {
+    display: flex;
+    width: 100%;
+    height: space(3);
+    overflow: hidden;
+    border-radius: $radius-full;
+    background-color: $color-line;
+  }
+
+  &__segment {
+    @include stage-tones;
+  }
+
+  &__legend {
+    display: grid;
+    gap: space(2) space(6);
+
+    @include up(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+    @include type(label);
+    color: $color-ink;
+  }
+
+  &__swatch {
+    @include square(space(3));
+    flex-shrink: 0;
+    border-radius: $radius-full;
+    @include stage-tones;
+  }
+
+  &__count {
+    font-weight: $font-weight-semibold;
+    font-variant-numeric: tabular-nums;
+  }
+}

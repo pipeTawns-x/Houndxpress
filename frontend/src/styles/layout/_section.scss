@@ -1,0 +1,54 @@
+// Sección de página: `py-14` en móvil y `py-20` desde 768 px, sobre claro, gris suave o marino.
+
+@use "../abstracts" as *;
+
+.section {
+  padding-block: space(14);
+
+  @include up(md) {
+    padding-block: space(20);
+  }
+
+  &--light {
+    background-color: $color-white;
+  }
+
+  &--surface {
+    background-color: $color-surface;
+  }
+
+  &--dark {
+    @include on-dark;
+    position: relative;
+    overflow: hidden;
+    background-color: $color-navy-950;
+    color: $color-white;
+  }
+
+  // Contenido de la sección apilado con aire entre bloques; aparece al entrar en pantalla.
+  &__stack {
+    @include stack(space(10));
+    @include reveal-on-scroll;
+  }
+
+  // Brillo aqua tenue de fondo en las secciones oscuras.
+  &__glow {
+    @include cover;
+    pointer-events: none;
+
+    // Panel de operaciones (Inicio): esquina inferior izquierda.
+    &--panel {
+      @include aqua-glow(44rem 24rem, 10% 110%, 0.16);
+    }
+
+    // Cierre de Servicios: arriba y centrado.
+    &--closing {
+      @include aqua-glow(44rem 20rem, 50% -20%, 0.22);
+    }
+  }
+
+  // Botón que no se estira al ancho de la columna.
+  &__action {
+    align-self: flex-start;
+  }
+}

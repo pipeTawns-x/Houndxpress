@@ -1,0 +1,189 @@
+// Servicios (`/servicios`): un bloque por servicio con texto y un panel de cifras, y un cierre sobre marino.
+
+@use "../abstracts" as *;
+
+// Panel visual de cada servicio: icono grande y cifras sobre marino.
+.service-visual {
+  @include on-dark;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: space(10);
+  min-height: space(64);
+  padding: space(8);
+  overflow: hidden;
+  border-radius: $radius-3xl;
+  background-color: $color-navy-950;
+  @include ring($color-navy-700);
+
+  @include up(md) {
+    min-height: space(80);
+  }
+
+  &__dots {
+    @include cover;
+    @include dot-grid;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(circle at 30% 20%, black, transparent 70%);
+    mask-image: radial-gradient(circle at 30% 20%, black, transparent 70%);
+  }
+
+  &__glow {
+    @include cover;
+    @include aqua-glow(28rem 18rem, 85% 0%, 0.22);
+    pointer-events: none;
+  }
+
+  &__icon-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include square(space(20));
+    border-radius: $radius-2xl;
+    background-color: $color-aqua-500;
+    color: $color-navy-950;
+  }
+
+  &__icon {
+    @include square(space(10));
+  }
+
+  &__stats {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(4) space(10);
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__value {
+    font-family: $font-display;
+    @include type("3xl");
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+    color: $color-white;
+
+    @include up(sm) {
+      @include type("4xl");
+    }
+  }
+
+  &__label {
+    @include type(label);
+    color: $color-navy-300;
+  }
+}
+
+// Bloque de un servicio. Los pares llevan el panel a la izquierda y los impares a la derecha (desde 768 px).
+.service-block {
+  scroll-margin-top: space(16);
+
+  &__layout {
+    display: grid;
+    align-items: center;
+    gap: space(10);
+    @include reveal-on-scroll;
+
+    @include up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include up(lg) {
+      gap: space(16);
+    }
+  }
+
+  &__visual--last {
+    @include up(md) {
+      order: 9999;
+    }
+  }
+
+  &__copy {
+    @include stack(space(6));
+  }
+
+  &__intro {
+    @include stack(space(3));
+  }
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+    letter-spacing: $tracking-tight;
+  }
+
+  &__lead {
+    @include type(lead);
+    color: $color-muted;
+  }
+
+  &__features {
+    @include stack(space(4));
+  }
+
+  &__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: space(3);
+  }
+
+  &__feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include square(space(6));
+    flex-shrink: 0;
+    margin-top: space(0.5);
+    border-radius: $radius-full;
+    background-color: $color-aqua-100;
+    color: $color-aqua-700;
+  }
+
+  &__feature-check {
+    @include square(space(4));
+  }
+
+  &__feature-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__feature-title {
+    @include type(base);
+    font-weight: $font-weight-bold;
+    color: $color-navy-800;
+  }
+
+  &__feature-text {
+    @include type(base);
+    color: $color-muted;
+  }
+}
+
+// Cierre de la página: llamada a contacto sobre marino.
+.services-cta {
+  @include stack(space(6));
+  position: relative;
+  align-items: center;
+  max-width: 42rem;
+  margin-inline: auto;
+  text-align: center;
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+    color: $color-white;
+  }
+
+  &__text {
+    @include type(lead);
+    color: $color-navy-300;
+  }
+}

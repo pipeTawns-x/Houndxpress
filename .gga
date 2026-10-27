@@ -1,0 +1,7 @@
+# Respaldo manual: GGA_PROVIDER=opencode:opencode/big-pickle
+PROVIDER="opencode:opencode/nemotron-3-ultra-free"
+RULES_FILE="AGENTS.md"
+STRICT_MODE="true"
+TIMEOUT="300"
+FILE_PATTERNS="*.py,*.ts,*.tsx,*.js,*.jsx,*.scss"
+EXCLUDE_PATTERNS="*.test.*,*.spec.*,*/tests/*,test_*.py,*_test.py,tests.py,*.d.ts,backend/*/migrations/*"

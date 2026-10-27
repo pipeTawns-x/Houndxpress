@@ -1,0 +1,16 @@
+// Cuerpo de una respuesta de las preguntas frecuentes: la lista con viñetas aqua.
+
+@use "../abstracts" as *;
+
+.faq-answer {
+  &__list {
+    @include stack(space(1));
+    padding-left: space(5);
+    list-style: disc;
+
+    &::marker,
+    & li::marker {
+      color: $color-aqua-700;
+    }
+  }
+}

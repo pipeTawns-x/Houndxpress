@@ -1,0 +1,59 @@
+// Ilustración decorativa de un paquete extraviado con una ruta punteada.
+
+@use "../abstracts" as *;
+
+.lost-package {
+  &__shadow {
+    fill: $color-line;
+  }
+
+  &__trail {
+    stroke: $color-edge;
+  }
+
+  &__box {
+    stroke: $color-navy-800;
+
+    &--top {
+      fill: $color-aqua-100;
+    }
+
+    &--left {
+      fill: $color-aqua-500;
+    }
+
+    &--right {
+      fill: $color-aqua-700;
+    }
+  }
+
+  &__tape {
+    stroke: with-alpha($color-navy-800, 0.3);
+  }
+
+  &__badge {
+    fill: $color-navy-800;
+  }
+
+  &__mark {
+    stroke: $color-white;
+  }
+
+  &__mark-dot {
+    fill: $color-white;
+  }
+
+  &__spark {
+    &--bright {
+      fill: $color-aqua-500;
+    }
+
+    &--deep {
+      fill: $color-aqua-700;
+    }
+
+    &--faint {
+      fill: $color-navy-300;
+    }
+  }
+}
