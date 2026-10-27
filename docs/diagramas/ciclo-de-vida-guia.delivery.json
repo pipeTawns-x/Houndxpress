@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "receiptId": "9208f58c-1e93-44e2-9e2a-328fc1e9f6d3",
+  "receiptId": "702f4c41-412b-4724-a335-60888a1bbe44",
   "status": "current",
   "command": "deliver",
   "type": "lifecycle",
-  "input": "/home/user/Houndxpress/docs/diagramas/fuentes/ciclo-de-vida-guia.json",
-  "output": "/home/user/Houndxpress/docs/diagramas/ciclo-de-vida-guia.html",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.SOsbitTaZo/Houndxpress/docs/diagramas/fuentes/ciclo-de-vida-guia.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.SOsbitTaZo/Houndxpress/docs/diagramas/ciclo-de-vida-guia.html",
   "specification": {
-    "sha256": "d78cff2b83349f8491d005d5df8994989d8f5ecd615841a2039e57b2647eb34a",
-    "bytes": 31736
+    "sha256": "95d55094615f8c19d897e06ba5842c3bfe3df45f4bff70e175dac739794e5468",
+    "bytes": 36080
   },
   "artifact": {
-    "sha256": "a7064416caaf42d22b2090ae7cdeea35e28dd98583a7bc89a954fe38b291f924",
-    "bytes": 755736
+    "sha256": "1ba09bb70fcf227675e823d173a66b4d6a6c55d0b5bcc98833e60760a7f9800a",
+    "bytes": 768607
   }
 }

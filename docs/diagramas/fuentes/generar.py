@@ -198,10 +198,171 @@ def sequence() -> dict:
     }
 
 
+# Evidence for both diagrams: branch `backend` (M54.1), commit aed7967. Local-only until the
+# commit is pushed; then switch link_mode to "web" for clickable source links.
+BACKEND_REPOSITORY = {
+    "url": "https://github.com/pipeTawns-x/Houndxpress.git",
+    "revision": "aed7967dd0d3730d1feab3162d00c94033dd9685",
+    "link_mode": "local-only",
+}
+MODELS = "backend/tracking/models.py"
+ACCOUNTS = "backend/accounts/models.py"
+
+
+def src(path: str, line: int, end: int | None = None, label: str | None = None) -> dict:
+    ref = {"path": path, "line": line}
+    if end is not None:
+        ref["end_line"] = end
+    if label:
+        ref["label"] = label
+    return ref
+
+
+def data_model() -> dict:
+    y_top, y_main, y_low, h = 110, 300, 490, 64
+    incident_x, incident_w = 40, 190
+    guide_x = incident_x + incident_w + gap("guide · FK")
+    guide_w = 230
+    history_x = guide_x + guide_w + gap("guide · FK PROTECT")
+    history_w = 230
+    user_x = history_x + history_w + gap("updated_by · FK PROTECT")
+    user_w = 210
+    components = [
+        {"id": "incident", "type": "database", "label": "Incident (propuesta)", "sublabel": "contador con alerta · D5",
+         "pos": [incident_x, y_main], "size": [incident_w, h], "tag": "propuesta · D5"},
+        {"id": "guide", "type": "database", "label": "Guide", "sublabel": "tracking_number único · current_stage",
+         "pos": [guide_x, y_main], "size": [guide_w, h], "tag": "CheckConstraint ×2",
+         "sources": [src(MODELS, 162, 193, "Guide, campos y restricciones"),
+                     src(MODELS, 185, 192, "CheckConstraint de formato y etapa"),
+                     src(MODELS, 198, 240, "save_base: etapa solo por historial")]},
+        {"id": "history", "type": "database", "label": "StatusHistory", "sublabel": "solo inserción · una fila por etapa",
+         "pos": [history_x, y_main], "size": [history_w, h], "tag": "UniqueConstraint(guide, stage)",
+         "sources": [src(MODELS, 326, 343, "StatusHistory y unique_stage_per_guide"),
+                     src(MODELS, 348, 352, "save fuerza INSERT"),
+                     src(MODELS, 354, 397, "save_base valida el prefijo")]},
+        {"id": "user", "type": "database", "label": "User (accounts)", "sublabel": "AbstractUser · department",
+         "pos": [user_x, y_main], "size": [user_w, h], "tag": "framework",
+         "sources": [src(ACCOUNTS, 14, 22, "User con department"),
+                     src(ACCOUNTS, 7, 11, "Department: cuatro áreas")]},
+        {"id": "guide_qs", "type": "security", "label": "GuideQuerySet", "sublabel": "analogía de Proxy · vigila current_stage",
+         "pos": [guide_x, y_top], "size": [guide_w, h], "tag": "analogía de Proxy",
+         "sources": [src(MODELS, 111, 124, "update exige la autorización"),
+                     src(MODELS, 126, 131, "bulk_update rechaza current_stage"),
+                     src(MODELS, 133, 159, "bulk_create fija la etapa inicial")]},
+        {"id": "history_qs", "type": "security", "label": "StatusHistoryQuerySet",
+         "sublabel": "analogía de Proxy · sin update ni delete",
+         "pos": [history_x, y_top], "size": [history_w, h], "tag": "analogía de Proxy",
+         "sources": [src(MODELS, 243, 253, "delete y update bloqueados"),
+                     src(MODELS, 255, 323, "bulk_create valida cada guía")]},
+        {"id": "advance", "type": "backend", "label": "_advance_current_stage",
+         "sublabel": "State simple · UPDATE condicional",
+         "pos": [history_x, y_low], "size": [history_w, h], "tag": "State simple · compare-and-set",
+         "sources": [src(MODELS, 93, 108, "UPDATE condicional"),
+                     src(MODELS, 54, 56, "ContextVar de autorización"),
+                     src(MODELS, 59, 67, "_validate_stage_transition")]},
+    ]
+    return {
+        "schema_version": 1,
+        "diagram_type": "architecture",
+        "meta": meta("Modelo de datos de M54 · guías, historial y usuarios", "modelo-de-datos",
+                     repository=BACKEND_REPOSITORY),
+        "components": components,
+        "boundaries": [
+            {"kind": "region", "label": "App tracking · tracking/models.py",
+             "wraps": ["incident", "guide", "history", "guide_qs", "history_qs", "advance"]},
+            {"kind": "region", "label": "App accounts", "wraps": ["user"]},
+        ],
+        "connections": [
+            {"id": "incident-guide", "from": "incident", "to": "guide", "label": "guide · FK", "variant": "dashed"},
+            {"id": "history-guide", "from": "history", "to": "guide", "label": "guide · FK PROTECT",
+             "variant": "emphasis"},
+            {"id": "history-user", "from": "history", "to": "user", "label": "updated_by · FK PROTECT"},
+            {"id": "guideqs-guide", "from": "guide_qs", "to": "guide", "label": "objects", "variant": "security",
+             "fromSide": "bottom", "toSide": "top"},
+            {"id": "historyqs-history", "from": "history_qs", "to": "history", "label": "objects",
+             "variant": "security", "fromSide": "bottom", "toSide": "top"},
+            {"id": "history-advance", "from": "history", "to": "advance", "label": "save_base",
+             "fromSide": "bottom", "toSide": "top"},
+            {"id": "advance-guide", "from": "advance", "to": "guide", "label": "avanza current_stage",
+             "variant": "security", "fromSide": "left", "toSide": "bottom"},
+        ],
+        "cards": [
+            {"dot": "cyan", "title": "Restricciones en la base", "items": [
+                "tracking_number: único, 22 caracteres y formato con CheckConstraint (models.py:163, :185)",
+                "current_stage solo admite las cinco etapas (models.py:189)",
+                "Una fila por etapa y guía: unique_stage_per_guide (models.py:341)",
+                "PROTECT impide borrar una guía o un usuario con historial (models.py:327, :330)"]},
+            {"dot": "emerald", "title": "Patrones que el código usa", "items": [
+                "State, forma simple: Stage y solo la etapa siguiente (models.py:41, :59)",
+                "Template Method del framework: save_base sobrescrito (models.py:198, :354)",
+                "Compare-and-set, no GoF: UPDATE condicional (models.py:97-101)",
+                "Analogía de Proxy de protección: QuerySet que vigila escrituras (models.py:111, :243)"]},
+            {"dot": "amber", "title": "Planeado, todavía no existe", "items": [
+                "Incident para el contador con alerta (M66, decisión D5)",
+                "Registro de intentos de avance rechazados (M64)",
+                "Área del autor copiada en cada fila del historial (M64)",
+                "Rol de PostgreSQL sin UPDATE ni DELETE sobre el historial (M66)"]},
+            {"dot": "rose", "title": "Límites conocidos", "items": [
+                "SQL directo, raw y loaddata saltan las validaciones (models.py:12-16)",
+                "En recepción de carga una guía puede tener 0 o 1 filas (models.py:79-82)",
+                "El historial se ordena por timestamp y pk (models.py:380)"]},
+        ],
+    }
+
+
+def lifecycle_v2() -> dict:
+    doc = lifecycle()
+    doc["meta"]["repository"] = BACKEND_REPOSITORY
+    doc["lanes"] = [
+        {"id": "main", "label": "Este proyecto · 5 etapas"},
+        {"id": "hound", "label": "Hound hoy · rastreo (REA)"},
+        {"id": "terminal", "label": "Hound · sin resultado"},
+    ]
+    names = ["CARGO_RECEIVED", "VEHICLE_LOADED", "VEHICLE_RELEASED", "VEHICLE_IN_TRANSIT", "CARGO_DELIVERED"]
+    for index, state in enumerate(doc["states"]):
+        refs = [src(MODELS, 42 + index, label=f"Stage.{names[index]}")]
+        if index == 0:
+            refs.append(src(MODELS, 224, 226, "el alta empieza en recepción"))
+        if index == len(names) - 1:
+            refs.append(src(MODELS, 61, 62, "entregada: no admite más etapas"))
+        refs.append(src(MODELS, 59, 67, "solo la etapa siguiente"))
+        state["sources"] = refs
+    doc["states"] += [
+        {"id": "hound_tracking", "type": "active", "label": "Rastreando", "sublabel": "búsqueda en curso",
+         "lane": "hound", "col": 0, "tag": "Hound hoy"},
+        {"id": "hound_found", "type": "success", "label": "Encontrado", "sublabel": "muestra el resultado",
+         "lane": "hound", "col": 1, "tag": "Hound hoy"},
+        {"id": "hound_steps", "type": "neutral", "label": "Pasos cPaso", "sublabel": "catálogo no observado",
+         "lane": "hound", "col": 2, "tag": "sin contraste"},
+        {"id": "hound_missing", "type": "failure", "label": "No encontrado", "sublabel": "sin resultado",
+         "lane": "terminal", "col": 0, "tag": "Hound hoy"},
+    ]
+    doc["transitions"] += [
+        {"from": "hound_tracking", "to": "hound_found", "label": "hay resultado"},
+        {"from": "hound_found", "to": "hound_steps", "label": "historial"},
+        {"from": "hound_tracking", "to": "hound_missing", "label": "sin resultado", "variant": "dashed"},
+        {"from": "hound_missing", "to": "hound_tracking", "label": "otra guía", "variant": "dashed"},
+    ]
+    doc["cards"] += [
+        {"dot": "violet", "title": "Patrones en el código", "items": [
+            "State, forma simple: Stage con cinco valores (models.py:41)",
+            "Solo la etapa siguiente es válida (models.py:59-67)",
+            "UPDATE condicional, compare-and-set, no GoF (models.py:93-108)",
+            "Propuestas: Command para avances auditables y Observer para avisos"]},
+        {"dot": "slate", "title": "Hound frente a las cinco etapas", "items": [
+            "Hound separa la búsqueda (rastreando, encontrado o no) del progreso",
+            "Su progreso son pasos cPaso; el catálogo no se observó",
+            "No hay equivalencia definida y no se inventa",
+            "Fuente: docs/investigacion/rea-sitio-actual.md, secciones 1.3 y 3"]},
+    ]
+    return doc
+
+
 if __name__ == "__main__":
     for name, doc in {
         "arquitectura": architecture(),
-        "ciclo-de-vida-guia": lifecycle(),
+        "modelo-de-datos": data_model(),
+        "ciclo-de-vida-guia": lifecycle_v2(),
         "secuencia-consultas": sequence(),
     }.items():
         (HERE / f"{name}.json").write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
