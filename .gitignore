@@ -26,7 +26,6 @@ media/
 # Environment
 .env
 .env.*
-!.env.example
 
 # Node (future frontend)
 node_modules/
