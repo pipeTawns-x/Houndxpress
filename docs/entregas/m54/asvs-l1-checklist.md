@@ -46,3 +46,30 @@
 ## Choque con una decisión anterior
 
 `config/settings.py:64` deja HSTS y `check --deploy` para M66. El loop de la etapa 2 pide `check --deploy` en 0 desde ahora. Activar HSTS y el prefijo `__Host-` solo cambia la configuración de producción, y el modo local no se toca. Esto se resuelve en la etapa 2, con evidencia.
+
+## Cruce con el curso de hacking ético de Big School
+
+Fuente: el checklist defensivo de 20 controles de las clases de Mario Álvarez y Chema Alonso (Engram #1172). La fuente mapea a ASVS de forma aproximada; aquí se usa la numeración verificada de este archivo cuando existe. Se cumplen 12, hay 3 parciales y 5 no aplican todavía. Las pruebas nuevas van en la T9 de M64, siempre contra nuestra app en local.
+
+| # | Control | ASVS | Estado en M54.1 | Evidencia | Prueba |
+|---|---|---|---|---|---|
+| 1 | SQL crudo o `.extra()` | 2.2.x (V1 no leído) | Cumple | Solo `cursor.execute("SELECT 1")` constante (`core/views.py:14`); ORM en el resto | T9: `' OR 1=1 --` en los filtros de M64 |
+| 2 | Inyección por cabeceras guardadas | — | No aplica | Ningún middleware guarda `request.META` | T9, si se agrega auditoría |
+| 3 | IDOR en endpoints de objeto | 8.2.2 | No aplica hasta M64 | No hay endpoints de objeto | T9: el usuario B sobre un objeto de A devuelve 403 o 404 |
+| 4 | Cambio de contraseña con usuario destino | 6.2.2, 6.2.3 | Cumple (admin de Django) | No hay endpoint propio | T9: si M64 agrega uno, el usuario sale de `request.user` |
+| 5 | Flag de MFA confiado desde el cliente | 6.x | No aplica | Sin MFA; decisión E1 | T9, con la decisión de 2FA |
+| 6 | Contraseñas con hash | V11 no leído | Cumple (PBKDF2 de Django) | `accounts.User(AbstractUser)` | T9: la contraseña no se guarda en texto claro |
+| 7 | `SECRET_KEY` débil o en el código | V13 | Cumple | `config/settings.py:45-55` | `test_production_mode_requires_secret_key`, `test_production_mode_rejects_insecure_secret_key` |
+| 8 | JWT forjado para escalar el rol | 7.2.x, 8.3.1 | Cumple: no hay JWT | Sesión del servidor; el rol se lee de la base | — |
+| 9 | `.git` o respaldos expuestos | 13.4.1 | Cumple en local | La imagen se construye desde `./backend` (`docker-compose.yml:7`), sin `.git` | T9: `GET /.git/HEAD` devuelve 404 |
+| 10 | Secretos en el repo o en el bundle | V13 | Cumple | gitleaks: no leaks | gitleaks en el CI (decisión E9) |
+| 11 | Inclusión de archivos o path traversal | V5 no leído | No aplica | No hay vistas que sirvan archivos | — |
+| 12 | Inyección de plantillas | V1 no leído | Cumple | Ninguna plantilla se construye con datos del usuario | — |
+| 13 | Ejecución remota (`eval`, `pickle`, `subprocess`) | V15 | Cumple | semgrep `p/python` en 0; `subprocess` solo en las pruebas | — |
+| 14 | Fuerza bruta en el login | 6.1.1, 6.3.1 | **Parcial** | API con límite (`NUM_PROXIES=0`); el admin no tiene freno | Decisión E1 |
+| 15 | Subida de archivos | V5 no leído | No aplica | No hay subidas | — |
+| 16 | CORS | 3.4.2 | Cumple | No hay CORS | `test_api_sends_no_cors_headers` |
+| 17 | Cabeceras de seguridad | 3.4.1, 3.2.1 | **Parcial** | HSTS, `nosniff` y `X-Frame-Options` (`config/settings.py:102`); falta CSP | CSP en M66 |
+| 18 | Errores con trazas internas | V16 (sin nivel 1) | Cumple con `DEBUG` apagado | Producción exige `DJANGO_DEBUG=false` | T9: un 500 sin traceback |
+| 19 | CVE de dependencias sin vigilar | 15.1.1, 15.2.1 | **Parcial** | OSV en 0 (revisión manual); plazos en `SECURITY.md` | OSV en el CI (decisión E9) |
+| 20 | Enumeración de cuentas | 6.x | Cumple | El admin muestra un mensaje genérico; no hay recuperación de contraseña | T9, si se agrega la recuperación |
