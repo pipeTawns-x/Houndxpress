@@ -1,3 +1,34 @@
+# M54.1
+
+Título: `M54.1: dependencias parcheadas y controles ASVS 5.0 nivel 1`
+PR: de `backend` a `practicas-ebac`. El número se asigna al abrirlo.
+Commits: `edc8fc4` · `3e08281` · `9b334c0` · `f77c825` · `a50b656` · `40972dd` · `aed7967` · Tag: `m54.1`
+
+Actualiza dependencias con avisos de seguridad y cubre con pruebas los controles de OWASP ASVS 5.0 nivel 1. El modelo de datos y las migraciones no cambian desde M54.
+
+## Qué incluye
+
+- Dependencias: Django 5.2.18 y DRF 3.18.3 (`edc8fc4`).
+- Configuración según ASVS 5.0 nivel 1, con pruebas: HSTS, cookies `__Host-`, límite de peticiones, JSON en UTF-8 y política de contraseñas (`3e08281`). El límite de peticiones identifica al cliente por `REMOTE_ADDR` (`40972dd`).
+- `SECURITY.md` con los plazos de parche y las reglas de autorización (`f77c825`).
+- Se elimina `backend/.env.example` y `.gitignore` deja de permitirlo (`9b334c0`, `a50b656`). `.gitignore` ignora llaves y secretos, y el README actualiza el conteo de pruebas (`aed7967`).
+
+## Cómo probarlo
+
+Desde `backend/`:
+
+```bash
+python manage.py migrate
+python manage.py loaddata demo_guides
+python manage.py test
+```
+
+Resultado esperado: `Ran 108 tests` y `OK`. Además: ruff limpio, `makemigrations` sin cambios pendientes, `check --deploy` con 0 avisos y OSV, gitleaks y semgrep con 0 hallazgos.
+
+Entrega del LMS: Proyecto Empresa Aliada - M54 Entregable 10 (etiqueta `m54.1`).
+
+# M54 (historial)
+
 Implementa el módulo de tracking del M54 (`Guide` + `StatusHistory`) con historial de etapas inmutable y restricciones a nivel de base de datos.
 
 PR: https://github.com/pipeTawns-x/Houndxpress/pull/4
