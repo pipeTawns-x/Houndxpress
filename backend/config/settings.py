@@ -186,4 +186,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.UserRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {"anon": "60/minute", "user": "120/minute"},
+    # Identify clients by REMOTE_ADDR. X-Forwarded-For comes from the client, so trusting it
+    # would let anyone reset their limit. Set this to the number of proxies when M66 adds one.
+    "NUM_PROXIES": 0,
 }
