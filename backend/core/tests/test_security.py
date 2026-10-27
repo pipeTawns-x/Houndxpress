@@ -76,7 +76,7 @@ class AccessControlTests(ApiSecurityTestCase):
 
 
 class ThrottlingTests(ApiSecurityTestCase):
-    def test_anonymous_clients_are_throttled_after_the_anon_rate(self):  # ASVS 6.1.1, 6.3.1
+    def test_anonymous_clients_are_throttled_after_the_anon_rate(self):  # ASVS 6.1.1 (API only)
         num_requests = AnonRateThrottle().num_requests
         for _ in range(num_requests):
             self.assertEqual(self.client.get(HEALTH_URL).status_code, 200)
@@ -84,6 +84,17 @@ class ThrottlingTests(ApiSecurityTestCase):
         response = self.client.get(HEALTH_URL)
         self.assertEqual(response.status_code, 429)
         self.assertTrue(response.has_header("Retry-After"))
+
+    def test_rotating_x_forwarded_for_does_not_reset_the_limit(self):  # ASVS 6.1.1
+        # The client controls X-Forwarded-For; without a trusted proxy it must not pick the
+        # identity the throttle counts against.
+        num_requests = AnonRateThrottle().num_requests
+        for index in range(num_requests):
+            response = self.client.get(HEALTH_URL, HTTP_X_FORWARDED_FOR=f"203.0.113.{index}")
+            self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(HEALTH_URL, HTTP_X_FORWARDED_FOR="198.51.100.7")
+        self.assertEqual(response.status_code, 429)
 
     def test_authenticated_users_are_throttled_per_user(self):
         self.client.force_login(self.user)
