@@ -27,6 +27,11 @@ media/
 .env
 .env.*
 
+# Keys and secrets
+*.pem
+*.key
+secrets/
+
 # Node (future frontend)
 node_modules/
 dist/
