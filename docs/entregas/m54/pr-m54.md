@@ -1,3 +1,21 @@
+# M54.2
+
+Título: `M54.2: fecha de actualización del usuario y matriz de requisitos campo por campo`
+PR: de `m54-2-entrega` a `practicas-ebac` (commit de `backend` aplicado con cherry-pick). Tag: `m54.2`
+
+Completa la entidad `User` de la consigna y documenta cada ajuste frente a la consigna.
+
+## Qué incluye
+
+- `User.updated_at` (`DateTimeField(auto_now=True)`) con la migración `accounts/0003_user_updated_at`. La consigna pide `createdAt` y `updatedAt`: `AbstractUser` ya guarda `date_joined`, y faltaba la fecha de actualización.
+- Una prueba que comprueba que el servidor asigna `updated_at` y que cambia en cada guardado. La suite pasa de 108 a 109 pruebas.
+- `matriz-requisitos.md`, reescrita con la tabla campo por campo (consigna, implementación y motivo de cada ajuste) para `Guide`, `StatusHistory` y `User`.
+- `tracking.sql` con el SQL de la migración nueva.
+
+## Cómo probarlo
+
+Desde `backend/`: `python manage.py migrate`, `python manage.py loaddata demo_guides` y `python manage.py test`. Resultado esperado: `Ran 109 tests` y `OK`.
+
 # M54.1
 
 Título: `M54.1: dependencias parcheadas y controles ASVS 5.0 nivel 1`
@@ -61,6 +79,6 @@ Resultado esperado: `Ran 86 tests` y `OK`.
 
 ## Decisiones frente a la consigna del LMS
 
-Llave primaria automática, fechas del servidor, contraseña cifrada en el `User` existente, número de guía de 22 caracteres, `ForeignKey` con `PROTECT` y `DateTimeField`. El detalle está en el docstring de `backend/tracking/models.py`.
+Llave primaria automática, fechas del servidor, contraseña cifrada en el `User` existente, número de guía de 22 caracteres, `ForeignKey` con `PROTECT` y `DateTimeField`. El detalle campo por campo está en `docs/entregas/m54/matriz-requisitos.md`.
 
 Entrega del LMS: Proyecto Empresa Aliada - M54 Entregable 10 (etiqueta `m54`).
