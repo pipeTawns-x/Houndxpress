@@ -52,7 +52,7 @@ El catálogo de referencia es [refactoring.guru](https://refactoring.guru/es/des
 Las fuentes son JSON y las produce un script, así que un cambio de arquitectura es un cambio de código revisable.
 
 1. Instala Archify (Node 18 o superior) y un navegador Chromium para su revisión en navegador. Si no lo encuentra solo, indícalo con `ARCHIFY_CHROME=/ruta/al/navegador`. Con `ARCHIFY_UPDATE_CHECK_DISABLED=1` no consulta en internet si hay versiones nuevas.
-2. Genera los JSON. `ARCHIFY_HOME` es la carpeta de Archify (la que contiene `bin/` y `examples/`); si Archify está en `.claude/skills/archify`, se puede omitir.
+2. Genera los JSON. El script generador vive en una sola copia, la de las ramas `backend`, `pruebas` y `main`, porque los diagramas describen el código del backend. Ejecútalo desde una de ellas. `ARCHIFY_HOME` es la carpeta de Archify (la que contiene `bin/` y `examples/`); si Archify está en `.claude/skills/archify`, se puede omitir. Después copia los JSON y los HTML generados a esta rama.
 
    ```bash
    ARCHIFY_HOME=<carpeta-de-archify> python3 docs/diagramas/fuentes/generar.py
