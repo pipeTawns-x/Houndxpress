@@ -54,7 +54,20 @@ node .claude/skills/archify/bin/archify.mjs finalize lifecycle docs/diagramas/fu
 
 Requisitos: Node 18 o superior y un navegador Chromium para la revisión. En esta máquina se usa Brave: `ARCHIFY_CHROME="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"`. Con `ARCHIFY_UPDATE_CHECK_DISABLED=1`, `finalize` no consulta en internet si hay versiones nuevas.
 
-Las imágenes de `img/` se capturan con el navegador sin interfaz, a 1600 px de ancho y con `?theme=light` en la dirección del HTML.
+Después de regenerar cualquier HTML, recaptura su vista previa. Si no, GitHub y el mensaje del LMS mostrarían un diagrama viejo:
+
+1. Captura las imágenes de `img/` con el navegador sin interfaz, a 1600 px de ancho y con `?theme=light` en la dirección del HTML.
+2. Registra de qué HTML salió cada imagen:
+
+   ```bash
+   (cd docs/diagramas && shasum -a 256 arquitectura.html modelo-de-datos.html ciclo-de-vida-guia.html secuencia-consultas.html > img/previews.sha256)
+   ```
+
+3. Comprueba que ninguna imagen quedó vieja. El script falla y nombra la imagen si un HTML cambió después de su captura:
+
+   ```bash
+   sh docs/diagramas/img/check-previews.sh
+   ```
 
 Los archivos `*.delivery.json` son la procedencia que liga cada HTML con su fuente y se regeneran solos. Guardan rutas absolutas, por eso se generan desde una carpeta temporal neutra y no desde la carpeta personal.
 
