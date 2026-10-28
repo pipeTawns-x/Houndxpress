@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5b989cb2-18a6-4f59-a2f3-d30d81d5e100",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/fuentes/arquitectura.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/arquitectura.html",
+  "specification": {
+    "sha256": "efdf9480a708234aa14f619e24333d392ae189f1bba78ed6168cdc7437ddeaa2",
+    "bytes": 33646
+  },
+  "artifact": {
+    "sha256": "787478aca9d7f4191e546e67035fddc13898fdd0aa345336adf11775e615e383",
+    "bytes": 762750
+  }
+}
