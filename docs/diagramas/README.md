@@ -11,6 +11,18 @@ Diagramas interactivos generados con [Archify](https://github.com/tt-a1i/archify
 
 Los cuatro pasaron las cuatro compuertas de `archify finalize` en modo `showcase`: validación del esquema, entrega, revisión estricta del HTML y revisión en un navegador real.
 
+## Vistas previas
+
+GitHub muestra los `.html` como código; estas imágenes (tema claro) se ven directamente en la página. Para explorar el diagrama, descarga el HTML y ábrelo en el navegador.
+
+![Arquitectura](img/arquitectura.png)
+
+![Modelo de datos](img/modelo-de-datos.png)
+
+![Ciclo de vida de una guía](img/ciclo-de-vida-guia.png)
+
+![Secuencia de consultas](img/secuencia-consultas.png)
+
 ## Patrones y evidencia
 
 `modelo-de-datos` y `ciclo-de-vida-guia` siguen el método de los diagramas de Carni-mvp: cada patrón lleva una etiqueta honesta y cada nodo, su evidencia en el código.
@@ -41,6 +53,8 @@ node .claude/skills/archify/bin/archify.mjs finalize lifecycle docs/diagramas/fu
 ```
 
 Requisitos: Node 18 o superior y un navegador Chromium para la revisión. En esta máquina se usa Brave: `ARCHIFY_CHROME="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"`. Con `ARCHIFY_UPDATE_CHECK_DISABLED=1`, `finalize` no consulta en internet si hay versiones nuevas.
+
+Las imágenes de `img/` se capturan con el navegador sin interfaz, a 1600 px de ancho y con `?theme=light` en la dirección del HTML.
 
 Los archivos `*.delivery.json` son la procedencia que liga cada HTML con su fuente y se regeneran solos. Guardan rutas absolutas, por eso se generan desde una carpeta temporal neutra y no desde la carpeta personal.
 
