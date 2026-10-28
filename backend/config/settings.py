@@ -187,6 +187,6 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_THROTTLE_RATES": {"anon": "60/minute", "user": "120/minute"},
     # Identify clients by REMOTE_ADDR. X-Forwarded-For comes from the client, so trusting it
-    # would let anyone reset their limit. Set this to the number of proxies when M66 adds one.
+    # would let anyone reset their limit. Set it to the proxy count once deployment adds one.
     "NUM_PROXIES": 0,
 }

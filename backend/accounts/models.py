@@ -16,7 +16,7 @@ class User(AbstractUser):
 
     Django solo permite sustituir el modelo de usuario sin un costo significativo antes de
     que exista alguna tabla, por lo que vive aquí desde el primer día. El departamento del
-    personal se agrega en M54.
+    personal se agrega en la Fase 1.
     """
 
     department = models.CharField(max_length=20, choices=Department.choices, blank=True)
