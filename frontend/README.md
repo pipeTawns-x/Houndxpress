@@ -1,10 +1,10 @@
 # Hound Express: frontend
 
-Rediseño no oficial del sitio de Hound Express hecho para el programa de EBAC: sitio público, rastreo de guías y panel de operaciones. Es una aplicación de una sola página (React + TypeScript + Vite, con los estilos en Sass con BEM y el estado de las guías en Redux Toolkit) que habla con la API Django de [`../backend`](../backend/) en el mismo origen.
+Rediseño no oficial del sitio de Hound Express: sitio público, rastreo de guías y panel de operaciones. Es una aplicación de una sola página (React 19 + TypeScript + Vite, con los estilos en Sass con BEM, el estado de las guías en Redux Toolkit y las pruebas en Jest) que habla con la API Django de [`../backend`](../backend/) en el mismo origen.
 
 La especificación está en [`../docs/diseno/`](../docs/diseno/): investigación, decisiones ([`03-arquitecto.md`](../docs/diseno/03-arquitecto.md)) y sistema de diseño ([`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)). La ruta `/disenos` de la aplicación muestra ese sistema en vivo.
 
-> **Datos de demostración.** El backend todavía no tiene endpoints de guías (llegan en M64). Por defecto la aplicación usa guías de ejemplo que se guardan solo en el navegador de quien la usa, y cada pantalla con guías lo dice. El único dato real es el estado de la API (`/api/v1/health/`).
+> **Datos de demostración.** El backend todavía no tiene endpoints de guías (llegan en la Fase 2). Por defecto la aplicación usa guías de ejemplo que se guardan solo en el navegador de quien la usa, y cada pantalla con guías lo dice. El único dato real es el estado de la API (`/api/v1/health/`).
 
 ## Requisitos
 
@@ -25,6 +25,8 @@ Desde `frontend/`:
 | `npm run typecheck` | `tsc -b --noEmit` |
 | `npm test` | Jest (jsdom) con Testing Library. Para una sola prueba: `npx jest src/store` o `npx jest -t "texto del nombre"` |
 
+Resultado esperado de `npm test`: `Tests:       278 passed, 278 total`, en 24 suites.
+
 ## Cómo se conecta con Django
 
 En desarrollo (`npm run dev`) y en `npm run preview`, Vite reenvía `/api`, `/admin` y `/static` a `http://127.0.0.1:8000` (ver `vite.config.ts`). Con Docker (`docker compose up --build` desde la raíz), `Dockerfile` compila la aplicación y nginx la sirve en <http://localhost:8080> haciendo el mismo reenvío al contenedor `backend` (ver `nginx.conf`). El navegador siempre habla con un solo origen, así que no hace falta CORS. Si el backend no está encendido, el chip del pie y del panel dice "API sin conexión" y todo lo demás sigue funcionando con los datos de demostración.
@@ -34,7 +36,7 @@ En desarrollo (`npm run dev`) y en `npm run preview`, Vite reenvía `/api`, `/ad
 El acceso a datos pasa por la interfaz `GuideRepository` (`src/services/guideRepository.ts`), con dos implementaciones:
 
 - `demoRepository` (por defecto): guarda las guías en `localStorage`, clave `hx.guides.v1`, y arranca con 8 guías de ejemplo. Si el almacenamiento no está disponible trabaja en memoria. "Restablecer datos de ejemplo" en el panel vuelve al estado inicial.
-- `httpRepository`: llama a `/api/v1/guides/` (lista, detalle, alta y `advance/`) con el contrato previsto para M64. Se activa así:
+- `httpRepository`: llama a `/api/v1/guides/` (lista, detalle, alta y `advance/`) con el contrato previsto para la Fase 2. Se activa así:
 
 ```bash
 VITE_DATA_SOURCE=api npm run dev     # o al compilar: VITE_DATA_SOURCE=api npm run build
@@ -71,7 +73,7 @@ componente → useGuides() → dispatch(thunk) → thunk → GuideRepository (de
 
 `createAppStore(repository)` pasa el repositorio a `configureStore` como `thunk.extraArgument`, y los thunks lo reciben como `extra`. Así:
 
-1. **El almacén no conoce las implementaciones.** `src/main.tsx` elige una sola vez el repositorio (`demoRepository` o `httpRepository`, según `VITE_DATA_SOURCE`) y crea el almacén con él. Pasar de datos de demostración a la API Django (M64) no toca ningún thunk ni reducer.
+1. **El almacén no conoce las implementaciones.** `src/main.tsx` elige una sola vez el repositorio (`demoRepository` o `httpRepository`, según `VITE_DATA_SOURCE`) y crea el almacén con él. Pasar de datos de demostración a la API Django (Fase 2) no toca ningún thunk ni reducer.
 2. **Se prueba sin trucos.** Las pruebas crean un almacén nuevo con un repositorio falso (`src/test/fakeRepository.ts`) o con el de demostración sobre un almacenamiento en memoria; no hay que sustituir módulos ni compartir estado entre pruebas. `src/test/renderApp.tsx` crea un almacén por cada montaje.
 3. **La regla de negocio sigue en el dominio.** El repositorio aplica `advanceGuide` de `src/domain/` (solo la etapa siguiente) y rechaza lo demás; los reducers no la repiten. Una prueba lo demuestra: con un repositorio que saltara etapas, el almacén guardaría lo que este devuelva.
 4. **Sin globales.** El repositorio no viaja en el estado ni en las acciones, que solo llevan datos serializables.
@@ -97,7 +99,7 @@ Un número válido es de 16 dígitos que inician con `21`, o de 22 caracteres al
 
 ## Estilos: Sass + BEM
 
-Los estilos están en Sass con la metodología BEM, como pide el Módulo 10 del documento oficial ([`../docs/REQUISITOS_EBAC.md`](../docs/REQUISITOS_EBAC.md)). No hay clases utilitarias ni una hoja global suelta: cada `className` de los componentes es un bloque, un elemento o un modificador BEM que se define en un parcial de `src/styles/`. `src/main.tsx` importa un único `styles/main.scss`.
+Los estilos están en Sass con la metodología BEM. No hay clases utilitarias ni una hoja global suelta: cada `className` de los componentes es un bloque, un elemento o un modificador BEM que se define en un parcial de `src/styles/`. `src/main.tsx` importa un único `styles/main.scss`.
 
 ### Carpetas (patrón 7-1)
 
@@ -145,7 +147,7 @@ Cada carpeta tiene un `_index.scss` que reenvía sus parciales con `@forward`, y
 
 Reglas que los estilos respetan: el aqua `#4CBED8` nunca es color de texto sobre fondo claro (se usa `$color-aqua-700`, `#167088`); el foco es un anillo aqua de 3 px con un aro marino sobre fondo claro; las animaciones van dentro de `@include motion-safe` (la única excepción es la entrada del héroe, que con movimiento reducido la regla de `base/_accessibility.scss` acorta a 0.01 ms) y `prefers-reduced-motion: reduce` apaga el resto; los puntos de quiebre son 640, 768 y 1024 px (`@include up(md)`), mobile first, y 1280 px queda reservado (`xl`). El encabezado completo sustituye al menú móvil desde 1024 px, la línea de tiempo pasa a horizontal desde 768 px y la tabla de guías reemplaza a las tarjetas desde 768 px.
 
-Una nota práctica: los interlineados de la escala (`calc(2 / 1.5)`) se leen de `--text-<paso>--line-height` (mixin `type()`), porque el minificador de CSS de Vite convierte un `calc()` suelto en un decimal de cinco cifras y la altura de las líneas cambiaría fracciones de píxel.
+Una nota adicional: los interlineados de la escala (`calc(2 / 1.5)`) se leen de `--text-<paso>--line-height` (mixin `type()`), porque el minificador de CSS de Vite convierte un `calc()` suelto en un decimal de cinco cifras y la altura de las líneas cambiaría fracciones de píxel.
 
 ## Estructura
 

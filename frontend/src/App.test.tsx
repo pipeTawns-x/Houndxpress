@@ -161,7 +161,7 @@ describe("pie de página", () => {
     );
     expect(within(footer).getByText("Lunes a viernes")).toBeInTheDocument();
     expect(within(footer).getByText(/09:00 – 18:00/)).toBeInTheDocument();
-    expect(within(footer).getByText("Proyecto académico de EBAC para Hound Express. Rediseño no oficial.")).toBeInTheDocument();
+    expect(within(footer).getByText("Rediseño no oficial de Hound Express con fines de demostración.")).toBeInTheDocument();
   });
 
   it("el chip de la API dice que no hay conexión cuando el estado no responde", async () => {

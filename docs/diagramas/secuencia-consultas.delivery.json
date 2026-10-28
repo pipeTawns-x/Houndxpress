@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "receiptId": "3a3834d2-ef5f-4d52-b379-8fa5678c7505",
+  "receiptId": "a094030a-9860-4187-ad17-6906ac71851d",
   "status": "current",
   "command": "deliver",
   "type": "sequence",
-  "input": "/home/user/Houndxpress/docs/diagramas/fuentes/secuencia-consultas.json",
-  "output": "/home/user/Houndxpress/docs/diagramas/secuencia-consultas.html",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/fuentes/secuencia-consultas.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/secuencia-consultas.html",
   "specification": {
-    "sha256": "9aa48a9d617498b752a0fce95bfef8cbb202880ad316406b44ddf13922a6d491",
-    "bytes": 34283
+    "sha256": "b058381913576fbf47af4516de49bcbe31416e3256a20f74dffd7eee4c8f7b9c",
+    "bytes": 34298
   },
   "artifact": {
-    "sha256": "814fda68ab11374f50a69e2fd52f8d563f1b07119826d9d8ee67508dfeb52540",
-    "bytes": 764041
+    "sha256": "ad7346f60bf792db6c6c1ea54debf2f0f1833777e8e55dcb0a59cf11b7d8bd50",
+    "bytes": 764043
   }
 }

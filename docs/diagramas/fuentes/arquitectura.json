@@ -536,7 +536,7 @@
       "id": "tracking",
       "type": "backend",
       "label": "App tracking",
-      "sublabel": "guías y etapas · M54",
+      "sublabel": "guías e historial · Fase 1",
       "pos": [
         847,
         470
@@ -545,7 +545,7 @@
         170,
         64
       ],
-      "tag": "planeado"
+      "tag": "modelos"
     },
     {
       "id": "health",
@@ -627,7 +627,7 @@
       "id": "api-tracking",
       "from": "api",
       "to": "tracking",
-      "label": "M54 · modelos",
+      "label": "modelos",
       "variant": "dashed",
       "fromSide": "bottom",
       "toSide": "top",
@@ -653,25 +653,25 @@
       "items": [
         "Sitio público, rastreo y panel de operaciones en una sola SPA",
         "Guías de demostración en localStorage hasta que exista la API de guías",
-        "VITE_DATA_SOURCE=api cambia al repositorio HTTP previsto para M64"
+        "VITE_DATA_SOURCE=api cambia al repositorio HTTP previsto para la Fase 2"
       ]
     },
     {
       "dot": "emerald",
-      "title": "Backend M52",
+      "title": "Backend · Fase 0 y Fase 1",
       "items": [
-        "Proyecto config con apps accounts, core y tracking",
-        "Modelo de usuario propio antes de la primera migración",
+        "Fase 0 · base del proyecto: config con apps accounts, core y tracking",
+        "Fase 1 · base de datos: guías e historial de etapas que no se edita ni se borra",
         "Todo endpoint exige sesión salvo /api/v1/health/"
       ]
     },
     {
       "dot": "amber",
-      "title": "Siguientes módulos",
+      "title": "Siguientes fases",
       "items": [
-        "M54: tablas de guías e historial que no se edita ni se borra",
-        "M64: GET, POST y PUT de guías con validación del orden de etapas",
-        "M66: entrega final y documentación"
+        "Fase 2 · API: GET, POST y PUT de guías con validación del orden de etapas",
+        "Fase 3 · integración y despliegue: frontend contra la API y entrega final",
+        "Interfaz para operadores sobre la API de guías"
       ]
     }
   ]

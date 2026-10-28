@@ -484,7 +484,7 @@
     {
       "from": 150,
       "to": 310,
-      "label": "Estado de la API · real desde M52"
+      "label": "Estado de la API · real desde la Fase 0"
     },
     {
       "from": 325,
@@ -494,7 +494,7 @@
     {
       "from": 480,
       "to": 710,
-      "label": "Rastreo · VITE_DATA_SOURCE=api (M64)"
+      "label": "Rastreo · VITE_DATA_SOURCE=api (Fase 2)"
     }
   ],
   "messages": [
@@ -698,7 +698,7 @@
     },
     {
       "dot": "cyan",
-      "title": "Cuando llegue M64",
+      "title": "Cuando llegue la Fase 2",
       "items": [
         "httpRepository llama a /api/v1/guides/",
         "404 se muestra como guía no encontrada",

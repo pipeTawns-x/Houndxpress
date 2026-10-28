@@ -26,7 +26,6 @@ media/
 # Environment
 .env
 .env.*
-!.env.example
 
 # Node (future frontend)
 node_modules/
@@ -36,7 +35,7 @@ build/
 # Claude Code agent worktrees (temporary)
 .claude/worktrees/
 
-# Claude Design kit, rebuilt by docs/loops/armar-kit-claude-design.sh
+# Claude Design kit, rebuilt by docs/loops/armar-kit-claude-design.sh (script on the practicas-ebac branch)
 /kit-claude-design/
 
 # Graphify output, rebuilt with: graphify update .

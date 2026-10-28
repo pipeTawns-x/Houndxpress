@@ -61,7 +61,7 @@ if not DEBUG and not ALLOWED_HOSTS:
     raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG is false.")
 
 if not DEBUG:
-    # HSTS and the `check --deploy` gate arrive with the first real deployment (M66).
+    # HSTS and the `check --deploy` gate arrive with the first real deployment.
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True

@@ -2,7 +2,7 @@ import type { AdvanceInput, Guide, NewGuideInput } from "../domain/index.ts";
 
 /**
  * Acceso a datos de guías. La interfaz tiene dos implementaciones:
- * `demoRepository` (localStorage) y `httpRepository` (API Django, módulo M64).
+ * `demoRepository` (localStorage) y `httpRepository` (API Django, Fase 2).
  */
 export interface GuideRepository {
   list(): Promise<Guide[]>;
