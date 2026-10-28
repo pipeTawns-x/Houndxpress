@@ -11,13 +11,25 @@ Diagramas interactivos generados con [Archify](https://github.com/tt-a1i/archify
 
 Los cuatro pasaron las cuatro compuertas de `archify finalize` en modo `showcase`: validación del esquema, entrega, revisión estricta del HTML y revisión en un navegador real.
 
+## Vistas previas
+
+GitHub muestra los `.html` como código; estas imágenes (tema claro) se ven directamente en la página. Para explorar el diagrama, descarga el HTML y ábrelo en el navegador.
+
+![Arquitectura](img/arquitectura.png)
+
+![Modelo de datos](img/modelo-de-datos.png)
+
+![Ciclo de vida de una guía](img/ciclo-de-vida-guia.png)
+
+![Secuencia de consultas](img/secuencia-consultas.png)
+
 ## Patrones y evidencia
 
 `modelo-de-datos` y `ciclo-de-vida-guia` siguen el método de los diagramas de Carni-mvp: cada patrón lleva una etiqueta honesta y cada nodo, su evidencia en el código.
 
 - **Etiquetas:** "existe" (está en el código), "framework" (lo da Django o DRF), "analogía" (se parece, pero no es el patrón) y "propuesta" (todavía no existe). El catálogo de referencia es [refactoring.guru](https://refactoring.guru/es/design-patterns/catalog); se cita, nunca se copia.
 - **Evidencia:** los marcadores `SRC` de cada nodo apuntan a `archivo:línea` de la rama `backend` en el commit `aed7967` (M54.1). Archify los verifica contra los bytes de ese commit al generar el HTML (16 referencias en `modelo-de-datos`).
-- **Enlaces:** `meta.repository.link_mode` vale `local-only` porque `aed7967` todavía no está en GitHub. Después del push, cambiarlo a `web` en las fuentes y regenerar para que los marcadores se vuelvan enlaces.
+- **Enlaces:** en esta edición escolar `meta.repository.link_mode` vale `local-only`, porque se generó antes de publicar `aed7967`. La edición de producto (ramas `backend`, `frontend`, `pruebas` y `main`) usa enlaces permanentes a `aed7967` en GitHub.
 
 El detalle de cada patrón está en [`docs/propuesta/blueprint.md`](../propuesta/blueprint.md) §3.
 
@@ -41,6 +53,21 @@ node .claude/skills/archify/bin/archify.mjs finalize lifecycle docs/diagramas/fu
 ```
 
 Requisitos: Node 18 o superior y un navegador Chromium para la revisión. En esta máquina se usa Brave: `ARCHIFY_CHROME="/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"`. Con `ARCHIFY_UPDATE_CHECK_DISABLED=1`, `finalize` no consulta en internet si hay versiones nuevas.
+
+Después de regenerar cualquier HTML, recaptura su vista previa. Si no, GitHub y el mensaje del LMS mostrarían un diagrama viejo:
+
+1. Captura las imágenes de `img/` con el navegador sin interfaz, a 1600 px de ancho y con `?theme=light` en la dirección del HTML.
+2. Registra de qué HTML salió cada imagen:
+
+   ```bash
+   (cd docs/diagramas && shasum -a 256 arquitectura.html modelo-de-datos.html ciclo-de-vida-guia.html secuencia-consultas.html > img/previews.sha256)
+   ```
+
+3. Comprueba que ninguna imagen quedó vieja. El script falla y nombra la imagen si un HTML cambió después de su captura:
+
+   ```bash
+   sh docs/diagramas/img/check-previews.sh
+   ```
 
 Los archivos `*.delivery.json` son la procedencia que liga cada HTML con su fuente y se regeneran solos. Guardan rutas absolutas, por eso se generan desde una carpeta temporal neutra y no desde la carpeta personal.
 
