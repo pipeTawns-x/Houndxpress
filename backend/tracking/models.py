@@ -1,1 +1,1 @@
-"""Waybill tracking domain models. Intentionally empty in M52; the schema lands in M54."""
+"""Waybill tracking domain models. Intentionally empty in phase 0; the schema lands in phase 1."""

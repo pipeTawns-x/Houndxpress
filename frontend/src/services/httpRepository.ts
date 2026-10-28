@@ -32,7 +32,7 @@ async function readDetail(response: Response): Promise<string | undefined> {
 
 /**
  * Repositorio que habla con la API Django (`/api/v1/guides/`), prevista para
- * el módulo M64. Se activa con `VITE_DATA_SOURCE=api`.
+ * la Fase 2 (API). Se activa con `VITE_DATA_SOURCE=api`.
  */
 export function createHttpRepository(options: HttpRepositoryOptions = {}): GuideRepository {
   const baseUrl = options.baseUrl ?? GUIDES_ENDPOINT;

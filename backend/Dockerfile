@@ -1,4 +1,4 @@
-# Development image for the Django API. Production settings arrive with the first deployment (M66).
+# Development image for the Django API. Production settings arrive with the first deployment.
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
