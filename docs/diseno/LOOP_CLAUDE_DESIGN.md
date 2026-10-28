@@ -1,6 +1,6 @@
 # Loop para Claude Design
 
-La versión vigente del loop está en [`docs/loops/01-LOOP-CLAUDE-DESIGN.md`](../loops/01-LOOP-CLAUDE-DESIGN.md), y su continuación en código en [`docs/loops/02-LOOP-CLAUDE-CODE.md`](../loops/02-LOOP-CLAUDE-CODE.md). Las dos ya incluyen los requisitos del documento oficial de EBAC (Sass con BEM, Redux y Jest).
+Los documentos del loop (diseño en Claude Design y su continuación en código) no se conservan en esta rama; las instrucciones para agentes, incluido dónde consultarlos, están en [`CLAUDE.md`](../../CLAUDE.md) y [`AGENTS.md`](../../AGENTS.md). El loop ya incluye los requisitos técnicos del frontend: Sass con BEM, Redux y Jest.
 
 ## Cómo se usó en la versión 1
 

@@ -6,27 +6,27 @@ Respuesta a cada objeción de [`02-abogado-del-diablo.md`](02-abogado-del-diablo
 
 | # | Objeción | Veredicto | Qué cambia |
 |---|---|---|---|
-| 1 | M52 pide Django, no frontend | **Se atiende** | El backend no se toca. El README conserva primero la tabla de requisitos de M52 y agrega el frontend en su propia sección. La etiqueta `m52` no se mueve. |
+| 1 | El alcance inicial es un backend base | **Se atiende** | El backend no se toca. El README conserva primero lo que contiene el backend y agrega el frontend en su propia sección. |
 | 2 | Segunda cadena de herramientas | **Se atiende** | El backend sigue funcionando solo con Python. El frontend se levanta con `npm` o, sin instalar Node, con `docker compose up`. |
 | 3 | Demostración que parece real | **Se atiende** | Toda pantalla con guías muestra la etiqueta "Datos de demostración" y la lista de guías de ejemplo. El README lo dice igual. |
-| 4 | Modelo inventado antes que el backend | **Se reduce** | El frontend solo fija lo que el negocio ya fijó: cinco etapas, orden y responsable. El resto de campos vive en un solo archivo de tipos (`src/domain/`) y el acceso a datos pasa por una interfaz con dos implementaciones. M54 decide los nombres definitivos y se ajustan ambos lados en el mismo commit. |
+| 4 | Modelo inventado antes que el backend | **Se reduce** | El frontend solo fija lo que el negocio ya fijó: cinco etapas, orden y responsable. El resto de campos vive en un solo archivo de tipos (`src/domain/`) y el acceso a datos pasa por una interfaz con dos implementaciones. La Fase 1 decide los nombres definitivos y se ajustan ambos lados en el mismo commit. |
 | 5 | Material de la empresa | **Se atiende** | Solo se reutiliza el logotipo y datos públicos (cifras, teléfonos, preguntas). Ilustraciones e iconos son propios o de librerías con licencia permisiva. |
 | 6 | "Moderna" no es medible | **Se atiende** | Criterios de aceptación medibles abajo. |
 | 7 | Docker contradice el stack | **Se descarta** | Se agrega un `docker-compose.yml` propio de dos servicios. La ruta sin Docker sigue siendo la principal y el CI prueba las dos. |
-| 8 | Panel abierto | **Se reduce** | El panel guarda datos solo en el navegador de quien lo usa y lo declara. La autenticación real llega con M64. |
+| 8 | Panel abierto | **Se reduce** | El panel guarda datos solo en el navegador de quien lo usa y lo declara. La autenticación real llega con la Fase 2. |
 
 ## Stack del frontend
 
 | Tema | Decisión | Motivo |
 |---|---|---|
-| Base | React 19 + TypeScript + Vite | React es lo que enseña el módulo de front-end del programa; Vite compila en segundos y sirve el proxy a Django en desarrollo. |
-| Estilos | Sass con metodología BEM y carpetas 7-1 en `src/styles/` | Los tokens viven en `abstracts/_tokens.scss` y se exponen como propiedades personalizadas en `:root`. Lo pide el Módulo 10 del documento oficial. La primera versión usó Tailwind 4 con `@theme`; se migró a Sass. |
+| Base | React 19 + TypeScript + Vite | Interfaz por componentes con tipado estático; Vite compila en segundos y sirve el proxy a Django en desarrollo. |
+| Estilos | Sass con metodología BEM y carpetas 7-1 en `src/styles/` | Los tokens viven en `abstracts/_tokens.scss` y se exponen como propiedades personalizadas en `:root`. Cada clase es un bloque, un elemento o un modificador BEM. La primera versión usó Tailwind 4 con `@theme`; se migró a Sass. |
 | Rutas | React Router | Rutas reales (`/rastreo?guia=…`) que se pueden compartir. |
 | Iconos | `lucide-react` (ISC) | Trazo uniforme, se importan solo los usados. |
 | Tipografías | `@fontsource-variable/plus-jakarta-sans` e `@fontsource-variable/inter` (OFL) | Autoalojadas: sin peticiones a Google Fonts. |
-| Pruebas | Jest + Testing Library | Lo pide el Módulo 34 del documento oficial. La primera versión usó Vitest; se migró el 30 de septiembre al leer [`REQUISITOS_EBAC.md`](../REQUISITOS_EBAC.md). |
+| Pruebas | Jest + Testing Library | Es el ejecutor de pruebas del proyecto. La primera versión usó Vitest; se migró el 30 de septiembre. |
 | Calidad | ESLint + `tsc --noEmit` | Se ejecutan en CI. |
-| Estado | Redux Toolkit sobre el repositorio de datos | Lo pide el Módulo 32 del documento oficial. La primera versión usaba solo hooks porque este documento aún no se conocía. |
+| Estado | Redux Toolkit sobre el repositorio de datos | Un slice de guías con thunks que reciben el repositorio de datos. La primera versión usaba solo hooks. |
 
 Ninguna dependencia que llega al navegador es copyleft; la única de compilación con copyleft débil (lightningcss, MPL-2.0) está explicada junto a la tabla de licencias en [`docs/STACK_HOUND_EXPRESS.md`](../STACK_HOUND_EXPRESS.md).
 
@@ -81,7 +81,7 @@ Regla única de avance, la misma que implementará el backend: **la única etapa
 El acceso a datos pasa por `GuideRepository` (`list`, `get`, `create`, `advance`):
 
 - `demoRepository`: guarda en `localStorage` y arranca con guías de ejemplo. Es la implementación por defecto.
-- `httpRepository`: llama a `/api/v1/guides/` con el contrato previsto para M64. Se activa con `VITE_DATA_SOURCE=api`.
+- `httpRepository`: llama a `/api/v1/guides/` con el contrato previsto para la Fase 2. Se activa con `VITE_DATA_SOURCE=api`.
 
 El estado de la API sí es real desde hoy: el panel y el pie consultan `GET /api/v1/health/`, el endpoint que ya existe en `backend/core/views.py`.
 
