@@ -1,14 +1,14 @@
 # Hound Express: contexto para agentes
 
-Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBAC, con Hound Express (logística cross-border para ecommerce) como empresa aliada. Autoría: sección *Autor* del README. Este archivo es la memoria del proyecto: cuando Eduardo pida "guarda todo en contexto", se actualiza aquí y en `docs/`, no en otro proyecto.
+Plataforma de rastreo y rediseño para Hound Express (logística cross-border para ecommerce). Autoría: sección *Autor* del README. Este archivo es la memoria del proyecto: cuando Eduardo pida "guarda todo en contexto", se actualiza aquí y en `docs/`, no en otro proyecto.
 
 ## Mapa
 
 | Ruta | Qué es |
 |---|---|
-| `backend/` | Django 5.2 LTS + DRF. `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (`/api/v1/health/`), `tracking` (guías, vacía hasta M54). |
+| `backend/` | Django 5.2 LTS + DRF. `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (`/api/v1/health/`), `tracking` (guías; en esta rama todavía vacía, el modelo vive en la rama `backend`). |
 | `frontend/` | React + TypeScript + Vite + Sass (BEM, estructura 7-1 en `src/styles/`). Sitio público rediseñado, rastreo, panel de operaciones e índice de diseños (`/disenos`). |
-| `git show origin/practicas-ebac:docs/REQUISITOS_EBAC.md` | Requisitos citados del documento oficial del proyecto (PDF de EBAC) y su estado. Manda sobre cualquier decisión técnica que lo contradiga. |
+| `git show origin/practicas-ebac:docs/REQUISITOS_EBAC.md` | Requisitos del documento oficial del proyecto y su estado. Manda sobre cualquier decisión técnica que lo contradiga. |
 | `docs/STACK_HOUND_EXPRESS.md` | Decisiones técnicas y licencias. Toda dependencia nueva se agrega a su tabla en el mismo commit. |
 | `docs/diseno/` | Proceso de rediseño: investigación → propuesta → abogado del diablo → arquitecto → sistema de diseño → revisión. Incluye el loop para Claude Design. |
 | `docs/diagramas/` | Diagramas Archify (HTML autónomo) y sus fuentes JSON en `fuentes/generar.py`. |
@@ -21,9 +21,9 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 1. Código e identificadores en inglés; documentación, commits y textos de interfaz en español.
 2. Sin dependencias AGPL/GPL. `backend/requirements*.txt` se exportan desde `uv.lock`, nunca a mano (comandos en `docs/STACK_HOUND_EXPRESS.md`).
 3. Cada bloque de comandos del README tiene un job de CI que lo reproduce. Si cambias uno, cambia el otro en el mismo commit.
-4. Las etiquetas de entrega (`m52`, …) no se mueven sin que Eduardo lo pida.
+4. Las etiquetas publicadas no se mueven sin que Eduardo lo pida.
 5. No afirmar nada que no se haya ejecutado: pruebas, capturas y estados del CI se reportan con su salida.
-6. El panel y el rastreo usan datos de demostración hasta M64; la interfaz y el README lo dicen explícitamente.
+6. El panel y el rastreo usan datos de demostración hasta la Fase 2 (API); la interfaz y el README lo dicen explícitamente.
 7. Antes de decidir tecnología, revisar `git show origin/practicas-ebac:docs/REQUISITOS_EBAC.md`: el frontend debe usar Sass con BEM, React, TypeScript, Redux y Jest porque el documento oficial lo pide.
 8. Regla de negocio central: una guía solo avanza a la etapa siguiente (Recepción de carga → Vehículo cargado → Vehículo liberado → Vehículo en camino → Carga entregada).
 
@@ -34,7 +34,7 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras.
 | Rama | Contiene | Recibe cambios de |
 |---|---|---|
 | `frontend` | Rediseño y aplicación React (`frontend/`, `docs/diseno/`). | trabajo directo |
-| `backend` | Django y DRF de cada práctica del LMS (`backend/`). | trabajo directo |
+| `backend` | Django y DRF del producto (`backend/`). | trabajo directo |
 | `practicas-ebac` | Entorno escolar: prácticas del LMS, entregas, documentos de curso y loops. | `frontend`, `backend` y trabajo escolar directo |
 | `pruebas` | Integración del producto: suite completa, `docker compose` y CI en verde. | `frontend`, `backend` y producto filtrado de `practicas-ebac` |
 | `main` | El producto integrado, limpio y profesional. Solo lo que ya pasó por `pruebas`. | `pruebas` |
@@ -65,9 +65,7 @@ Registro completo en `git show origin/practicas-ebac:docs/loops/03-LOOP-OPENCODE
 5. En zsh, `"$B:ruta"` se rompe por el modificador `:`; usa `"${B}:ruta"`. Si falta una herramienta preferida (`sd`), comprueba con `command -v` y usa otra.
 6. El inventario del sitio sale del sitemap (`/hx/page-sitemap.xml`, 26 páginas), no de los enlaces del Inicio. `/hx/en/` es un espejo completo hecho con Weglot, no una plantilla. Hay tres URLs de rastreo.
 7. Un documento commiteado cita rutas que existen en el repositorio, no los nombres del kit que genera un script.
-8. "Cumple" en `origin/practicas-ebac:docs/REQUISITOS_EBAC.md` exige evidencia en la capa que nombra el requisito. Una regla demostrada en el frontend con datos de demostración no cumple un requisito de API.
-9. Los módulos del PDF (M52, M54, M64, M66) no se numeran igual que el LMS (M0 a M37). En el LMS se busca por título de la asignación. M59 no existe.
-10. Antes de pedirle un archivo a Eduardo, búscalo en su Mac. El PDF oficial está en `~/Desktop/houndxpress.pdf`.
+8. Antes de pedirle un archivo a Eduardo, búscalo en su Mac. El PDF oficial está en `~/Desktop/houndxpress.pdf`.
 11. Cita las consignas completas y en su contexto. Anota los plus que tienen fuente, por ejemplo DELETE en la p. 21 del PDF.
 12. Las ramas locales sobrantes también rompen la regla de cinco ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
 13. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
@@ -93,10 +91,6 @@ docker compose up --build     # http://localhost:8080
 python3 docs/diagramas/fuentes/generar.py
 node .claude/skills/archify/bin/archify.mjs finalize <tipo> docs/diagramas/fuentes/<nombre>.json docs/diagramas/<nombre>.html --quality showcase --json
 ```
-
-## Hoja de ruta del LMS
-
-Numeración del PDF oficial (p. 22); en el LMS, la lección de M52 es la asignación 4.13.11 "Proyecto Empresa Aliada - M52 Entregable 9". M52 esqueleto Django (etiqueta `m52`; el repositorio no registra si la URL ya se envió en el LMS) · M54 tablas de guías e historial inmutable · M64 endpoints GET/POST/PUT con validación del orden de etapas · M66 entrega final. El contrato de datos que el frontend ya usa está en `docs/diseno/03-arquitecto.md`; M54 lo confirma o lo cambia en ambos lados a la vez.
 
 ## Herramientas locales de Eduardo
 
