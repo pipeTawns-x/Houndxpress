@@ -445,12 +445,17 @@
       "viewer.common.clear": "Borrar",
       "viewer.common.close": "Cerrar"
     },
-    "quality_profile": "showcase"
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/pipeTawns-x/Houndxpress.git",
+      "revision": "aed7967dd0d3730d1feab3162d00c94033dd9685",
+      "link_mode": "web"
+    }
   },
   "lanes": [
     {
       "id": "main",
-      "label": "Etapas en orden estricto"
+      "label": "Etapas de una guía"
     }
   ],
   "states": [
@@ -462,7 +467,26 @@
       "lane": "main",
       "col": 0,
       "step": "01",
-      "tag": "cargo_received"
+      "tag": "cargo_received",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 42,
+          "label": "Stage.CARGO_RECEIVED"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 224,
+          "end_line": 226,
+          "label": "el alta empieza en recepción"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 59,
+          "end_line": 67,
+          "label": "solo la etapa siguiente"
+        }
+      ]
     },
     {
       "id": "vehicle_loaded",
@@ -472,7 +496,20 @@
       "lane": "main",
       "col": 1,
       "step": "02",
-      "tag": "vehicle_loaded"
+      "tag": "vehicle_loaded",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 43,
+          "label": "Stage.VEHICLE_LOADED"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 59,
+          "end_line": 67,
+          "label": "solo la etapa siguiente"
+        }
+      ]
     },
     {
       "id": "vehicle_released",
@@ -482,7 +519,20 @@
       "lane": "main",
       "col": 2,
       "step": "03",
-      "tag": "vehicle_released"
+      "tag": "vehicle_released",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 44,
+          "label": "Stage.VEHICLE_RELEASED"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 59,
+          "end_line": 67,
+          "label": "solo la etapa siguiente"
+        }
+      ]
     },
     {
       "id": "vehicle_in_transit",
@@ -492,7 +542,20 @@
       "lane": "main",
       "col": 3,
       "step": "04",
-      "tag": "vehicle_in_transit"
+      "tag": "vehicle_in_transit",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 45,
+          "label": "Stage.VEHICLE_IN_TRANSIT"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 59,
+          "end_line": 67,
+          "label": "solo la etapa siguiente"
+        }
+      ]
     },
     {
       "id": "cargo_delivered",
@@ -502,7 +565,26 @@
       "lane": "main",
       "col": 4,
       "step": "05",
-      "tag": "cargo_delivered"
+      "tag": "cargo_delivered",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 46,
+          "label": "Stage.CARGO_DELIVERED"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 61,
+          "end_line": 62,
+          "label": "entregada: no admite más etapas"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 59,
+          "end_line": 67,
+          "label": "solo la etapa siguiente"
+        }
+      ]
     }
   ],
   "transitions": [
@@ -552,7 +634,17 @@
       "items": [
         "Solo 31 de cada 100 guías seguían el proceso en orden",
         "Saltar pasos causó pérdidas de 200k pesos MXN",
-        "Fuente: documento del proyecto (README, Contexto del negocio)"
+        "Fuente: contexto del negocio (README)"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Patrones en el código",
+      "items": [
+        "State, forma simple: Stage con cinco valores (models.py:41)",
+        "Solo la etapa siguiente es válida (models.py:59-67)",
+        "UPDATE condicional, compare-and-set, no GoF (models.py:93-108)",
+        "Propuestas: Command para avances auditables y Observer para avisos"
       ]
     }
   ]
