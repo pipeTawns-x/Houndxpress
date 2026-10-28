@@ -29,7 +29,7 @@ GitHub muestra los `.html` como código; estas imágenes (tema claro) se ven dir
 
 - **Etiquetas:** "existe" (está en el código), "framework" (lo da Django o DRF), "analogía" (se parece, pero no es el patrón) y "propuesta" (todavía no existe). El catálogo de referencia es [refactoring.guru](https://refactoring.guru/es/design-patterns/catalog); se cita, nunca se copia.
 - **Evidencia:** los marcadores `SRC` de cada nodo apuntan a `archivo:línea` de la rama `backend` en el commit `aed7967` (M54.1). Archify los verifica contra los bytes de ese commit al generar el HTML (16 referencias en `modelo-de-datos`).
-- **Enlaces:** `meta.repository.link_mode` vale `local-only` porque `aed7967` todavía no está en GitHub. Después del push, cambiarlo a `web` en las fuentes y regenerar para que los marcadores se vuelvan enlaces.
+- **Enlaces:** en esta edición escolar `meta.repository.link_mode` vale `local-only`, porque se generó antes de publicar `aed7967`. La edición de producto (ramas `backend`, `frontend`, `pruebas` y `main`) usa enlaces permanentes a `aed7967` en GitHub.
 
 El detalle de cada patrón está en [`docs/propuesta/blueprint.md`](../propuesta/blueprint.md) §3.
 
