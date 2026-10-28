@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from unittest import mock
 
 from django.conf import settings
@@ -33,8 +33,8 @@ class UserModelTests(SimpleTestCase):
 
 class UserTimestampTests(TestCase):
     def test_updated_at_is_set_by_server_and_moves_on_save(self):
-        created = datetime(2026, 1, 1, tzinfo=UTC)
-        edited = datetime(2026, 1, 2, tzinfo=UTC)
+        created = datetime(2026, 1, 1, tzinfo=timezone.utc)
+        edited = datetime(2026, 1, 2, tzinfo=timezone.utc)
         with mock.patch("django.utils.timezone.now", return_value=created):
             user = User.objects.create_user(username="operator", password=get_random_string(20))
         self.assertEqual(user.updated_at, created)
