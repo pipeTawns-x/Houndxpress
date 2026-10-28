@@ -1,7 +1,7 @@
 -- SQL generado por Django para SQLite a partir de las migraciones del M54.
 -- Fuente: python manage.py sqlmigrate tracking 0001, tracking 0002, tracking 0003
---         y python manage.py sqlmigrate accounts 0002.
--- Las tablas son tracking_guide y tracking_statushistory, más el campo department de accounts_user.
+--         y python manage.py sqlmigrate accounts 0002, accounts 0003.
+-- Las tablas son tracking_guide y tracking_statushistory, más los campos department y updated_at de accounts_user.
 -- La restricción del formato del número de guía usa REGEXP: Django registra esa función en su
 -- conexión SQLite; en un cliente sqlite3 suelto no existe. En PostgreSQL es nativa.
 BEGIN;
@@ -36,6 +36,15 @@ BEGIN;
 --
 CREATE TABLE "new__accounts_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "department" varchar(20) NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL);
 INSERT INTO "new__accounts_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "department") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", '' FROM "accounts_user";
+DROP TABLE "accounts_user";
+ALTER TABLE "new__accounts_user" RENAME TO "accounts_user";
+COMMIT;
+BEGIN;
+--
+-- Add field updated_at to user
+--
+CREATE TABLE "new__accounts_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "updated_at" datetime NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "department" varchar(20) NOT NULL);
+INSERT INTO "new__accounts_user" ("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "department", "updated_at") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "department", '2026-10-28 04:45:39.399359' FROM "accounts_user";
 DROP TABLE "accounts_user";
 ALTER TABLE "new__accounts_user" RENAME TO "accounts_user";
 COMMIT;
