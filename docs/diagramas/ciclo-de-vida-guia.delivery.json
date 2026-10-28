@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "ce8ba6a2-779a-4573-9863-e0e15feb902f",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/fuentes/ciclo-de-vida-guia.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/ciclo-de-vida-guia.html",
+  "specification": {
+    "sha256": "70589cabbc791f67e67a2b8e295d7f6481597dbd55db5827abed661d266f9f21",
+    "bytes": 34230
+  },
+  "artifact": {
+    "sha256": "3010fb1ef8da387aa1a6d8f273e280692a64a34419344549ba20ce1a7bbae9bc",
+    "bytes": 759367
+  }
+}

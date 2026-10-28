@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "c7367833-8fdc-468f-98f0-418bcd97ad60",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/fuentes/modelo-de-datos.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/modelo-de-datos.html",
+  "specification": {
+    "sha256": "3b3a68acee30101129dedbb056da8112bec42b755e7037aefb8c6ed92b3a3584",
+    "bytes": 37487
+  },
+  "artifact": {
+    "sha256": "e766874f96ec44329a4bcfe964f798989c79f791e1d60b4ce8c19c86170bfa79",
+    "bytes": 768052
+  }
+}

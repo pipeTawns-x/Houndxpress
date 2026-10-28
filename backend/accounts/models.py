@@ -1,11 +1,22 @@
-"""User accounts for Hound Express staff."""
+"""Cuentas de usuario para el personal de Hound Express."""
 
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+
+class Department(models.TextChoices):
+    CUSTOMS = "customs", "Aduana"
+    OPERATIONS = "operations", "Operaciones"
+    SECURITY = "security", "Seguridad"
+    KAM = "kam", "KAM"
 
 
 class User(AbstractUser):
-    """Project user model, defined before the first migration.
+    """Modelo de usuario del proyecto, definido antes de la primera migración.
 
-    Django only lets the user model be swapped cheaply before any table exists, so it
-    lives here from day one. The staff department is added in M54.
+    Django solo permite sustituir el modelo de usuario sin un costo significativo antes de
+    que exista alguna tabla, por lo que vive aquí desde el primer día. El departamento del
+    personal se agrega en la Fase 1.
     """
+
+    department = models.CharField(max_length=20, choices=Department.choices, blank=True)
