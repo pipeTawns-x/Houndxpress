@@ -2,11 +2,18 @@
 
 Entrega: "Proyecto Empresa Aliada - M54 Entregable 10" (generar las entidades de la base de datos), versión M54.2, etiqueta `m54.2`. El código está en `backend/`.
 
+## Fuentes
+
+- **Consigna:** lección "Proyecto Empresa Aliada - M54 Entregable 10" del LMS de EBAC (`lms.ebac.mx/lesson/fd172ab1-c112-4fd0-a0f1-8b73f5f28b05`). Los campos de cada entidad se tomaron de esa lección el 11 de octubre de 2026 y se citan abajo, antes de cada tabla.
+- **Rúbrica:** documento oficial del proyecto Hound Express (`houndxpress.pdf`, diapositiva 22): tablas y migraciones, evaluadas por la calidad del producto y por las expectativas del cliente.
+
 ## 1. Campos de la consigna y su implementación
 
 La consigna se cumple campo por campo. En siete puntos, la definición literal no funciona en Django o no cumple el propósito de la entidad. En esos casos se implementó el equivalente correcto y se explica el motivo.
 
 ### Guide (`backend/tracking/models.py:162-177`)
+
+Campos que pide la consigna: `id`, `trackingNumber` (`CharField`, 15), `origin` (`CharField`, 100), `destination` (`CharField`, 100), `createdAt` (`DateField`, `default=timezone.now`), `updatedAt` (`AutoDateTimeField`) y `currentStatus` (`CharField`, 20).
 
 | Consigna | Implementación | Motivo del ajuste |
 |---|---|---|
@@ -22,6 +29,8 @@ Campos agregados por necesidad del negocio: `recipient` (destinatario), `service
 
 ### StatusHistory (`backend/tracking/models.py:326-341`)
 
+Campos que pide la consigna: `id`, `guideId` (`IntegerField`, como llave foránea), `status` (`CharField`, 20), `timestamp` (`AutoDateTimeField`) y `updatedBy` (`CharField`, 20).
+
 | Consigna | Implementación | Motivo del ajuste |
 |---|---|---|
 | `id` | `id` automático | El mismo motivo que en `Guide`. |
@@ -33,6 +42,8 @@ Campos agregados por necesidad del negocio: `recipient` (destinatario), `service
 Campos agregados: `location` (ubicación) y `note` (nota). Restricción: una sola fila por etapa y por guía (`unique_stage_per_guide`, línea 341).
 
 ### User (`backend/accounts/models.py:14-24`)
+
+Campos que pide la consigna: `id`, `name` (`CharField`, 50), `email` (`CharField`, 50), `password` (`CharField`, 20, "encriptada"), `createdAt` (`DateField`) y `updatedAt` (`AutoDateTimeField`).
 
 Se reutiliza el usuario de Django (`AbstractUser`) en lugar de crear una segunda tabla de usuarios, porque ya resuelve la autenticación y el cifrado de contraseñas.
 
