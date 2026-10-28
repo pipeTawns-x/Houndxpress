@@ -16,7 +16,9 @@ class User(AbstractUser):
 
     Django solo permite sustituir el modelo de usuario sin un costo significativo antes de
     que exista alguna tabla, por lo que vive aquí desde el primer día. El departamento del
-    personal se agrega en la Fase 1.
+    personal se agrega en la Fase 1. ``AbstractUser`` ya registra la fecha de alta en
+    ``date_joined``; ``updated_at`` registra la última modificación y la asigna el servidor.
     """
 
     department = models.CharField(max_length=20, choices=Department.choices, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
