@@ -10,8 +10,8 @@ Plataforma para registrar las guías de carga de Hound Express y asegurar que ca
 |---|---|---|
 | 0 · base del proyecto | Proyecto Django con las apps `accounts`, `core` y `tracking`, modelo de usuario propio, punto de salud y CI | Hecha |
 | 1 · base de datos | `Guide` y `StatusHistory` (historial de solo inserción) con restricciones en la base, departamento de cada usuario, panel de administración y guías de demostración | Hecha |
-| 2 · API | Listado paginado, alta, detalle, avance, archivo lógico, historial y resumen; sesiones con CSRF y rastreo público mínimo | Implementada; verificación local |
-| 3 · integración y despliegue | Frontend conectado a la API, documentación para ejecutar el proyecto y despliegue | Planeada |
+| 2 · API | Listado paginado, alta, detalle, avance, archivo lógico, historial y resumen; sesiones con CSRF y rastreo público mínimo | Hecha |
+| 3 · integración y despliegue | Frontend conectado a la API y documentación: hecho. Despliegue público: planeado | En curso |
 
 ## Qué contiene esta rama
 
@@ -29,7 +29,9 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Rastreo limitado a 60 números/minuto por IP; muestra ubicaciones del catálogo cerrado y oculta valores antiguos no catalogados | [`backend/tracking/api/throttles.py`](backend/tracking/api/throttles.py), [`backend/tracking/api/serializers.py`](backend/tracking/api/serializers.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Lint y 157 pruebas verificadas localmente; CI definido para Linux (Python 3.10 y 3.12) y Windows, sin ejecución remota verificada para este cambio | [`backend/tracking/tests/test_api.py`](backend/tracking/tests/test_api.py), [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 157 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 310 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido | [`frontend/`](frontend/) |
+| Pila con Docker: Django y nginx con la web compilada | [`docker-compose.yml`](docker-compose.yml) |
 
 ## API de guías
 
@@ -113,6 +115,24 @@ Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv
 En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 109 tests` seguido de `OK`, y luego `All checks passed!`.
 
 Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>. Para cargar guías de demostración en la base local: `.venv/bin/python manage.py loaddata demo_guides`.
+
+## La web
+
+La web está en `frontend/`. En desarrollo usa el proxy de Vite hacia Django, así que primero levanta la API (ver *Inicio rápido*) y después:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Abre <http://localhost:5173/>. Para entrar al panel, crea un usuario de personal desde `backend/` con `python manage.py createsuperuser`, y carga datos de ejemplo con `python manage.py loaddata demo_guides`.
+
+Con Docker, `docker compose up --build` levanta Django en <http://localhost:8000/> y la web en <http://localhost:8080/>.
+
+Verificación del frontend: `npm test` (310 pruebas), `npm run typecheck`, `npm run lint` y `npm run build`.
+
+Las imágenes y el video son propios e ilustrativos: no son fotos reales de Hound Express. Su origen está en [`docs/imagenes-del-sitio.md`](docs/imagenes-del-sitio.md).
 
 ## Configuración
 
