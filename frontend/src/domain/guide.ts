@@ -22,12 +22,12 @@ export function nextStage(code: StageCode): StageCode | null {
   return STAGE_CODES[stageIndex(code) + 1] ?? null;
 }
 
-export function canAdvance(guide: Pick<Guide, "currentStage">): boolean {
-  return nextStage(guide.currentStage) !== null;
+export function canAdvance(guide: Pick<Guide, "currentStatus">): boolean {
+  return nextStage(guide.currentStatus) !== null;
 }
 
-export function isDelivered(guide: Pick<Guide, "currentStage">): boolean {
-  return guide.currentStage === "cargo_delivered";
+export function isDelivered(guide: Pick<Guide, "currentStatus">): boolean {
+  return guide.currentStatus === "cargo_delivered";
 }
 
 /**
@@ -35,7 +35,7 @@ export function isDelivered(guide: Pick<Guide, "currentStage">): boolean {
  * El historial solo crece y sus fechas nunca retroceden.
  */
 export function advanceGuide(guide: Guide, input: AdvanceGuideInput): Guide {
-  const next = nextStage(guide.currentStage);
+  const next = nextStage(guide.currentStatus);
   if (next === null) {
     throw new DomainError("already_delivered", "La guía ya fue entregada y no puede avanzar.");
   }
@@ -45,7 +45,7 @@ export function advanceGuide(guide: Guide, input: AdvanceGuideInput): Guide {
     throw new DomainError("invalid_input", "Indica la ubicación en la que se registra el avance.");
   }
 
-  const at = Date.parse(input.at);
+  const at = Date.parse(input.timestamp);
   if (Number.isNaN(at)) {
     throw new DomainError("invalid_input", "La fecha del avance no es válida.");
   }
@@ -57,12 +57,12 @@ export function advanceGuide(guide: Guide, input: AdvanceGuideInput): Guide {
   const note = input.note?.trim();
   const event: StageEvent = {
     stage: next,
-    at: new Date(at).toISOString(),
+    timestamp: new Date(at).toISOString(),
     location,
     ...(note ? { note } : {}),
   };
 
-  return { ...guide, currentStage: next, history: [...guide.history, event] };
+  return { ...guide, currentStatus: next, history: [...guide.history, event] };
 }
 
 function trimmed(value: string): string {
@@ -73,8 +73,8 @@ function trimmed(value: string): string {
 export function validateNewGuideInput(input: NewGuideInput): FieldErrors<NewGuideInput> {
   const errors: FieldErrors<NewGuideInput> = {};
 
-  if (!isValidGuideNumber(input.number)) {
-    errors.number =
+  if (!isValidGuideNumber(input.trackingNumber)) {
+    errors.trackingNumber =
       "Escribe un número válido: 16 dígitos que inician con 21, o 22 caracteres alfanuméricos.";
   }
 
@@ -85,15 +85,16 @@ export function validateNewGuideInput(input: NewGuideInput): FieldErrors<NewGuid
   ];
   for (const [field, message] of required) {
     const value = trimmed(input[field]);
+    const limit = field === "recipient" ? 255 : MAX_TEXT_LENGTH;
     if (value === "") {
       errors[field] = message;
-    } else if (value.length > MAX_TEXT_LENGTH) {
-      errors[field] = `Usa máximo ${MAX_TEXT_LENGTH} caracteres.`;
+    } else if (value.length > limit) {
+      errors[field] = `Usa máximo ${limit} caracteres.`;
     }
   }
 
-  if (input.service !== "standard" && input.service !== "priority") {
-    errors.service = "Elige un servicio.";
+  if (input.serviceLevel !== "standard" && input.serviceLevel !== "priority") {
+    errors.serviceLevel = "Elige un servicio.";
   }
 
   return errors;
@@ -104,28 +105,28 @@ export function createGuide(input: NewGuideInput, at: string): Guide {
   const errors = validateNewGuideInput(input);
   if (Object.keys(errors).length > 0) {
     throw new DomainError(
-      errors.number ? "invalid_guide_number" : "invalid_input",
-      errors.number ?? "Revisa los datos de la guía.",
+      errors.trackingNumber ? "invalid_guide_number" : "invalid_input",
+      errors.trackingNumber ?? "Revisa los datos de la guía.",
       errors,
     );
   }
 
   const origin = trimmed(input.origin);
   return {
-    number: normalizeGuideNumber(input.number),
+    trackingNumber: normalizeGuideNumber(input.trackingNumber),
     origin,
     destination: trimmed(input.destination),
     recipient: trimmed(input.recipient),
-    service: input.service,
+    serviceLevel: input.serviceLevel,
     createdAt: at,
-    currentStage: FIRST_STAGE,
-    history: [{ stage: FIRST_STAGE, at, location: origin }],
+    currentStatus: FIRST_STAGE,
+    history: [{ stage: FIRST_STAGE, timestamp: at, location: origin }],
   };
 }
 
 /** Fecha del último evento; si no hay historial, la de creación. */
 export function lastUpdate(guide: Guide): string {
-  return guide.history.at(-1)?.at ?? guide.createdAt;
+  return guide.history.at(-1)?.timestamp ?? guide.createdAt;
 }
 
 export function findEventIn(history: readonly StageEvent[], stage: StageCode): StageEvent | undefined {
@@ -139,11 +140,11 @@ export const SERVICE_WINDOWS: Record<ServiceLevel, { minDays: number; maxDays: n
 };
 
 /** Ventana estimada de entrega: desde el registro de la guía, según su servicio. */
-export function estimatedDeliveryWindow(guide: Pick<Guide, "createdAt" | "service">): {
+export function estimatedDeliveryWindow(guide: Pick<Guide, "createdAt" | "serviceLevel">): {
   from: string;
   to: string;
 } {
-  const { minDays, maxDays } = SERVICE_WINDOWS[guide.service];
+  const { minDays, maxDays } = SERVICE_WINDOWS[guide.serviceLevel];
   const start = Date.parse(guide.createdAt);
   return {
     from: new Date(start + minDays * DAY_MS).toISOString(),

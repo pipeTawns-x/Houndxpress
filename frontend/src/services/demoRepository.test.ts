@@ -25,11 +25,11 @@ function repositoryWith(options: { now?: () => Date; initial?: Record<string, st
 }
 
 const NEW_GUIDE: NewGuideInput = {
-  number: "2100000000000001",
+  trackingNumber: "2100000000000001",
   origin: "Laredo, TX",
   destination: "Monterrey, N.L.",
   recipient: "Ana Ruiz",
-  service: "standard",
+  serviceLevel: "standard",
 };
 
 const NOW = new Date("2026-10-01T12:00:00.000Z");
@@ -39,7 +39,7 @@ describe("demoRepository", () => {
     const storage = memoryStorage();
     const repository = createDemoRepository({ getStorage: () => storage });
     const guides = await repository.list();
-    expect(guides.map((guide) => guide.number)).toEqual([...DEMO_GUIDE_NUMBERS]);
+    expect(guides.map((guide) => guide.trackingNumber)).toEqual([...DEMO_GUIDE_NUMBERS]);
     expect(DEMO_STORAGE_KEY).toBe("hx.guides.v1");
     expect(JSON.parse(storage.data.get("hx.guides.v1") ?? "null")).toHaveLength(8);
   });
@@ -54,17 +54,17 @@ describe("demoRepository", () => {
 
   it("create agrega la guía al principio, en Recepción de carga y con un evento", async () => {
     const repository = repositoryWith({ now: () => NOW });
-    const created = await repository.create({ ...NEW_GUIDE, number: "2100 0000 0000 0001" });
-    expect(created.currentStage).toBe("cargo_received");
-    expect(created.history).toEqual([{ stage: "cargo_received", at: NOW.toISOString(), location: "Laredo, TX" }]);
+    const created = await repository.create({ ...NEW_GUIDE, trackingNumber: "2100 0000 0000 0001" });
+    expect(created.currentStatus).toBe("cargo_received");
+    expect(created.history).toEqual([{ stage: "cargo_received", timestamp: NOW.toISOString(), location: "Laredo, TX" }]);
     const guides = await repository.list();
     expect(guides).toHaveLength(9);
-    expect(guides[0]?.number).toBe("2100000000000001");
+    expect(guides[0]?.trackingNumber).toBe("2100000000000001");
   });
 
   it("create rechaza un número repetido", async () => {
     const repository = repositoryWith();
-    await expect(repository.create({ ...NEW_GUIDE, number: "2148 2139 0765 0312" })).rejects.toMatchObject({
+    await expect(repository.create({ ...NEW_GUIDE, trackingNumber: "2148 2139 0765 0312" })).rejects.toMatchObject({
       name: "RepositoryError",
       code: "duplicate",
     });
@@ -74,7 +74,7 @@ describe("demoRepository", () => {
 
   it("create rechaza un número inválido y campos vacíos, sin guardar nada", async () => {
     const repository = repositoryWith();
-    await expect(repository.create({ ...NEW_GUIDE, number: "123" })).rejects.toMatchObject({ code: "invalid_guide_number" });
+    await expect(repository.create({ ...NEW_GUIDE, trackingNumber: "123" })).rejects.toMatchObject({ code: "invalid_guide_number" });
     await expect(repository.create({ ...NEW_GUIDE, recipient: " " })).rejects.toBeInstanceOf(DomainError);
     expect(await repository.list()).toHaveLength(8);
   });
@@ -83,18 +83,18 @@ describe("demoRepository", () => {
     const storage = memoryStorage();
     const repository = createDemoRepository({ getStorage: () => storage, now: () => NOW });
     const updated = await repository.advance("2148213907650312", { location: "Miami, FL", note: "Cargado en muelle 3" });
-    expect(updated.currentStage).toBe("vehicle_loaded");
+    expect(updated.currentStatus).toBe("vehicle_loaded");
     expect(updated.history).toHaveLength(2);
     expect(updated.history[1]).toEqual({
       stage: "vehicle_loaded",
-      at: NOW.toISOString(),
+      timestamp: NOW.toISOString(),
       location: "Miami, FL",
       note: "Cargado en muelle 3",
     });
 
     // Otro repositorio sobre el mismo almacenamiento ve el cambio.
     const other = createDemoRepository({ getStorage: () => storage });
-    expect((await other.get("2148213907650312"))?.currentStage).toBe("vehicle_loaded");
+    expect((await other.get("2148213907650312"))?.currentStatus).toBe("vehicle_loaded");
   });
 
   it("advance no mueve una guía entregada ni una que no existe", async () => {
@@ -111,7 +111,7 @@ describe("demoRepository", () => {
     const repository = repositoryWith({ now: () => new Date("2020-01-01T00:00:00.000Z") });
     const updated = await repository.advance("2148213907650312", { location: "Miami, FL" });
     const [first, second] = updated.history;
-    expect(Date.parse(second?.at ?? "")).toBeGreaterThanOrEqual(Date.parse(first?.at ?? ""));
+    expect(Date.parse(second?.timestamp ?? "")).toBeGreaterThanOrEqual(Date.parse(first?.timestamp ?? ""));
   });
 
   it("reset vuelve a las guías de ejemplo", async () => {
@@ -121,13 +121,13 @@ describe("demoRepository", () => {
     await repository.reset?.();
     const guides = await repository.list();
     expect(guides).toHaveLength(8);
-    expect(guides.find((guide) => guide.number === "2148213907650312")?.currentStage).toBe("cargo_received");
+    expect(guides.find((guide) => guide.trackingNumber === "2148213907650312")?.currentStatus).toBe("cargo_received");
   });
 
   it("si el almacenamiento tiene datos dañados, vuelve a las guías de ejemplo", async () => {
     const repository = repositoryWith({ initial: { [DEMO_STORAGE_KEY]: "{no es json" } });
     expect(await repository.list()).toHaveLength(8);
-    const wrongShape = repositoryWith({ initial: { [DEMO_STORAGE_KEY]: JSON.stringify([{ number: 1 }]) } });
+    const wrongShape = repositoryWith({ initial: { [DEMO_STORAGE_KEY]: JSON.stringify([{ trackingNumber: 1 }]) } });
     expect(await wrongShape.list()).toHaveLength(8);
   });
 
@@ -153,7 +153,7 @@ describe("demoRepository", () => {
       await repository.advance("2148213907650312", { location: "Miami, FL" });
       const guides = await repository.list();
       expect(guides).toHaveLength(9);
-      expect(guides.find((guide) => guide.number === "2148213907650312")?.currentStage).toBe("vehicle_loaded");
+      expect(guides.find((guide) => guide.trackingNumber === "2148213907650312")?.currentStatus).toBe("vehicle_loaded");
       await repository.reset?.();
       expect(await repository.list()).toHaveLength(8);
     });
@@ -170,7 +170,7 @@ describe("demoRepository", () => {
       await repository.create(NEW_GUIDE);
       const guides = await repository.list();
       expect(guides).toHaveLength(9);
-      expect(guides[0]?.number).toBe("2100000000000001");
+      expect(guides[0]?.trackingNumber).toBe("2100000000000001");
     });
 
     it("con el localStorage real de jsdom bloqueado también funciona", async () => {

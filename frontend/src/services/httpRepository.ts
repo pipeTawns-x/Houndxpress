@@ -1,122 +1,89 @@
 import { isGuide, normalizeGuideNumber } from "../domain/index.ts";
-import type { AdvanceInput, Guide, NewGuideInput } from "../domain/index.ts";
+import type { Guide, ApiGuideSummary } from "../domain/types.ts";
 import { RepositoryError } from "./guideRepository.ts";
 import type { GuideRepository } from "./guideRepository.ts";
+import { createApiClient, readJson, record } from "./apiClient.ts";
 
 export const GUIDES_ENDPOINT = "/api/v1/guides/";
-
 export interface HttpRepositoryOptions {
   baseUrl?: string;
   fetchImpl?: typeof fetch;
 }
-
-function readCookie(name: string): string | null {
-  if (typeof document === "undefined") return null;
-  const prefix = `${name}=`;
-  const entry = document.cookie.split("; ").find((part) => part.startsWith(prefix));
-  return entry ? decodeURIComponent(entry.slice(prefix.length)) : null;
-}
-
-async function readDetail(response: Response): Promise<string | undefined> {
-  try {
-    const body = (await response.json()) as unknown;
-    if (typeof body === "object" && body !== null && "detail" in body) {
-      const { detail } = body;
-      return typeof detail === "string" ? detail : undefined;
-    }
-  } catch {
-    // Sin cuerpo JSON: se usa el mensaje genérico.
-  }
-  return undefined;
-}
-
-/**
- * Repositorio que habla con la API Django (`/api/v1/guides/`), prevista para
- * la Fase 2 (API). Se activa con `VITE_DATA_SOURCE=api`.
- */
 export function createHttpRepository(options: HttpRepositoryOptions = {}): GuideRepository {
-  const baseUrl = options.baseUrl ?? GUIDES_ENDPOINT;
-
-  function request(path: string, init: RequestInit = {}): Promise<Response> {
-    const method = init.method ?? "GET";
-    const headers = new Headers(init.headers);
-    headers.set("Accept", "application/json");
-    if (method !== "GET") {
-      headers.set("Content-Type", "application/json");
-      // Django exige el token CSRF en las escrituras con sesión.
-      const csrf = readCookie("csrftoken");
-      if (csrf) headers.set("X-CSRFToken", csrf);
-    }
-    const fetchImpl = options.fetchImpl ?? fetch;
-    return fetchImpl(`${baseUrl}${path}`, { ...init, method, headers, credentials: "same-origin" }).catch(
-      () => {
-        throw new RepositoryError("network", "No se pudo conectar con la API.");
-      },
-    );
-  }
-
-  async function failure(response: Response, fallback: string): Promise<RepositoryError> {
-    const detail = await readDetail(response);
-    if (response.status === 404) return new RepositoryError("not_found", detail ?? fallback, 404);
-    if (response.status === 409) return new RepositoryError("duplicate", detail ?? fallback, 409);
-    if (response.status === 400 || response.status === 422) {
-      return new RepositoryError("rejected", detail ?? fallback, response.status);
-    }
-    return new RepositoryError("http", detail ?? `${fallback} (código ${String(response.status)}).`, response.status);
-  }
-
-  async function parseGuide(response: Response): Promise<Guide> {
-    const body = await parseJson(response);
-    if (!isGuide(body)) {
+  const base = options.baseUrl ?? GUIDES_ENDPOINT;
+  const api = createApiClient(options.fetchImpl);
+  const path = (number: string) => `${base}${encodeURIComponent(normalizeGuideNumber(number))}/`;
+  async function guide(response: Response): Promise<Guide> {
+    const data = await readJson(response);
+    if (!isGuide(data))
       throw new RepositoryError("invalid_response", "La API respondió con una guía que no se reconoce.");
-    }
-    return body;
+    return data;
   }
-
-  async function parseJson(response: Response): Promise<unknown> {
-    try {
-      return (await response.json()) as unknown;
-    } catch {
-      throw new RepositoryError("invalid_response", "La API no respondió con JSON.");
-    }
-  }
-
-  function post(path: string, body: unknown): Promise<Response> {
-    return request(path, { method: "POST", body: JSON.stringify(body) });
-  }
-
   return {
     async list() {
-      const response = await request("");
-      if (!response.ok) throw await failure(response, "No se pudo obtener la lista de guías");
-      const body = await parseJson(response);
-      // DRF puede paginar: { results: [...] }.
-      const items: unknown =
-        typeof body === "object" && body !== null && "results" in body ? body.results : body;
-      if (!Array.isArray(items) || !items.every(isGuide)) {
-        throw new RepositoryError("invalid_response", "La API respondió con una lista que no se reconoce.");
+      const items: Guide[] = [];
+      let url: string | null = base;
+      const visited = new Set<string>();
+      while (url) {
+        const parsed = new URL(url, window.location.origin);
+        const expected = new URL(base, window.location.origin);
+        if (
+          parsed.origin !== expected.origin ||
+          parsed.pathname !== expected.pathname ||
+          visited.has(parsed.href)
+        ) {
+          throw new RepositoryError("invalid_response", "La paginación de la API no es válida.");
+        }
+        visited.add(parsed.href);
+        const data = await readJson(await api.request(url));
+        const results = record(data) ? data.results : data;
+        if (!Array.isArray(results) || !results.every(isGuide))
+          throw new RepositoryError("invalid_response", "La API respondió con una lista que no se reconoce.");
+        items.push(...results);
+        url = record(data) && typeof data.next === "string" ? data.next : null;
       }
       return items;
     },
-
     async get(number) {
-      const response = await request(`${encodeURIComponent(normalizeGuideNumber(number))}/`);
-      if (response.status === 404) return null;
-      if (!response.ok) throw await failure(response, "No se pudo consultar la guía");
-      return parseGuide(response);
+      try {
+        return await guide(await api.request(path(number)));
+      } catch (error) {
+        if (error instanceof RepositoryError && error.status === 404) return null;
+        throw error;
+      }
     },
-
-    async create(input: NewGuideInput) {
-      const response = await post("", { ...input, number: normalizeGuideNumber(input.number) });
-      if (!response.ok) throw await failure(response, "No se pudo registrar la guía");
-      return parseGuide(response);
+    async create(input) {
+      return guide(
+        await api.write(base, "POST", {
+          ...input,
+          trackingNumber: normalizeGuideNumber(input.trackingNumber),
+        }),
+      );
     },
-
-    async advance(number: string, input: AdvanceInput) {
-      const path = `${encodeURIComponent(normalizeGuideNumber(number))}/advance/`;
-      const response = await post(path, input);
-      if (!response.ok) throw await failure(response, "No se pudo avanzar la guía");
-      return parseGuide(response);
+    async advance(number, input) {
+      if (!input.stage) throw new RepositoryError("rejected", "Indica la siguiente etapa de la guía.");
+      return guide(await api.write(path(number), "PUT", { stage: input.stage, location: input.location }));
+    },
+    async archive(number) {
+      await api.write(path(number), "DELETE");
+    },
+    listArchived() {
+      return Promise.reject(
+        new RepositoryError(
+          "rejected",
+          "La API todavía no permite consultar el archivo. Las guías archivadas conservan su historial en el servidor.",
+        ),
+      );
+    },
+    async summary() {
+      const data = await readJson(await api.request(`${base}summary/`));
+      const fields = ["total", "active", "inTransit", "delivered", "withAlert"] as const;
+      if (
+        !record(data) ||
+        !fields.every((key) => typeof data[key] === "number" && Number.isInteger(data[key]) && data[key] >= 0)
+      )
+        throw new RepositoryError("invalid_response", "El resumen de la API no es válido.");
+      return data as unknown as ApiGuideSummary;
     },
   };
 }
