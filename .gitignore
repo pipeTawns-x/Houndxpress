@@ -21,6 +21,8 @@ db.sqlite3
 db.sqlite3-journal
 staticfiles/
 media/
+!frontend/public/media/
+!frontend/public/media/**
 *.log
 
 # Environment
@@ -36,16 +38,11 @@ secrets/
 node_modules/
 dist/
 build/
-
-# Claude Code agent worktrees (temporary)
-.claude/worktrees/
-
-# Claude Design kit, rebuilt by docs/loops/armar-kit-claude-design.sh
-/kit-claude-design/
-
-# Graphify output, rebuilt with: graphify update .
-/graphify-out/
 # Local AI runtime state
 .atl/
 # Spec-driven artifacts stay local to the working session.
 openspec/
+
+# Notas privadas de investigación: no se publican.
+docs/investigacion/privado/
+docs/investigacion/04-*.md

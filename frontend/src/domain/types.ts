@@ -34,40 +34,50 @@ export type ServiceLevel = "standard" | "priority";
 export interface StageEvent {
   stage: StageCode;
   /** Fecha y hora en ISO 8601 (UTC). */
-  at: string;
+  timestamp: string;
   location: string;
   note?: string;
 }
 
 export interface Guide {
   /** 16 dígitos que inician con 21, o 22 caracteres alfanuméricos. */
-  number: string;
+  trackingNumber: string;
   origin: string;
   destination: string;
   recipient: string;
-  service: ServiceLevel;
+  serviceLevel: ServiceLevel;
   createdAt: string;
-  currentStage: StageCode;
+  currentStatus: StageCode;
   /** Solo crece: nunca se edita ni se borra. Un evento por etapa completada. */
   history: StageEvent[];
 }
 
 export interface NewGuideInput {
-  number: string;
+  trackingNumber: string;
   origin: string;
   destination: string;
   recipient: string;
-  service: ServiceLevel;
+  serviceLevel: ServiceLevel;
 }
 
 export interface AdvanceInput {
+  stage?: StageCode;
   location: string;
   note?: string;
 }
 
 export interface AdvanceGuideInput extends AdvanceInput {
   /** Fecha y hora del evento en ISO 8601 (UTC). */
-  at: string;
+  timestamp: string;
 }
 
 export type FieldErrors<T> = Partial<Record<keyof T, string>>;
+
+/** Public tracking deliberately excludes private shipping fields. */
+export interface PublicGuide {
+  trackingNumber: string;
+  currentStatus: StageCode;
+  history: StageEvent[];
+}
+export type PublicTrackingResult = PublicGuide | { trackingNumber: string; found: false };
+export interface ApiGuideSummary { total: number; active: number; inTransit: number; delivered: number; withAlert: number }

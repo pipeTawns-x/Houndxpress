@@ -10,7 +10,7 @@ const ROUTES: [string, RegExp, string][] = [
   ["/nosotros", /Impulsamos el crecimiento del ecommerce/, "Nosotros · Hound Express"],
   ["/preguntas", /Respuestas a las consultas más comunes/, "Preguntas frecuentes · Hound Express"],
   ["/contacto", /Estamos a un mensaje de distancia/, "Contacto · Hound Express"],
-  ["/panel", /^Panel de operaciones$/, "Panel de operaciones · Hound Express"],
+  
   ["/disenos", /^Índice de diseños$/, "Índice de diseños · Hound Express"],
   ["/ruta-que-no-existe", /Esta página no está en la ruta/, "Página no encontrada · Hound Express"],
 ];
@@ -46,7 +46,6 @@ describe("rutas", () => {
       "/preguntas",
       "/contacto",
       "/panel",
-      "/disenos",
       "/pagina-que-no-existe",
     ]);
   });
@@ -72,7 +71,7 @@ describe("rutas", () => {
     Object.defineProperty(Element.prototype, "scrollIntoView", { configurable: true, value: scrollIntoView });
     try {
       const { user } = await renderApp("/");
-      await user.click(screen.getByRole("link", { name: /Conocer más.*Almacén/ }));
+      await user.click(screen.getByRole("link", { name: /Espacio para crecer/ }));
       expect(await screen.findByRole("heading", { level: 1, name: /Servicios para que tu ecommerce/ })).toBeInTheDocument();
       expect(scrollIntoView).toHaveBeenCalledTimes(1);
       expect(scrollToMock).not.toHaveBeenCalled();
@@ -99,7 +98,7 @@ describe("encabezado", () => {
 
     await user.click(toggle);
     const drawer = screen.getByRole("navigation", { name: "Menú móvil" });
-    expect(screen.getByRole("button", { name: "Cerrar menú" })).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("button", { name: "Cerrar menú", expanded: true })).toHaveAttribute("aria-expanded", "true");
     expect(within(drawer).getAllByRole("link").map((link) => link.textContent)).toEqual([
       "Servicios",
       "Cobertura",
@@ -124,7 +123,7 @@ describe("encabezado", () => {
   it("el botón de menú también cierra el cajón", async () => {
     const { user } = await renderApp("/");
     await user.click(screen.getByRole("button", { name: "Abrir menú" }));
-    await user.click(screen.getByRole("button", { name: "Cerrar menú" }));
+    await user.click(screen.getByRole("button", { name: "Cerrar menú", expanded: true }));
     expect(screen.queryByRole("navigation", { name: "Menú móvil" })).not.toBeInTheDocument();
   });
 
@@ -147,7 +146,7 @@ describe("encabezado", () => {
 });
 
 describe("pie de página", () => {
-  it("muestra el logo blanco, contacto por país, horario y la nota académica", async () => {
+  it("muestra el logo blanco, contacto por país, horario sin referencias de demostración", async () => {
     await renderApp("/");
     const footer = screen.getByRole("contentinfo");
     expect(within(footer).getByRole("img", { name: "Hound Express" })).toHaveAttribute("src", "/brand/logo-hound-express-blanco.svg");
@@ -161,7 +160,7 @@ describe("pie de página", () => {
     );
     expect(within(footer).getByText("Lunes a viernes")).toBeInTheDocument();
     expect(within(footer).getByText(/09:00 – 18:00/)).toBeInTheDocument();
-    expect(within(footer).getByText("Proyecto académico de EBAC para Hound Express. Rediseño no oficial.")).toBeInTheDocument();
+    expect(within(footer).queryByText(/fines de demostración/)).not.toBeInTheDocument();
   });
 
   it("el chip de la API dice que no hay conexión cuando el estado no responde", async () => {
@@ -179,23 +178,13 @@ describe("inicio", () => {
     expect(await screen.findByRole("heading", { level: 3, name: "2148 2139 0765 0312" })).toBeInTheDocument();
   });
 
-  it("incluye cifras, servicios, recorrido, cobertura, panel, alianzas, preguntas y contacto", async () => {
+  it("incluye el recorrido completo, cobertura, servicios con fotografía y contacto", async () => {
     await renderApp("/");
-    for (const name of [
-      /Todo lo que tu ecommerce necesita/,
-      /Cómo viaja tu paquete/,
-      /Conectamos a toda Latinoamérica/,
-      /Ten el control de tu operación/,
-      /Con la confianza de las instituciones/,
-      /Respuestas a lo que más nos preguntan/,
-      /Estamos a un mensaje de distancia/,
-    ]) {
+    for (const name of [/Cinco etapas/, /Conectamos.*Estados Unidos/, /Tu operación/, /Detrás de cada envío/, /Tus preguntas/, /Tu negocio no termina/]) {
       expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
     }
-    const stats = screen.getByRole("region", { name: "Hound Express en cifras" });
-    expect(within(stats).getAllByRole("listitem")).toHaveLength(4);
-    expect(within(stats).getByText("m² de almacenes").previousElementSibling).toHaveTextContent("+15,000");
-    expect(screen.getByText("¿No tienes tu número? Está en el correo de tu compra.")).toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Servicios de logística" }).children).toHaveLength(4);
+    expect(screen.getByText("Tu número está en el correo de tu compra.")).toBeInTheDocument();
   });
 
   it("el mapa de red tiene nombre accesible y una lista de las diez ciudades", async () => {

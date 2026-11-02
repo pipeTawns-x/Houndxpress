@@ -55,7 +55,7 @@ export function useGuides(): UseGuides {
   const create = useCallback((input: NewGuideInput) => dispatch(createGuide(input)).unwrap(), [dispatch]);
 
   const advance = useCallback(
-    (number: string, input: AdvanceInput) => dispatch(advanceGuide({ number, input })).unwrap(),
+    (number: string, input: AdvanceInput) => dispatch(advanceGuide({ trackingNumber: number, input })).unwrap(),
     [dispatch],
   );
 

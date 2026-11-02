@@ -106,14 +106,14 @@ export function createDemoRepository(options: DemoRepositoryOptions = {}): Guide
       run(() => {
         if (!isValidGuideNumber(number)) return null;
         const normalized = normalizeGuideNumber(number);
-        return load().find((guide) => guide.number === normalized) ?? null;
+        return load().find((guide) => guide.trackingNumber === normalized) ?? null;
       }),
 
     create: (input: NewGuideInput) =>
       run(() => {
         const guide = createGuide(input, now().toISOString());
         const guides = load();
-        if (guides.some((existing) => existing.number === guide.number)) {
+        if (guides.some((existing) => existing.trackingNumber === guide.trackingNumber)) {
           throw new RepositoryError("duplicate", "Ya existe una guía con ese número.");
         }
         save([guide, ...guides]);
@@ -124,12 +124,12 @@ export function createDemoRepository(options: DemoRepositoryOptions = {}): Guide
       run(() => {
         const normalized = normalizeGuideNumber(number);
         const guides = load();
-        const index = guides.findIndex((guide) => guide.number === normalized);
+        const index = guides.findIndex((guide) => guide.trackingNumber === normalized);
         const current = guides[index];
         if (current === undefined) {
           throw new RepositoryError("not_found", "No existe una guía con ese número.");
         }
-        const updated = advanceGuide(current, { ...input, at: eventTime(current) });
+        const updated = advanceGuide(current, { ...input, timestamp: eventTime(current) });
         guides[index] = updated;
         save(guides);
         return updated;

@@ -130,6 +130,8 @@ jobs:
         run: |
           curl -fsS http://127.0.0.1:8080/ | grep -q '<div id="root">'
           curl -fsS http://127.0.0.1:8080/rastreo | grep -q '<div id="root">'
+      - name: nginx forbids framing the site
+        run: curl -fsSI http://127.0.0.1:8080/ | grep -qi "frame-ancestors 'none'"
       - name: Django admin is reachable through nginx
         run: curl -fsS -o /dev/null http://127.0.0.1:8080/admin/login/
       - if: failure()

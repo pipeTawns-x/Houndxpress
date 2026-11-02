@@ -37,7 +37,7 @@ describe("etapas", () => {
   });
 
   it("solo se puede avanzar desde una etapa que tiene siguiente", () => {
-    expect(canAdvance({ currentStage: "vehicle_in_transit" })).toBe(true);
-    expect(canAdvance({ currentStage: "cargo_delivered" })).toBe(false);
+    expect(canAdvance({ currentStatus: "vehicle_in_transit" })).toBe(true);
+    expect(canAdvance({ currentStatus: "cargo_delivered" })).toBe(false);
   });
 });

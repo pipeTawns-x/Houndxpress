@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { Clock, Mail, Phone } from "lucide-react";
-import { ACADEMIC_NOTE, CONTACTS, HOURS, NAV_ITEMS, TAGLINE } from "../../content/site.ts";
+import { CONTACTS, HOURS, NAV_ITEMS, TAGLINE } from "../../content/site.ts";
 import { telHref } from "../../lib/format.ts";
 import { ApiStatus } from "../ui/ApiStatus.tsx";
 import { Container } from "../ui/Section.tsx";
@@ -84,9 +84,14 @@ export function Footer({ inert }: { inert?: boolean }) {
         </div>
       </Container>
 
+      <div className="container site-footer__wordmark" aria-hidden="true">
+        HOUND EXPRESS<span>We move ecommerce globally.</span>
+      </div>
       <div className="site-footer__bottom">
         <Container className="site-footer__bottom-inner">
-          <p className="site-footer__note">{ACADEMIC_NOTE}</p>
+          <p className="site-footer__note">
+            Hound Express · Logística y comercio internacional. Imágenes ilustrativas.
+          </p>
         </Container>
       </div>
     </footer>

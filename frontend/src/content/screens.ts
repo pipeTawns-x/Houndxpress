@@ -47,11 +47,6 @@ export const SCREENS: readonly ScreenEntry[] = [
     description: "Resumen por etapa, registro de guías, lista con búsqueda y filtro, avance de etapa e historial.",
   },
   {
-    to: "/disenos",
-    title: "Índice de diseños",
-    description: "Esta página: guía de estilo viva con pantallas, paleta, tipografía y componentes.",
-  },
-  {
     to: "/pagina-que-no-existe",
     title: "No encontrada",
     description: "Página 404 con enlaces a Inicio y Rastreo.",

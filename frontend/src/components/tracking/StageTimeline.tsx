@@ -19,7 +19,7 @@ function statusFor(index: number, currentIndex: number): StepStatus {
 }
 
 export interface StageTimelineProps {
-  currentStage: StageCode;
+  currentStatus: StageCode;
   history: readonly StageEvent[];
   /**
    * "responsive": horizontal desde 768 px y vertical en móvil.
@@ -37,13 +37,13 @@ export interface StageTimelineProps {
  * Pendientes: gris. El estado siempre lleva icono y texto, no solo color.
  */
 export function StageTimeline({
-  currentStage,
+  currentStatus,
   history,
   layout = "responsive",
   showDetails = false,
   className,
 }: StageTimelineProps) {
-  const currentIndex = stageIndex(currentStage);
+  const currentIndex = stageIndex(currentStatus);
   const horizontal = layout === "responsive";
 
   return (
@@ -77,8 +77,8 @@ export function StageTimeline({
               <p className="stage-timeline__department">{stage.department}</p>
               <p className={bem("stage-timeline__status", { pending: status === "pending" })}>{STATUS_TEXT[status]}</p>
               {event ? (
-                <time dateTime={event.at} className="stage-timeline__time">
-                  {formatDateTime(event.at)}
+                <time dateTime={event.timestamp} className="stage-timeline__time">
+                  {formatDateTime(event.timestamp)}
                 </time>
               ) : null}
               {showDetails && event ? (
