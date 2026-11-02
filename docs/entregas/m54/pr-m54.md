@@ -19,7 +19,7 @@ Sin despliegue público (M66). Sin portal de cliente, blog, noticias, ofertas ni
 
 ## Cómo probarlo
 
-Desde `backend/`: `python manage.py migrate`, `python manage.py loaddata demo_guides`, `python manage.py createsuperuser`, `python manage.py test` y `python manage.py runserver`. Desde `frontend/`: `npm ci`, `npm test` y `npm run dev`. Con Docker: `docker compose up --build`. Resultado esperado: `Ran 157 tests`, 310 pruebas de Jest y la web en <http://localhost:5173/>.
+Desde `backend/`: `python manage.py migrate`, `python manage.py loaddata demo_guides`, `python manage.py createsuperuser`, `python manage.py test` y `python manage.py runserver`. Desde `frontend/`: `npm ci`, `npm test` y `npm run dev`. Con Docker: `docker compose up --build`. Resultado esperado: `Ran 157 tests`, 311 pruebas de Jest y la web en <http://localhost:5173/>.
 
 # M54.2
 
