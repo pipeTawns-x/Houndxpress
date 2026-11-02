@@ -73,7 +73,7 @@ Estas reglas resuelven el problema del caso Hound Express: solo 31 de cada 100 g
 | Requisito | Evidencia |
 |---|---|
 | Scripts SQL o `models.py` | `backend/tracking/models.py`, `backend/accounts/models.py` y [`tracking.sql`](tracking.sql) |
-| Tablas y migraciones | `tracking/0001` a `0003` y `accounts/0002` a `0003`; el CI comprueba que no queden migraciones pendientes |
+| Tablas y migraciones | `tracking/0001` a `0005` y `accounts/0002` a `0003`; el CI comprueba que no queden migraciones pendientes |
 | Pruebas | 157 pruebas de backend en verde (`manage.py test`) y 310 de frontend (`npm test`) |
 | Seguridad | Django 5.2.18 y DRF 3.18.3, sin vulnerabilidades conocidas; controles OWASP ASVS 5.0 nivel 1 en [`asvs-l1-checklist.md`](asvs-l1-checklist.md) |
 | Configuración | Variables de entorno sin secretos en el repositorio; no hay archivos `.env` de ejemplo |

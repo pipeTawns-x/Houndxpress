@@ -45,7 +45,7 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
 | T3 Rediseño premium | S2, S3, S4 | Delegada a Codex, misma unidad que T2 | Hecha | 42 combinaciones sin desborde |
 | T4 Imágenes y video propios | S4 | Inline: mflux y ffmpeg locales | Hecha | 7 WebP y `hero.mp4` |
 | T5 Validación externa | S1 a S7 | Inline en navegador; revisión de seguridad independiente (Risk: item 2) | Hecha | L17 y L18 |
-| T6 Publicar y mensaje del LMS | S1 | Inline | Pendiente | |
+| T6 Publicar y mensaje del LMS | S1 | Inline | Hecha | PR #15 a #21; `main` en `59bb8c6`; etiqueta `m54.3` |
 
 ## Log
 - L1 · 2026-11-02, pedido original: "suena bello pero un proyecto sin img con un diseño que se desvorda amm el .zip era para que se tomara de referencia y se utilizaran los recursos para añadirle ese plus al diseño para que se vea premium tienes varios recursos para saber estandares de webs modernas de compañias y empreas mas top actualmente asi como estandares sacados de paginas como horizon y las otras con disñeos modernos con animaciones esteticos y muy bellos no estas utilizando nada para mejorar antes de que sigas esta bien que aca en loop ya saabes hagas lo de mejorar el promt con el meta promting y despues hagas lo que te pido entregar una funcionalidad completa de web desarrollando con el odd ya tienes contexto no lo utilizas sigues sin utilizarlo"
@@ -66,4 +66,7 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
 - L17 · T5: HU-04 asunto "Cotización de servicio" en contacto. HU-11: archivar saca la guía de las activas, su historial sigue en 3 filas y avanzarla responde 409. HU-12: cerrar sesión vuelve a `/acceso`, `/auth/me` responde 403 y `/panel/registro` redirige sin mostrar datos.
 - L18 · Revisión independiente de la web (Codex en solo lectura): 1 bloqueo y 1 aviso. Bloqueo: un 401 o 403 con el panel abierto no lo cerraba ni borraba los datos. Corregido con TDD y comprobado en navegador: logout externo, clic en "Actualizar guías", redirección a `/acceso` y 0 filas. Aviso: nginx sin protección de enmarcado, corregido. También se agregó `GET /api/v1/guides/?archived=true` porque `/panel/archivo` no tenía datos.
 - L19 · Evidencia final: 157 pruebas de backend, 310 de frontend, CI en verde en los PR #15, #16 y #17 antes de esta última tanda.
+- L20 · Revisión del script `tracking.sql`: no corría completo y no tenía las migraciones nuevas. Reescrito con el esquema final de una base migrada y probado en SQLite.
+- L21 · T6: PR #15 a `backend`, #16 a `frontend`, #17 y #20 a `pruebas`, #18 a `main` (`59bb8c6`), #19 y #21 a `practicas-ebac`; CI en verde en todos antes de fusionar. `docs/diseno` de trabajo retirado de `main`; solo quedan arquitectura y sistema de diseño. gitleaks y semgrep: 0 hallazgos.
+- L22 · Pendiente que no bloquea: despliegue público, efectos con `lenis`, `motion` y `cobe` (requieren `npm install` de Eduardo), portal de cliente y páginas sin contenido real confirmado (blog, noticias, ofertas, alianzas).
 
