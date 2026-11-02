@@ -6,7 +6,7 @@ import { MAP_HEIGHT as HEIGHT, MAP_WIDTH as WIDTH, arcPath, project } from "../.
 /**
  * Mapa de la red: retícula de puntos y nodos en las coordenadas reales de cada
  * ciudad (proyección equirrectangular) unidos por arcos desde Miami y Laredo.
- * Las etiquetas son HTML para que conserven su tamaño legible en móvil.
+ * Las etiquetas SVG comparten la proyección y la lista accesible enumera las ciudades.
  */
 export function NetworkMap({ className }: { className?: string }) {
   const uid = useId();
@@ -17,7 +17,7 @@ export function NetworkMap({ className }: { className?: string }) {
 
   return (
     <figure className={cx("network-map", className)}>
-      <div className="network-map__stage" style={{ aspectRatio: `${String(WIDTH)} / ${String(HEIGHT)}` }}>
+      <div className="network-map__stage">
         <svg
           viewBox={`0 0 ${String(WIDTH)} ${String(HEIGHT)}`}
           role="img"
@@ -79,25 +79,16 @@ export function NetworkMap({ className }: { className?: string }) {
               </g>
             );
           })}
+          {NETWORK_NODES.map(node => {
+            const point = points.get(node.id);
+            if (!point || node.label === null) return null;
+            return <text key={`label-${node.id}`} x={point.x} y={point.y} dx={node.side === "left" ? -12 : node.side === "right" ? 12 : 0} dy={node.side === "top" ? -20 : 4} textAnchor={node.side === "left" ? "end" : node.side === "right" ? "start" : "middle"} aria-hidden="true" className={bem("network-map__city", { minor: node.minor })}>{node.label}</text>;
+          })}
         </svg>
 
-        {NETWORK_NODES.map((node) => {
-          const point = points.get(node.id);
-          if (!point || node.label === null) return null;
-          return (
-            <span
-              key={node.id}
-              aria-hidden="true"
-              className={bem("network-map__label", node.side, { minor: node.minor })}
-              style={{ left: `${String((point.x / WIDTH) * 100)}%`, top: `${String((point.y / HEIGHT) * 100)}%` }}
-            >
-              {node.label}
-            </span>
-          );
-        })}
       </div>
 
-      <figcaption className="visually-hidden">
+      <figcaption className="network-map__caption">
         Ciudades de la red de Hound Express:
         <ul>
           {NETWORK_NODES.map((node) => (

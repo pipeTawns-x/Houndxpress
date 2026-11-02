@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import { ArrowRight, Info } from "lucide-react";
-import { GuideResultCard } from "../components/tracking/GuideResultCard.tsx";
-import { StageTimeline } from "../components/tracking/StageTimeline.tsx";
+
+
 import { ApiStatus } from "../components/ui/ApiStatus.tsx";
 import { Button } from "../components/ui/Button.tsx";
 import { ButtonLink } from "../components/ui/ButtonLink.tsx";
-import { DemoNotice } from "../components/ui/DemoNotice.tsx";
+
 import { Checkbox, Select, TextArea, TextField } from "../components/ui/fields.tsx";
 import { Container, PageHeader } from "../components/ui/Section.tsx";
 import { ServiceCard } from "../components/ui/ServiceCard.tsx";
@@ -19,7 +19,7 @@ import { STAGE_CODES } from "../domain/index.ts";
 import { useDocumentTitle } from "../hooks/useDocumentTitle.ts";
 import { bem } from "../lib/bem.ts";
 import { contrastLevel, contrastRatio, formatRatio } from "../lib/contrast.ts";
-import { createSeedGuides } from "../services/demoData.ts";
+
 
 function DesignSection({ id, title, description, children }: { id: string; title: string; description?: string; children: ReactNode }) {
   return (
@@ -41,7 +41,7 @@ function Swatch({ name, hex, usage, added }: { name: string; hex: string; usage:
   const best = onWhite >= onNavy ? { text: "Texto blanco", ratio: onWhite } : { text: "Texto navy-950", ratio: onNavy };
   return (
     <li className="swatch">
-      <div className="swatch__color" style={{ backgroundColor: hex }} aria-hidden="true" />
+      <div className={`swatch__color swatch__color--${name}`} aria-hidden="true" />
       <div className="swatch__info">
         <p className="swatch__name">{name}</p>
         <p className="swatch__hex">{hex}</p>
@@ -70,7 +70,7 @@ const TYPE_SCALE = [
 
 export default function Designs() {
   useDocumentTitle("Índice de diseños");
-  const sampleGuide = createSeedGuides().find((guide) => guide.currentStage === "vehicle_released");
+
 
   return (
     <>
@@ -214,7 +214,7 @@ export default function Designs() {
                 <ApiStatus status="offline" />
               </li>
             </ul>
-            <DemoNotice demo showExamples={false} />
+
             <p className="notice notice--info showcase__notice">
               <Info className="showcase__notice-icon" aria-hidden="true" />
               Aviso informativo con fondo sky-soft y texto ink.
@@ -222,22 +222,7 @@ export default function Designs() {
           </div>
         </DesignSection>
 
-        <DesignSection
-          id="linea-de-tiempo"
-          title="Línea de tiempo de etapas"
-          description="Horizontal desde 768 px y vertical en móvil. Completadas con palomita, la actual con anillo pulsante y las pendientes en gris."
-        >
-          <div className="showcase">
-            <StageTimeline
-              currentStage="vehicle_released"
-              history={[
-                { stage: "cargo_received", at: "2026-09-25T15:00:00.000Z", location: "Miami, FL" },
-                { stage: "vehicle_loaded", at: "2026-09-26T13:00:00.000Z", location: "Miami, FL" },
-                { stage: "vehicle_released", at: "2026-09-27T19:00:00.000Z", location: "Miami, FL" },
-              ]}
-            />
-          </div>
-        </DesignSection>
+
 
         <DesignSection id="tarjetas" title="Tarjetas" description="Tarjeta de cifra, tarjeta de servicio y resultado de rastreo.">
           <div className="designs-page__cards">
@@ -253,7 +238,7 @@ export default function Designs() {
               />
             ) : null}
           </div>
-          {sampleGuide ? <GuideResultCard guide={sampleGuide} /> : null}
+
         </DesignSection>
       </Container>
     </>

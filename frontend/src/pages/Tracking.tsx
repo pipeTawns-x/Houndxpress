@@ -5,7 +5,7 @@ import { GuideResultCard } from "../components/tracking/GuideResultCard.tsx";
 import { TrackingNotFound } from "../components/tracking/TrackingNotFound.tsx";
 import { TrackingSearch } from "../components/tracking/TrackingSearch.tsx";
 import { Button } from "../components/ui/Button.tsx";
-import { DemoNotice } from "../components/ui/DemoNotice.tsx";
+
 import { Container, PageHeader } from "../components/ui/Section.tsx";
 import { formatGuideNumber } from "../domain/index.ts";
 import { useDocumentTitle } from "../hooks/useDocumentTitle.ts";
@@ -76,7 +76,7 @@ export default function Tracking() {
         </div>
 
         {/* Antes de buscar, las guías de ejemplo invitan a probar; después, primero va el resultado. */}
-        {lookup.status === "idle" ? <DemoNotice /> : null}
+
 
         <section aria-labelledby="resultados" aria-live="polite" className="tracking-page__results">
           {lookup.status === "idle" ? (
@@ -140,7 +140,7 @@ export default function Tracking() {
           ) : null}
         </section>
 
-        {lookup.status === "idle" ? null : <DemoNotice />}
+
       </Container>
     </>
   );

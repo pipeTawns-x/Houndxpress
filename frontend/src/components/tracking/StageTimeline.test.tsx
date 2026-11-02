@@ -6,7 +6,7 @@ import { StageTimeline } from "./StageTimeline.tsx";
 function history(upTo: number): StageEvent[] {
   return STAGES.slice(0, upTo + 1).map((stage, index) => ({
     stage: stage.code,
-    at: new Date(Date.UTC(2026, 8, 28, 15 + index)).toISOString(),
+    timestamp: new Date(Date.UTC(2026, 8, 28, 15 + index)).toISOString(),
     location: `Lugar ${String(index + 1)}`,
     note: index === 0 ? "Nota de la primera etapa" : undefined,
   }));
@@ -14,7 +14,7 @@ function history(upTo: number): StageEvent[] {
 
 function renderAt(stage: StageCode, options: { showDetails?: boolean; layout?: "responsive" | "vertical" } = {}) {
   const index = STAGES.findIndex((entry) => entry.code === stage);
-  render(<StageTimeline currentStage={stage} history={history(index)} {...options} />);
+  render(<StageTimeline currentStatus={stage} history={history(index)} {...options} />);
   return screen.getAllByRole("listitem");
 }
 
