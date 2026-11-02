@@ -2,7 +2,7 @@
 
 Rediseño no oficial del sitio de Hound Express: sitio público, rastreo de guías y panel de operaciones. Es una aplicación de una sola página (React 19 + TypeScript + Vite, con los estilos en Sass con BEM, el estado de las guías en Redux Toolkit y las pruebas en Jest) que habla con la API Django de [`../backend`](../backend/) en el mismo origen.
 
-La especificación está en [`../docs/diseno/`](../docs/diseno/): investigación, decisiones ([`03-arquitecto.md`](../docs/diseno/03-arquitecto.md)) y sistema de diseño ([`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)). La ruta `/disenos` muestra ese sistema solo en desarrollo (`import.meta.env.DEV`); no se incluye en producción.
+El sistema de diseño está en [`../docs/diseno/04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md) y la arquitectura, en [`../docs/diseno/03-arquitecto.md`](../docs/diseno/03-arquitecto.md).
 
 > **API como fuente de verdad.** El rastreo público consulta `/api/v1/public/track/`. El panel requiere una sesión de personal verificada en el servidor. No existe respaldo silencioso a datos locales cuando la API está desconectada.
 

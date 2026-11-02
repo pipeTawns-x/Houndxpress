@@ -1,6 +1,6 @@
 # 03 · Decisión del arquitecto
 
-Respuesta a cada objeción de [`02-abogado-del-diablo.md`](02-abogado-del-diablo.md) y contrato técnico del frontend. Este documento es la especificación que siguió la implementación.
+Respuesta a cada objeción de la revisión de abogado del diablo y contrato técnico del frontend. Este documento es la especificación que siguió la implementación.
 
 ## Veredictos
 
