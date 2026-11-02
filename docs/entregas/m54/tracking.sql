@@ -1,7 +1,7 @@
 -- SQL generado por Django para SQLite a partir de las migraciones del M54.
--- Fuente: python manage.py sqlmigrate tracking 0001, tracking 0002, tracking 0003
+-- Fuente: python manage.py sqlmigrate tracking 0001 a 0005
 --         y python manage.py sqlmigrate accounts 0002, accounts 0003.
--- Las tablas son tracking_guide y tracking_statushistory, más los campos department y updated_at de accounts_user.
+-- Las tablas son tracking_guide, tracking_statushistory y tracking_stagetransitionattempt, más los campos department y updated_at de accounts_user.
 -- La restricción del formato del número de guía usa REGEXP: Django registra esa función en su
 -- conexión SQLite; en un cliente sqlite3 suelto no existe. En PostgreSQL es nativa.
 BEGIN;
@@ -48,3 +48,33 @@ INSERT INTO "new__accounts_user" ("id", "password", "last_login", "is_superuser"
 DROP TABLE "accounts_user";
 ALTER TABLE "new__accounts_user" RENAME TO "accounts_user";
 COMMIT;
+
+-- ---------------------------------------------------------------
+-- tracking 0004: departamento en el historial e intentos de avance rechazados (M54.3)
+-- ---------------------------------------------------------------
+--
+-- Add field department to statushistory
+--
+CREATE TABLE "new__tracking_statushistory" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "department" varchar(20) NOT NULL, "stage" varchar(20) NOT NULL, "timestamp" datetime NOT NULL, "location" varchar(100) NOT NULL, "note" text NOT NULL, "guide_id" bigint NOT NULL REFERENCES "tracking_guide" ("id") DEFERRABLE INITIALLY DEFERRED, "updated_by_id" bigint NULL REFERENCES "accounts_user" ("id") DEFERRABLE INITIALLY DEFERRED, CONSTRAINT "unique_stage_per_guide" UNIQUE ("guide_id", "stage"));
+INSERT INTO "new__tracking_statushistory" ("id", "stage", "timestamp", "location", "note", "guide_id", "updated_by_id", "department") SELECT "id", "stage", "timestamp", "location", "note", "guide_id", "updated_by_id", '' FROM "tracking_statushistory";
+DROP TABLE "tracking_statushistory";
+ALTER TABLE "new__tracking_statushistory" RENAME TO "tracking_statushistory";
+CREATE INDEX "tracking_statushistory_guide_id_607df2eb" ON "tracking_statushistory" ("guide_id");
+CREATE INDEX "tracking_statushistory_updated_by_id_ff37c392" ON "tracking_statushistory" ("updated_by_id");
+--
+-- Create model StageTransitionAttempt
+--
+CREATE TABLE "tracking_stagetransitionattempt" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "requested_stage" varchar(20) NOT NULL, "current_stage" varchar(20) NOT NULL, "attempted_at" datetime NOT NULL, "reason" varchar(20) NOT NULL, "attempted_by_id" bigint NULL REFERENCES "accounts_user" ("id") DEFERRABLE INITIALLY DEFERRED, "guide_id" bigint NOT NULL REFERENCES "tracking_guide" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE INDEX "tracking_stagetransitionattempt_attempted_by_id_77c3f410" ON "tracking_stagetransitionattempt" ("attempted_by_id");
+CREATE INDEX "tracking_stagetransitionattempt_guide_id_e0ba40ad" ON "tracking_stagetransitionattempt" ("guide_id");
+
+-- ---------------------------------------------------------------
+-- tracking 0005: nivel de servicio válido (M54.3)
+-- ---------------------------------------------------------------
+--
+-- Create constraint service_level_valid on model guide
+--
+CREATE TABLE "new__tracking_guide" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "tracking_number" varchar(22) NOT NULL UNIQUE, "origin" varchar(100) NOT NULL, "destination" varchar(100) NOT NULL, "recipient" varchar(255) NOT NULL, "service_level" varchar(10) NOT NULL, "current_stage" varchar(20) NOT NULL, "is_archived" bool NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, CONSTRAINT "tracking_number_format" CHECK ("tracking_number" REGEXP '^(21[0-9]{14}|[A-Z0-9]{22})$'), CONSTRAINT "current_stage_valid" CHECK ("current_stage" IN ('cargo_received', 'vehicle_loaded', 'vehicle_released', 'vehicle_in_transit', 'cargo_delivered')), CONSTRAINT "service_level_valid" CHECK ("service_level" IN ('standard', 'priority')));
+INSERT INTO "new__tracking_guide" ("id", "tracking_number", "origin", "destination", "recipient", "service_level", "current_stage", "is_archived", "created_at", "updated_at") SELECT "id", "tracking_number", "origin", "destination", "recipient", "service_level", "current_stage", "is_archived", "created_at", "updated_at" FROM "tracking_guide";
+DROP TABLE "tracking_guide";
+ALTER TABLE "new__tracking_guide" RENAME TO "tracking_guide";
