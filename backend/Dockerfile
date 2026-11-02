@@ -1,4 +1,4 @@
-# Development image for the Django API. Production settings arrive with the first deployment.
+# Imagen de desarrollo del sitio publico y la API. Los settings de produccion llegan con el primer despliegue.
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -13,7 +13,7 @@ RUN python -m pip install -r requirements.txt
 
 COPY . .
 
-# The code stays read-only; the app user only needs to create db.sqlite3 in /app.
+# El codigo queda en solo lectura; el usuario de la app solo necesita crear db.sqlite3 en /app.
 RUN useradd --create-home --uid 1000 app && chown app:app /app
 USER app
 
