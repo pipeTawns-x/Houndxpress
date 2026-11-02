@@ -1,21 +1,16 @@
-"""Genera los candidatos JSON de Archify para Hound Express.
+"""Genera los candidatos JSON de archify para Hound Express.
 
 Uso, desde la raíz del repositorio:
-    ARCHIFY_HOME=<carpeta-de-archify> python3 docs/diagramas/fuentes/generar.py
-    node <carpeta-de-archify>/bin/archify.mjs finalize <tipo> docs/diagramas/fuentes/<nombre>.json docs/diagramas/<nombre>.html --quality showcase --json
-
-ARCHIFY_HOME es la carpeta donde está instalado Archify (la que contiene `bin/` y `examples/`).
-Si no se define, se usa `.claude/skills/archify` dentro del repositorio.
+    python3 docs/diagramas/fuentes/generar.py
+    node .claude/skills/archify/bin/archify.mjs finalize <tipo> docs/diagramas/fuentes/<nombre>.json docs/diagramas/<nombre>.html --quality showcase --json
 """
 
 import json
-import os
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-ARCHIFY_HOME = Path(os.environ.get("ARCHIFY_HOME") or ROOT / ".claude/skills/archify")
-ES = json.loads((ARCHIFY_HOME / "examples/locales/es.json").read_text(encoding="utf-8"))
+ES = json.loads((ROOT / ".claude/skills/archify/examples/locales/es.json").read_text(encoding="utf-8"))
 TRANSLATIONS = ES.get("translations", ES)
 
 
@@ -131,7 +126,7 @@ def lifecycle() -> dict:
             {"dot": "amber", "title": "Por qué importa", "items": [
                 "Solo 31 de cada 100 guías seguían el proceso en orden",
                 "Saltar pasos causó pérdidas de 200k pesos MXN",
-                "Fuente: contexto del negocio (README)"]},
+                "Fuente: documento del proyecto (README, Contexto del negocio)"]},
         ],
     }
 

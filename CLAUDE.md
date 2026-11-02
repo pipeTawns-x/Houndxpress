@@ -1,29 +1,30 @@
 # Hound Express: contexto para agentes
 
-Backend de Hound Express para el seguimiento de guías de logística cross-border para ecommerce. Autoría: sección *Autor* del README. Este archivo es la memoria del proyecto: cuando Eduardo pida "guarda todo en contexto", se actualiza aquí y en `docs/`, no en otro proyecto.
+Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBAC, con Hound Express (logística cross-border para ecommerce) como empresa aliada. Autoría: sección *Autor* del README. Este archivo es la memoria del proyecto: cuando Eduardo pida "guarda todo en contexto", se actualiza aquí y en `docs/`, no en otro proyecto.
 
 ## Mapa
 
-Rutas presentes en este worktree; no asumir que contiene el árbol del frontend o de la rama escolar.
-
 | Ruta | Qué es |
 |---|---|
-| `backend/` | Proyecto Django; `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (salud) y `tracking` (dominio de guías). |
-| `backend/pyproject.toml`, `backend/uv.lock` | Declaración de dependencias y versiones resueltas. |
-| `backend/requirements.txt`, `backend/requirements-dev.txt` | Exportaciones para ejecución y desarrollo. |
+| `backend/` | Django 5.2 LTS + DRF. `manage.py` vive aquí. Apps: `accounts` (usuario propio), `core` (`/api/v1/health/`), `tracking` (guías, vacía hasta M54). |
+| `frontend/` | React + TypeScript + Vite + Sass (BEM, estructura 7-1 en `src/styles/`). Sitio público rediseñado, rastreo, panel de operaciones e índice de diseños (`/disenos`). |
+| `docs/REQUISITOS_EBAC.md` | Requisitos citados del documento oficial del proyecto (PDF de EBAC) y su estado. Manda sobre cualquier decisión técnica que lo contradiga. |
 | `docs/STACK_HOUND_EXPRESS.md` | Decisiones técnicas y licencias. Toda dependencia nueva se agrega a su tabla en el mismo commit. |
-| `.github/workflows/ci.yml` | Lint y pruebas del backend (Linux y Windows) y bloques del README. |
-| `README.md` | Inicio rápido, estado del backend y contexto del negocio. |
+| `docs/diseno/` | Proceso de rediseño: investigación → propuesta → abogado del diablo → arquitecto → sistema de diseño → revisión. Incluye el loop para Claude Design. |
+| `docs/diagramas/` | Diagramas Archify (HTML autónomo) y sus fuentes JSON en `fuentes/generar.py`. |
+| `.claude/skills/archify/` | Skill Archify 3.0.1 (MIT), sin pruebas ni ejemplos renderizados. |
+| `docker-compose.yml` | Backend + frontend (nginx en `:8080` reenvía `/api`, `/admin` y `/static` a Django). |
+| `.github/workflows/ci.yml` | Lint y pruebas del backend (Linux y Windows), bloques del README, frontend y Docker. |
 
 ## Reglas
 
 1. Código e identificadores en inglés; documentación, commits y textos de interfaz en español.
-2. Sin dependencias AGPL/GPL. `backend/requirements*.txt` se exportan desde `backend/uv.lock`, nunca a mano (comandos en `docs/STACK_HOUND_EXPRESS.md`).
+2. Sin dependencias AGPL/GPL. `backend/requirements*.txt` se exportan desde `uv.lock`, nunca a mano (comandos en `docs/STACK_HOUND_EXPRESS.md`).
 3. Cada bloque de comandos del README tiene un job de CI que lo reproduce. Si cambias uno, cambia el otro en el mismo commit.
-4. Las etiquetas existentes no se mueven sin que Eduardo lo pida.
+4. Las etiquetas de entrega (`m52`, …) no se mueven sin que Eduardo lo pida.
 5. No afirmar nada que no se haya ejecutado: pruebas, capturas y estados del CI se reportan con su salida.
-6. El README describe un esqueleto de backend: no asumir que los modelos de guías ni los endpoints de negocio ya están implementados. Verificar el código antes de actualizar su estado.
-7. Antes de decidir tecnología, revisar `docs/STACK_HOUND_EXPRESS.md`. El frontend se desarrolla en su propia rama; no copiar su árbol a este worktree para documentarlo.
+6. El panel y el rastreo usan datos de demostración hasta M64; la interfaz y el README lo dicen explícitamente.
+7. Antes de decidir tecnología, revisar `docs/REQUISITOS_EBAC.md`: el frontend debe usar Sass con BEM, React, TypeScript, Redux y Jest porque el documento oficial lo pide.
 8. Regla de negocio central: una guía solo avanza a la etapa siguiente (Recepción de carga → Vehículo cargado → Vehículo liberado → Vehículo en camino → Carga entregada).
 
 ## Ramas
@@ -57,11 +58,11 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras.
 
 ## Errores que ya cometimos (reglas para no repetirlos)
 
-El registro completo vive solo en `practicas-ebac`: consultar con `git show origin/practicas-ebac:docs/loops/03-LOOP-OPENCODE.md`, sin copiar el loop a esta rama. El loop de Codex se consulta con `git show origin/practicas-ebac:docs/loops/05-LOOP-CODEX.md`. Son lecturas locales de la referencia disponible; no implican sincronización con red.
+Registro completo en [`docs/loops/03-LOOP-OPENCODE.md`](docs/loops/03-LOOP-OPENCODE.md).
 
 1. No reinterpretar el objetivo de Eduardo. Si algo parece innecesario o "no bloqueante", pregunta su plan antes de opinar.
-2. Verificar el estado en el código antes de escribirlo en un documento.
-3. Antes de diseñar, inventariar todas las URLs del sitio vivo; no limitarse a los enlaces del Inicio.
+2. Verificar el estado en el código antes de escribirlo en un documento (el loop 2 decía "Sass con BEM" cuando todavía era Tailwind).
+3. Antes de diseñar, inventariar todas las URLs del sitio vivo (la investigación v1 cubrió 5 de 19 páginas).
 4. Las herramientas de diseño trabajan por lotes de una o dos pantallas, nunca con todo en un solo prompt.
 5. En zsh, `"$B:ruta"` se rompe por el modificador `:`; usa `"${B}:ruta"`. Si falta una herramienta preferida (`sd`), comprueba con `command -v` y usa otra.
 6. El inventario del sitio sale del sitemap (`/hx/page-sitemap.xml`, 26 páginas), no de los enlaces del Inicio. `/hx/en/` es un espejo completo hecho con Weglot, no una plantilla. Hay tres URLs de rastreo.
@@ -79,13 +80,26 @@ El registro completo vive solo en `practicas-ebac`: consultar con `git show orig
 Referencia para Eduardo. Los comandos de npm los ejecuta únicamente él; el agente entrega el bloque necesario y espera la salida antes de reportar resultados.
 
 ```bash
+# Backend (desde backend/)
 python -m pip install -r requirements-dev.txt
 # Si la .venv la creó uv (no trae pip): uv pip install -r requirements-dev.txt --python .venv/bin/python
 python manage.py test && python -m ruff check . && python -m ruff format --check .
+
+# Frontend (desde frontend/)
+npm ci && npm run lint && npm run typecheck && npm test && npm run build
+
+# Todo junto
+docker compose up --build     # http://localhost:8080
+
+# Diagramas (desde la raíz)
+python3 docs/diagramas/fuentes/generar.py
+node .claude/skills/archify/bin/archify.mjs finalize <tipo> docs/diagramas/fuentes/<nombre>.json docs/diagramas/<nombre>.html --quality showcase --json
 ```
 
-No incluir comandos de frontend, Docker o diagramas como si sus archivos existieran en este worktree.
+## Hoja de ruta del LMS
+
+Numeración del PDF oficial (p. 22); en el LMS, la lección de M52 es la asignación 4.13.11 "Proyecto Empresa Aliada - M52 Entregable 9". M52 esqueleto Django (etiqueta `m52`; el repositorio no registra si la URL ya se envió en el LMS) · M54 tablas de guías e historial inmutable · M64 endpoints GET/POST/PUT con validación del orden de etapas · M66 entrega final. El contrato de datos que el frontend ya usa está en `docs/diseno/03-arquitecto.md`; M54 lo confirma o lo cambia en ambos lados a la vez.
 
 ## Herramientas locales de Eduardo
 
-Graphify, Engram, OpenCode (con el MCP de Pencil) y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto. No asumir que el grafo ni las integraciones locales están disponibles en esta rama; en Engram, el proyecto es `houndxpress`.
+Graphify, Engram, OpenCode (con el MCP de Pencil) y el navegador Brave viven en su Mac y no están en las sesiones en la nube. En la nube, este archivo y `docs/` son la fuente de contexto. En local, el grafo se regenera con `graphify update .` (sin LLM) en `graphify-out/`, que git ignora; en Engram, el proyecto es `houndxpress`.
