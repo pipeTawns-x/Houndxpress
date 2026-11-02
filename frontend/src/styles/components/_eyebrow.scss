@@ -1,0 +1,17 @@
+// Sobretítulo: mayúsculas con tracking amplio. aqua-700 sobre claro, aqua-500 sobre oscuro.
+
+@use "../abstracts" as *;
+
+.eyebrow {
+  @include eyebrow;
+  color: $color-aqua-700;
+
+  &--dark {
+    color: $color-aqua-500;
+  }
+
+  // Guía no encontrada.
+  &--danger {
+    color: $color-danger;
+  }
+}

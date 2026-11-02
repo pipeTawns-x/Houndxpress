@@ -1,0 +1,16 @@
+// Rejilla de tarjetas: una columna en móvil, dos desde 640 px y tres desde 1024 px.
+
+@use "../abstracts" as *;
+
+.card-grid {
+  display: grid;
+  gap: space(5);
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

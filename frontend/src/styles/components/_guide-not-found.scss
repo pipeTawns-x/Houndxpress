@@ -1,0 +1,62 @@
+// Estado vacío de una guía que no existe: ilustración, explicación y pasos a seguir.
+
+@use "../abstracts" as *;
+
+.guide-not-found {
+  @include stack(space(6));
+  align-items: center;
+  padding: space(6);
+  text-align: center;
+  @include card($radius-3xl);
+
+  @include up(sm) {
+    padding: space(10);
+  }
+
+  @include up(md) {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  &__art {
+    flex-shrink: 0;
+    width: space(44);
+
+    @include up(sm) {
+      width: space(52);
+    }
+  }
+
+  &__content {
+    @include stack(space(4));
+  }
+
+  &__intro {
+    @include stack(space(1));
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+
+  &__steps {
+    @include stack(space(2));
+    padding-left: space(5);
+    list-style: decimal;
+    text-align: left;
+    @include type(base);
+    color: $color-ink;
+
+    li::marker {
+      font-weight: $font-weight-semibold;
+      color: $color-aqua-700;
+    }
+  }
+}

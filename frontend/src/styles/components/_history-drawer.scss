@@ -1,0 +1,138 @@
+// Cajón lateral con el detalle y los eventos de una guía. Es un diálogo modal: el fondo
+// atenúa la página y el panel entra desde la derecha.
+
+@use "../abstracts" as *;
+
+.history-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay;
+  display: flex;
+  justify-content: flex-end;
+
+  &__backdrop {
+    @include cover;
+    background-color: with-alpha($color-navy-950, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+
+    @include motion-safe {
+      animation: fade-in 0.2s ease-out both;
+    }
+  }
+
+  &__panel {
+    @include stack(space(6));
+    position: relative;
+    width: 100%;
+    max-width: 28rem;
+    height: 100%;
+    padding: space(5);
+    overflow-y: auto;
+    background-color: $color-white;
+    box-shadow: $shadow-lift;
+
+    @include up(sm) {
+      padding: space(6);
+    }
+
+    @include motion-safe {
+      animation: slide-in 0.25s ease-out both;
+    }
+
+    // El panel recibe el foco al abrirse, pero no es interactivo: sin contorno.
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: space(4);
+  }
+
+  &__heading {
+    @include stack(space(1));
+  }
+
+  &__kicker {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__title {
+    font-family: $font-display;
+    @include type("2xl");
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+    font-variant-numeric: tabular-nums;
+    color: $color-navy-800;
+  }
+
+  // Botón de cerrar: se pega a la esquina para que el icono alinee con el borde del contenido.
+  &__close {
+    flex-shrink: 0;
+    margin-top: -(space(1));
+    margin-right: -(space(2));
+  }
+
+  &__summary {
+    @include stack(space(3));
+    padding: space(4);
+    border-radius: $radius-2xl;
+    background-color: $color-surface;
+  }
+
+  &__badge {
+    align-self: flex-start;
+  }
+
+  &__stage {
+    @include type(label);
+    color: $color-ink;
+  }
+
+  &__stage-name {
+    font-weight: $font-weight-semibold;
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: space(1.5) space(4);
+    @include type(label);
+  }
+
+  &__term {
+    color: $color-muted;
+  }
+
+  &__value {
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+  }
+
+  &__events {
+    @include stack(space(4));
+  }
+
+  &__events-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: space(2);
+  }
+
+  &__events-title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__note {
+    @include type(label);
+    color: $color-muted;
+  }
+}

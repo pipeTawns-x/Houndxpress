@@ -1,0 +1,38 @@
+// Puntos de quiebre, mobile first. Coinciden con los que usa el código de la
+// aplicación (`useMediaQuery("(min-width: 1024px)")` y `768px`).
+//
+//   sm  640 px   dos columnas en rejillas, botones en fila
+//   md  768 px   tabla en vez de tarjetas, línea de tiempo horizontal
+//   lg  1024 px  encabezado completo en vez del cajón móvil
+//   xl  1280 px  reservado para diseños más anchos
+//
+// Uso: @include up(md) { ... }     (desde 768 px)
+//      @include down(lg) { ... }   (por debajo de 1024 px)
+
+@use "sass:map";
+
+$breakpoints: (
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+);
+
+@function breakpoint($name) {
+  @if not map.has-key($breakpoints, $name) {
+    @error "Punto de quiebre desconocido: `#{$name}`. Usa uno de #{map.keys($breakpoints)}.";
+  }
+  @return map.get($breakpoints, $name);
+}
+
+@mixin up($name) {
+  @media (width >= #{breakpoint($name)}) {
+    @content;
+  }
+}
+
+@mixin down($name) {
+  @media (width < #{breakpoint($name)}) {
+    @content;
+  }
+}

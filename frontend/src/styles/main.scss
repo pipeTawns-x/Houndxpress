@@ -1,0 +1,14 @@
+// Hojas de estilo de Hound Express: Sass con estructura 7-1 y nomenclatura BEM.
+//
+//   abstracts/   tokens, puntos de quiebre y mixins (no emiten CSS; cada parcial los trae con @use)
+//   base/        propiedades personalizadas en :root, reinicio, tipografía, foco y movimiento reducido
+//   layout/      contenedor, secciones, encabezado, pie
+//   components/  un parcial por bloque BEM
+//   pages/       bloques propios de cada página
+//
+// Se usa @use/@forward (no @import). El orden es el de la cascada: base, layout, components, pages.
+
+@use "base";
+@use "layout";
+@use "components";
+@use "pages";

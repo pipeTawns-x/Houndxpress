@@ -1,0 +1,130 @@
+// Contacto (`/contacto`): formulario a la izquierda y, desde 1024 px, teléfonos, correos y horario a la derecha.
+
+@use "../abstracts" as *;
+
+.contact-page {
+  display: grid;
+  gap: space(10);
+  padding-block: space(14);
+
+  @include up(md) {
+    padding-block: space(20);
+  }
+
+  @include up(lg) {
+    grid-template-columns: 1.5fr 1fr;
+    gap: space(14);
+  }
+
+  &__main {
+    @include stack(space(6));
+  }
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+  }
+
+  &__intro {
+    @include type(base);
+    color: $color-muted;
+  }
+
+  &__aside {
+    @include stack(space(5));
+
+    // Alinea la primera tarjeta con el primer campo del formulario.
+    @include up(lg) {
+      padding-top: space(14);
+    }
+  }
+
+  &__cards {
+    @include stack(space(5));
+  }
+}
+
+// Contacto de un país: teléfono y correo.
+.contact-card {
+  @include stack(space(3));
+  padding: space(6);
+  @include card;
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__place {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: space(2);
+    @include type(base);
+    color: $color-navy-800;
+
+    @include hover {
+      color: $color-aqua-700;
+    }
+
+    &--phone {
+      font-weight: $font-weight-semibold;
+    }
+
+    &--email {
+      word-break: break-all;
+    }
+  }
+
+  &__icon {
+    @include square(space(4));
+    flex-shrink: 0;
+    color: $color-aqua-700;
+  }
+}
+
+// Horario de atención.
+.hours-card {
+  @include stack(space(3));
+  padding: space(6);
+  border-radius: $radius-2xl;
+  background-color: $color-surface;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__icon {
+    @include square(space(5));
+    color: $color-aqua-700;
+  }
+
+  &__list {
+    @include stack(space(1));
+    @include type(base);
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    gap: space(4);
+  }
+
+  &__days {
+    color: $color-muted;
+  }
+
+  &__time {
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+    font-variant-numeric: tabular-nums;
+  }
+}

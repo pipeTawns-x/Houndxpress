@@ -1,0 +1,46 @@
+// Página no encontrada (`*`): ilustración, mensaje y enlaces a Inicio y Rastreo.
+
+@use "../abstracts" as *;
+
+.not-found {
+  @include stack(space(8));
+  align-items: center;
+  padding-block: space(20);
+  text-align: center;
+
+  @include up(md) {
+    padding-block: space(28);
+  }
+
+  &__art {
+    width: space(56);
+
+    @include up(sm) {
+      width: space(64);
+    }
+  }
+
+  &__copy {
+    @include stack(space(3));
+    max-width: 32rem;
+  }
+
+  &__title {
+    @include type(h1);
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+  }
+
+  &__text {
+    @include type(lead);
+    color: $color-muted;
+  }
+
+  &__actions {
+    @include stack(space(3));
+
+    @include up(sm) {
+      flex-direction: row;
+    }
+  }
+}
