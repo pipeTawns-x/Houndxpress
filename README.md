@@ -29,7 +29,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Rastreo limitado a 60 números/minuto por IP; muestra ubicaciones del catálogo cerrado y oculta valores antiguos no catalogados | [`backend/tracking/api/throttles.py`](backend/tracking/api/throttles.py), [`backend/tracking/api/serializers.py`](backend/tracking/api/serializers.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Lint y 157 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 310 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 157 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 311 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 | Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido | [`frontend/`](frontend/) |
 | Pila con Docker: Django y nginx con la web compilada | [`docker-compose.yml`](docker-compose.yml) |
 
@@ -130,7 +130,7 @@ Abre <http://localhost:5173/>. Para entrar al panel, crea un usuario de personal
 
 Con Docker, `docker compose up --build` levanta Django en <http://localhost:8000/> y la web en <http://localhost:8080/>.
 
-Verificación del frontend: `npm test` (310 pruebas), `npm run typecheck`, `npm run lint` y `npm run build`.
+Verificación del frontend: `npm test` (311 pruebas), `npm run typecheck`, `npm run lint` y `npm run build`.
 
 Las imágenes y el video son propios e ilustrativos: no son fotos reales de Hound Express. Su origen está en [`docs/imagenes-del-sitio.md`](docs/imagenes-del-sitio.md).
 
@@ -231,6 +231,8 @@ Problemas que reporta la empresa:
 El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md). En resumen: Django 5.2 LTS con Django REST Framework; proyecto local con `manage.py` en lugar de una plantilla Docker de terceros; SQLite por ahora; modelo de usuario propio desde el inicio; ninguna dependencia con licencia copyleft. Los archivos `requirements*.txt` se generan desde `backend/uv.lock` y no se editan a mano; los comandos están en ese documento.
 
 ## Derechos de uso
+
+Es un proyecto académico: no es el sitio oficial de Hound Express, y su nombre y logotipo pertenecen a la empresa.
 
 Este repositorio no incluye una licencia de código abierto. El código se cederá a Hound Express y el aviso de licencia se agregará cuando se formalice esa cesión. Las licencias de las dependencias están en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md).
 
