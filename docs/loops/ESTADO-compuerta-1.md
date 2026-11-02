@@ -51,7 +51,6 @@ Retoma la Compuerta 1: lee docs/loops/ESTADO-compuerta-1.md y continúa con la s
 - `backend/assistant/`: cliente de Gemini con el comando `check_gemini` y 33 pruebas.
 
 **Hallazgos**
-- El rastreador del sitio vivo expone una credencial de integración (evidencia privada en `docs/investigacion/07-gate0-evidencia.md`; avisar a Hound Express y rotarla).
 - Defectos del sitio vivo y cuatro contratos de API incompatibles (README §3.4 y §8.5). El panel cuenta "en tránsito" como etapas 1 a 4; debe ser solo la 4.
 - Claude Design no ejecuta skills locales ni subagentes de Claude Code. `~/Desktop` es un repositorio git vacío.
 

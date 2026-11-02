@@ -2,7 +2,7 @@
 
 **Fecha de captura:** 2026-10-27. **Herramienta:** REA (Reverse Engineer Anything) 6.7.0, observación pasiva por Chrome DevTools Protocol sobre Brave con perfil dedicado.
 **Alcance:** feature `odd/tasks/contexto-rea-hound.md`, specs S1 y S2. Solo se observaron páginas públicas que ya estaban abiertas. No se consultó ninguna guía, no se recargó ninguna página y no se llamó a ninguna API de Hound.
-**Versión pública y saneada.** La evidencia cruda y el informe completo se conservan en privado. Este resumen deja fuera los hallazgos de seguridad, las claves y los detalles de endpoints.
+**Versión pública.** Este resumen cubre páginas, flujos y datos funcionales. La evidencia cruda no se publica.
 
 ---
 
@@ -81,7 +81,7 @@ Nuestro modelo, en cambio, tiene 5 etapas lineales y solo admite la siguiente (�
 
 ## 4. Seguridad
 
-Los hallazgos de seguridad sobre el sitio vivo de Hound se conservan en privado hasta que Hound sea notificado.
+Este resumen no incluye análisis de seguridad del sitio vivo.
 
 ---
 
@@ -96,9 +96,9 @@ Modelo: `houndxpress-backend/backend/tracking/models.py`.
 | Etapas | Historial `cPaso`, catálogo desconocido; incidencias aparte. | 5 etapas lineales: recepción de carga → vehículo cargado → vehículo liberado → vehículo en camino → carga entregada; una por guía (`UniqueConstraint`). | Mantener en M54. **M64/M66**: incidencias como eventos separados y una tabla de equivalencias `cPaso` → etapa si se integra Sabueso. |
 | Estados de la interfaz | rastreando, encontrado y no encontrado. | No aplica (backend). | **M66**: añadir "servicio no disponible" y "sin eventos todavía". |
 | Fecha por evento | Fecha por paso (contrato). | `timestamp` con fecha del servidor. | Mantener. |
-| Quién recibió | La vista de resultado incluye el nombre de quien recibió (04). | `recipient` obligatorio. | **M64**: la vista pública nunca devuelve `recipient`; solo el vendedor dueño autenticado. |
-| Ubicación | Coordenadas con enlace a mapa (04). | Sin coordenadas; `location` en texto, hasta 100 caracteres. | Mantener sin coordenadas. **M64**: la vista pública muestra solo ciudad o centro. |
-| Referencia del cliente | Aparece en el resultado (04). | No existe. | No añadirla en M54; si llega, solo para el dueño autenticado. |
+| Quién recibió | Fuera de este resumen. | `recipient` obligatorio. | **M64**: la vista pública nunca devuelve `recipient`; solo el vendedor dueño autenticado. |
+| Ubicación | Fuera de este resumen. | Sin coordenadas; `location` en texto, hasta 100 caracteres. | Mantener sin coordenadas. **M64**: la vista pública muestra solo ciudad o centro. |
+| Referencia del cliente | Fuera de este resumen. | No existe. | No añadirla en M54; si llega, solo para el dueño autenticado. |
 | Origen y destino | No observado. | `origin` y `destination`. | **M64**: público solo a nivel de ciudad. |
 | Autor y nota del cambio | No observado. | `updated_by` y `note`. | **M64**: nunca públicos. |
 

@@ -7,7 +7,7 @@
 | Qué se ataca | La propuesta maestra v1 (reconstruida, ver [`README.md`](README.md)) y el bloque M54.1 de la rama `backend` (`0fc74ad..aed7967`) |
 | Método | Skill `abogado-del-diablo` (ocho ángulos), tres pasadas de revisión de base de datos y la escala de severidad de `cyber-neo` |
 | Código revisado | `backend/tracking/models.py`, `backend/accounts/models.py`, `backend/tracking/admin.py`, `backend/config/settings.py` y `backend/config/renderers.py` en `aed7967`. Toda cita `archivo:línea` se comprobó con `git show aed7967:<ruta>` |
-| Lo que no se hizo | Ninguna consulta al sitio vivo de Hound ni a sus APIs. Los hallazgos de seguridad sobre ese sitio siguen en el informe privado y no aparecen aquí |
+| Lo que no se hizo | Ninguna consulta al sitio vivo de Hound ni a sus APIs |
 
 ## 0. Cómo leer este documento
 
@@ -155,7 +155,7 @@ La notificación responsable a Hound (v1 §15.6) y la autorización escrita para
 | C29 | Una contraseña de 12 dígitos se acepta (`accounts/tests/test_password_policy.py:26`) | Info | ASVS 6.2.5 prohíbe reglas de composición. La longitud mínima y la lista de contraseñas comunes ya aplican |
 | C30 | El State "simple" no escala: debería usarse una librería de máquina de estados o el patrón State completo | Baja | El flujo es lineal y ninguna etapa tiene comportamiento propio. `viewflow` es AGPLv3 y `django-fsm` está inactiva (v1 §8.2). El State completo entra cuando una etapa gane acciones propias |
 | C31 | Usar un UUID como identificador público en lugar del número de guía | Baja | El cliente tiene el número de guía, no un UUID (D4). Un UUID aleatorio como clave degrada los índices (pasada 1). El rastreo público se protege con límite, 404 uniforme y campos mínimos |
-| C32 | Copiar las coordenadas que muestra Hound | Baja | El informe REA (§5) recomienda no guardarlas: más datos personales sin beneficio para el cliente |
+| C32 | Guardar coordenadas exactas | Baja | El informe REA (§5) recomienda no guardarlas: más datos personales sin beneficio para el cliente |
 | C33 | La vista navegable de DRF muestra el `charset` | Info | Aviso 3 del verificador, aceptado (L13). No expone nada |
 
 ---

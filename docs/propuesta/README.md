@@ -73,7 +73,6 @@ Reconstruida desde Engram #946 el 2026-10-27. El texto completo de la v1 se recu
 | Entorno de M66 | Decisión D6 abierta | Decidir host, base, roles y caché antes de escribir M64 | El defecto que mata la propuesta (§4 del abogado) |
 | Ruta crítica | Diseño de 42 vistas → construcción | Se diseñan las 42 vistas, pero M64 y M66 no esperan a las 34 pendientes | C12 |
 | Patrones | "Proxy de protección existe" | "Analogía de Proxy": control de acceso por herencia | C04 |
-| Hallazgos del sitio vivo | Descritos en §3.3 y §15.4 | Solo en el informe privado hasta notificar a Hound | Divulgación responsable (§15.5) |
 
 ### 0.3 Críticas aceptadas y rechazadas
 
@@ -112,7 +111,7 @@ Detalle y evidencia de cada una en [`abogado-del-diablo.md`](abogado-del-diablo.
 | C29 | Se aceptan contraseñas solo numéricas | Info | Rechazada | ASVS 6.2.5 prohíbe reglas de composición | — |
 | C30 | Usar librería de estados o State completo | Baja | Rechazada | Flujo lineal sin comportamiento por etapa; licencias (v1 §8.2) | — |
 | C31 | UUID como identificador público | Baja | Rechazada | El cliente tiene el número de guía (D4) | — |
-| C32 | Guardar coordenadas como Hound | Baja | Rechazada | Más datos personales sin beneficio (REA §5) | — |
+| C32 | Guardar coordenadas exactas | Baja | Rechazada | Más datos personales sin beneficio (REA §5) | — |
 | C33 | La vista navegable muestra el `charset` | Info | Rechazada | Aceptado por el verificador; no expone nada | — |
 | BD01 | Mínimo privilegio en la base | Media | Aceptada | Rol de la app sin `UPDATE` ni `DELETE` sobre el historial | M66 |
 | BD02 | Supabase expone `public` sin RLS | Alta, condicional | Aceptada | Si se elige Supabase: esquema no expuesto o RLS sin políticas | M66 |
@@ -207,7 +206,7 @@ Fuente: sitemap del sitio vivo (`/hx/sitemap_index.xml`, 2026-10-13) y observaci
 
 ### 3.3 Seguridad
 
-Los hallazgos de seguridad sobre el sitio vivo se conservan en el informe privado y no se describen en este repositorio hasta notificar a Hound (§15.5). La v1 los describía aquí; la v2 los retira.
+Este documento no incluye análisis de seguridad del sitio vivo (§15.5).
 
 ### 3.4 Diseño y experiencia
 
@@ -266,7 +265,7 @@ El sitio público cuenta el viaje, el rastreo muestra el de un paquete, el porta
 | Vitrina | Antes (sitio vivo) | Después (este proyecto) |
 |---|---|---|
 | Diseño | Plantilla, foto de stock, carrusel, rastreo en otro sitio | Sistema propio, producto como protagonista, un solo lenguaje en 42 vistas |
-| Seguridad | Descrita de forma genérica hasta notificar a Hound (§15.5) | Secretos solo en el servidor, datos mínimos, límite por guía, historial inmutable, controles ASVS nivel 1 con pruebas |
+| Seguridad | Descrita de forma genérica (§15.5) | Secretos solo en el servidor, datos mínimos, límite por guía, historial inmutable, controles ASVS nivel 1 con pruebas |
 | Rendimiento | Muchos servicios de terceros y plugins pesados | LCP < 2,5 s, INP < 200 ms, CLS < 0,1, JS inicial < 150 KB gzip |
 | Privacidad | Seguimiento de terceros en cada página | Analítica propia o ninguna; IA local donde los datos no salen de la empresa |
 
@@ -701,7 +700,7 @@ Un cambio está terminado cuando sus specs se verificaron con salida registrada 
 
 ### 15.3 Entregable de seguridad
 
-Un reporte "antes y después" con la rúbrica de `cyber-neo` (OWASP 2025 y CWE Top 25), la lista ASVS de `docs/entregas/m54/asvs-l1-checklist.md` y las pruebas de §14.2. Nunca incluye credenciales ni detalles del sitio vivo antes de la notificación.
+Un reporte "antes y después" con la rúbrica de `cyber-neo` (OWASP 2025 y CWE Top 25), la lista ASVS de `docs/entregas/m54/asvs-l1-checklist.md` y las pruebas de §14.2. Nunca incluye credenciales ni detalles del sitio vivo.
 
 ### 15.4 Uso de la marca
 
@@ -709,7 +708,7 @@ El frontend usa los logotipos reales. Antes de publicar M66 se pide autorizació
 
 ### 15.5 Divulgación responsable
 
-Los hallazgos sobre el sitio vivo afectan a la empresa aliada. Hasta que Hound los corrija: se le comunican por un canal privado; el informe privado y la evidencia no se versionan en un repositorio público; la vitrina de seguridad describe la clase de problema sin señalar archivos ni servicios.
+Este repositorio no publica análisis de seguridad del sitio vivo. Cualquier comunicación con la empresa aliada va por un canal privado, y la vitrina de seguridad describe clases de problema sin señalar archivos ni servicios.
 
 ---
 
