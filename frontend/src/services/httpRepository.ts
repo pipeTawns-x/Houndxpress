@@ -19,10 +19,9 @@ export function createHttpRepository(options: HttpRepositoryOptions = {}): Guide
       throw new RepositoryError("invalid_response", "La API respondió con una guía que no se reconoce.");
     return data;
   }
-  return {
-    async list() {
+  async function listFrom(start: string): Promise<Guide[]> {
       const items: Guide[] = [];
-      let url: string | null = base;
+      let url: string | null = start;
       const visited = new Set<string>();
       while (url) {
         const parsed = new URL(url, window.location.origin);
@@ -43,6 +42,10 @@ export function createHttpRepository(options: HttpRepositoryOptions = {}): Guide
         url = record(data) && typeof data.next === "string" ? data.next : null;
       }
       return items;
+  }
+  return {
+    list() {
+      return listFrom(base);
     },
     async get(number) {
       try {
@@ -68,12 +71,7 @@ export function createHttpRepository(options: HttpRepositoryOptions = {}): Guide
       await api.write(path(number), "DELETE");
     },
     listArchived() {
-      return Promise.reject(
-        new RepositoryError(
-          "rejected",
-          "La API todavía no permite consultar el archivo. Las guías archivadas conservan su historial en el servidor.",
-        ),
-      );
+      return listFrom(`${base}?archived=true`);
     },
     async summary() {
       const data = await readJson(await api.request(`${base}summary/`));
