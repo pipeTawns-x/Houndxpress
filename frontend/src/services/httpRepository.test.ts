@@ -23,6 +23,15 @@ it("reads cursor pages without dropping later guides", async () => {
   await expect(repository.list()).resolves.toEqual([guide]);
   expect(fetchImpl).toHaveBeenCalledTimes(2);
 });
+it("reads the archived guides from the API, following its pages", async () => {
+  const { repository, fetchImpl } = setup(
+    json({ results: [guide], next: "/api/v1/guides/?archived=true&cursor=two" }),
+    json({ results: [], next: null }),
+  );
+  await expect(repository.listArchived?.()).resolves.toEqual([guide]);
+  expect(fetchImpl.mock.calls[0]?.[0]).toBe("/api/v1/guides/?archived=true");
+  expect(fetchImpl).toHaveBeenCalledTimes(2);
+});
 it("rejects cross-origin or circular pagination without requesting it", async () => {
   const { repository, fetchImpl } = setup(
     json({ results: [], next: "https://other.invalid/api/v1/guides/" }),

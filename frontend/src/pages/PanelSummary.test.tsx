@@ -1,7 +1,8 @@
-import { render, screen, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import Panel from "./Panel.tsx";
 import { createProviders, createTestRepository } from "../test/renderApp.tsx";
+import { notifySessionLost } from "../services/sessionEvents.ts";
 
 async function renderSummary() {
   const { Providers } = createProviders(createTestRepository());
@@ -42,5 +43,20 @@ describe("resumen del panel", () => {
       "src",
       "/brand/logo-hound-express-blanco.svg",
     );
+  });
+
+  it("borra las guías en memoria cuando se pierde la sesión", async () => {
+    const { store, Providers } = createProviders(createTestRepository());
+    render(
+      <Providers>
+        <MemoryRouter initialEntries={["/panel"]}>
+          <Panel />
+        </MemoryRouter>
+      </Providers>,
+    );
+    await screen.findByRole("heading", { name: "Sin avance reciente" });
+    expect(store.getState().guides.items.length).toBeGreaterThan(0);
+    act(() => notifySessionLost());
+    await waitFor(() => expect(store.getState().guides.items).toHaveLength(0));
   });
 });

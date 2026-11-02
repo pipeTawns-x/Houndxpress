@@ -1,5 +1,6 @@
 import { RepositoryError } from "./guideRepository.ts";
 import { isStageCode } from "../domain/stages.ts";
+import { notifySessionLost } from "./sessionEvents.ts";
 
 export async function readJson(response: Response): Promise<unknown> {
   try {
@@ -51,6 +52,15 @@ export async function apiFailure(response: Response): Promise<RepositoryError> {
     current,
   );
 }
+/** Un 401 o 403 de una ruta privada, salvo el rechazo por CSRF, significa que ya no hay sesión. */
+async function isSessionLoss(url: string, response: Response) {
+  if (url.startsWith("/api/v1/auth/")) return false;
+  if (response.status === 401) return true;
+  if (response.status !== 403) return false;
+  const body = await response.clone().text().catch(() => "");
+  return !body.includes("CSRF");
+}
+
 export function createApiClient(fetchImpl: typeof fetch = (...args) => fetch(...args)) {
   async function request(url: string, init: RequestInit = {}): Promise<Response> {
     let response: Response;
@@ -66,7 +76,10 @@ export function createApiClient(fetchImpl: typeof fetch = (...args) => fetch(...
         "Sin conexión con la API. Revisa tu conexión e inténtalo de nuevo.",
       );
     }
-    if (!response.ok) throw await apiFailure(response);
+    if (!response.ok) {
+      if (await isSessionLoss(url, response)) notifySessionLost();
+      throw await apiFailure(response);
+    }
     return response;
   }
   async function write(url: string, method: string, body?: unknown) {
