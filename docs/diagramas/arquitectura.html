@@ -5013,7 +5013,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="Navegador" x="257" y="270" width="230" height="284" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="Navegador" x="257" y="270" width="230" height="114" rx="12" class="c-region" stroke-width="1"/>
 
         <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="Servidor · local o Docker Compose" x="537" y="100" width="763" height="454" rx="12" class="c-region" stroke-width="1"/>
 
@@ -5035,16 +5035,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <path data-edge-from="api" data-edge-to="db" data-edge-label="ORM · SQL" data-edge-key="3" data-edge-id="api-db" data-composition-points="1017,332;1120,332" data-composition-crossover="halo" data-composition-independent="true" d="M 1017 332 L 1120 332" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:4">
-          <path data-graph-role="automatic-crossover-underlay" d="M 372 364 L 372 470" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="spa" data-edge-to="storage" data-edge-label="guías demo" data-edge-key="4" data-edge-id="spa-storage" data-composition-points="372,364;372,470" data-composition-crossover="halo" d="M 372 364 L 372 470" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 932 364 L 932 470" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="api" data-edge-to="tracking" data-edge-label="servicios" data-edge-key="4" data-edge-id="api-tracking" data-composition-points="932,364;932,470" data-composition-crossover="halo" d="M 932 364 L 932 470" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:5">
-          <path data-graph-role="automatic-crossover-underlay" d="M 932 364 L 932 470" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="api" data-edge-to="tracking" data-edge-label="M54 · modelos" data-edge-key="5" data-edge-id="api-tracking" data-composition-points="932,364;932,470" data-composition-crossover="halo" d="M 932 364 L 932 470" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
-        </g>
-        <g data-graph-role="automatic-crossover" style="--step:6">
           <path data-graph-role="automatic-crossover-underlay" d="M 932 300 L 932 194" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="api" data-edge-to="health" data-edge-label="sin sesión" data-edge-key="6" data-edge-id="api-health" data-composition-points="932,300;932,194" data-composition-crossover="halo" data-composition-independent="true" d="M 932 300 L 932 194" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+          <path data-edge-from="api" data-edge-to="health" data-edge-label="sin sesión" data-edge-key="5" data-edge-id="api-health" data-composition-points="932,300;932,194" data-composition-crossover="halo" data-composition-independent="true" d="M 932 300 L 932 194" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
         </g>
 
         <!-- Components -->
@@ -5108,27 +5104,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <text data-detail="context" x="1195" y="346" class="t-muted" font-size="9" text-anchor="middle">db.sqlite3</text>
         </g>
 
-        <g id="node-storage" data-node-id="storage" data-node-label="localStorage" tabindex="0" role="button" aria-label="Enfocar localStorage, guías de demostración, Navegador" aria-pressed="false" data-node-kind="database" data-node-sublabel="guías de demostración" data-node-context="Navegador">
-          <title>localStorage · guías de demostración · Navegador</title>
-          <rect x="287" y="470" width="170" height="64" rx="6" class="c-mask"/>
-          <rect x="287" y="470" width="170" height="64" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(293 476) scale(0.6875)">
-            <ellipse cx="8" cy="4" rx="5" ry="2"/>
-            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
-          </g>
-          <text data-node-label="" data-detail-anchor="" x="372" y="500" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">localStorage</text>
-        <text data-detail="context" x="372" y="516" class="t-muted" font-size="9" text-anchor="middle">guías de demostración</text>
-        </g>
-
-        <g id="node-tracking" data-node-id="tracking" data-node-label="App tracking" tabindex="0" role="button" aria-label="Enfocar App tracking, guías y etapas · M54, Servidor · local o Docker Compose" aria-pressed="false" data-node-kind="backend" data-node-sublabel="guías y etapas · M54" data-node-tag="planeado" data-node-context="Servidor · local o Docker Compose">
-          <title>App tracking · guías y etapas · M54 · Servidor · local o Docker Compose · planeado</title>
+        <g id="node-tracking" data-node-id="tracking" data-node-label="App tracking" tabindex="0" role="button" aria-label="Enfocar App tracking, guías, historial y servicios, Servidor · local o Docker Compose" aria-pressed="false" data-node-kind="backend" data-node-sublabel="guías, historial y servicios" data-node-tag="planeado" data-node-context="Servidor · local o Docker Compose">
+          <title>App tracking · guías, historial y servicios · Servidor · local o Docker Compose · planeado</title>
           <rect x="847" y="470" width="170" height="64" rx="6" class="c-mask"/>
           <rect x="847" y="470" width="170" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(853 476) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="932" y="500" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">App tracking</text>
-        <text data-detail="context" x="932" y="516" class="t-muted" font-size="9" text-anchor="middle">guías y etapas · M54</text>
+        <text data-detail="context" x="932" y="516" class="t-muted" font-size="9" text-anchor="middle">guías, historial y servicios</text>
         <text data-detail="fine" x="932" y="526" class="t-backend" font-size="7" text-anchor="middle">planeado</text>
         </g>
 
@@ -5161,15 +5145,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <rect x="1041.9" y="312" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
           <text x="1068.5" y="322" class="t-edge-default" font-size="8" text-anchor="middle">ORM · SQL</text>
         </g>
-        <g data-detail="context" data-edge-from="spa" data-edge-to="storage" data-edge-label="guías demo" data-edge-key="4" data-edge-id="spa-storage">
-          <rect x="387" y="368" width="58" height="14" rx="3" class="c-mask"/>
-          <text x="416" y="378" class="t-edge-dashed" font-size="8" text-anchor="middle">guías demo</text>
+        <g data-detail="context" data-edge-from="api" data-edge-to="tracking" data-edge-label="servicios" data-edge-key="4" data-edge-id="api-tracking">
+          <rect x="955.4" y="368" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="982" y="378" class="t-edge-dashed" font-size="8" text-anchor="middle">servicios</text>
         </g>
-        <g data-detail="context" data-edge-from="api" data-edge-to="tracking" data-edge-label="M54 · modelos" data-edge-key="5" data-edge-id="api-tracking">
-          <rect x="945.8" y="368" width="72.4" height="14" rx="3" class="c-mask"/>
-          <text x="982" y="378" class="t-edge-dashed" font-size="8" text-anchor="middle">M54 · modelos</text>
-        </g>
-        <g data-detail="context" data-edge-from="api" data-edge-to="health" data-edge-label="sin sesión" data-edge-key="6" data-edge-id="api-health">
+        <g data-detail="context" data-edge-from="api" data-edge-to="health" data-edge-label="sin sesión" data-edge-key="5" data-edge-id="api-health">
           <rect x="903" y="280" width="58" height="14" rx="3" class="c-mask"/>
           <text x="932" y="290" class="t-edge-security" font-size="8" text-anchor="middle">sin sesión</text>
         </g>
@@ -5392,32 +5372,32 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         </div>
         <ul>
           <li>Sitio público, rastreo y panel de operaciones en una sola SPA</li>
-          <li>Guías de demostración en localStorage hasta que exista la API de guías</li>
-          <li>VITE_DATA_SOURCE=api cambia al repositorio HTTP previsto para M64</li>
+          <li>Rastreo público y panel contra la API real, con sesión y CSRF</li>
+          <li>Si la API rechaza la sesión, el panel se cierra y borra los datos en memoria</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot emerald"></div>
-          <h3>Backend M52</h3>
+          <h3>Backend</h3>
         </div>
         <ul>
-          <li>Proyecto config con apps accounts, core y tracking</li>
-          <li>Modelo de usuario propio antes de la primera migración</li>
-          <li>Todo endpoint exige sesión salvo /api/v1/health/</li>
+          <li>Base de datos: guías e historial que no se edita ni se borra</li>
+          <li>API (M64): guías, avance, historial, archivo, resumen, rastreo público y sesión</li>
+          <li>Todo endpoint exige personal salvo salud, rastreo público y acceso</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot amber"></div>
-          <h3>Siguientes módulos</h3>
+          <h3>Siguientes pasos</h3>
         </div>
         <ul>
-          <li>M54: tablas de guías e historial que no se edita ni se borra</li>
-          <li>M64: GET, POST y PUT de guías con validación del orden de etapas</li>
-          <li>M66: entrega final y documentación</li>
+          <li>M66: despliegue en producción con HTTPS</li>
+          <li>Portal de cliente con acceso por objeto</li>
+          <li>Incidencias y alertas de operación</li>
         </ul>
       </div>
     </div>

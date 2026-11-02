@@ -519,24 +519,10 @@
       ]
     },
     {
-      "id": "storage",
-      "type": "database",
-      "label": "localStorage",
-      "sublabel": "guías de demostración",
-      "pos": [
-        287,
-        470
-      ],
-      "size": [
-        170,
-        64
-      ]
-    },
-    {
       "id": "tracking",
       "type": "backend",
       "label": "App tracking",
-      "sublabel": "guías y etapas · M54",
+      "sublabel": "guías, historial y servicios",
       "pos": [
         847,
         470
@@ -568,8 +554,7 @@
       "kind": "region",
       "label": "Navegador",
       "wraps": [
-        "spa",
-        "storage"
+        "spa"
       ]
     },
     {
@@ -611,23 +596,10 @@
       "label": "ORM · SQL"
     },
     {
-      "id": "spa-storage",
-      "from": "spa",
-      "to": "storage",
-      "label": "guías demo",
-      "variant": "dashed",
-      "fromSide": "bottom",
-      "toSide": "top",
-      "labelAt": [
-        416,
-        378
-      ]
-    },
-    {
       "id": "api-tracking",
       "from": "api",
       "to": "tracking",
-      "label": "M54 · modelos",
+      "label": "servicios",
       "variant": "dashed",
       "fromSide": "bottom",
       "toSide": "top",
@@ -652,26 +624,26 @@
       "title": "Frontend",
       "items": [
         "Sitio público, rastreo y panel de operaciones en una sola SPA",
-        "Guías de demostración en localStorage hasta que exista la API de guías",
-        "VITE_DATA_SOURCE=api cambia al repositorio HTTP previsto para M64"
+        "Rastreo público y panel contra la API real, con sesión y CSRF",
+        "Si la API rechaza la sesión, el panel se cierra y borra los datos en memoria"
       ]
     },
     {
       "dot": "emerald",
-      "title": "Backend M52",
+      "title": "Backend",
       "items": [
-        "Proyecto config con apps accounts, core y tracking",
-        "Modelo de usuario propio antes de la primera migración",
-        "Todo endpoint exige sesión salvo /api/v1/health/"
+        "Base de datos: guías e historial que no se edita ni se borra",
+        "API (M64): guías, avance, historial, archivo, resumen, rastreo público y sesión",
+        "Todo endpoint exige personal salvo salud, rastreo público y acceso"
       ]
     },
     {
       "dot": "amber",
-      "title": "Siguientes módulos",
+      "title": "Siguientes pasos",
       "items": [
-        "M54: tablas de guías e historial que no se edita ni se borra",
-        "M64: GET, POST y PUT de guías con validación del orden de etapas",
-        "M66: entrega final y documentación"
+        "M66: despliegue en producción con HTTPS",
+        "Portal de cliente con acceso por objeto",
+        "Incidencias y alertas de operación"
       ]
     }
   ]

@@ -48,9 +48,7 @@ def architecture() -> dict:
         x += width
     pos = {c["id"]: c["pos"] for c in components}
     components += [
-        {"id": "storage", "type": "database", "label": "localStorage", "sublabel": "guías de demostración",
-         "pos": [pos["spa"][0], 470], "size": [170, h]},
-        {"id": "tracking", "type": "backend", "label": "App tracking", "sublabel": "guías y etapas · M54",
+        {"id": "tracking", "type": "backend", "label": "App tracking", "sublabel": "guías, historial y servicios",
          "pos": [pos["api"][0], 470], "size": [170, h], "tag": "planeado"},
         {"id": "health", "type": "backend", "label": "HealthView", "sublabel": "GET /api/v1/health/",
          "pos": [pos["api"][0], 130], "size": [170, h], "tag": "público"},
@@ -61,7 +59,7 @@ def architecture() -> dict:
         "meta": meta("Hound Express · arquitectura del proyecto", "arquitectura"),
         "components": components,
         "boundaries": [
-            {"kind": "region", "label": "Navegador", "wraps": ["spa", "storage"]},
+            {"kind": "region", "label": "Navegador", "wraps": ["spa"]},
             {"kind": "region", "label": "Servidor · local o Docker Compose",
              "wraps": ["proxy", "api", "db", "tracking", "health"]},
         ],
@@ -70,9 +68,7 @@ def architecture() -> dict:
             {"id": "spa-proxy", "from": "spa", "to": "proxy", "label": "fetch /api"},
             {"id": "proxy-api", "from": "proxy", "to": "api", "label": "HTTP :8000"},
             {"id": "api-db", "from": "api", "to": "db", "label": "ORM · SQL"},
-            {"id": "spa-storage", "from": "spa", "to": "storage", "label": "guías demo", "variant": "dashed",
-             "fromSide": "bottom", "toSide": "top", "labelAt": [416, 378]},
-            {"id": "api-tracking", "from": "api", "to": "tracking", "label": "M54 · modelos", "variant": "dashed",
+            {"id": "api-tracking", "from": "api", "to": "tracking", "label": "servicios", "variant": "dashed",
              "fromSide": "bottom", "toSide": "top", "labelAt": [982, 378]},
             {"id": "api-health", "from": "api", "to": "health", "label": "sin sesión", "variant": "security",
              "fromSide": "top", "toSide": "bottom"},
@@ -80,16 +76,16 @@ def architecture() -> dict:
         "cards": [
             {"dot": "cyan", "title": "Frontend", "items": [
                 "Sitio público, rastreo y panel de operaciones en una sola SPA",
-                "Guías de demostración en localStorage hasta que exista la API de guías",
-                "VITE_DATA_SOURCE=api cambia al repositorio HTTP previsto para M64"]},
-            {"dot": "emerald", "title": "Backend M52", "items": [
-                "Proyecto config con apps accounts, core y tracking",
-                "Modelo de usuario propio antes de la primera migración",
-                "Todo endpoint exige sesión salvo /api/v1/health/"]},
-            {"dot": "amber", "title": "Siguientes módulos", "items": [
-                "M54: tablas de guías e historial que no se edita ni se borra",
-                "M64: GET, POST y PUT de guías con validación del orden de etapas",
-                "M66: entrega final y documentación"]},
+                "Rastreo público y panel contra la API real, con sesión y CSRF",
+                "Si la API rechaza la sesión, el panel se cierra y borra los datos en memoria"]},
+            {"dot": "emerald", "title": "Backend", "items": [
+                "Base de datos: guías e historial que no se edita ni se borra",
+                "API (M64): guías, avance, historial, archivo, resumen, rastreo público y sesión",
+                "Todo endpoint exige personal salvo salud, rastreo público y acceso"]},
+            {"dot": "amber", "title": "Siguientes pasos", "items": [
+                "M66: despliegue en producción con HTTPS",
+                "Portal de cliente con acceso por objeto",
+                "Incidencias y alertas de operación"]},
         ],
     }
 
@@ -144,14 +140,14 @@ def sequence() -> dict:
         "participants": [
             {"id": "user", "type": "external", "label": "Usuario", "sublabel": "visitante o personal"},
             {"id": "web", "type": "frontend", "label": "Frontend React", "sublabel": "páginas y hooks"},
-            {"id": "repo", "type": "frontend", "label": "GuideRepository", "sublabel": "demo o HTTP"},
+            {"id": "repo", "type": "frontend", "label": "GuideRepository", "sublabel": "cliente HTTP"},
             {"id": "api", "type": "backend", "label": "API Django", "sublabel": "/api/v1/"},
             {"id": "db", "type": "database", "label": "SQLite", "sublabel": "db.sqlite3"},
         ],
         "segments": [
             {"from": 150, "to": 310, "label": "Estado de la API · real desde M52"},
-            {"from": 325, "to": 465, "label": "Rastreo · datos de demostración"},
-            {"from": 480, "to": 710, "label": "Rastreo · VITE_DATA_SOURCE=api (M64)"},
+            {"from": 325, "to": 465, "label": "Pruebas · repositorio en memoria"},
+            {"from": 480, "to": 710, "label": "Rastreo público contra la API real"},
         ],
         "messages": [
             {"id": "health-get", "from": "web", "to": "api", "y": 175, "label": "GET /api/v1/health/", "variant": "emphasis"},
@@ -165,8 +161,8 @@ def sequence() -> dict:
             {"id": "demo-render", "from": "web", "to": "user", "y": 450, "label": "línea de tiempo", "variant": "return"},
             {"id": "api-input", "from": "user", "to": "web", "y": 515, "label": "número de guía"},
             {"id": "api-get", "from": "web", "to": "repo", "y": 545, "label": "get(número)"},
-            {"id": "api-http", "from": "repo", "to": "api", "y": 575, "label": "GET /api/v1/guides/{n}/", "variant": "dashed"},
-            {"id": "api-query", "from": "api", "to": "db", "y": 605, "label": "guía e historial", "variant": "dashed"},
+            {"id": "api-http", "from": "repo", "to": "api", "y": 575, "label": "GET /api/v1/public/track/?numbers=n"},
+            {"id": "api-query", "from": "api", "to": "db", "y": 605, "label": "guía e historial"},
             {"id": "api-rows", "from": "db", "to": "api", "y": 635, "label": "filas", "variant": "return"},
             {"id": "api-json", "from": "api", "to": "repo", "y": 665, "label": "200 JSON o 404", "variant": "return"},
             {"id": "api-result", "from": "repo", "to": "web", "y": 695, "label": "Guide o null", "variant": "return"},
@@ -187,13 +183,13 @@ def sequence() -> dict:
                 "El panel y el pie consultan /api/v1/health/",
                 "La vista hace SELECT 1 y responde 503 si la base falla",
                 "Vite o nginx reenvían /api al puerto 8000: mismo origen, sin CORS"]},
-            {"dot": "amber", "title": "Demostración", "items": [
-                "demoRepository lee y escribe guías en localStorage",
-                "La interfaz lo indica con el aviso de datos de demostración"]},
-            {"dot": "cyan", "title": "Cuando llegue M64", "items": [
-                "httpRepository llama a /api/v1/guides/",
-                "404 se muestra como guía no encontrada",
-                "Los mensajes punteados todavía no existen en el backend"]},
+            {"dot": "amber", "title": "Pruebas", "items": [
+                "demoRepository solo se usa en las pruebas de Jest",
+                "La interfaz usa la API por defecto"]},
+            {"dot": "cyan", "title": "Rastreo real", "items": [
+                "GuideRepository normaliza el número y llama a la API",
+                "Responde con campos mínimos y una ciudad de la lista cerrada",
+                "Un número inexistente se muestra como no encontrado"]},
         ],
     }
 
