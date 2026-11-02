@@ -26,7 +26,8 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Servidor local con entorno virtual y pip | sección *Inicio rápido*; jobs `readme (bash)` y `readme (powershell)` en [`ci.yml`](.github/workflows/ci.yml) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
-| Lint y 109 pruebas automáticas en Linux (Python 3.10 y 3.12) y Windows | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| API de guías: alta, avance, historial, archivo, resumen, rastreo público y sesión | [`backend/tracking/api/`](backend/tracking/api/), [`backend/accounts/api/`](backend/accounts/api/) |
+| Lint y 157 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 310 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
 ## API de guías
 
@@ -107,7 +108,7 @@ Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv
 .venv/bin/python -m ruff check .
 ```
 
-En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 109 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
+En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 157 tests` seguido de `OK`, y luego `All checks passed!`. Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>.
 
 Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>. Para cargar guías de demostración en la base local: `.venv/bin/python manage.py loaddata demo_guides`.
 

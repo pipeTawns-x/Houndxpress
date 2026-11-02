@@ -42,3 +42,7 @@ build/
 .atl/
 # Spec-driven artifacts stay local to the working session.
 openspec/
+
+# Notas privadas de investigación: no se publican.
+docs/investigacion/privado/
+docs/investigacion/04-*.md
