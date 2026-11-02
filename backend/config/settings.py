@@ -60,6 +60,15 @@ ALLOWED_HOSTS = env_list(
 if not DEBUG and not ALLOWED_HOSTS:
     raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG is false.")
 
+# The React app reaches the API through a proxy (Vite :5173, nginx :8080), so the browser sends
+# that origin. Production lists its own HTTPS origin in this variable.
+CSRF_TRUSTED_ORIGINS = env_list(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    [f"http://{host}:{port}" for host in ("localhost", "127.0.0.1") for port in (5173, 8080)]
+    if DEBUG
+    else [],
+)
+
 if not DEBUG:
     # Production only: local development keeps plain HTTP and the default cookie names.
     # With these values `manage.py check --deploy` reports no issues.

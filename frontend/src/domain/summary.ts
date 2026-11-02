@@ -22,7 +22,7 @@ export function summarizeGuides(guides: readonly Guide[]): GuideSummary {
     delivered: guides.filter(isDelivered).length,
     byStage: STAGES.map((stage) => ({
       stage,
-      count: guides.filter((guide) => guide.currentStage === stage.code).length,
+      count: guides.filter((guide) => guide.currentStatus === stage.code).length,
     })),
   };
 }

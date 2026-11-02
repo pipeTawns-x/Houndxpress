@@ -700,7 +700,17 @@
       "items": [
         "Solo 31 de cada 100 guías seguían el proceso en orden",
         "Saltar pasos causó pérdidas de 200k pesos MXN",
-        "Fuente: documento del proyecto (README, Contexto del negocio)"
+        "Fuente: contexto del negocio (README)"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Patrones en el código",
+      "items": [
+        "State, forma simple: Stage con cinco valores (models.py:41)",
+        "Solo la etapa siguiente es válida (models.py:59-67)",
+        "UPDATE condicional, compare-and-set, no GoF (models.py:93-108)",
+        "Propuestas: Command para avances auditables y Observer para avisos"
       ]
     },
     {

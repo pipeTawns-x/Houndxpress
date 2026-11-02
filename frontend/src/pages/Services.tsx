@@ -6,25 +6,26 @@ import type { Service } from "../content/services.ts";
 import { useDocumentTitle } from "../hooks/useDocumentTitle.ts";
 import { bem } from "../lib/bem.ts";
 
-/** Bloque visual de cada servicio: icono grande y cifras sobre marino. */
-function ServiceVisual({ service }: { service: Service }) {
-  const Icon = service.icon;
+const PHOTOS = [
+  "servicio-customs.webp",
+  "servicio-cargo.webp",
+  "servicio-ecommerce.webp",
+  "servicio-parcel.webp",
+  "servicio-ecommerce.webp",
+];
+function ServiceVisual({ serviceLevel }: { serviceLevel: Service }) {
+  const index = SERVICES.findIndex((item) => item.id === serviceLevel.id);
   return (
-    <div aria-hidden="true" className="service-visual">
-      <div className="service-visual__dots" />
-      <div className="service-visual__glow" />
-      <span className="service-visual__icon-box">
-        <Icon className="service-visual__icon" strokeWidth={1.75} />
-      </span>
-      <div className="service-visual__stats">
-        {service.highlights.map((item) => (
-          <div key={item.label} className="service-visual__stat">
-            <span className="service-visual__value">{item.value}</span>
-            <span className="service-visual__label">{item.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <figure className="service-visual">
+      <img
+        src={`/media/${PHOTOS[index] ?? PHOTOS[0]}`}
+        alt={`Imagen ilustrativa de logística para ${serviceLevel.title.toLowerCase()}`}
+        width={1344}
+        height={752}
+        loading="lazy"
+      />
+      <figcaption className="service-visual__caption">{serviceLevel.kicker}</figcaption>
+    </figure>
   );
 }
 
@@ -38,28 +39,28 @@ export default function Services() {
         description="Desarrollamos todas las soluciones logísticas y aduanales que necesitas. Centraliza toda tu operación en nuestro sistema."
       />
 
-      {SERVICES.map((service, index) => (
+      {SERVICES.map((serviceLevel, index) => (
         <Section
-          key={service.id}
-          id={service.id}
+          key={serviceLevel.id}
+          id={serviceLevel.id}
           tone={index % 2 === 0 ? "light" : "surface"}
-          aria-labelledby={`${service.id}-titulo`}
+          aria-labelledby={`${serviceLevel.id}-titulo`}
           className="service-block"
         >
           <div className="service-block__layout">
             <div className={bem("service-block__visual", { last: index % 2 === 1 })}>
-              <ServiceVisual service={service} />
+              <ServiceVisual serviceLevel={serviceLevel} />
             </div>
             <div className="service-block__copy">
               <div className="service-block__intro">
-                <Eyebrow>{service.kicker}</Eyebrow>
-                <h2 id={`${service.id}-titulo`} className="service-block__title">
-                  {service.title}
+                <Eyebrow>{serviceLevel.kicker}</Eyebrow>
+                <h2 id={`${serviceLevel.id}-titulo`} className="service-block__title">
+                  {serviceLevel.title}
                 </h2>
-                <p className="service-block__lead">{service.headline}</p>
+                <p className="service-block__lead">{serviceLevel.headline}</p>
               </div>
               <ul className="service-block__features">
-                {service.features.map((feature) => (
+                {serviceLevel.features.map((feature) => (
                   <li key={feature.title} className="service-block__feature">
                     <span className="service-block__feature-icon">
                       <Check className="service-block__feature-check" strokeWidth={3} aria-hidden="true" />

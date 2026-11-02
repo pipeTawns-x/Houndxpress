@@ -67,7 +67,7 @@ Tipografías declaradas: `CocoSharp` (propietaria, en el rastreo), `Open Sans`, 
 ## 6. Lo que no se copia
 
 - El código de WordPress, Elementor y del rastreo legado. El rediseño es una aplicación nueva.
-- La llave de socio del servicio de rastreo (`houndExpressPartnerKey` en `hound_express_tracking_addon.js`). El rediseño no llama al servicio real de la empresa; trabaja con datos de demostración hasta que el backend del proyecto exponga sus endpoints (M64).
+- La llave de socio del servicio de rastreo (`houndExpressPartnerKey` en `hound_express_tracking_addon.js`). El rediseño no llama al servicio real de la empresa; trabaja con datos de demostración hasta que el backend del proyecto exponga sus endpoints (Fase 2).
 - Las fotografías e ilustraciones del sitio. El rediseño usa ilustraciones SVG propias.
 
 El único recurso de la empresa que se reutiliza es su logotipo (`frontend/public/brand/`), porque el proyecto se desarrolla para Hound Express como empresa aliada del programa.

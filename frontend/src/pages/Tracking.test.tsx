@@ -1,5 +1,5 @@
 import { screen, within } from "@testing-library/react";
-import { renderApp } from "../test/renderApp.tsx";
+import { createTestRepository, renderApp } from "../test/renderApp.tsx";
 
 const IN_TRANSIT = "2119875302467781"; // Vehículo en camino
 const DELIVERED = "2154302968170435";
@@ -104,7 +104,7 @@ describe("rastreo", () => {
     const step = await currentStep();
     expect(step).toBeNull(); // entregada: todas las etapas quedan completadas
     expect(screen.getAllByText("Completada")).toHaveLength(5);
-    expect(screen.getByText(/Entregada el/)).toBeInTheDocument();
+    expect(screen.getAllByText("Etapa 5 de 5")).toHaveLength(2);
   });
 
   it("/rastreo?guia= acepta varias guías separadas por coma", async () => {
@@ -133,25 +133,17 @@ describe("rastreo", () => {
     expect(region).toHaveAttribute("aria-live", "polite");
   });
 
-  it("muestra el aviso de datos de demostración con las guías de ejemplo", async () => {
-    await renderApp("/rastreo");
-    const notice = screen.getByRole("complementary", { name: "Aviso de datos de demostración" });
-    expect(within(notice).getByText(/Datos de demostración:/)).toBeInTheDocument();
-    expect(within(notice).getAllByRole("link")).toHaveLength(8);
-  });
-
-  it("la tarjeta de resultado muestra ruta, servicio, entrega estimada y eventos del más reciente al más antiguo", async () => {
+  it("no ofrece datos de demostración ni expone datos privados", async () => {
     await renderApp(`/rastreo?guia=${IN_TRANSIT}`);
     const card = await screen.findByRole("article", { name: "Guía 2119 8753 0246 7781" });
-    expect(within(card).getByText("Ruta").nextElementSibling).toHaveTextContent(/Laredo, TX.*Monterrey, N\.L\./);
-    expect(within(card).getByText("Priority")).toBeInTheDocument();
-    expect(within(card).getByText("Entrega estimada")).toBeInTheDocument();
-    const events = within(within(card).getByRole("heading", { level: 4, name: "Eventos" }).closest("section") as HTMLElement).getAllByRole("listitem");
-    expect(events.map((item) => item.textContent)).toEqual([
-      expect.stringContaining("Vehículo en camino"),
-      expect.stringContaining("Vehículo liberado"),
-      expect.stringContaining("Vehículo cargado"),
-      expect.stringContaining("Recepción de carga"),
+    expect(screen.queryByRole("complementary", { name: "Aviso de datos de demostración" })).not.toBeInTheDocument();
+    expect(within(card).queryByText("Ruta")).not.toBeInTheDocument();
+    expect(within(card).queryByText("Priority")).not.toBeInTheDocument();
+    expect(within(card).queryByText("Entrega estimada")).not.toBeInTheDocument();
+    const events = within(within(card).getByRole("heading", { level: 4, name: "Historial del envío" }).closest("section") as HTMLElement).getAllByRole("listitem");
+    expect(events.map(item => item.textContent)).toEqual([
+      expect.stringContaining("Vehículo en camino"), expect.stringContaining("Vehículo liberado"),
+      expect.stringContaining("Vehículo cargado"), expect.stringContaining("Recepción de carga"),
     ]);
   });
 
@@ -166,4 +158,21 @@ describe("rastreo", () => {
     await renderApp("/rastreo");
     expect(document.title).toBe("Rastrea tu paquete · Hound Express");
   });
+});
+
+it('shows offline with retry and never substitutes a demo result', async () => {
+  const repository = createTestRepository();
+  jest.spyOn(repository, 'get').mockRejectedValueOnce(new TypeError('offline'));
+  const { user } = await renderApp('/rastreo?guia=2119875302467781', repository);
+  expect(await screen.findByRole('heading', { name: 'No pudimos consultar tu guía' })).toBeInTheDocument();
+  expect(screen.getByText(/Sin conexión con la API/)).toBeInTheDocument();
+  expect(screen.queryByRole('article', { name: 'Guía 2119 8753 0246 7781' })).not.toBeInTheDocument();
+  await user.click(screen.getByRole('button', { name: 'Intentar de nuevo' }));
+  expect(await screen.findByRole('article', { name: 'Guía 2119 8753 0246 7781' })).toBeInTheDocument();
+});
+
+it('HU-01 displays the city supplied by the public API history', async () => {
+  await renderApp('/rastreo?guia=2119875302467781');
+  const card = await screen.findByRole('article', { name: 'Guía 2119 8753 0246 7781' });
+  expect(within(card).getAllByText('Nuevo Laredo, Tamps.').length).toBeGreaterThan(0);
 });

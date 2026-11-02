@@ -23,6 +23,14 @@ export default function Coverage() {
             title="Dos hubs en USA y diez puntos de entrada en LATAM"
             description="Combinamos tecnología y logística para facilitar envíos de comercio electrónico a cualquier destino."
           />
+          <img
+            className="coverage-photo"
+            src="/media/cobertura-frontera.webp"
+            width={1344}
+            height={752}
+            loading="lazy"
+            alt="Vista ilustrativa de un corredor carretero entre el desierto y una ciudad"
+          />
           <NetworkMap className="network-map--wide" />
         </div>
       </Section>

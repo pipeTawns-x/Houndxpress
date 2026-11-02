@@ -12,7 +12,7 @@ Tesis que se somete al abogado del diablo:
 | Rastreo | Destinatario que espera un paquete | Saber en qué etapa va su guía | Página aparte con otro menú (`tracking.html`) |
 | Panel de operaciones | Personal de Aduana, Operaciones, Seguridad y KAM | Registrar guías y avanzarlas por las cinco etapas en orden | No existe |
 
-El panel ataca directamente el problema que el negocio reporta: "de 100 guías solo el 31% siguen el proceso como debe ser". Si la interfaz solo ofrece avanzar a la etapa siguiente, saltarse un paso deja de ser posible desde la pantalla, igual que el backend lo impedirá desde la API en M64.
+El panel ataca directamente el problema que el negocio reporta: "de 100 guías solo el 31% siguen el proceso como debe ser". Si la interfaz solo ofrece avanzar a la etapa siguiente, saltarse un paso deja de ser posible desde la pantalla, igual que el backend lo impedirá desde la API en la Fase 2.
 
 ## Pantallas propuestas
 
@@ -37,5 +37,5 @@ El panel ataca directamente el problema que el negocio reporta: "de 100 guías s
 ## Qué no incluye
 
 - Conexión al servicio de rastreo real de la empresa.
-- Inicio de sesión del personal: llega con los endpoints protegidos de M64.
+- Inicio de sesión del personal: llega con los endpoints protegidos de la Fase 2.
 - Versión en inglés.

@@ -1,3 +1,4 @@
+import { STAGE_CODES } from "./types.ts";
 import { isStageCode } from "./stages.ts";
 import type { Guide, StageEvent } from "./types.ts";
 
@@ -14,7 +15,7 @@ function isStageEvent(value: unknown): value is StageEvent {
   return (
     isRecord(value) &&
     isStageCode(value.stage) &&
-    isDateString(value.at) &&
+    isDateString(value.timestamp) &&
     typeof value.location === "string" &&
     (value.note === undefined || typeof value.note === "string")
   );
@@ -28,16 +29,22 @@ export function isGuide(value: unknown): value is Guide {
   if (!isRecord(value)) return false;
   const { history } = value;
   return (
-    typeof value.number === "string" &&
+    typeof value.trackingNumber === "string" &&
     typeof value.origin === "string" &&
     typeof value.destination === "string" &&
     typeof value.recipient === "string" &&
-    (value.service === "standard" || value.service === "priority") &&
+    (value.serviceLevel === "standard" || value.serviceLevel === "priority") &&
     isDateString(value.createdAt) &&
-    isStageCode(value.currentStage) &&
+    isStageCode(value.currentStatus) &&
     Array.isArray(history) &&
     history.length > 0 &&
     history.every(isStageEvent) &&
-    history.at(-1)?.stage === value.currentStage
+    history.length <= STAGE_CODES.length &&
+    history.every(
+      (event, index) =>
+        event.stage === STAGE_CODES[index] &&
+        (index === 0 || Date.parse(event.timestamp) >= Date.parse(history[index - 1]?.timestamp ?? "")),
+    ) &&
+    history.at(-1)?.stage === value.currentStatus
   );
 }

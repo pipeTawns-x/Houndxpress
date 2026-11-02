@@ -1,8 +1,10 @@
-# Diagramas del proyecto
+# Diagramas de Hound Express
 
-Diagramas interactivos generados con [Archify](https://github.com/tt-a1i/archify) 3.0.1 (licencia MIT), instalado como skill del proyecto en [`.claude/skills/archify/`](../../.claude/skills/archify/). Cada archivo `.html` es autónomo: se abre con doble clic en cualquier navegador, sin instalar nada, y permite acercar, seguir rutas, cambiar a tema oscuro y exportar a PNG, SVG o WebP desde el botón **Exportar**.
+Cuatro diagramas interactivos de la plataforma, generados con [Archify](https://github.com/tt-a1i/archify) 3.0.1 (licencia MIT). Cada archivo `.html` es autónomo: se abre en cualquier navegador sin instalar nada, permite acercar, seguir rutas, cambiar a tema oscuro y exportar a PNG, SVG o WebP desde el botón **Exportar**.
 
-| Diagrama | Qué muestra | Archivo |
+> GitHub muestra los `.html` como código. Para explorarlos, descarga el archivo (botón **Raw** o **Download raw file**) y ábrelo en el navegador. Las imágenes de esta página son vistas previas del tema claro.
+
+| Diagrama | Qué muestra | Interactivo |
 |---|---|---|
 | Arquitectura | Navegador, frontend React, proxy `/api`, API Django, SQLite y lo planeado para M54 | [`arquitectura.html`](arquitectura.html) |
 | Modelo de datos | `Guide`, `StatusHistory` y `User` con sus restricciones y relaciones, los QuerySet que vigilan las escrituras, el UPDATE condicional y lo planeado (`Incident`). Anotado con los patrones que el código usa y su `archivo:línea` | [`modelo-de-datos.html`](modelo-de-datos.html) |
@@ -71,10 +73,20 @@ Después de regenerar cualquier HTML, recaptura su vista previa. Si no, GitHub y
 
 Los archivos `*.delivery.json` son la procedencia que liga cada HTML con su fuente y se regeneran solos. Guardan rutas absolutas, por eso se generan desde una carpeta temporal neutra y no desde la carpeta personal.
 
-## Uso con Claude Code
+3. Entrega cada diagrama con las cuatro compuertas de `finalize` en modo `showcase`: validación del esquema, entrega, revisión estricta del HTML y revisión en un navegador real.
 
-Al abrir el repositorio, Claude Code descubre la skill. Basta con pedir, por ejemplo, "usa Archify para diagramar el flujo de registro de guías de M64" y la skill escribe el JSON, lo valida y entrega el HTML.
+   ```bash
+   node <carpeta-de-archify>/bin/archify.mjs finalize architecture docs/diagramas/fuentes/arquitectura.json docs/diagramas/arquitectura.html --quality showcase --json
+   node <carpeta-de-archify>/bin/archify.mjs finalize sequence docs/diagramas/fuentes/secuencia-consultas.json docs/diagramas/secuencia-consultas.html --quality showcase --json
+   ```
 
-## Para las entregas del LMS
+   `modelo-de-datos` y `ciclo-de-vida-guia` citan código, así que necesitan `--repo-root` con una copia del repositorio en el commit `aed7967`:
 
-Abre el HTML, elige tema claro u oscuro y usa **Exportar → PNG** para pegar la imagen en el documento de entrega; enlaza además el archivo del repositorio para que el revisor pueda explorarlo.
+   ```bash
+   node <carpeta-de-archify>/bin/archify.mjs finalize architecture docs/diagramas/fuentes/modelo-de-datos.json docs/diagramas/modelo-de-datos.html --repo-root <copia-en-aed7967> --quality showcase --json
+   node <carpeta-de-archify>/bin/archify.mjs finalize lifecycle docs/diagramas/fuentes/ciclo-de-vida-guia.json docs/diagramas/ciclo-de-vida-guia.html --repo-root <copia-en-aed7967> --quality showcase --json
+   ```
+
+Los archivos `*.delivery.json` son la procedencia que liga cada HTML con su fuente. Guardan rutas absolutas, por eso se generan desde una carpeta temporal neutra y no desde una carpeta personal. Si una carpeta de evidencia ya existe de una corrida anterior, usa una nueva con `--out-dir`.
+
+Las vistas previas de `img/` se capturan con el navegador sin interfaz, a 1600 px de ancho y con `?theme=light` en la dirección del HTML.

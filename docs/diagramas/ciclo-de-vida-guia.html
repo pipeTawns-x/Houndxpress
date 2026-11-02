@@ -5448,7 +5448,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <ul>
           <li>Solo 31 de cada 100 guías seguían el proceso en orden</li>
           <li>Saltar pasos causó pérdidas de 200k pesos MXN</li>
-          <li>Fuente: documento del proyecto (README, Contexto del negocio)</li>
+          <li>Fuente: contexto del negocio (README)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Patrones en el código</h3>
+        </div>
+        <ul>
+          <li>State, forma simple: Stage con cinco valores (models.py:41)</li>
+          <li>Solo la etapa siguiente es válida (models.py:59-67)</li>
+          <li>UPDATE condicional, compare-and-set, no GoF (models.py:93-108)</li>
+          <li>Propuestas: Command para avances auditables y Observer para avisos</li>
         </ul>
       </div>
 

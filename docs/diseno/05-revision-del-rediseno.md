@@ -37,7 +37,7 @@ Los comandos de esta sección se corrieron después de aplicar los cambios.
 
 - Firefox y Safari: solo Chromium.
 - Lectores de pantalla y auditoría automática con axe: la accesibilidad se probó con roles y atributos en las pruebas, con el contraste calculado y con navegación por teclado.
-- El repositorio HTTP contra una API real: los endpoints de guías llegan en M64 y hoy se prueba con `fetch` simulado.
+- El repositorio HTTP contra una API real: los endpoints de guías llegan en la Fase 2 y hoy se prueba con `fetch` simulado.
 
 ## Versión final
 

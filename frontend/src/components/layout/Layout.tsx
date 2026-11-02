@@ -7,7 +7,6 @@ import { useScrollLock } from "../../hooks/useScrollLock.ts";
 import { ErrorBoundary } from "./ErrorBoundary.tsx";
 import { Footer } from "./Footer.tsx";
 import { Header } from "./Header.tsx";
-import { RouteEffects } from "./RouteEffects.tsx";
 
 function PageLoading() {
   return (
@@ -49,7 +48,6 @@ export function Layout() {
         </ErrorBoundary>
       </main>
       <Footer inert={menuOpen} />
-      <RouteEffects />
     </ApiHealthContext.Provider>
   );
 }
