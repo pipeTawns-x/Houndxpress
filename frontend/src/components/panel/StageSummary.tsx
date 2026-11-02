@@ -23,27 +23,16 @@ export function StageSummary({ guides }: { guides: readonly Guide[] }) {
       </h2>
       <div className="stage-summary__stats">
         <StatCard value={String(total)} label="Guías en total" />
-        <StatCard value={String(total - delivered)} label="En tránsito" description="Etapas 1 a 4" />
+        <StatCard value={String(total - delivered)} label="Activas" description="Etapas 1 a 4" />
         <StatCard value={String(delivered)} label="Entregadas" description="Etapa 5" />
       </div>
 
       <div className="stage-summary__distribution">
         <h3 className="stage-summary__distribution-title">Distribución por etapa</h3>
-        <div aria-hidden="true" className="stage-summary__bar">
-          {counts.map(({ stage, count }) =>
-            count > 0 ? (
-              <span
-                key={stage.code}
-                className={bem("stage-summary__segment", STAGE_TONES[stage.code])}
-                style={{ width: `${String((count / total) * 100)}%` }}
-              />
-            ) : null,
-          )}
-        </div>
         <ul className="stage-summary__legend">
           {counts.map(({ stage, count }) => (
             <li key={stage.code} className="stage-summary__legend-item">
-              <span aria-hidden="true" className={bem("stage-summary__swatch", STAGE_TONES[stage.code])} />
+              <meter className={bem("stage-summary__meter", STAGE_TONES[stage.code])} min={0} max={Math.max(total, 1)} value={count} aria-label={stage.label} />
               <span>
                 {stage.label}: <strong className="stage-summary__count">{count}</strong>
               </span>

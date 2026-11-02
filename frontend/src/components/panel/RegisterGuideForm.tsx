@@ -18,15 +18,15 @@ import { Button } from "../ui/Button.tsx";
 import { Select, TextField } from "../ui/fields.tsx";
 
 interface Draft {
-  number: string;
+  trackingNumber: string;
   origin: string;
   destination: string;
   recipient: string;
-  service: ServiceLevel;
+  serviceLevel: ServiceLevel;
 }
 
-const EMPTY: Draft = { number: "", origin: "", destination: "", recipient: "", service: "standard" };
-const FIELD_ORDER: (keyof Draft)[] = ["number", "origin", "destination", "recipient", "service"];
+const EMPTY: Draft = { trackingNumber: "", origin: "", destination: "", recipient: "", serviceLevel: "standard" };
+const FIELD_ORDER: (keyof Draft)[] = ["trackingNumber", "origin", "destination", "recipient", "serviceLevel"];
 
 export interface RegisterGuideFormProps {
   /** Para que "Generar" no proponga un número que ya existe. */
@@ -56,8 +56,8 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
     for (let attempt = 0; taken.has(number) && attempt < 20; attempt += 1) {
       number = generateGuideNumber();
     }
-    update("number", formatGuideNumber(number));
-    setErrors((current) => ({ ...current, number: undefined }));
+    update("trackingNumber", formatGuideNumber(number));
+    setErrors((current) => ({ ...current, trackingNumber: undefined }));
   }
 
   function focusFirstError(form: HTMLFormElement, found: FieldErrors<NewGuideInput>) {
@@ -71,7 +71,7 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
     const form = event.currentTarget;
     setCreated(null);
     setFormError(null);
-    const input: NewGuideInput = { ...draft, number: normalizeGuideNumber(draft.number) };
+    const input: NewGuideInput = { ...draft, trackingNumber: normalizeGuideNumber(draft.trackingNumber) };
     // Se valida aquí también: el repositorio HTTP envía lo que recibe, así que los campos
     // se marcan antes de la petición y no solo cuando los rechaza el repositorio de demostración.
     const invalid = validateNewGuideInput(input);
@@ -85,13 +85,13 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
       const guide = await onCreate(input);
       setCreated(guide);
       setErrors({});
-      setDraft({ ...EMPTY, service: draft.service });
+      setDraft({ ...EMPTY, serviceLevel: draft.serviceLevel });
     } catch (error) {
       if (isDomainError(error) && Object.keys(error.fieldErrors).length > 0) {
         setErrors(error.fieldErrors);
         focusFirstError(form, error.fieldErrors);
       } else if (isRepositoryError(error) && error.code === "duplicate") {
-        const found = { number: "Ya existe una guía con ese número. Escribe otro o usa “Generar”." };
+        const found = { trackingNumber: "Ya existe una guía con ese número. Escribe otro o usa “Generar”." };
         setErrors(found);
         focusFirstError(form, found);
       } else {
@@ -115,15 +115,15 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
         <div className="register-form__wide">
           <TextField
             label="Número de guía"
-            name="number"
+            name="trackingNumber"
             hint={GUIDE_NUMBER_HINT}
             spellCheck={false}
             autoComplete="off"
-            value={draft.number}
+            value={draft.trackingNumber}
             onChange={(event) => {
-              update("number", event.target.value);
+              update("trackingNumber", event.target.value);
             }}
-            error={errors.number}
+            error={errors.trackingNumber}
             className="register-form__number"
             action={
               <Button variant="secondary" size="lg" onClick={generate}>
@@ -167,12 +167,12 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
         />
         <Select
           label="Servicio"
-          name="service"
-          value={draft.service}
+          name="serviceLevel"
+          value={draft.serviceLevel}
           onChange={(event) => {
-            update("service", event.target.value as ServiceLevel);
+            update("serviceLevel", event.target.value as ServiceLevel);
           }}
-          error={errors.service}
+          error={errors.serviceLevel}
         >
           {(Object.keys(SERVICE_WINDOWS) as ServiceLevel[]).map((level) => (
             <option key={level} value={level}>
@@ -200,8 +200,8 @@ export function RegisterGuideForm({ existingNumbers, onCreate }: RegisterGuideFo
         {created ? (
           <p className="notice notice--success">
             <strong className="register-form__success-title">Guía registrada.</strong> La guía{" "}
-            <span className="register-form__success-number">{formatGuideNumber(created.number)}</span> quedó en “
-            {getStage(created.currentStage).label}” y ya aparece en la lista.
+            <span className="register-form__success-number">{formatGuideNumber(created.trackingNumber)}</span> quedó en “
+            {getStage(created.currentStatus).label}” y ya aparece en la lista.
           </p>
         ) : null}
       </div>

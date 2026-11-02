@@ -1,6 +1,7 @@
+import { Link } from "react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, CircleAlert, History, SearchX } from "lucide-react";
-import { OPERATION_LOCATIONS } from "../../content/coverage.ts";
+import { NETWORK_NODES } from "../../content/coverage.ts";
 import {
   SERVICE_WINDOWS,
   STAGES,
@@ -31,8 +32,9 @@ function matchesQuery(guide: Guide, query: string): boolean {
   if (text === "") return true;
   const byNumber = normalizeGuideNumber(text);
   return (
-    (byNumber !== "" && guide.number.includes(byNumber)) ||
-    foldText(guide.recipient).includes(foldText(text))
+    (byNumber !== "" && guide.trackingNumber.includes(byNumber)) ||
+    foldText(guide.recipient).includes(foldText(text)) ||
+    foldText(guide.destination).includes(foldText(text))
   );
 }
 
@@ -47,19 +49,32 @@ function GuideActions({
   onAdvance: () => void;
   onHistory: () => void;
 }) {
-  const next = nextStage(guide.currentStage);
-  const helpId = `ayuda-${guide.number}`;
-  const spoken = <span className="visually-hidden"> (guía {formatGuideNumber(guide.number)})</span>;
+  const next = nextStage(guide.currentStatus);
+  const helpId = `ayuda-${guide.trackingNumber}`;
+  const spoken = (
+    <span className="visually-hidden">
+      {" "}
+      (guía {formatGuideNumber(guide.trackingNumber)})
+    </span>
+  );
   return (
     <div className="guide-actions">
       {next ? (
-        <Button data-advance={guide.number} loading={busy} onClick={onAdvance}>
+        <Button
+          data-advance={guide.trackingNumber}
+          loading={busy}
+          onClick={onAdvance}
+        >
           Avanzar a {getStage(next).shortLabel}
           {spoken}
         </Button>
       ) : (
         <>
-          <Button data-advance={guide.number} disabled aria-describedby={helpId}>
+          <Button
+            data-advance={guide.trackingNumber}
+            disabled
+            aria-describedby={helpId}
+          >
             Avanzar etapa
             {spoken}
           </Button>
@@ -68,7 +83,11 @@ function GuideActions({
           </p>
         </>
       )}
-      <Button data-history={guide.number} variant="secondary" onClick={onHistory}>
+      <Button
+        data-history={guide.trackingNumber}
+        variant="secondary"
+        onClick={onHistory}
+      >
         <History className="button__icon" aria-hidden="true" />
         Historial
         {spoken}
@@ -82,11 +101,15 @@ function GuideActions({
  * las acciones de cada fila: "Avanzar a {etapa siguiente}" e "Historial".
  * Tabla desde 768 px y tarjetas en pantallas más chicas.
  */
-export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) {
+export function GuidesTable({
+  guides,
+  onAdvance,
+  onHistory,
+}: GuidesTableProps) {
   const isWide = useMediaQuery("(min-width: 768px)", true);
   const [query, setQuery] = useState("");
   const [stageFilter, setStageFilter] = useState<StageCode | "all">("all");
-  const [location, setLocation] = useState<string>(OPERATION_LOCATIONS[0] ?? "");
+  const [location, setLocation] = useState<string>("");
   // Guías con un avance en curso. Es un Set, no un solo número, para que terminar una
   // petición no vuelva a habilitar el botón de otra guía que sigue esperando.
   const [busy, setBusy] = useState<ReadonlySet<string>>(() => new Set());
@@ -98,7 +121,11 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
   const visible = useMemo(
     () =>
       guides
-        .filter((guide) => (stageFilter === "all" || guide.currentStage === stageFilter) && matchesQuery(guide, query))
+        .filter(
+          (guide) =>
+            (stageFilter === "all" || guide.currentStatus === stageFilter) &&
+            matchesQuery(guide, query),
+        )
         .sort((a, b) => Date.parse(lastUpdate(b)) - Date.parse(lastUpdate(a))),
     [guides, query, stageFilter],
   );
@@ -109,32 +136,42 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
     if (!number || busy.has(number)) return;
     focusAfter.current = null;
     const button =
-      root.current?.querySelector<HTMLElement>(`button[data-advance="${number}"]:not(:disabled)`) ??
-      root.current?.querySelector<HTMLElement>(`button[data-history="${number}"]`);
+      root.current?.querySelector<HTMLElement>(
+        `button[data-advance="${number}"]:not(:disabled)`,
+      ) ??
+      root.current?.querySelector<HTMLElement>(
+        `button[data-history="${number}"]`,
+      );
     button?.focus();
   });
 
   async function advance(guide: Guide) {
     // La ref bloquea un segundo clic que llegue antes de que React deshabilite el botón.
-    if (inFlight.current.has(guide.number)) return;
-    inFlight.current.add(guide.number);
+    if (inFlight.current.has(guide.trackingNumber)) return;
+    inFlight.current.add(guide.trackingNumber);
     setBusy(new Set(inFlight.current));
     setNotice(null);
-    focusAfter.current = guide.number;
+    focusAfter.current = guide.trackingNumber;
     try {
-      const updated = await onAdvance(guide.number, { location });
+      const updated = await onAdvance(guide.trackingNumber, {
+        stage: nextStage(guide.currentStatus) ?? undefined,
+        location,
+      });
       setNotice({
         kind: "ok",
-        text: `La guía ${formatGuideNumber(updated.number)} avanzó a “${getStage(updated.currentStage).label}” en ${location}.`,
+        text: `La guía ${formatGuideNumber(updated.trackingNumber)} avanzó a “${getStage(updated.currentStatus).label}”${location ? ` en ${location}` : ""}.`,
       });
     } catch (error) {
       focusAfter.current = null;
       setNotice({
         kind: "error",
-        text: error instanceof Error ? error.message : "No se pudo avanzar la guía.",
+        text:
+          error instanceof Error
+            ? error.message
+            : "No se pudo avanzar la guía.",
       });
     } finally {
-      inFlight.current.delete(guide.number);
+      inFlight.current.delete(guide.trackingNumber);
       setBusy(new Set(inFlight.current));
     }
   }
@@ -145,7 +182,7 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
     <div ref={root} className="guides-table">
       <div className="guides-table__filters">
         <TextField
-          label="Buscar por número o destinatario"
+          label="Buscar por número, destino o destinatario"
           type="search"
           value={query}
           onChange={(event) => {
@@ -181,7 +218,8 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
             setLocation(event.target.value);
           }}
         >
-          {OPERATION_LOCATIONS.map((place) => (
+          <option value="">Sin ubicación</option>
+          {NETWORK_NODES.map(({ name: place }) => (
             <option key={place} value={place}>
               {place}
             </option>
@@ -202,7 +240,10 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
         </div>
         {notice?.kind === "error" ? (
           <p role="alert" className="notice notice--danger guides-table__error">
-            <CircleAlert className="guides-table__error-icon" aria-hidden="true" />
+            <CircleAlert
+              className="guides-table__error-icon"
+              aria-hidden="true"
+            />
             {notice.text}
           </p>
         ) : null}
@@ -211,7 +252,9 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
       {visible.length === 0 ? (
         <div className="empty-state">
           <SearchX className="empty-state__icon" aria-hidden="true" />
-          <h3 className="empty-state__title">{filtered ? "Ninguna guía coincide" : "Todavía no hay guías"}</h3>
+          <h3 className="empty-state__title">
+            {filtered ? "Ninguna guía coincide" : "Todavía no hay guías"}
+          </h3>
           <p className="empty-state__text">
             {filtered
               ? "Cambia la búsqueda o el filtro de etapa para ver más guías."
@@ -232,45 +275,74 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
       ) : isWide ? (
         <div className="guides-table__scroll">
           <table className="guides-table__table">
-            <caption className="visually-hidden">Guías registradas, de la más reciente a la más antigua</caption>
+            <caption className="visually-hidden">
+              Guías registradas, de la más reciente a la más antigua
+            </caption>
             <thead className="guides-table__head">
               <tr>
-                <th scope="col" className="guides-table__th">Guía y destinatario</th>
-                <th scope="col" className="guides-table__th">Ruta y servicio</th>
-                <th scope="col" className="guides-table__th">Etapa</th>
-                <th scope="col" className="guides-table__th">Última actualización</th>
-                <th scope="col" className="guides-table__th">Acciones</th>
+                <th scope="col" className="guides-table__th">
+                  Guía y destinatario
+                </th>
+                <th scope="col" className="guides-table__th">
+                  Ruta y servicio
+                </th>
+                <th scope="col" className="guides-table__th">
+                  Etapa
+                </th>
+                <th scope="col" className="guides-table__th">
+                  Última actualización
+                </th>
+                <th scope="col" className="guides-table__th">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
               {visible.map((guide) => (
-                <tr key={guide.number} className="guides-table__row">
-                  <th scope="row" className="guides-table__cell guides-table__cell--row-header">
-                    <span className="guides-table__number">{formatGuideNumber(guide.number)}</span>
-                    <span className="guides-table__recipient">{guide.recipient}</span>
+                <tr key={guide.trackingNumber} className="guides-table__row">
+                  <th
+                    scope="row"
+                    className="guides-table__cell guides-table__cell--row-header"
+                  >
+                    <Link
+                      to={`/panel/guias/${guide.trackingNumber}`}
+                      className="guides-table__number text-link"
+                    >
+                      {formatGuideNumber(guide.trackingNumber)}
+                    </Link>
+                    <span className="guides-table__recipient">
+                      {guide.recipient}
+                    </span>
                   </th>
                   <td className="guides-table__cell guides-table__cell--route">
                     <span className="guides-table__route">
                       {guide.origin}
-                      <ArrowRight className="guides-table__arrow" aria-hidden="true" />
+                      <ArrowRight
+                        className="guides-table__arrow"
+                        aria-hidden="true"
+                      />
                       <span className="visually-hidden">hacia</span>
                       {guide.destination}
                     </span>
-                    <span className="guides-table__service">{SERVICE_WINDOWS[guide.service].label}</span>
+                    <span className="guides-table__service">
+                      {SERVICE_WINDOWS[guide.serviceLevel].label}
+                    </span>
                   </td>
                   <td className="guides-table__cell">
-                    <StageBadge code={guide.currentStage} />
+                    <StageBadge code={guide.currentStatus} />
                   </td>
-                  <td className="guides-table__cell guides-table__cell--date">{formatDateTime(lastUpdate(guide))}</td>
+                  <td className="guides-table__cell guides-table__cell--date">
+                    {formatDateTime(lastUpdate(guide))}
+                  </td>
                   <td className="guides-table__cell">
                     <GuideActions
                       guide={guide}
-                      busy={busy.has(guide.number)}
+                      busy={busy.has(guide.trackingNumber)}
                       onAdvance={() => {
                         void advance(guide);
                       }}
                       onHistory={() => {
-                        onHistory(guide.number);
+                        onHistory(guide.trackingNumber);
                       }}
                     />
                   </td>
@@ -282,13 +354,20 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
       ) : (
         <ul className="guides-table__cards">
           {visible.map((guide) => (
-            <li key={guide.number} className="guides-table__card">
+            <li key={guide.trackingNumber} className="guides-table__card">
               <div className="guides-table__card-header">
                 <div className="guides-table__card-id">
-                  <span className="guides-table__card-number">{formatGuideNumber(guide.number)}</span>
-                  <span className="guides-table__recipient">{guide.recipient}</span>
+                  <Link
+                    to={`/panel/guias/${guide.trackingNumber}`}
+                    className="guides-table__card-number text-link"
+                  >
+                    {formatGuideNumber(guide.trackingNumber)}
+                  </Link>
+                  <span className="guides-table__recipient">
+                    {guide.recipient}
+                  </span>
                 </div>
-                <StageBadge code={guide.currentStage} />
+                <StageBadge code={guide.currentStatus} />
               </div>
               <dl className="guides-table__details">
                 <dt className="guides-table__term">Ruta</dt>
@@ -299,18 +378,22 @@ export function GuidesTable({ guides, onAdvance, onHistory }: GuidesTableProps) 
                   {guide.destination}
                 </dd>
                 <dt className="guides-table__term">Servicio</dt>
-                <dd className="guides-table__detail">{SERVICE_WINDOWS[guide.service].label}</dd>
+                <dd className="guides-table__detail">
+                  {SERVICE_WINDOWS[guide.serviceLevel].label}
+                </dd>
                 <dt className="guides-table__term">Actualizada</dt>
-                <dd className="guides-table__detail guides-table__detail--date">{formatDateTime(lastUpdate(guide))}</dd>
+                <dd className="guides-table__detail guides-table__detail--date">
+                  {formatDateTime(lastUpdate(guide))}
+                </dd>
               </dl>
               <GuideActions
                 guide={guide}
-                busy={busy.has(guide.number)}
+                busy={busy.has(guide.trackingNumber)}
                 onAdvance={() => {
                   void advance(guide);
                 }}
                 onHistory={() => {
-                  onHistory(guide.number);
+                  onHistory(guide.trackingNumber);
                 }}
               />
             </li>
