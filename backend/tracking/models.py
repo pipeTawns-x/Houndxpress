@@ -31,6 +31,8 @@ from django.core.validators import RegexValidator
 from django.db import models, router, transaction
 from django.utils import timezone
 
+from accounts.models import Department
+
 TRACKING_NUMBER_VALIDATOR = RegexValidator(
     r"^(21[0-9]{14}|[A-Z0-9]{22})$",
     "Número de guía inválido: 16 dígitos que empiezan con 21 o 22 caracteres alfanuméricos "
@@ -65,6 +67,11 @@ def _validate_stage_transition(history_count, stage):
         raise ValidationError(
             f"Etapa inválida: la siguiente etapa de la guía es «{Stage(expected).label}»."
         )
+
+
+def _validate_not_archived(guide):
+    if guide.is_archived:
+        raise ValidationError("Una guía archivada no admite nuevas etapas.")
 
 
 def _validate_history_prefix(history_stages):
@@ -183,6 +190,10 @@ class Guide(models.Model):
         ordering = ["-created_at"]
         constraints = [
             models.CheckConstraint(
+                condition=models.Q(service_level__in=ServiceLevel.values),
+                name="service_level_valid",
+            ),
+            models.CheckConstraint(
                 condition=models.Q(tracking_number__regex=r"^(21[0-9]{14}|[A-Z0-9]{22})$"),
                 name="tracking_number_format",
             ),
@@ -283,13 +294,14 @@ class StatusHistoryQuerySet(models.QuerySet):
             for guide_id, stage in (
                 StatusHistory._base_manager.using(using)
                 .filter(guide_id__in=guide_ids)
-                .order_by("guide_id", "timestamp", "pk")
+                .order_by("guide_id", "pk")
                 .values_list("guide_id", "stage")
             ):
                 history_stages[guide_id].append(stage)
 
             existing_counts = {}
             for guide_id, guide in guides.items():
+                _validate_not_archived(guide)
                 stages = history_stages[guide_id]
                 _validate_history_prefix(stages)
                 _validate_guide_stage(len(stages), guide.current_stage)
@@ -330,6 +342,7 @@ class StatusHistory(models.Model):
     updated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.PROTECT
     )
+    department = models.CharField(max_length=20, blank=True, choices=Department.choices)
     location = models.CharField(max_length=100, blank=True)
     note = models.TextField(blank=True)
 
@@ -374,10 +387,11 @@ class StatusHistory(models.Model):
         using = using or router.db_for_write(type(self), instance=self)
         with transaction.atomic(using=using):
             guide = Guide._base_manager.using(using).select_for_update().get(pk=self.guide_id)
+            _validate_not_archived(guide)
             existing_stages = list(
                 StatusHistory._base_manager.using(using)
                 .filter(guide_id=self.guide_id)
-                .order_by("timestamp", "pk")
+                .order_by("pk")
                 .values_list("stage", flat=True)
             )
             _validate_history_prefix(existing_stages)
@@ -398,3 +412,25 @@ class StatusHistory(models.Model):
 
     def delete(self, *args, **kwargs):
         raise ValidationError("StatusHistory es de solo inserción, no se permite eliminar.")
+
+
+class StageTransitionAttempt(models.Model):
+    """Auditoría de los avances rechazados sin modificar el historial válido."""
+
+    guide = models.ForeignKey(Guide, on_delete=models.PROTECT)
+    requested_stage = models.CharField(max_length=20, choices=Stage.choices)
+    current_stage = models.CharField(max_length=20, choices=Stage.choices)
+    attempted_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.PROTECT)
+    attempted_at = models.DateTimeField(auto_now_add=True)
+    reason = models.CharField(
+        max_length=20,
+        choices=[
+            ("skip", "Salto"),
+            ("backwards", "Retroceso"),
+            ("delivered", "Entregada"),
+            ("archived", "Archivada"),
+        ],
+    )
+
+    def __str__(self):
+        return f"{self.guide_id}: {self.requested_stage} ({self.reason})"

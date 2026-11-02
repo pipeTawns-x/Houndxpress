@@ -1,0 +1,55 @@
+// Panel de operaciones (`/panel`): resumen, registro de guías y lista.
+
+@use "../abstracts" as *;
+
+.panel-page {
+  @include stack(space(12));
+  padding-block: space(10);
+
+  @include up(md) {
+    padding-block: space(14);
+  }
+
+  &__section {
+    @include stack(space(5));
+  }
+
+  &__title {
+    @include type(h2);
+    font-weight: $font-weight-bold;
+  }
+
+  &__card {
+    padding: space(5);
+    border-radius: $radius-3xl;
+    background-color: $color-white;
+    @include ring($color-line, $shadow-soft);
+
+    @include up(sm) {
+      padding: space(8);
+    }
+  }
+}
+
+// "Restablecer datos de ejemplo": pide confirmación porque borra lo que se haya registrado.
+.reset-demo {
+  @include stack(space(3));
+
+  &__text {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-ink;
+  }
+
+  &__error {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-danger;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+  }
+}

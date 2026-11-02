@@ -1,0 +1,33 @@
+// Foco visible, texto solo para lectores de pantalla y movimiento reducido.
+
+@use "../abstracts" as *;
+
+// Anillo de foco: aqua de 3 px con 2 px de separación y un aro marino sobre fondo claro.
+:focus-visible {
+  @include focus-ring;
+}
+
+// <main> recibe el foco al navegar; no es interactivo y no necesita anillo.
+main:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+// Texto solo para lectores de pantalla.
+.visually-hidden {
+  @include visually-hidden;
+}
+
+// Movimiento reducido: nada se anima ni se desplaza suavemente. Las animaciones
+// de cada componente ya se declaran dentro de `motion-safe`; esta regla es la red de seguridad.
+@include reduced-motion {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

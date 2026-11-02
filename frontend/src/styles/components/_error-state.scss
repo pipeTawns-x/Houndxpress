@@ -1,0 +1,52 @@
+// Pantalla de error del ErrorBoundary: icono, mensaje y acciones centradas.
+
+@use "../abstracts" as *;
+
+.error-state {
+  @include stack(space(6));
+  align-items: center;
+  padding-block: space(20);
+  text-align: center;
+
+  @include up(md) {
+    padding-block: space(28);
+  }
+
+  &__icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include square(space(14));
+    border-radius: $radius-2xl;
+    background-color: $color-danger-soft;
+    color: $color-danger;
+  }
+
+  &__icon {
+    @include square(space(7));
+  }
+
+  &__copy {
+    @include stack(space(3));
+    max-width: 32rem;
+  }
+
+  &__title {
+    @include type(h1);
+    font-weight: $font-weight-extrabold;
+    letter-spacing: $tracking-tight;
+  }
+
+  &__text {
+    @include type(lead);
+    color: $color-muted;
+  }
+
+  &__actions {
+    @include stack(space(3));
+
+    @include up(sm) {
+      flex-direction: row;
+    }
+  }
+}

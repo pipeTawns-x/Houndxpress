@@ -2,7 +2,7 @@
 
 Plataforma para registrar las guías de carga de Hound Express y asegurar que cada una avance por las cinco etapas del proceso, en el orden establecido. El backend es una API en Django; el frontend, una aplicación en React que vive en su propia rama (ver [Ramas](#ramas)).
 
-**Estado actual: Fase 1 completa.** El backend ya guarda guías y un historial de etapas que no se edita ni se borra, con las reglas en el modelo y restricciones en la base de datos. La API de guías es la Fase 2; hoy el único endpoint es el de salud (`/api/v1/health/`).
+**Estado actual: API de guías implementada.** Incluye sesiones con CSRF, operaciones de personal, historial inmutable, rastreo público mínimo y salud. Las pruebas locales verifican el contrato; la integración y el despliegue siguen pendientes.
 
 ## Estado por fase
 
@@ -10,8 +10,8 @@ Plataforma para registrar las guías de carga de Hound Express y asegurar que ca
 |---|---|---|
 | 0 · base del proyecto | Proyecto Django con las apps `accounts`, `core` y `tracking`, modelo de usuario propio, punto de salud y CI | Hecha |
 | 1 · base de datos | `Guide` y `StatusHistory` (historial de solo inserción) con restricciones en la base, departamento de cada usuario, panel de administración y guías de demostración | Hecha |
-| 2 · API | Endpoints GET (estado actual de una guía), POST (registrar una guía) y PUT (actualizar el estatus) con validación del orden de etapas | Planeada |
-| 3 · integración y despliegue | Frontend conectado a la API, documentación para ejecutar el proyecto y despliegue | Planeada |
+| 2 · API | Listado paginado, alta, detalle, avance, archivo lógico, historial y resumen; sesiones con CSRF y rastreo público mínimo | Hecha |
+| 3 · integración y despliegue | Frontend conectado a la API y documentación: hecho. Despliegue público: planeado | En curso |
 
 ## Qué contiene esta rama
 
@@ -23,10 +23,41 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Modelo de usuario propio, creado antes de la primera migración, con el departamento del personal | [`backend/accounts/models.py`](backend/accounts/models.py), [`backend/accounts/migrations/`](backend/accounts/migrations/) |
 | Guías y historial de etapas de solo inserción, con restricciones en la base | [`backend/tracking/models.py`](backend/tracking/models.py), [`backend/tracking/migrations/`](backend/tracking/migrations/), [`backend/tracking/tests/test_models.py`](backend/tracking/tests/test_models.py) |
 | Panel de administración de guías con el historial en solo lectura | [`backend/tracking/admin.py`](backend/tracking/admin.py) |
-| API con Django REST Framework: punto de salud que consulta la base de datos | [`backend/core/views.py`](backend/core/views.py), [`backend/core/tests/test_health.py`](backend/core/tests/test_health.py) |
+| API DRF: salud, guías de personal, alias compatibles y rastreo público de 1 a 10 números | [`backend/tracking/api/urls.py`](backend/tracking/api/urls.py), [`backend/tracking/tests/test_api.py`](backend/tracking/tests/test_api.py), [`backend/core/views.py`](backend/core/views.py) |
+| Autenticación por sesión: `csrf` (cuerpo `csrfToken`), `login`, `logout` y `me`; login limitado a 5 intentos/minuto por IP | [`backend/accounts/api/views.py`](backend/accounts/api/views.py) |
+| DELETE archiva sin borrar historial y responde 204; PUT repetido no inserta filas; rechazos de avance quedan auditados | [`backend/tracking/services.py`](backend/tracking/services.py) |
+| Rastreo limitado a 60 números/minuto por IP; muestra ubicaciones del catálogo cerrado y oculta valores antiguos no catalogados | [`backend/tracking/api/throttles.py`](backend/tracking/api/throttles.py), [`backend/tracking/api/serializers.py`](backend/tracking/api/serializers.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Lint y 109 pruebas automáticas en Linux (Python 3.10 y 3.12) y Windows | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 157 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 310 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido | [`frontend/`](frontend/) |
+| Pila con Docker: Django y nginx con la web compilada | [`docker-compose.yml`](docker-compose.yml) |
+
+## API de guías
+
+Base: `/api/v1/`. Las operaciones de guías requieren sesión de personal activo
+(`is_staff`). Para escribir, obtener `csrfToken` de `GET /api/v1/auth/csrf/` y
+enviarlo en `X-CSRFToken`, conservando las cookies de sesión y CSRF.
+
+| Método y ruta | Uso |
+|---|---|
+| `GET /guides/?search=Monterrey` | Busca por parte del número o del destino; sin búsqueda devuelve el listado normal. Cursor por fecha descendente, 20 resultados por defecto; `page_size` máximo 100. |
+| `POST /guides/` | Alta con `trackingNumber`, `origin`, `destination`, `recipient` y `serviceLevel` opcional; responde 201 con la primera etapa. |
+| `GET /guides/{number}/` y `GET /guides/{number}/history/` | Detalle e historial del personal. |
+| `PUT /guides/{number}/` | Avanza con `stage` y `location` opcional. Solo acepta las ubicaciones exactas de [`ALLOWED_LOCATIONS`](backend/tracking/values.py); omitirla o enviar cadena vacía no agrega ubicación. |
+| `DELETE /guides/{number}/` | Archiva sin borrar filas ni historial; responde 204 sin cuerpo. |
+| `GET /guides/summary/` | Contadores de guías no archivadas. |
+| `GET /public/track/?numbers=a,b` | Público, de 1 a 10 números; devuelve estado e historial mínimo con ubicación catalogada. Las ubicaciones antiguas fuera del catálogo quedan vacías en público, sin modificar los datos guardados. |
+| `POST /auth/login/`, `POST /auth/logout/`, `GET /auth/me/` | Inicio con `username` y `password`, cierre de sesión y perfil; login también exige CSRF. |
+
+Los errores incluyen `detail` y `code`: validación 400, acceso 403, recurso
+inexistente 404, duplicado o transición inválida 409 y límite excedido 429. El PUT
+de la etapa actual es idempotente. Los alias de compatibilidad se mantienen en
+[`tracking/api/urls.py`](backend/tracking/api/urls.py).
+
+En desarrollo, los orígenes de los proxies locales de React están permitidos por
+`CSRF_TRUSTED_ORIGINS`. En producción, definir los orígenes HTTPS autorizados con
+`DJANGO_CSRF_TRUSTED_ORIGINS`; no se habilitan orígenes arbitrarios.
 
 ## Inicio rápido
 
@@ -84,6 +115,24 @@ Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv
 En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 109 tests` seguido de `OK`, y luego `All checks passed!`.
 
 Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>. Para cargar guías de demostración en la base local: `.venv/bin/python manage.py loaddata demo_guides`.
+
+## La web
+
+La web está en `frontend/`. En desarrollo usa el proxy de Vite hacia Django, así que primero levanta la API (ver *Inicio rápido*) y después:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Abre <http://localhost:5173/>. Para entrar al panel, crea un usuario de personal desde `backend/` con `python manage.py createsuperuser`, y carga datos de ejemplo con `python manage.py loaddata demo_guides`.
+
+Con Docker, `docker compose up --build` levanta Django en <http://localhost:8000/> y la web en <http://localhost:8080/>.
+
+Verificación del frontend: `npm test` (310 pruebas), `npm run typecheck`, `npm run lint` y `npm run build`.
+
+Las imágenes y el video son propios e ilustrativos: no son fotos reales de Hound Express. Su origen está en [`docs/imagenes-del-sitio.md`](docs/imagenes-del-sitio.md).
 
 ## Configuración
 

@@ -1,0 +1,22 @@
+// Enlace dentro de un texto: aqua-700 subrayado sobre claro; `--inverse` sobre fondo marino.
+
+@use "../abstracts" as *;
+
+.text-link {
+  font-weight: $font-weight-semibold;
+  color: $color-aqua-700;
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
+
+  @include hover {
+    color: $color-navy-800;
+  }
+
+  &--inverse {
+    color: $color-white;
+
+    @include hover {
+      color: $color-aqua-400;
+    }
+  }
+}

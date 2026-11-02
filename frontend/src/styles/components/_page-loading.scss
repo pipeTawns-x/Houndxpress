@@ -1,0 +1,11 @@
+// Indicador mientras se descarga una pantalla que carga bajo demanda.
+
+@use "../abstracts" as *;
+
+.page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  color: $color-muted;
+}

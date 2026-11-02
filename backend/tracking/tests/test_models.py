@@ -888,3 +888,32 @@ class TrackingAuditGuaranteesTest(TestCase):
 
         guide.refresh_from_db()
         self.assertEqual(guide.current_stage, Stage.CARGO_RECEIVED)
+
+
+class ArchivedGuideHistoryTests(TestCase):
+    def archived_guide(self):
+        guide = make_guide()
+        StatusHistory.objects.create(guide=guide, stage=Stage.CARGO_RECEIVED)
+        guide.refresh_from_db()
+        guide.is_archived = True
+        guide.save(update_fields=["is_archived", "updated_at"])
+        return guide
+
+    def assert_not_advanced(self, guide):
+        guide.refresh_from_db()
+        self.assertEqual(guide.current_stage, Stage.CARGO_RECEIVED)
+        self.assertEqual(guide.status_history.count(), 1)
+
+    def test_single_insert_on_an_archived_guide_is_rejected(self):
+        guide = self.archived_guide()
+        with self.assertRaises(ValidationError):
+            StatusHistory.objects.create(guide=guide, stage=Stage.VEHICLE_LOADED)
+        self.assert_not_advanced(guide)
+
+    def test_bulk_insert_on_an_archived_guide_is_rejected(self):
+        guide = self.archived_guide()
+        with self.assertRaises(ValidationError):
+            StatusHistory.objects.bulk_create(
+                [StatusHistory(guide=guide, stage=Stage.VEHICLE_LOADED)]
+            )
+        self.assert_not_advanced(guide)
