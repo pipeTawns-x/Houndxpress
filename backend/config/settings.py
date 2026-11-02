@@ -60,6 +60,15 @@ ALLOWED_HOSTS = env_list(
 if not DEBUG and not ALLOWED_HOSTS:
     raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG is false.")
 
+# The React app reaches the API through a proxy (Vite :5173, nginx :8080), so the browser sends
+# that origin. Production lists its own HTTPS origin in this variable.
+CSRF_TRUSTED_ORIGINS = env_list(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    [f"http://{host}:{port}" for host in ("localhost", "127.0.0.1") for port in (5173, 8080)]
+    if DEBUG
+    else [],
+)
+
 if not DEBUG:
     # Production only: local development keeps plain HTTP and the default cookie names.
     # With these values `manage.py check --deploy` reports no issues.
@@ -185,8 +194,39 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
-    "DEFAULT_THROTTLE_RATES": {"anon": "60/minute", "user": "120/minute"},
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "60/minute",
+        "user": "120/minute",
+        "public_track": "60/minute",
+        "login": "5/minute",
+    },
     # Identify clients by REMOTE_ADDR. X-Forwarded-For comes from the client, so trusting it
     # would let anyone reset their limit. Set it to the proxy count once deployment adds one.
     "NUM_PROXIES": 0,
+}
+
+
+# Redact public tracking query strings in development access logs too.
+# The production proxy/server must apply the same redaction to its own access log.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"public_track_query": {"()": "config.logging.PublicTrackQueryFilter"}},
+    "formatters": {
+        "django.server": {
+            "()": "django.utils.log.ServerFormatter",
+            "format": "[{server_time}] {message}",
+            "style": "{",
+        },
+    },
+    "loggers": {
+        "django.server": {"handlers": ["django.server"], "level": "INFO", "propagate": False},
+    },
+    "handlers": {
+        "django.server": {
+            "class": "logging.StreamHandler",
+            "filters": ["public_track_query"],
+            "formatter": "django.server",
+        },
+    },
 }
