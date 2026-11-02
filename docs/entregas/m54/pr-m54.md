@@ -1,3 +1,26 @@
+# M54.3
+
+Título: `M54.3: web completa con React y la API de guías`
+PR: de `entrega/m54-3` a `practicas-ebac` (código tomado de `pruebas`). Tag: `m54.3`
+
+Suma la web completa sobre las entidades del M54. El .zip del diseño se usó como referencia, no como copia.
+
+## Qué incluye
+
+- API en Django: guías, avance de etapas, historial, archivo, resumen, rastreo público y sesión.
+- Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido.
+- Imágenes y video propios, generados para el proyecto. Son ilustrativos.
+- 13 historias de usuario con criterios de aceptación en `odd/tasks/web-completa.md`.
+- Diagramas de arquitectura y secuencia actualizados.
+
+## Límites
+
+Sin despliegue público (M66). Sin portal de cliente, blog, noticias, ofertas ni alianzas, porque no hay contenido real confirmado.
+
+## Cómo probarlo
+
+Desde `backend/`: `python manage.py migrate`, `python manage.py loaddata demo_guides`, `python manage.py createsuperuser`, `python manage.py test` y `python manage.py runserver`. Desde `frontend/`: `npm ci`, `npm test` y `npm run dev`. Con Docker: `docker compose up --build`. Resultado esperado: `Ran 157 tests`, 310 pruebas de Jest y la web en <http://localhost:5173/>.
+
 # M54.2
 
 Título: `M54.2: fecha de actualización del usuario y matriz de requisitos campo por campo`
