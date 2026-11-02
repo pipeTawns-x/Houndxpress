@@ -15,10 +15,11 @@ export interface GuidesState {
   canReset: boolean;
   /** `requestId` de la lectura más reciente: la respuesta de una lectura anterior se descarta. */
   latestReadId: string | null;
+  sessionGeneration: number;
 }
 
 export function createInitialGuidesState(canReset = false): GuidesState {
-  return { items: [], status: "idle", error: null, canReset, latestReadId: null };
+  return { items: [], status: "idle", error: null, canReset, latestReadId: null, sessionGeneration: 0 };
 }
 
 export function errorMessage(error: unknown): string {
@@ -33,6 +34,7 @@ export function errorMessage(error: unknown): string {
  */
 const createAppAsyncThunk = createAsyncThunk.withTypes<{
   extra: GuideRepository;
+  state: { guides: GuidesState };
   rejectValue: unknown;
 }>();
 
@@ -62,12 +64,16 @@ export const fetchGuides = createAppAsyncThunk(
  */
 export const createGuide = createAppAsyncThunk(
   "guides/createGuide",
-  async (input: NewGuideInput, { extra: repository, dispatch, rejectWithValue }) => {
+  async (input: NewGuideInput, { extra: repository, dispatch, getState, rejectWithValue }) => {
+    const generation = getState().guides.sessionGeneration;
     let guide: Guide;
     try {
       guide = await repository.create(input);
     } catch (error) {
       return rejectWithValue(error);
+    }
+    if (generation !== getState().guides.sessionGeneration) {
+      return rejectWithValue(new Error("La sesión cambió. Vuelve a iniciar sesión para continuar."));
     }
     await dispatch(fetchGuides({ background: true }));
     return guide;
@@ -75,7 +81,7 @@ export const createGuide = createAppAsyncThunk(
 );
 
 export interface AdvanceGuideArg {
-  number: string;
+  trackingNumber: string;
   input: AdvanceInput;
 }
 
@@ -85,12 +91,19 @@ export interface AdvanceGuideArg {
  */
 export const advanceGuide = createAppAsyncThunk(
   "guides/advanceGuide",
-  async ({ number, input }: AdvanceGuideArg, { extra: repository, dispatch, rejectWithValue }) => {
+  async (
+    { trackingNumber: number, input }: AdvanceGuideArg,
+    { extra: repository, dispatch, getState, rejectWithValue },
+  ) => {
+    const generation = getState().guides.sessionGeneration;
     let guide: Guide;
     try {
       guide = await repository.advance(number, input);
     } catch (error) {
       return rejectWithValue(error);
+    }
+    if (generation !== getState().guides.sessionGeneration) {
+      return rejectWithValue(new Error("La sesión cambió. Vuelve a iniciar sesión para continuar."));
     }
     await dispatch(fetchGuides({ background: true }));
     return guide;
@@ -115,7 +128,12 @@ export const resetGuides = createAppAsyncThunk(
 const guidesSlice = createSlice({
   name: "guides",
   initialState: createInitialGuidesState(),
-  reducers: {},
+  reducers: {
+    clearGuides: (state) => ({
+      ...createInitialGuidesState(),
+      sessionGeneration: state.sessionGeneration + 1,
+    }),
+  },
   // Solo la lectura toca la lista. Las escrituras (create, advance, reset) no guardan nada aquí:
   // terminan con una lectura, y el reducer guarda lo que devuelve el repositorio.
   extraReducers: (builder) => {
@@ -144,3 +162,5 @@ const guidesSlice = createSlice({
 });
 
 export const guidesReducer = guidesSlice.reducer;
+
+export const { clearGuides } = guidesSlice.actions;

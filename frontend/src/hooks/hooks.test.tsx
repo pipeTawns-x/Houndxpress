@@ -84,20 +84,20 @@ describe("useGuides", () => {
 
     await act(async () => {
       await result.current.create({
-        number: "2100000000000001",
+        trackingNumber: "2100000000000001",
         origin: "Laredo, TX",
         destination: "Monterrey, N.L.",
         recipient: "Ana Ruiz",
-        service: "standard",
+        serviceLevel: "standard",
       });
     });
     expect(result.current.guides).toHaveLength(9);
-    expect(result.current.guides[0]?.currentStage).toBe("cargo_received");
+    expect(result.current.guides[0]?.currentStatus).toBe("cargo_received");
 
     await act(async () => {
       await result.current.advance("2100000000000001", { location: "Laredo, TX" });
     });
-    expect(result.current.guides.find((guide) => guide.number === "2100000000000001")?.currentStage).toBe("vehicle_loaded");
+    expect(result.current.guides.find((guide) => guide.trackingNumber === "2100000000000001")?.currentStatus).toBe("vehicle_loaded");
   });
 
   it("expone reset solo cuando el repositorio lo tiene y restablece las guías", async () => {
@@ -112,7 +112,7 @@ describe("useGuides", () => {
     await act(async () => {
       await result.current.reset?.();
     });
-    expect(result.current.guides.find((guide) => guide.number === "2148213907650312")?.currentStage).toBe("cargo_received");
+    expect(result.current.guides.find((guide) => guide.trackingNumber === "2148213907650312")?.currentStatus).toBe("cargo_received");
 
     const withoutReset: GuideRepository = {
       list: () => Promise.resolve([]),
@@ -155,15 +155,15 @@ describe("useGuides", () => {
 
     await act(async () => {
       await first.result.current.create({
-        number: "2100000000000001",
+        trackingNumber: "2100000000000001",
         origin: "Laredo, TX",
         destination: "Monterrey, N.L.",
         recipient: "Ana Ruiz",
-        service: "standard",
+        serviceLevel: "standard",
       });
     });
     expect(second.result.current.guides).toHaveLength(9);
-    expect(second.result.current.guides[0]?.number).toBe("2100000000000001");
+    expect(second.result.current.guides[0]?.trackingNumber).toBe("2100000000000001");
   });
 
   it("al volver a montarse muestra la lista que el almacén ya tenía y la actualiza sin pasar por 'loading'", async () => {

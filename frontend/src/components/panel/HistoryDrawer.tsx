@@ -20,7 +20,7 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
   useModalBehavior(panelRef, onClose);
   useScrollLock(true);
 
-  const stage = getStage(guide.currentStage);
+  const stage = getStage(guide.currentStatus);
 
   return (
     <div className="history-drawer">
@@ -37,7 +37,7 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
           <div className="history-drawer__heading">
             <p className="history-drawer__kicker">Historial de la guía</p>
             <h2 id={titleId} className="history-drawer__title">
-              {formatGuideNumber(guide.number)}
+              {formatGuideNumber(guide.trackingNumber)}
             </h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} className="history-drawer__close" aria-label="Cerrar historial">
@@ -46,7 +46,7 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
         </header>
 
         <div className="history-drawer__summary">
-          <StageBadge code={guide.currentStage} className="history-drawer__badge" />
+          <StageBadge code={guide.currentStatus} className="history-drawer__badge" />
           <p className="history-drawer__stage">
             <strong className="history-drawer__stage-name">{stage.label}</strong> · {stage.department}
           </p>
@@ -61,7 +61,7 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
               {guide.destination}
             </dd>
             <dt className="history-drawer__term">Servicio</dt>
-            <dd className="history-drawer__value">{SERVICE_WINDOWS[guide.service].label}</dd>
+            <dd className="history-drawer__value">{SERVICE_WINDOWS[guide.serviceLevel].label}</dd>
             <dt className="history-drawer__term">Registrada</dt>
             <dd className="history-drawer__value">{formatDateTime(guide.createdAt)}</dd>
           </dl>
@@ -74,7 +74,7 @@ export function HistoryDrawer({ guide, onClose }: { guide: Guide; onClose: () =>
             </h3>
             <p className="history-drawer__note">{TIME_ZONE_NOTE}</p>
           </div>
-          <StageTimeline currentStage={guide.currentStage} history={guide.history} layout="vertical" showDetails />
+          <StageTimeline currentStatus={guide.currentStatus} history={guide.history} layout="vertical" showDetails />
         </section>
       </div>
     </div>

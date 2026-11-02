@@ -2,14 +2,14 @@
 
 Rediseño no oficial del sitio de Hound Express: sitio público, rastreo de guías y panel de operaciones. Es una aplicación de una sola página (React 19 + TypeScript + Vite, con los estilos en Sass con BEM, el estado de las guías en Redux Toolkit y las pruebas en Jest) que habla con la API Django de [`../backend`](../backend/) en el mismo origen.
 
-La especificación está en [`../docs/diseno/`](../docs/diseno/): investigación, decisiones ([`03-arquitecto.md`](../docs/diseno/03-arquitecto.md)) y sistema de diseño ([`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)). La ruta `/disenos` de la aplicación muestra ese sistema en vivo.
+La especificación está en [`../docs/diseno/`](../docs/diseno/): investigación, decisiones ([`03-arquitecto.md`](../docs/diseno/03-arquitecto.md)) y sistema de diseño ([`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)). La ruta `/disenos` muestra ese sistema solo en desarrollo (`import.meta.env.DEV`); no se incluye en producción.
 
-> **Datos de demostración.** El backend todavía no tiene endpoints de guías (llegan en la Fase 2). Por defecto la aplicación usa guías de ejemplo que se guardan solo en el navegador de quien la usa, y cada pantalla con guías lo dice. El único dato real es el estado de la API (`/api/v1/health/`).
+> **API como fuente de verdad.** El rastreo público consulta `/api/v1/public/track/`. El panel requiere una sesión de personal verificada en el servidor. No existe respaldo silencioso a datos locales cuando la API está desconectada.
 
 ## Requisitos
 
 - Node.js 20.19 o superior (se recomienda 22; ver `.nvmrc`) y npm.
-- Para ver el estado real de la API: el backend corriendo en `http://127.0.0.1:8000` (ver el README de la raíz).
+- Para rastreo y operaciones: el backend corriendo en `http://127.0.0.1:8000` (ver el README de la raíz).
 
 ## Comandos
 
@@ -25,24 +25,27 @@ Desde `frontend/`:
 | `npm run typecheck` | `tsc -b --noEmit` |
 | `npm test` | Jest (jsdom) con Testing Library. Para una sola prueba: `npx jest src/store` o `npx jest -t "texto del nombre"` |
 
-Resultado esperado de `npm test`: `Tests:       278 passed, 278 total`, en 24 suites.
+La evidencia medida y las limitaciones de la última implementación están en [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Cómo se conecta con Django
 
-En desarrollo (`npm run dev`) y en `npm run preview`, Vite reenvía `/api`, `/admin` y `/static` a `http://127.0.0.1:8000` (ver `vite.config.ts`). Con Docker (`docker compose up --build` desde la raíz), `Dockerfile` compila la aplicación y nginx la sirve en <http://localhost:8080> haciendo el mismo reenvío al contenedor `backend` (ver `nginx.conf`). El navegador siempre habla con un solo origen, así que no hace falta CORS. Si el backend no está encendido, el chip del pie y del panel dice "API sin conexión" y todo lo demás sigue funcionando con los datos de demostración.
+En desarrollo (`npm run dev`) y en `npm run preview`, Vite reenvía `/api`, `/admin` y `/static` a `http://127.0.0.1:8000` (ver `vite.config.ts`). Con Docker (`docker compose up --build` desde la raíz), `Dockerfile` compila la aplicación y nginx la sirve en <http://localhost:8080> haciendo el mismo reenvío al contenedor `backend` (ver `nginx.conf`). El navegador siempre habla con un solo origen, así que no hace falta CORS. Si el backend no está encendido, el chip del pie y del panel dice "API sin conexión" el rastreo ofrece reintentar y el panel permanece cerrado si no puede verificar la sesión.
 
-## Datos de demostración y `VITE_DATA_SOURCE`
+## Contrato HTTP y sesión
 
-El acceso a datos pasa por la interfaz `GuideRepository` (`src/services/guideRepository.ts`), con dos implementaciones:
+`httpRepository` es la implementación de producción de `GuideRepository`. Los datos de prueba de `demoRepository` solo se inyectan en las pruebas; `VITE_DATA_SOURCE` ya no activa datos locales.
 
-- `demoRepository` (por defecto): guarda las guías en `localStorage`, clave `hx.guides.v1`, y arranca con 8 guías de ejemplo. Si el almacenamiento no está disponible trabaja en memoria. "Restablecer datos de ejemplo" en el panel vuelve al estado inicial.
-- `httpRepository`: llama a `/api/v1/guides/` (lista, detalle, alta y `advance/`) con el contrato previsto para la Fase 2. Se activa así:
+- Lectura y alta: `GET` y `POST /api/v1/guides/`; detalle y avance: `GET` y `PUT /api/v1/guides/{trackingNumber}/`.
+- El alta envía `trackingNumber`, `origin`, `destination`, `recipient` y `serviceLevel`. El avance envía `stage` y `location`; nunca fecha, nota interna ni autor.
+- La lista recorre los cursores de DRF. Solo sigue páginas del mismo origen y ruta; rechaza ciclos.
+- El resumen global usa `/api/v1/guides/summary/`. Activas = etapas 1 a 4; en tránsito = etapa 4; entregadas = etapa 5.
+- El rastreo público pide de 1 a 10 números en una sola consulta. Su DTO solo contiene `trackingNumber`, `currentStatus` e historial con `stage`, `timestamp` y `location`. Nunca muestra destinatario, dirección privada ni estimación calculada.
+- `/acceso` inicia sesión. Todas las rutas `/panel`, incluido el detalle `/panel/guias/:trackingNumber`, esperan a `GET /api/v1/auth/me/` antes de montar contenido privado.
+- Antes de cada escritura se obtiene el token de `GET /api/v1/auth/csrf/` y se manda como `X-CSRFToken`. Nunca se leen cookies por nombre ni se guarda la contraseña.
+- Un 409 de transición se comunica como conflicto. El detalle requiere actualizar antes de intentar otro avance; solo se ofrece la etapa siguiente.
+- Cerrar sesión usa `POST /api/v1/auth/logout/` y limpia el estado privado de Redux. Las continuaciones de escrituras anteriores no repueblan el almacén.
 
-```bash
-VITE_DATA_SOURCE=api npm run dev     # o al compilar: VITE_DATA_SOURCE=api npm run build
-```
-
-La regla de avance es la del negocio y vive en `src/domain/`: la única etapa válida es la siguiente, y una guía entregada no avanza más.
+El servidor debe aplicar los permisos y la máquina de cinco etapas. El guard del navegador no sustituye los permisos del backend. Los formatos de autenticación asumidos son `{ "csrfToken": "..." }` y `{ "username": "...", "isStaff": true }`; la integración real debe confirmarlos.
 
 ## Estado con Redux
 
@@ -58,7 +61,7 @@ Las guías del panel viven en un almacén de Redux Toolkit (`@reduxjs/toolkit` y
 El flujo de datos, de un clic a la pantalla:
 
 ```text
-componente → useGuides() → dispatch(thunk) → thunk → GuideRepository (demo o API)
+componente → useGuides() → dispatch(thunk) → thunk → GuideRepository (API)
     ↑                                                        │
     └──────── useAppSelector ← reducer guarda lo que devolvió ┘
 ```
@@ -67,35 +70,22 @@ componente → useGuides() → dispatch(thunk) → thunk → GuideRepository (de
 - **Las escrituras terminan con una lectura.** `createGuide`, `advanceGuide` y `resetGuides` llaman al repositorio y después vuelven a leer la lista con `fetchGuides({ background: true })`. Los reducers no arman la lista: guardan lo que devuelve el repositorio, en su orden. La lectura en segundo plano no pasa por `loading`, para que el panel no parpadee ni se desmonte el formulario mientras se guarda.
 - **Solo cuenta la última lectura.** Cada lectura anota su `requestId`; la respuesta de una lectura anterior se descarta.
 - **Los errores llegan intactos.** Los thunks de escritura rechazan con `rejectWithValue(error)`, y `useGuides().create` o `.advance` lanzan ese mismo `Error` (`DomainError` o `RepositoryError`), porque el formulario y la tabla los distinguen con `instanceof`. El estado solo guarda el mensaje. Por eso `createAppStore` le dice a la revisión de serialización de Redux que un `Error` es válido dentro de una acción.
-- **Volver al panel.** Si el almacén ya tiene la lista, el panel la muestra al instante y la actualiza en segundo plano.
+- **Volver al panel.** Primero se verifica de nuevo la sesión. Después se muestra y actualiza la lista del almacén.
 
 ### Por qué el repositorio es el argumento extra del thunk
 
 `createAppStore(repository)` pasa el repositorio a `configureStore` como `thunk.extraArgument`, y los thunks lo reciben como `extra`. Así:
 
-1. **El almacén no conoce las implementaciones.** `src/main.tsx` elige una sola vez el repositorio (`demoRepository` o `httpRepository`, según `VITE_DATA_SOURCE`) y crea el almacén con él. Pasar de datos de demostración a la API Django (Fase 2) no toca ningún thunk ni reducer.
+1. **El almacén no conoce las implementaciones.** `src/main.tsx` elige una sola vez el repositorio (`httpRepository`) y crea el almacén con él. Los thunks no dependen del transporte HTTP.
 2. **Se prueba sin trucos.** Las pruebas crean un almacén nuevo con un repositorio falso (`src/test/fakeRepository.ts`) o con el de demostración sobre un almacenamiento en memoria; no hay que sustituir módulos ni compartir estado entre pruebas. `src/test/renderApp.tsx` crea un almacén por cada montaje.
 3. **La regla de negocio sigue en el dominio.** El repositorio aplica `advanceGuide` de `src/domain/` (solo la etapa siguiente) y rechaza lo demás; los reducers no la repiten. Una prueba lo demuestra: con un repositorio que saltara etapas, el almacén guardaría lo que este devuelva.
 4. **Sin globales.** El repositorio no viaja en el estado ni en las acciones, que solo llevan datos serializables.
 
-La búsqueda del rastreo (`useGuideLookup`) sigue con estado local: es una consulta pasajera ligada a la URL, que ninguna otra pantalla comparte, y sigue leyendo el repositorio del contexto de React (`RepositoryContext`).
+La búsqueda del rastreo (`useGuideLookup`) sigue con estado local: es una consulta pasajera ligada a la URL, que ninguna otra pantalla comparte, y consulta exclusivamente el endpoint público mediante `publicTracker`.
 
-### Guías de ejemplo
+### Datos de prueba
 
-Prueba el rastreo (`/rastreo`) con cualquiera de estos números. Se pueden escribir con espacios o guiones.
-
-| Número | Etapa inicial | Ruta |
-|---|---|---|
-| `2148 2139 0765 0312` | Recepción de carga | Miami, FL → Bogotá, Colombia |
-| `2103 9584 7201 6654` | Vehículo cargado | Laredo, TX → Ciudad de México |
-| `HX7Q 4M9K 2B8T 5W1N 6R3D 0C` | Vehículo cargado | Miami, FL → Buenos Aires, Argentina |
-| `2176 6402 1583 9927` | Vehículo liberado | Miami, FL → São Paulo, Brasil |
-| `2119 8753 0246 7781` | Vehículo en camino | Laredo, TX → Monterrey, N.L. |
-| `2187 1209 4556 3218` | Vehículo en camino | Miami, FL → Santiago, Chile |
-| `2154 3029 6817 0435` | Carga entregada | Laredo, TX → Guadalajara, Jal. |
-| `2131 7640 5820 9473` | Carga entregada | Laredo, TX → Ciudad de México |
-
-Un número válido es de 16 dígitos que inician con `21`, o de 22 caracteres alfanuméricos.
+`createTestRepository()` crea un repositorio aislado por montaje. El transporte de prueba de la aplicación simula los endpoints de sesión y rastreo público, proyectando únicamente los campos públicos. Las pruebas de contrato HTTP verifican directamente URL, método, CSRF, estados y contenido de los cuerpos.
 
 ## Estilos: Sass + BEM
 
@@ -143,9 +133,9 @@ Cada carpeta tiene un `_index.scss` que reenvía sus parciales con `@forward`, y
 
 ### Dónde viven los tokens
 
-`src/styles/abstracts/_tokens.scss`: los colores (`$color-navy-950`, `$color-aqua-500`, `$color-aqua-700`... con los mismos nombres y valores de [`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)), las familias tipográficas, la escala de tamaños, los radios, las sombras y la duración de las transiciones. `base/_root.scss` los expone también como propiedades personalizadas de `:root` (`--color-aqua-500`, `--text-h1`, `--shadow-soft`...), para leerlos desde JavaScript o desde un `style` en línea. Para cambiar un color se edita `_tokens.scss` y solo ahí.
+`src/styles/abstracts/_tokens.scss`: los colores (`$color-navy-950`, `$color-aqua-500`, `$color-aqua-700`... con los mismos nombres y valores de [`04-sistema-de-diseno.md`](../docs/diseno/04-sistema-de-diseno.md)), las familias tipográficas, la escala de tamaños, los radios, las sombras y la duración de las transiciones. `base/_root.scss` los expone también como propiedades personalizadas de `:root` (`--color-aqua-500`, `--text-h1`, `--shadow-soft`...), para los componentes y las herramientas de inspección; no se usan estilos en línea. Para cambiar un color se edita `_tokens.scss` y solo ahí.
 
-Reglas que los estilos respetan: el aqua `#4CBED8` nunca es color de texto sobre fondo claro (se usa `$color-aqua-700`, `#167088`); el foco es un anillo aqua de 3 px con un aro marino sobre fondo claro; las animaciones van dentro de `@include motion-safe` (la única excepción es la entrada del héroe, que con movimiento reducido la regla de `base/_accessibility.scss` acorta a 0.01 ms) y `prefers-reduced-motion: reduce` apaga el resto; los puntos de quiebre son 640, 768 y 1024 px (`@include up(md)`), mobile first, y 1280 px queda reservado (`xl`). El encabezado completo sustituye al menú móvil desde 1024 px, la línea de tiempo pasa a horizontal desde 768 px y la tabla de guías reemplaza a las tarjetas desde 768 px.
+Reglas que los estilos respetan: el aqua `#4CBED8` nunca es color de texto sobre fondo claro (se usa `$color-aqua-700`, `#167088`); el foco es un anillo aqua de 3 px con un aro marino sobre fondo claro; las animaciones van dentro de `@include motion-safe` (el héroe tiene una entrada de marca de 950 ms y se muestra estático con movimiento reducido) y `prefers-reduced-motion: reduce` apaga el resto; los puntos de quiebre son 640, 768 y 1024 px (`@include up(md)`), mobile first, y 1280 px queda reservado (`xl`). El encabezado completo sustituye al menú móvil desde 1024 px, la línea de tiempo pasa a horizontal desde 768 px y la tabla de guías reemplaza a las tarjetas desde 768 px.
 
 Una nota adicional: los interlineados de la escala (`calc(2 / 1.5)`) se leen de `--text-<paso>--line-height` (mixin `type()`), porque el minificador de CSS de Vite convierte un `calc()` suelto en un decimal de cinco cifras y la altura de las líneas cambiaría fracciones de píxel.
 
@@ -178,7 +168,7 @@ Las pruebas viven junto al código (`*.test.ts` y `*.test.tsx`).
 
 ## Rutas
 
-`/` · `/rastreo` (acepta `?guia=`, varias separadas por coma) · `/servicios` · `/cobertura` · `/nosotros` · `/preguntas` · `/contacto` · `/panel` · `/disenos` · cualquier otra ruta muestra la página 404.
+`/` · `/rastreo` (acepta `?guia=`, varias separadas por coma) · `/servicios` · `/cobertura` · `/nosotros` · `/preguntas` · `/contacto` · `/acceso` · `/panel` · `/panel/registro` · `/panel/alta` · `/panel/guias/:trackingNumber` · `/panel/archivo` · `/disenos` · cualquier otra ruta muestra la página 404.
 
 ## Notas de mantenimiento
 

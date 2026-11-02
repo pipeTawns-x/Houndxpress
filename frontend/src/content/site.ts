@@ -98,5 +98,3 @@ export const ALLIANCES = {
   ],
   memberships: ["IATA", "COFOCE", "Aftership"],
 } as const;
-
-export const ACADEMIC_NOTE = "Rediseño no oficial de Hound Express con fines de demostración.";

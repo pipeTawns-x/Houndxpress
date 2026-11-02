@@ -4,6 +4,7 @@ import { RepositoryError, isRepositoryError } from "../services/guideRepository.
 import { createFakeRepository, deferred, seedGuides } from "../test/fakeRepository.ts";
 import { createTestRepository } from "../test/renderApp.tsx";
 import {
+  clearGuides,
   advanceGuide,
   createGuide,
   createInitialGuidesState,
@@ -15,11 +16,11 @@ import type { GuidesState } from "./guidesSlice.ts";
 import { createAppStore } from "./store.ts";
 
 const NEW_GUIDE: NewGuideInput = {
-  number: "2100000000000001",
+  trackingNumber: "2100000000000001",
   origin: "Laredo, TX",
   destination: "Monterrey, N.L.",
   recipient: "Ana Ruiz",
-  service: "standard",
+  serviceLevel: "standard",
 };
 
 /** Estado con la lista ya leída, obtenido con las mismas acciones que produce la aplicación. */
@@ -46,6 +47,7 @@ describe("guidesSlice: reducer", () => {
       error: null,
       canReset: false,
       latestReadId: null,
+      sessionGeneration: 0,
     });
   });
 
@@ -72,7 +74,10 @@ describe("guidesSlice: reducer", () => {
     const first = guidesReducer(createInitialGuidesState(), fetchGuides.pending("r1", { background: true }));
     expect(first.status).toBe("loading");
 
-    const failed = guidesReducer(first, fetchGuides.rejected(null, "r1", { background: true }, new Error("x")));
+    const failed = guidesReducer(
+      first,
+      fetchGuides.rejected(null, "r1", { background: true }, new Error("x")),
+    );
     const retry = guidesReducer(failed, fetchGuides.pending("r2", { background: true }));
     expect(retry).toMatchObject({ status: "loading", error: null });
   });
@@ -82,7 +87,9 @@ describe("guidesSlice: reducer", () => {
     const reversed = [...guides].reverse();
     const state = loadedState(reversed);
     expect(state).toMatchObject({ status: "succeeded", error: null });
-    expect(state.items.map((guide) => guide.number)).toEqual(reversed.map((guide) => guide.number));
+    expect(state.items.map((guide) => guide.trackingNumber)).toEqual(
+      reversed.map((guide) => guide.trackingNumber),
+    );
   });
 
   it("descarta la respuesta de una lectura que ya no es la última", () => {
@@ -90,14 +97,20 @@ describe("guidesSlice: reducer", () => {
     const current = guidesReducer(loadedState(guides, "r1"), fetchGuides.pending("r2", undefined));
     const late = guidesReducer(current, fetchGuides.fulfilled([], "r1", undefined));
     expect(late).toBe(current);
-    const lateFailure = guidesReducer(current, fetchGuides.rejected(null, "r1", undefined, new Error("tarde")));
+    const lateFailure = guidesReducer(
+      current,
+      fetchGuides.rejected(null, "r1", undefined, new Error("tarde")),
+    );
     expect(lateFailure).toBe(current);
   });
 
   it("una lectura fallida pasa a 'failed' con el mensaje del error y conserva la lista anterior", () => {
     const loaded = loadedState(seedGuides());
     const loading = guidesReducer(loaded, fetchGuides.pending("r2", undefined));
-    const failed = guidesReducer(loading, fetchGuides.rejected(null, "r2", undefined, new Error("Sin conexión con la API")));
+    const failed = guidesReducer(
+      loading,
+      fetchGuides.rejected(null, "r2", undefined, new Error("Sin conexión con la API")),
+    );
     expect(failed).toMatchObject({ status: "failed", error: "Sin conexión con la API" });
     expect(failed.items).toBe(loaded.items);
   });
@@ -114,7 +127,15 @@ describe("guidesSlice: reducer", () => {
     if (!first) throw new Error("Sin guías de ejemplo");
     expect(guidesReducer(loaded, createGuide.pending("w1", NEW_GUIDE))).toBe(loaded);
     expect(guidesReducer(loaded, createGuide.fulfilled(first, "w1", NEW_GUIDE))).toBe(loaded);
-    expect(guidesReducer(loaded, advanceGuide.fulfilled(first, "w2", { number: first.number, input: { location: "x" } }))).toBe(loaded);
+    expect(
+      guidesReducer(
+        loaded,
+        advanceGuide.fulfilled(first, "w2", {
+          trackingNumber: first.trackingNumber,
+          input: { location: "x" },
+        }),
+      ),
+    ).toBe(loaded);
     expect(guidesReducer(loaded, resetGuides.fulfilled(undefined, "w3"))).toBe(loaded);
   });
 });
@@ -140,7 +161,11 @@ describe("guidesSlice: fetchGuides", () => {
     const store = createAppStore(repository);
 
     await store.dispatch(fetchGuides());
-    expect(store.getState().guides).toMatchObject({ status: "failed", error: "Sin conexión con la API", items: [] });
+    expect(store.getState().guides).toMatchObject({
+      status: "failed",
+      error: "Sin conexión con la API",
+      items: [],
+    });
 
     repository.list.mockResolvedValueOnce(seedGuides());
     await store.dispatch(fetchGuides());
@@ -175,7 +200,9 @@ describe("guidesSlice: fetchGuides", () => {
     older.resolve([first]);
     await firstRead;
 
-    expect(store.getState().guides.items.map((guide) => guide.number)).toEqual([second.number]);
+    expect(store.getState().guides.items.map((guide) => guide.trackingNumber)).toEqual([
+      second.trackingNumber,
+    ]);
   });
 
   it("una lectura anterior que falla tarde no borra una lectura buena", async () => {
@@ -198,7 +225,11 @@ describe("guidesSlice: createGuide", () => {
   it("crea con el repositorio, vuelve a leer la lista y resuelve con la guía creada", async () => {
     const repository = createFakeRepository();
     const seeds = seedGuides();
-    const created: Guide = { ...seeds[0], number: NEW_GUIDE.number, recipient: NEW_GUIDE.recipient };
+    const created: Guide = {
+      ...seeds[0],
+      trackingNumber: NEW_GUIDE.trackingNumber,
+      recipient: NEW_GUIDE.recipient,
+    };
     repository.list.mockResolvedValueOnce(seeds).mockResolvedValueOnce([created, ...seeds]);
     repository.create.mockResolvedValue(created);
     const store = createAppStore(repository);
@@ -211,7 +242,10 @@ describe("guidesSlice: createGuide", () => {
     expect(repository.create).toHaveBeenCalledWith(NEW_GUIDE);
     expect(repository.list).toHaveBeenCalledTimes(2);
     // El orden de la lista es el que devuelve el repositorio, no el que impondría el reducer.
-    expect(store.getState().guides.items.map((guide) => guide.number)).toEqual([created.number, ...seeds.map((guide) => guide.number)]);
+    expect(store.getState().guides.items.map((guide) => guide.trackingNumber)).toEqual([
+      created.trackingNumber,
+      ...seeds.map((guide) => guide.trackingNumber),
+    ]);
     // La lectura que sigue a la escritura no hace parpadear la pantalla con "cargando".
     expect(statuses).toEqual(["succeeded"]);
   });
@@ -219,16 +253,21 @@ describe("guidesSlice: createGuide", () => {
   it("si el repositorio rechaza, la promesa falla con el error original y no se vuelve a leer", async () => {
     const repository = createFakeRepository();
     repository.list.mockResolvedValue(seedGuides());
-    const error = new DomainError("invalid_input", "Revisa los datos.", { number: "Número inválido" });
+    const error = new DomainError("invalid_input", "Revisa los datos.", {
+      trackingNumber: "Número inválido",
+    });
     repository.create.mockRejectedValue(error);
     const store = createAppStore(repository);
     await store.dispatch(fetchGuides());
     const before = store.getState().guides;
 
-    const failure: unknown = await store.dispatch(createGuide(NEW_GUIDE)).unwrap().catch((caught: unknown) => caught);
+    const failure: unknown = await store
+      .dispatch(createGuide(NEW_GUIDE))
+      .unwrap()
+      .catch((caught: unknown) => caught);
 
     expect(failure).toBe(error);
-    expect(isDomainError(failure) && failure.fieldErrors).toEqual({ number: "Número inválido" });
+    expect(isDomainError(failure) && failure.fieldErrors).toEqual({ trackingNumber: "Número inválido" });
     expect(repository.list).toHaveBeenCalledTimes(1);
     expect(store.getState().guides).toBe(before);
   });
@@ -236,7 +275,9 @@ describe("guidesSlice: createGuide", () => {
   it("el error viaja en la acción sin avisos de serialización de Redux", async () => {
     const consoleError = jest.spyOn(console, "error").mockImplementation(() => undefined);
     const repository = createFakeRepository();
-    repository.create.mockRejectedValue(new RepositoryError("duplicate", "Ya existe una guía con ese número."));
+    repository.create.mockRejectedValue(
+      new RepositoryError("duplicate", "Ya existe una guía con ese número."),
+    );
     const store = createAppStore(repository);
 
     const action = await store.dispatch(createGuide(NEW_GUIDE));
@@ -252,19 +293,24 @@ describe("guidesSlice: advanceGuide", () => {
     const [first, ...others] = seedGuides();
     const advanced: Guide = {
       ...first,
-      currentStage: "vehicle_loaded",
-      history: [...first.history, { stage: "vehicle_loaded", at: "2026-09-28T16:00:00.000Z", location: "Miami, FL" }],
+      currentStatus: "vehicle_loaded",
+      history: [
+        ...first.history,
+        { stage: "vehicle_loaded", timestamp: "2026-09-28T16:00:00.000Z", location: "Miami, FL" },
+      ],
     };
     repository.list.mockResolvedValueOnce([first, ...others]).mockResolvedValueOnce([advanced, ...others]);
     repository.advance.mockResolvedValue(advanced);
     const store = createAppStore(repository);
     await store.dispatch(fetchGuides());
 
-    const result = await store.dispatch(advanceGuide({ number: first.number, input: { location: "Miami, FL" } })).unwrap();
+    const result = await store
+      .dispatch(advanceGuide({ trackingNumber: first.trackingNumber, input: { location: "Miami, FL" } }))
+      .unwrap();
 
     expect(result).toEqual(advanced);
-    expect(repository.advance).toHaveBeenCalledWith(first.number, { location: "Miami, FL" });
-    expect(store.getState().guides.items[0]?.currentStage).toBe("vehicle_loaded");
+    expect(repository.advance).toHaveBeenCalledWith(first.trackingNumber, { location: "Miami, FL" });
+    expect(store.getState().guides.items[0]?.currentStatus).toBe("vehicle_loaded");
   });
 
   it("si el repositorio rechaza, la promesa falla con el mismo RepositoryError", async () => {
@@ -274,7 +320,7 @@ describe("guidesSlice: advanceGuide", () => {
     const store = createAppStore(repository);
 
     const failure: unknown = await store
-      .dispatch(advanceGuide({ number: "2100000000000009", input: { location: "Laredo, TX" } }))
+      .dispatch(advanceGuide({ trackingNumber: "2100000000000009", input: { location: "Laredo, TX" } }))
       .unwrap()
       .catch((caught: unknown) => caught);
 
@@ -286,30 +332,35 @@ describe("guidesSlice: advanceGuide", () => {
     // Un repositorio que (mal) saltara dos etapas se vería tal cual: la regla no vive en los reducers.
     const repository = createFakeRepository();
     const [first, ...others] = seedGuides();
-    const jumped: Guide = { ...first, currentStage: "vehicle_released" };
+    const jumped: Guide = { ...first, currentStatus: "vehicle_released" };
     repository.list.mockResolvedValueOnce([first, ...others]).mockResolvedValueOnce([jumped, ...others]);
     repository.advance.mockResolvedValue(jumped);
     const store = createAppStore(repository);
     await store.dispatch(fetchGuides());
 
-    await store.dispatch(advanceGuide({ number: first.number, input: { location: "Miami, FL" } }));
+    await store.dispatch(
+      advanceGuide({ trackingNumber: first.trackingNumber, input: { location: "Miami, FL" } }),
+    );
 
-    expect(store.getState().guides.items[0]?.currentStage).toBe("vehicle_released");
+    expect(store.getState().guides.items[0]?.currentStatus).toBe("vehicle_released");
   });
 
   it("con el repositorio de demostración la regla se aplica en el dominio: solo la etapa siguiente", async () => {
     const store = createAppStore(createTestRepository());
     await store.dispatch(fetchGuides());
-    const stageOf = (number: string) => store.getState().guides.items.find((guide) => guide.number === number);
+    const stageOf = (number: string) =>
+      store.getState().guides.items.find((guide) => guide.trackingNumber === number);
 
-    expect(stageOf("2148213907650312")?.currentStage).toBe("cargo_received");
-    await store.dispatch(advanceGuide({ number: "2148213907650312", input: { location: "Miami, FL" } })).unwrap();
-    expect(stageOf("2148213907650312")?.currentStage).toBe("vehicle_loaded");
+    expect(stageOf("2148213907650312")?.currentStatus).toBe("cargo_received");
+    await store
+      .dispatch(advanceGuide({ trackingNumber: "2148213907650312", input: { location: "Miami, FL" } }))
+      .unwrap();
+    expect(stageOf("2148213907650312")?.currentStatus).toBe("vehicle_loaded");
 
     // "Carga entregada" es la última etapa: no avanza más y la guía queda como estaba.
     const delivered = stageOf("2154302968170435");
     const failure: unknown = await store
-      .dispatch(advanceGuide({ number: "2154302968170435", input: { location: "Laredo, TX" } }))
+      .dispatch(advanceGuide({ trackingNumber: "2154302968170435", input: { location: "Laredo, TX" } }))
       .unwrap()
       .catch((caught: unknown) => caught);
     expect(isDomainError(failure) && failure.code).toBe("already_delivered");
@@ -322,14 +373,18 @@ describe("guidesSlice: resetGuides", () => {
     const store = createAppStore(createTestRepository());
     await store.dispatch(fetchGuides());
     await store.dispatch(createGuide(NEW_GUIDE)).unwrap();
-    await store.dispatch(advanceGuide({ number: "2148213907650312", input: { location: "Miami, FL" } })).unwrap();
+    await store
+      .dispatch(advanceGuide({ trackingNumber: "2148213907650312", input: { location: "Miami, FL" } }))
+      .unwrap();
     expect(store.getState().guides.items).toHaveLength(9);
 
     await store.dispatch(resetGuides()).unwrap();
 
     const { items } = store.getState().guides;
     expect(items).toHaveLength(8);
-    expect(items.find((guide) => guide.number === "2148213907650312")?.currentStage).toBe("cargo_received");
+    expect(items.find((guide) => guide.trackingNumber === "2148213907650312")?.currentStatus).toBe(
+      "cargo_received",
+    );
   });
 
   it("primero restablece y después lee", async () => {
@@ -353,4 +408,34 @@ describe("guidesSlice: resetGuides", () => {
 
     expect(repository.list).not.toHaveBeenCalled();
   });
+});
+
+it("does not repopulate private state when a pending write finishes after logout", async () => {
+  const repository = createTestRepository();
+  const store = createAppStore(repository);
+  await store.dispatch(fetchGuides());
+  const existing = store.getState().guides.items[0];
+  if (!existing) throw new Error("Sin guía");
+  let finish: ((guide: Guide) => void) | undefined;
+  const list = jest.spyOn(repository, "list");
+  jest.spyOn(repository, "create").mockImplementation(
+    () =>
+      new Promise((resolve) => {
+        finish = resolve;
+      }),
+  );
+  const pending = store.dispatch(
+    createGuide({
+      trackingNumber: "2100000000000001",
+      origin: "Laredo",
+      destination: "México",
+      recipient: "Ana",
+      serviceLevel: "standard",
+    }),
+  );
+  store.dispatch(clearGuides());
+  finish?.(existing);
+  await pending;
+  expect(store.getState().guides.items).toEqual([]);
+  expect(list).not.toHaveBeenCalled();
 });
