@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { RequireStaff } from "./RequireStaff.tsx";
 import { stubGlobal } from "../../test/stubGlobal.ts";
+import { notifySessionLost } from "../../services/sessionEvents.ts";
 const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), { status });
 function mount(path = "/panel/guides/private") {
   return render(
@@ -51,5 +52,16 @@ it("fails closed for a non-staff account and offers retry on network failure", a
   );
   mount();
   expect(await screen.findByRole("button", { name: "Intentar de nuevo" })).toBeInTheDocument();
+  expect(screen.queryByText("Datos privados")).not.toBeInTheDocument();
+});
+it("closes the private content when the session is lost after entering", async () => {
+  stubGlobal(
+    "fetch",
+    jest.fn(() => Promise.resolve(json({ username: "operador", isStaff: true }))),
+  );
+  mount();
+  expect(await screen.findByRole("heading", { name: "Datos privados" })).toBeInTheDocument();
+  act(() => notifySessionLost());
+  expect(await screen.findByRole("heading", { name: "Acceso" })).toBeInTheDocument();
   expect(screen.queryByText("Datos privados")).not.toBeInTheDocument();
 });

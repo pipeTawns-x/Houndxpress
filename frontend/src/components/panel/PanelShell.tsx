@@ -9,6 +9,7 @@ import {
   X,
 } from "lucide-react";
 import { authClient } from "../../services/auth.ts";
+import { onSessionLost } from "../../services/sessionEvents.ts";
 import { clearGuides } from "../../store/guidesSlice.ts";
 import { useAppDispatch } from "../../store/hooks.ts";
 import { Button } from "../ui/Button.tsx";
@@ -31,6 +32,13 @@ export function PanelShell({
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const dispatch = useAppDispatch();
+  useEffect(
+    () =>
+      onSessionLost(() => {
+        dispatch(clearGuides());
+      }),
+    [dispatch],
+  );
   const navigate = useNavigate();
   useEffect(() => {
     let active = true;

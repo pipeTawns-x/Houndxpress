@@ -3,12 +3,15 @@ import type { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 import { authClient } from "../../services/auth.ts";
 import { RepositoryError } from "../../services/guideRepository.ts";
+import { onSessionLost } from "../../services/sessionEvents.ts";
 import { Button } from "../ui/Button.tsx";
 
 export function RequireStaff({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [check, setCheck] = useState<{ path: string; result: "allowed" | "denied" | "error" } | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const [sessionLost, setSessionLost] = useState(false);
+  useEffect(() => onSessionLost(() => setSessionLost(true)), []);
   const path = `${location.pathname}#${attempt}`;
   useEffect(() => {
     let active = true;
@@ -28,6 +31,7 @@ export function RequireStaff({ children }: { children: ReactNode }) {
       active = false;
     };
   }, [path]);
+  if (sessionLost) return <Navigate to="/acceso" replace state={{ from: location }} />;
   if (check?.path !== path)
     return (
       <p role="status" className="loading-state">
