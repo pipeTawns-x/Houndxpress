@@ -14,7 +14,7 @@ El dominio sirve dos aplicaciones distintas que el visitante percibe como una so
 Consecuencias observables en el código:
 
 - **El menú no coincide.** El sitio institucional ofrece `Ecommerce · USA–LATAM (Argentina, Brasil, Chile, Colombia, México)`; el menú del rastreo (`menu.html`) todavía ofrece `Ecommerce · Cargo · Customs · Parcel`. Quien pasa de una parte a la otra ve dos navegaciones.
-- **El rastreo carga código que no usa.** `tracking.html` pesa 4.9 KB, pero pide Revolution Slider, Owl Carousel, Cube Portfolio, Fancybox, Tooltipster, WOW, Parallaxie y countTo, y arma el formulario concatenando cadenas HTML en `js/hound_express_tracking_addon.js`.
+- **El rastreo carga código que no usa.** `tracking.html` pesa 4.9 KB, pero pide Revolution Slider, Owl Carousel, Cube Portfolio, Fancybox, Tooltipster, WOW, Parallaxie y countTo, y arma el formulario desde JavaScript.
 - **El encabezado y el pie se inyectan con `$.load()`** (`menu.html`, `footer.html`, `chatsWhatsMessenger.html`): sin JavaScript no hay navegación.
 - **La página de inicio pesa 394 KB de HTML** antes de imágenes, con dos contenedores de Google Tag Manager distintos (`GTM-WFHJ6CN` en el sitio y `GTM-MP2GRVN` en el rastreo).
 
@@ -42,7 +42,7 @@ Colores más repetidos, contados en el CSS y en los estilos en línea:
 | Aqua de marca | `#4CBED8` / `#4EBED8` | segundo color del logo, acentos del sitio |
 | Cian brillante | `#23CED5` / `#6AC6DE` | botones y bordes del rastreo (54 y 89 usos en `style.css`) |
 | Azul de apoyo | `#5192E1` | enlaces y estados del rastreo (105 usos) |
-| Error | `#DC3545` | mensajes de guía no encontrada (`hound_express_tracking_addon.css`) |
+| Error | `#DC3545` | mensajes de guía no encontrada (hoja de estilos del rastreo) |
 
 Tipografías declaradas: `CocoSharp` (propietaria, en el rastreo), `Open Sans`, `Montserrat 600`, `Inter 500` y `Roboto 400` (en la URL de Google Fonts del sitio). Son cinco familias para una sola marca.
 
@@ -61,13 +61,13 @@ Tipografías declaradas: `CocoSharp` (propietaria, en el rastreo), `Open Sans`, 
 | P2 | Cinco familias tipográficas | URL de Google Fonts y `style.css` | Dos familias: Plus Jakarta Sans para títulos e Inter para texto |
 | P3 | La paleta tiene cuatro azules casi iguales sin rol definido | tabla de la sección 3 | Tokens con rol: `navy`, `aqua`, `sky`, estados |
 | P4 | Sin JavaScript no hay menú ni pie | `$('.menuContainer').load('menu.html')` | Encabezado y pie son parte de la aplicación |
-| P5 | El resultado del rastreo no muestra en qué etapa del proceso va la guía | `hound_express_tracking_addon.js` pinta una tabla de eventos | Línea de tiempo con las cinco etapas del proceso y la etapa actual resaltada |
+| P5 | El resultado del rastreo no muestra en qué etapa del proceso va la guía | El sitio actual pinta una tabla de eventos | Línea de tiempo con las cinco etapas del proceso y la etapa actual resaltada |
 | P6 | El personal no tiene una vista de sus guías | no existe interfaz de operadores (README, "Interfaz para operadores: no iniciada") | Panel de operaciones: registrar, listar, buscar, avanzar etapa e historial |
 
 ## 6. Lo que no se copia
 
 - El código de WordPress, Elementor y del rastreo legado. El rediseño es una aplicación nueva.
-- La llave de socio del servicio de rastreo (`houndExpressPartnerKey` en `hound_express_tracking_addon.js`). El rediseño no llama al servicio real de la empresa; trabaja con datos de demostración hasta que el backend del proyecto exponga sus endpoints (Fase 2).
+- La integración con el servicio de rastreo de la empresa. El rediseño no llama al servicio real de la empresa; trabaja con datos de demostración hasta que el backend del proyecto exponga sus endpoints (Fase 2).
 - Las fotografías e ilustraciones del sitio. El rediseño usa ilustraciones SVG propias.
 
 El único recurso de la empresa que se reutiliza es su logotipo (`frontend/public/brand/`), porque el proyecto se desarrolla para Hound Express como empresa aliada del programa.
