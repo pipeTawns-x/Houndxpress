@@ -34,7 +34,11 @@ class GuideViewSet(ContractResponseMixin, viewsets.ViewSet):
     def list(self, request):
         paginator = GuidePagination()
         guides = paginator.paginate_queryset(
-            services.list_guides(search=request.query_params.get("search", "")), request
+            services.list_guides(
+                search=request.query_params.get("search", ""),
+                archived=request.query_params.get("archived") == "true",
+            ),
+            request,
         )
         return paginator.get_paginated_response(GuideSerializer(guides, many=True).data)
 

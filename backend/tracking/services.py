@@ -20,8 +20,8 @@ def history_prefetch():
     )
 
 
-def list_guides(*, search=""):
-    queryset = Guide.objects.filter(is_archived=False)
+def list_guides(*, search="", archived=False):
+    queryset = Guide.objects.filter(is_archived=archived)
     search = search.strip()
     if search:
         queryset = queryset.filter(
