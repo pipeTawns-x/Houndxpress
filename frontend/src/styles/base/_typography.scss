@@ -1,0 +1,33 @@
+// Tipografía base: Inter para el texto y Plus Jakarta Sans para los títulos.
+// La escala (display, h1, h2, h3, lead, label) vive en `abstracts/_tokens.scss`
+// y cada componente la aplica con `@include type(...)`.
+
+@use "../abstracts" as *;
+
+body {
+  background-color: $color-white;
+  color: $color-ink;
+  font-family: $font-sans;
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: $color-navy-800;
+  font-family: $font-display;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background-color: $color-aqua-500;
+  color: $color-navy-950;
+}

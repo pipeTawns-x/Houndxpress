@@ -1,0 +1,94 @@
+// Cobertura (`/cobertura`): tarjetas de hubs y de países (el mapa es `network-map--wide`).
+
+@use "../abstracts" as *;
+
+// Tarjeta de hub: se eleva al pasar el cursor.
+.hub-card {
+  @include stack(space(3));
+  height: 100%;
+  padding: space(6);
+  @include card;
+  @include transition((translate, box-shadow), $duration-base, $ease-out);
+
+  @include hover {
+    translate: 0 (-(space(1)));
+    @include ring($color-line, $shadow-lift);
+  }
+
+  &__icon-box {
+    @include icon-box(space(11));
+  }
+
+  &__icon {
+    @include square(space(5));
+  }
+
+  &__heading {
+    @include stack(space(0.5));
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__region {
+    @include type(label);
+    color: $color-muted;
+  }
+
+  &__role {
+    @include type(base);
+    color: $color-ink;
+  }
+
+  &__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+    margin-top: auto;
+  }
+
+  &__detail {
+    padding: space(1) space(3);
+    border-radius: $radius-full;
+    background-color: $color-aqua-100;
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-navy-800;
+  }
+}
+
+// Tarjeta de país de Latinoamérica: solo aro, sin sombra.
+.country-card {
+  @include stack(space(2));
+  padding: space(6);
+  @include card($shadow: null);
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+  }
+
+  &__icon {
+    @include square(space(5));
+    color: $color-aqua-700;
+  }
+
+  &__title {
+    @include type(h3);
+    font-weight: $font-weight-bold;
+  }
+
+  &__status {
+    @include type(label);
+    font-weight: $font-weight-semibold;
+    color: $color-aqua-700;
+  }
+
+  &__text {
+    @include type(base);
+    color: $color-muted;
+  }
+}

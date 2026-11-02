@@ -1,0 +1,250 @@
+// Mixins y funciones compartidas. No emiten CSS por sí solos.
+
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "tokens" as *;
+
+// --- Color -----------------------------------------------------------------
+
+/// Un color con otra opacidad: `with-alpha($color-navy-950, 0.6)`.
+@function with-alpha($value, $opacity) {
+  @return color.change($value, $alpha: $opacity);
+}
+
+// --- Tipografía ------------------------------------------------------------
+
+/// Tamaño e interlineado de un paso de `$type-scale`: `@include type(label)`.
+///
+/// Los interlineados que son un `calc()` (`calc(2 / 1.5)`) se emiten como
+/// `var(--text-<paso>--line-height)`: el minificador de CSS de Vite resuelve un `calc()`
+/// suelto a un decimal de cinco cifras (1.33333) y una línea de 24 px mediría
+/// 31.99992 px, que el navegador recorta a 31.98 px (1/64 de píxel). Dentro de la
+/// propiedad personalizada de `:root` el `calc()` llega intacto al navegador.
+@mixin type($role) {
+  @if not map.has-key($type-scale, $role) {
+    @error "Paso tipográfico desconocido: `#{$role}`.";
+  }
+  $step: map.get($type-scale, $role);
+  $line-height: list.nth($step, 2);
+  font-size: list.nth($step, 1);
+  @if meta.type-of($line-height) == "number" {
+    line-height: $line-height;
+  } @else {
+    line-height: var(--text-#{$role}--line-height);
+  }
+}
+
+/// Sobretítulo: mayúsculas con tracking amplio. El color lo pone quien lo usa.
+@mixin eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+// --- Accesibilidad ---------------------------------------------------------
+
+/// Anillo de foco visible: 3 px de aqua con 2 px de separación. El aro marino
+/// de 2 px que llena la separación (`--focus-shadow`) da el contraste que el
+/// aqua solo no da sobre fondo claro (WCAG 1.4.11).
+@mixin focus-ring {
+  outline: 3px solid $color-aqua-500;
+  outline-offset: 2px;
+  box-shadow: var(--focus-shadow);
+}
+
+/// Superficie oscura: el aqua ya contrasta, así que no lleva el aro marino.
+@mixin on-dark {
+  --focus-shadow: none;
+}
+
+/// Superficie clara dentro de una oscura (una tarjeta blanca en el héroe).
+@mixin on-light {
+  --focus-shadow: 0 0 0 2px #{$color-navy-800};
+}
+
+/// Oculto a la vista pero disponible para lectores de pantalla.
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/// Revierte `visually-hidden` (por ejemplo, al recibir el foco).
+@mixin not-visually-hidden {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+
+// --- Movimiento ------------------------------------------------------------
+
+/// Solo para quien no pidió movimiento reducido. Toda animación va aquí dentro.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+/// Para quien pidió movimiento reducido.
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// Estilos de `:hover` solo en dispositivos con puntero que puede pasar por encima (no en pantallas táctiles).
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+/// Transición de los colores (150 ms por defecto).
+@mixin transition-colors($duration: $duration-fast, $ease: $ease-standard) {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+  transition-duration: $duration;
+  transition-timing-function: $ease;
+}
+
+/// Transición de las propiedades que se indiquen.
+@mixin transition($properties, $duration: $duration-fast, $ease: $ease-standard) {
+  transition-property: $properties;
+  transition-duration: $duration;
+  transition-timing-function: $ease;
+}
+
+/// Transición de los movimientos (`transform`, `translate`, `scale`, `rotate`).
+@mixin transition-transform($duration: $duration-fast, $ease: $ease-standard) {
+  @include transition((transform, translate, scale, rotate), $duration, $ease);
+}
+
+// --- Composición -----------------------------------------------------------
+
+/// Columna flex con separación opcional: `@include stack(space(4))`.
+@mixin stack($gap: null) {
+  display: flex;
+  flex-direction: column;
+
+  @if $gap {
+    gap: $gap;
+  }
+}
+
+/// Cuadrado de lado fijo.
+@mixin square($side) {
+  width: $side;
+  height: $side;
+}
+
+/// Ocupa todo el bloque de referencia (`inset: 0`).
+@mixin cover {
+  position: absolute;
+  inset: 0;
+}
+
+/// Aro de 1 px (o del ancho indicado) dibujado con `box-shadow`, más una sombra opcional debajo.
+@mixin ring($ring-color, $shadow: null, $width: 1px) {
+  @if $shadow {
+    box-shadow:
+      0 0 0 $width $ring-color,
+      $shadow;
+  } @else {
+    box-shadow: 0 0 0 $width $ring-color;
+  }
+}
+
+/// Tarjeta blanca con aro de 1 px y, por defecto, la sombra suave.
+@mixin card($radius: $radius-2xl, $shadow: $shadow-soft) {
+  border-radius: $radius;
+  background-color: $color-white;
+  @include ring($color-line, $shadow);
+}
+
+/// Base de los controles de texto (input, textarea, select): borde `edge` de 1 px,
+/// radio de 12 px y borde marino al pasar el cursor.
+@mixin form-control {
+  display: block;
+  width: 100%;
+  border: 1px solid $color-edge;
+  border-radius: $radius-xl;
+  background-color: $color-white;
+  color: $color-ink;
+  @include transition-colors;
+
+  &::placeholder {
+    color: $color-muted;
+  }
+
+  @include hover {
+    border-color: $color-navy-800;
+  }
+}
+
+/// Control con error: borde rojo, también con el cursor encima.
+@mixin form-control-invalid {
+  border-color: $color-danger;
+
+  @include hover {
+    border-color: $color-danger;
+  }
+}
+
+/// Cuadro de icono aqua suave (tarjetas de servicio, ejes y hubs).
+@mixin icon-box($side: space(12), $radius: $radius-xl) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include square($side);
+  border-radius: $radius;
+  background-color: $color-aqua-100;
+  color: $color-aqua-700;
+}
+
+// --- Fondos decorativos ----------------------------------------------------
+
+/// Brillo aqua tenue: un degradado radial sobre fondo oscuro.
+@mixin aqua-glow($size, $position, $opacity, $fade: 65%) {
+  background-image: radial-gradient(
+    #{$size} at #{$position},
+    #{with-alpha($color-aqua-500, $opacity)},
+    transparent $fade
+  );
+}
+
+/// Retícula de puntos sutil para fondos oscuros.
+@mixin dot-grid {
+  background-image: radial-gradient(#{with-alpha($color-navy-300, 0.18)} 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+// --- Efectos ---------------------------------------------------------------
+
+/// Aparición suave al entrar en pantalla (solo donde el navegador soporta scroll
+/// timelines). Solo se desplaza: el contenido nunca queda invisible, aunque no se
+/// llegue a hacer scroll (capturas de página completa, impresión).
+@mixin reveal-on-scroll {
+  @include motion-safe {
+    @supports (animation-timeline: view()) {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}

@@ -1,0 +1,269 @@
+@use "../abstracts" as t;
+
+.panel-app {
+  min-height: 100dvh;
+  background: t.$color-surface;
+  color: t.$color-ink;
+  --panel-sidebar: 15rem;
+  &__sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--panel-sidebar);
+    padding: 2rem 1.25rem;
+    background: t.$color-navy-950;
+    color: t.$color-white;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    z-index: 30;
+  }
+  &__brand {
+    font-family: t.$font-display;
+    font-size: 1.9rem;
+    letter-spacing: -0.035em;
+    font-weight: 800;
+    text-decoration: none;
+    color: t.$color-white;
+    span {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      margin-top: 0.2rem;
+      color: t.$color-navy-300;
+    }
+  }
+  &__sidebar nav {
+    display: grid;
+    gap: 0.5rem;
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-height: 3rem;
+      padding: 0.7rem;
+      border-radius: 0.5rem;
+      color: t.$color-navy-300;
+      text-decoration: none;
+      &[aria-current="page"] {
+        background: t.$color-navy-700;
+        color: t.$color-white;
+      }
+      &:hover {
+        background: t.$color-navy-800;
+      }
+    }
+  }
+  &__public-link {
+    margin-top: auto;
+    color: t.$color-navy-300;
+    font-size: 0.85rem;
+  }
+  &__workspace {
+    margin-left: var(--panel-sidebar);
+    min-width: 0;
+  }
+  &__topbar {
+    min-height: 5rem;
+    padding: 1rem 2.5rem;
+    background: t.$color-white;
+    border-bottom: 1px solid t.$color-line;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  &__context {
+    font-size: 0.9rem;
+    color: t.$color-muted;
+  }
+  &__session {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+  &__menu-button {
+    display: none;
+  }
+  &__content {
+    max-width: 90rem;
+    margin: auto;
+    padding: 2.5rem;
+    h1 {
+      font-family: t.$font-display;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      letter-spacing: -0.035em;
+      margin: 0 0 0.75rem;
+    }
+    h2 {
+      font-family: t.$font-display;
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
+    > p {
+      color: t.$color-muted;
+      margin-bottom: 2rem;
+    }
+  }
+  &__intro {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    p {
+      color: t.$color-muted;
+    }
+  }
+  &__overview {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    > section {
+      background: t.$color-white;
+      padding: 1.5rem;
+      border: 1px solid t.$color-line;
+      border-radius: 0.75rem;
+    }
+  }
+  &__activity {
+    list-style: none;
+    padding: 0;
+    li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.3rem 1rem;
+      padding: 1rem 0;
+      border-top: 1px solid t.$color-line;
+      font-size: 0.85rem;
+      time {
+        color: t.$color-muted;
+        font-variant-numeric: tabular-nums;
+      }
+    }
+  }
+  &__creation {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(14rem, 1fr);
+    align-items: start;
+    gap: 3rem;
+    margin-top: 2rem;
+    > aside {
+      border-top: 1px solid t.$color-navy-300;
+      padding-top: 1rem;
+      color: t.$color-muted;
+      p + p {
+        margin-top: 1rem;
+      }
+    }
+  }
+  &__detail-section {
+    margin-block: 2rem;
+    padding: 1.5rem;
+    background: t.$color-white;
+    border: 1px solid t.$color-line;
+    border-radius: 0.75rem;
+  }
+  &__archive-action {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid t.$color-navy-300;
+    p {
+      margin-block: 0.75rem;
+    }
+    .button {
+      margin-right: 0.75rem;
+    }
+  }
+  &__archive-list {
+    padding: 0;
+    list-style: none;
+    li {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid t.$color-line;
+    }
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 3px solid t.$color-aqua-700;
+    outline-offset: 4px;
+  }
+  .stage-summary {
+    margin-top: 2rem;
+  }
+  .panel-page__totals dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+    dd {
+      font-size: 1.7rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin: 0;
+    }
+  }
+  .guides-table {
+    margin-top: 1.5rem;
+  }
+}
+@media (max-width: 900px) {
+  .panel-app {
+    &__sidebar {
+      display: none;
+    }
+    &__workspace {
+      margin-left: 0;
+    }
+    &__topbar {
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+    &__context {
+      display: none;
+    }
+    &__menu-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 0;
+      background: transparent;
+      color: t.$color-ink;
+      min-height: 2.75rem;
+    }
+    &__mobile-menu {
+      padding: 1rem;
+      display: grid;
+      gap: 0.5rem;
+      background: t.$color-navy-950;
+      a {
+        color: t.$color-white;
+        padding: 0.7rem;
+      }
+    }
+    &__content {
+      padding: 1.5rem 1rem;
+    }
+    &__overview,
+    &__creation {
+      grid-template-columns: 1fr;
+    }
+    &__intro {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    &__session {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+  }
+}
+@media (max-width: 450px) {
+  .panel-app__activity li {
+    grid-template-columns: 1fr;
+  }
+}

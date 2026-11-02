@@ -1,0 +1,123 @@
+// Ilustración decorativa del héroe: rutas y nodos sobre una retícula, un paquete y un avión.
+// Las rutas se trazan al cargar; con `prefers-reduced-motion` aparecen ya dibujadas.
+
+@use "../abstracts" as *;
+
+.hero-illustration {
+  &__dot {
+    fill: $color-navy-700;
+  }
+
+  &__orbit {
+    stroke: $color-navy-700;
+  }
+
+  // --- Rutas ---------------------------------------------------------------
+  &__route {
+    stroke: $color-aqua-500;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+
+    &--second {
+      stroke: $color-aqua-400;
+    }
+
+    &--third {
+      stroke: $color-navy-300;
+    }
+
+    @include motion-safe {
+      stroke-dashoffset: 1;
+      animation: draw-route 2.2s ease-out 0.2s forwards;
+
+      &--second {
+        animation-delay: 1s;
+      }
+
+      &--third {
+        animation-delay: 0.6s;
+      }
+    }
+  }
+
+  // --- Nodos ---------------------------------------------------------------
+  &__node-halo {
+    fill: with-alpha($color-aqua-500, 0.15);
+  }
+
+  &__node {
+    fill: $color-aqua-500;
+    stroke: $color-navy-950;
+  }
+
+  // --- Paquete isométrico --------------------------------------------------
+  &__crate-shadow {
+    fill: $color-navy-900;
+  }
+
+  &__crate-top {
+    fill: $color-aqua-100;
+  }
+
+  &__crate-left {
+    fill: $color-aqua-500;
+  }
+
+  &__crate-right {
+    fill: $color-aqua-700;
+  }
+
+  &__crate-flap {
+    fill: with-alpha($color-navy-800, 0.2);
+  }
+
+  &__crate-tape {
+    stroke: with-alpha($color-navy-800, 0.25);
+  }
+
+  &__crate-edge {
+    stroke: with-alpha($color-navy-800, 0.2);
+  }
+
+  &__crate-mark {
+    stroke: with-alpha($color-navy-950, 0.4);
+  }
+
+  // --- Avión ---------------------------------------------------------------
+  &__plane {
+    fill: $color-white;
+  }
+
+  // --- Tarjeta de estados --------------------------------------------------
+  &__card {
+    fill: $color-navy-900;
+    stroke: $color-navy-700;
+  }
+
+  &__card-track {
+    stroke: $color-navy-700;
+  }
+
+  &__card-progress {
+    stroke: $color-aqua-500;
+  }
+
+  &__card-step {
+    &--done {
+      fill: $color-aqua-500;
+    }
+
+    &--pending {
+      fill: $color-navy-800;
+      stroke: $color-navy-300;
+    }
+  }
+
+  &__card-line {
+    fill: $color-navy-700;
+
+    &--short {
+      fill: $color-navy-800;
+    }
+  }
+}

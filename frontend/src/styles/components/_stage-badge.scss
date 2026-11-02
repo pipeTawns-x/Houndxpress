@@ -1,0 +1,31 @@
+// Insignia de etapa: píldora con punto de color y nombre corto. `--delivered` va en verde.
+
+@use "../abstracts" as *;
+
+.stage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: space(1.5);
+  padding: space(1) space(3);
+  border-radius: $radius-full;
+  @include type(label);
+  font-weight: $font-weight-semibold;
+  white-space: nowrap;
+  background-color: $color-aqua-100;
+  color: $color-navy-800;
+
+  &--delivered {
+    background-color: $color-success-soft;
+    color: $color-success;
+  }
+
+  &__dot {
+    @include square(space(2));
+    border-radius: $radius-full;
+    background-color: $color-aqua-700;
+  }
+
+  &__check {
+    @include square(space(3.5));
+  }
+}

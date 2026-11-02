@@ -1,0 +1,12 @@
+// Acciones de una guía: "Avanzar a {etapa siguiente}" e "Historial".
+
+@use "../abstracts" as *;
+
+.guide-actions {
+  @include stack(space(2));
+
+  &__help {
+    @include type(label);
+    color: $color-muted;
+  }
+}

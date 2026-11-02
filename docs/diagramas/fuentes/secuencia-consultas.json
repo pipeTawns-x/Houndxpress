@@ -465,7 +465,7 @@
       "id": "repo",
       "type": "frontend",
       "label": "GuideRepository",
-      "sublabel": "demo o HTTP"
+      "sublabel": "cliente HTTP"
     },
     {
       "id": "api",
@@ -489,12 +489,12 @@
     {
       "from": 325,
       "to": 465,
-      "label": "Rastreo · datos de demostración"
+      "label": "Pruebas · repositorio en memoria"
     },
     {
       "from": 480,
       "to": 710,
-      "label": "Rastreo · VITE_DATA_SOURCE=api (Fase 2)"
+      "label": "Rastreo público contra la API real"
     }
   ],
   "messages": [
@@ -586,16 +586,14 @@
       "from": "repo",
       "to": "api",
       "y": 575,
-      "label": "GET /api/v1/guides/{n}/",
-      "variant": "dashed"
+      "label": "GET /api/v1/public/track/?numbers=n"
     },
     {
       "id": "api-query",
       "from": "api",
       "to": "db",
       "y": 605,
-      "label": "guía e historial",
-      "variant": "dashed"
+      "label": "guía e historial"
     },
     {
       "id": "api-rows",
@@ -690,19 +688,19 @@
     },
     {
       "dot": "amber",
-      "title": "Demostración",
+      "title": "Pruebas",
       "items": [
-        "demoRepository lee y escribe guías en localStorage",
-        "La interfaz lo indica con el aviso de datos de demostración"
+        "demoRepository solo se usa en las pruebas de Jest",
+        "La interfaz usa la API por defecto"
       ]
     },
     {
       "dot": "cyan",
-      "title": "Cuando llegue la Fase 2",
+      "title": "Rastreo real",
       "items": [
-        "httpRepository llama a /api/v1/guides/",
-        "404 se muestra como guía no encontrada",
-        "Los mensajes punteados todavía no existen en el backend"
+        "GuideRepository normaliza el número y llama a la API",
+        "Responde con campos mínimos y una ciudad de la lista cerrada",
+        "Un número inexistente se muestra como no encontrado"
       ]
     }
   ]

@@ -1,0 +1,7 @@
+// Zona de contenido de todas las páginas: deja el pie abajo aunque la página sea corta.
+
+@use "../abstracts" as *;
+
+.site-main {
+  min-height: 60vh;
+}

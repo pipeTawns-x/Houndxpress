@@ -19,7 +19,9 @@ Este documento registra las decisiones técnicas que ya están en el código. La
 
 ## Licencias de las dependencias
 
-Ninguna dependencia es copyleft. El repositorio no incluye licencia propia hasta que se formalice la cesión a Hound Express.
+Ninguna dependencia que llega al producto es copyleft (la única excepción de desarrollo está explicada en la sección del frontend). El repositorio no incluye licencia propia hasta que se formalice la cesión a Hound Express.
+
+### Backend (Python)
 
 | Paquete | Licencia | Uso |
 |---|---|---|
@@ -33,6 +35,40 @@ Ninguna dependencia es copyleft. El repositorio no incluye licencia propia hasta
 | ruff | MIT | desarrollo |
 
 Cada dependencia nueva se revisa en PyPI y se agrega a esta tabla en el mismo commit. No se aceptan licencias AGPL ni GPL.
+
+### Frontend (npm)
+
+Versiones de `frontend/package-lock.json`; licencia leída del `package.json` de cada paquete instalado.
+
+| Paquete | Versión | Licencia | Uso |
+|---|---|---|---|
+| react, react-dom | 19.3.0 | MIT | ejecución |
+| react-router | 7.18.4 | MIT | ejecución |
+| @reduxjs/toolkit, react-redux | 2.13.0, 9.3.0 | MIT | ejecución (estado de las guías; traen redux, redux-thunk, reselect e immer, MIT) |
+| lucide-react | 1.49.0 | ISC | ejecución |
+| @fontsource-variable/inter, @fontsource-variable/plus-jakarta-sans | 5.3.0 | OFL-1.1 | ejecución (tipografías autoalojadas) |
+| vite, @vitejs/plugin-react | 8.3.1, 6.1.1 | MIT | desarrollo |
+| sass | 1.105.1 | MIT | desarrollo (compila los estilos; trae chokidar, immutable y readdirp, MIT) |
+| typescript | 6.0.3 | Apache-2.0 | desarrollo |
+| jest, jest-environment-jsdom, @types/jest | 30.5.2, 30.5.2, 30.0.0 | MIT | desarrollo |
+| @swc/jest, @swc/core | 0.2.39, 1.16.12 | MIT, Apache-2.0 | desarrollo (compila TypeScript para Jest) |
+| @testing-library/react, dom, user-event, jest-dom | 16.3.3, 10.4.2, 14.6.7, 6.9.1 | MIT | desarrollo |
+| eslint, @eslint/js, typescript-eslint, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals | 10.11.0, 10.0.1, 8.71.0, 7.1.1, 0.5.7, 17.12.0 | MIT | desarrollo |
+| @types/react, @types/react-dom, @types/node | 19.3.0, 19.3.0, 22.20.4 | MIT | desarrollo |
+
+Árbol completo del lockfile: MIT, Apache-2.0, ISC, BSD, BlueOak, CC0 y MIT-0, más dos casos que se aceptan por ser solo de compilación y no llegar al código servido:
+
+- `lightningcss` (MPL-2.0), que Vite usa para procesar CSS. MPL-2.0 es copyleft débil por archivo: obliga a compartir cambios a los archivos de lightningcss, no al código que lo usa, y este proyecto no los modifica.
+- `caniuse-lite` (CC-BY-4.0), la tabla de compatibilidad de navegadores.
+
+Algunas versiones están fijadas por debajo de la última para cumplir `engines: node >=20.19`: react-router 8 y `@testing-library/jest-dom` 6.10 exigen Node 22. Jest usa `@swc/jest` porque `ts-jest` falla con `verbatimModuleSyntax` y TypeScript 6 al emitir CommonJS. TypeScript queda en 6.0 porque `typescript-eslint` 8.71 no admite la 7. El detalle está en [`frontend/README.md`](../frontend/README.md#notas-de-mantenimiento).
+
+### Herramientas del repositorio
+
+| Herramienta | Versión | Licencia | Uso |
+|---|---|---|---|
+| Archify (`.claude/skills/archify/`) | 3.0.1 | MIT (Copyright tt-a1i y Cocoon AI) | Genera los diagramas de `docs/diagramas/`. Los HTML generados incluyen el visor de Archify (MIT) y la tipografía JetBrains Mono (OFL-1.1, con su licencia dentro del archivo). Son documentación, no parte del producto. |
+| Imágenes base de Docker | `python:3.12-slim`, `node:22-alpine`, `nginx:1.29-alpine` | Las de cada proyecto (PSF, MIT, BSD-2-Clause) | Solo para `docker compose`; no se distribuyen en el repositorio. |
 
 ## Regenerar `requirements*.txt`
 
