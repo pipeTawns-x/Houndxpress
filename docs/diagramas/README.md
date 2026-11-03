@@ -35,7 +35,7 @@ Todos los mensajes describen código que ya existe. Las respuestas van punteadas
 
 ## Patrones y evidencia
 
-Los cuatro diagramas anotan los patrones que el código usa. Cada patrón lleva una etiqueta honesta: **existe** (está en el código), **framework** (lo da Django o DRF), **analogía** (se parece, pero no es el patrón) o **propuesta** (todavía no existe). Los enlaces apuntan a la versión M54.3 de esta edición, así que no cambian cuando el código evoluciona. Archify verifica las 70 referencias contra esa revisión: 17 en `arquitectura`, 21 en `modelo-de-datos`, 20 en `ciclo-de-vida-guia` y 12 en `secuencia-consultas`.
+Los cuatro diagramas anotan los patrones que el código usa. Cada patrón lleva una etiqueta honesta: **existe** (está en el código), **framework** (lo da Django o DRF), **analogía** (se parece, pero no es el patrón) o **propuesta** (todavía no existe). Los enlaces apuntan a una versión fija de esta edición, así que no cambian cuando el código evoluciona. Archify verifica las 70 referencias contra esa revisión: 17 en `arquitectura`, 21 en `modelo-de-datos`, 20 en `ciclo-de-vida-guia` y 12 en `secuencia-consultas`.
 
 | Patrón | Etiqueta | Evidencia |
 |---|---|---|

@@ -35,7 +35,7 @@ def gap(label: str) -> int:
     return int(6.5 * len(label) + 21) + 24
 
 
-# Evidence for the four diagrams: version M54.3 of this edition. The source markers become
+# Evidence for the four diagrams: a pinned version of this edition. The source markers become
 # permalinks on GitHub once that commit is published.
 REPOSITORY = {
     "url": "https://github.com/pipeTawns-x/Houndxpress.git",
