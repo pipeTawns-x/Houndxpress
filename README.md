@@ -30,7 +30,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | API con Django REST Framework: punto de salud que consulta la base de datos | [`backend/core/views.py`](backend/core/views.py), [`backend/core/tests/test_health.py`](backend/core/tests/test_health.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias del backend con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Frontend en React 19, TypeScript y Vite, con estilos en Sass (BEM), estado en Redux Toolkit y 278 pruebas con Jest | [`frontend/`](frontend/), [`frontend/README.md`](frontend/README.md) |
+| Frontend en React 19, TypeScript y Vite, con estilos en Sass (BEM), estado en Redux Toolkit y 311 pruebas con Jest | [`frontend/`](frontend/), [`frontend/README.md`](frontend/README.md) |
 | Backend y frontend en contenedores, con nginx como proxy | [`docker-compose.yml`](docker-compose.yml), [`frontend/nginx.conf`](frontend/nginx.conf) |
 | Lint y 13 pruebas del backend en Linux (Python 3.10 y 3.12) y Windows; lint, tipos, pruebas y compilación del frontend; y el arranque con Docker | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
@@ -236,7 +236,7 @@ El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md)
 
 ## Derechos de uso
 
-Es un proyecto académico: no es el sitio oficial de Hound Express, y su nombre y logotipo pertenecen a la empresa.
+Es un rediseño no oficial: no es el sitio de Hound Express, y su nombre y logotipo pertenecen a la empresa.
 
 Este repositorio no incluye una licencia de código abierto. El código se cederá a Hound Express y el aviso de licencia se agregará cuando se formalice esa cesión. Las licencias de las dependencias están en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md).
 
