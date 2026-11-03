@@ -72,7 +72,7 @@ Reglas:
 | Aviso de demostración | Banda `warning` con icono: "Datos de demostración: se guardan solo en este navegador". | — |
 | Estado de la API | Punto y texto: "API en línea · BD ok", "API sin conexión". Consulta `/api/v1/health/`. | cargando, en línea, sin conexión |
 | Acordeón | `<details>`/`<summary>` con estilo propio y filtro de texto. | abierto, cerrado |
-| Pie | Fondo `navy-950`: logo blanco, lema "We move ecommerce globally!", enlaces, contacto por país, horario, estado de la API y aviso de proyecto académico. | — |
+| Pie | Fondo `navy-950`: logo blanco, lema "We move ecommerce globally!", enlaces, contacto por país, horario, estado de la API y aviso de rediseño no oficial. | — |
 
 ## 5. Pantallas
 
