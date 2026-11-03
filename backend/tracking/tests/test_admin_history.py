@@ -41,6 +41,27 @@ class AdminGuideCreationTests(TestCase):
     def setUp(self):
         self.client.force_login(self.admin_user)
 
+    def test_admin_add_form_ignores_archived_flag(self):
+        response = self.client.post(ADD_URL, add_form(is_archived="on"))
+
+        self.assertEqual(response.status_code, 302)
+        guide = Guide.objects.get(tracking_number=NUMBER)
+        self.assertFalse(guide.is_archived)
+        self.assertEqual(guide.status_history.count(), 1)
+
+    def test_admin_can_still_archive_an_existing_guide(self):
+        self.client.post(ADD_URL, add_form())
+        guide = Guide.objects.get(tracking_number=NUMBER)
+
+        form = add_form(is_archived="on")
+        form.pop("tracking_number")
+        response = self.client.post(f"/admin/tracking/guide/{guide.pk}/change/", form)
+
+        self.assertEqual(response.status_code, 302)
+        guide.refresh_from_db()
+        self.assertTrue(guide.is_archived)
+        self.assertEqual(guide.status_history.count(), 1)
+
     def test_admin_creation_records_first_history_row(self):
         response = self.client.post(ADD_URL, add_form())
 
