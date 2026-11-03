@@ -110,13 +110,18 @@ Método de Engram #809 y #810: cada patrón lleva una etiqueta honesta (existe e
 | Chain of Responsibility | Framework | `settings.py:95-103` (`MIDDLEWARE`) | Cada middleware atiende o pasa la petición |
 | Manager y QuerySet | Framework (Fowler, no GoF) | `models.py:179`, `:336` | Hace de Repository; no se agrega otra capa |
 
+**Construidos después (comprobados en M54.3):**
+
+| Patrón | Etiqueta | Dónde | Qué resuelve |
+|---|---|---|---|
+| Facade | Existe | `tracking/services.py:1`, `:59-70`, `:73-120`; `tracking/api/views.py:1`; `tracking/admin.py:47-51` | Las vistas y el admin solo llaman al servicio |
+| Command | **Analogía** | `tracking/services.py:73-120` (`advance_guide`); `tracking/models.py:417-436` (`StageTransitionAttempt`) | `advance_guide` es una función, no un objeto orden; registra el avance o audita el rechazo |
+| Value Object (DDD, no GoF) | Existe | `tracking/values.py:19-23` (`TrackingNumber`: `strip`, `upper`, formato) | Normaliza y valida el número en los límites de la aplicación |
+
 **Planeados:**
 
 | Patrón | Etiqueta | Dónde irá | Cuándo entra |
 |---|---|---|---|
-| Facade | Propuesta | `tracking/services.py` | M64: las vistas solo llaman al servicio |
-| Command | Propuesta | `advance_guide` como orden auditable; `StageTransitionAttempt` guarda las rechazadas | M64 |
-| Value Object (DDD, no GoF) | Propuesta | `tracking/values.py` (`TrackingNumber`: `strip`, `upper`, formato) | M64; nodo `value-objects` de roadmap.sh |
 | Observer | Propuesta | Avisos al registrar una etapa | Ola 3. **Ojo:** `bulk_create` no emite `post_save`, y `StatusHistoryQuerySet.bulk_create` (`models.py:255-323`) es una ruta válida de inserción. El aviso sale del servicio, no de una señal |
 | Adapter | Propuesta | `TrackingProvider` para Sabueso | Ola 3 (#1076) |
 | Strategy | Propuesta | Elección de proveedor (demostración o real) y cotizador por `ServiceLevel` (`models.py:49-51`) | Ola 3 |

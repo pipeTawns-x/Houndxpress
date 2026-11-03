@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="archify 3.0.1">
   <meta name="archify-reader-contract" content="declared-wide-v1">
-  <title>Modelo de datos de M54 · guías, historial y usuarios · Diagrama</title>
+  <title>Modelo de datos de M54.3 · guías, historial y usuarios · Diagrama</title>
   <script>
     // Resolve the theme before first paint so light-preference users don't
     // see a dark flash. The toolbar script below re-applies with UI state.
@@ -4978,17 +4978,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
            data-preset-badge-blueprint="PLANO / REV 01"
            data-preset-badge-editorial="EDITORIAL / NOTA DE CAMPO">
         <div class="pulse-dot"></div>
-        <h1>Modelo de datos de M54 · guías, historial y usuarios</h1>
+        <h1>Modelo de datos de M54.3 · guías, historial y usuarios</h1>
       </div>
     </div>
 
-    <script id="archify-source-evidence-data" type="application/json">{"schemaVersion":1,"verified":true,"repository":{"url":"https://github.com/pipeTawns-x/Houndxpress","revision":"aed7967dd0d3730d1feab3162d00c94033dd9685","shortRevision":"aed7967","label":"pipeTawns-x/Houndxpress","linkMode":"local-only"},"referenceCount":16,"nodes":{"guide":[{"path":"backend/tracking/models.py","line":162,"endLine":193,"label":"Guide, campos y restricciones"},{"path":"backend/tracking/models.py","line":185,"endLine":192,"label":"CheckConstraint de formato y etapa"},{"path":"backend/tracking/models.py","line":198,"endLine":240,"label":"save_base: etapa solo por historial"}],"history":[{"path":"backend/tracking/models.py","line":326,"endLine":343,"label":"StatusHistory y unique_stage_per_guide"},{"path":"backend/tracking/models.py","line":348,"endLine":352,"label":"save fuerza INSERT"},{"path":"backend/tracking/models.py","line":354,"endLine":397,"label":"save_base valida el prefijo"}],"user":[{"path":"backend/accounts/models.py","line":14,"endLine":22,"label":"User con department"},{"path":"backend/accounts/models.py","line":7,"endLine":11,"label":"Department: cuatro áreas"}],"guide_qs":[{"path":"backend/tracking/models.py","line":111,"endLine":124,"label":"update exige la autorización"},{"path":"backend/tracking/models.py","line":126,"endLine":131,"label":"bulk_update rechaza current_stage"},{"path":"backend/tracking/models.py","line":133,"endLine":159,"label":"bulk_create fija la etapa inicial"}],"history_qs":[{"path":"backend/tracking/models.py","line":243,"endLine":253,"label":"delete y update bloqueados"},{"path":"backend/tracking/models.py","line":255,"endLine":323,"label":"bulk_create valida cada guía"}],"advance":[{"path":"backend/tracking/models.py","line":93,"endLine":108,"label":"UPDATE condicional"},{"path":"backend/tracking/models.py","line":54,"endLine":56,"label":"ContextVar de autorización"},{"path":"backend/tracking/models.py","line":59,"endLine":67,"label":"_validate_stage_transition"}]}}</script>
+    <script id="archify-source-evidence-data" type="application/json">{"schemaVersion":1,"verified":true,"repository":{"url":"https://github.com/pipeTawns-x/Houndxpress","revision":"59f04705119e8875aea1c4e8ecffb0579b4b48e2","shortRevision":"59f0470","label":"pipeTawns-x/Houndxpress","linkMode":"local-only"},"referenceCount":21,"nodes":{"guide":[{"path":"backend/tracking/models.py","line":169,"endLine":184,"label":"Guide y sus campos"},{"path":"backend/tracking/models.py","line":191,"endLine":204,"label":"CheckConstraint de servicio, formato y etapa"},{"path":"backend/tracking/models.py","line":209,"endLine":251,"label":"save_base: etapa solo por historial"}],"history":[{"path":"backend/tracking/models.py","line":338,"endLine":355,"label":"StatusHistory y unique_stage_per_guide"},{"path":"backend/tracking/models.py","line":345,"label":"department del autor"},{"path":"backend/tracking/models.py","line":367,"endLine":411,"label":"save_base valida el prefijo"}],"user":[{"path":"backend/accounts/models.py","line":14,"endLine":24,"label":"User con department y updated_at"},{"path":"backend/accounts/models.py","line":7,"endLine":11,"label":"Department: cuatro áreas"}],"guide_qs":[{"path":"backend/tracking/models.py","line":119,"endLine":131,"label":"update exige la autorización"},{"path":"backend/tracking/models.py","line":133,"endLine":138,"label":"bulk_update rechaza current_stage"},{"path":"backend/tracking/models.py","line":140,"endLine":166,"label":"bulk_create fija la etapa inicial"}],"history_qs":[{"path":"backend/tracking/models.py","line":257,"endLine":264,"label":"delete y update bloqueados"},{"path":"backend/tracking/models.py","line":266,"endLine":335,"label":"bulk_create valida cada guía"}],"advance":[{"path":"backend/tracking/models.py","line":100,"endLine":115,"label":"UPDATE condicional"},{"path":"backend/tracking/models.py","line":56,"endLine":58,"label":"ContextVar de autorización"},{"path":"backend/tracking/models.py","line":61,"endLine":69,"label":"_validate_stage_transition"}],"services":[{"path":"backend/tracking/services.py","line":49,"endLine":56,"label":"record_first_stage"},{"path":"backend/tracking/services.py","line":73,"endLine":120,"label":"advance_guide"},{"path":"backend/tracking/admin.py","line":47,"endLine":51,"label":"el admin usa record_first_stage"}],"attempt":[{"path":"backend/tracking/models.py","line":417,"endLine":436,"label":"StageTransitionAttempt"},{"path":"backend/tracking/services.py","line":94,"endLine":100,"label":"se crea al rechazar un avance"}]}}</script>
     <script id="archify-i18n-data" type="application/json">{"locale":"es","messages":{"viewer.kind.frontend":"Frontend","viewer.kind.backend":"Backend","viewer.kind.database":"Base de datos","viewer.kind.cloud":"Nube","viewer.kind.security":"Seguridad","viewer.kind.messagebus":"Bus de mensajes","viewer.kind.external":"Externo","viewer.kind.neutral":"Neutral","viewer.kind.node":"Nodo","viewer.kind.start":"Inicio","viewer.kind.active":"Activo","viewer.kind.waiting":"En espera","viewer.kind.decision":"Decisión","viewer.kind.success":"Éxito","viewer.kind.failure":"Fallo","viewer.toolbar.actions":"Acciones del diagrama","viewer.theme.toggle.title":"Cambiar tema (T)","viewer.theme.toggle":"Cambiar tema de color","viewer.theme.dark":"Oscuro","viewer.theme.light":"Claro","viewer.preset.choose.title":"Elegir estilo visual (S alterna)","viewer.preset.choose":"Elegir estilo visual","viewer.preset.style":"Estilo","viewer.preset.menu":"Estilo visual","viewer.preset.identity":"Identidad visual","viewer.preset.cycles":"alterna","viewer.preset.classic":"Clásico","viewer.preset.classic.short":"Clásico","viewer.preset.classic.hint":"Predeterminado técnico estable","viewer.preset.flow":"Flujo de señal","viewer.preset.flow.short":"Flujo","viewer.preset.flow.hint":"Presentación con énfasis en el movimiento","viewer.preset.blueprint":"Plano","viewer.preset.blueprint.hint":"Revisión de ingeniería","viewer.preset.editorial":"Editorial","viewer.preset.editorial.hint":"Notas de publicación y lanzamiento","viewer.preset.badge.signalFlow":"FLUJO DE SEÑAL","viewer.preset.badge.blueprint":"PLANO / REV 01","viewer.preset.badge.editorial":"EDITORIAL / NOTA DE CAMPO","viewer.preset.badge.editorialPlate":"ARCHIFY / LÁMINA 04","viewer.preset.current":"Estilo visual: {style}. Elegir estilo visual","viewer.motion.live":"Activa","viewer.motion.still":"Fija","viewer.motion.pause":"Pausar animación","viewer.motion.resume":"Reanudar animación","viewer.motion.reduced":"Animación pausada por la preferencia de movimiento reducido","viewer.motion.hidden":"Animación pausada mientras esta página está oculta","viewer.motion.yielding":"Pausar animación; cediendo a {owner}","viewer.motion.yielding.title":"Vista previa en vivo activada · cediendo a {owner}","viewer.owner.route":"Sonda de ruta","viewer.owner.lens":"Lente semántico","viewer.owner.relationship":"Vista previa de relación","viewer.owner.intent":"Traza de intención","viewer.owner.focus":"enfoque semántico","viewer.owner.legend":"vista previa de la leyenda","viewer.owner.reader":"interacción del lector","viewer.present.enter":"Entrar al modo presentación","viewer.present.enter.title":"Modo presentación (F)","viewer.present.exit":"Salir del modo presentación","viewer.present.exit.title":"Salir del modo presentación (F o Escape)","viewer.present.present":"Presentar","viewer.present.exit.label":"Salir","viewer.export.button":"Exportar","viewer.export.button.title":"Exportar diagrama (E)","viewer.export.diagram":"Exportar diagrama","viewer.export.menu":"Exportar","viewer.export.subtitle":"Salidas portables y limpias","viewer.export.share":"Compartir","viewer.export.shareCard":"Tarjeta para compartir","viewer.export.routeShareCard":"Tarjeta de ruta para compartir","viewer.export.reachShareCard":"Tarjeta de alcance para compartir","viewer.export.copyDiagram":"Copiar diagrama","viewer.export.clipboardPng":"PNG al portapapeles","viewer.export.raster":"Imágenes rasterizadas","viewer.export.image":"Imagen","viewer.export.lossless":"Imagen sin pérdida","viewer.export.compact":"Imagen compacta","viewer.export.modern":"Imagen moderna","viewer.export.vectorMotion":"Vector y movimiento","viewer.export.vectorMotion.heading":"Vector y movimiento","viewer.export.editable":"Vector editable","viewer.export.svg.auto":"SVG · Auto","viewer.export.svg.auto.hint":"Coincide con el tema del host","viewer.export.svg.light":"SVG · Claro","viewer.export.svg.light.hint":"Siempre claro","viewer.export.svg.dark":"SVG · Oscuro","viewer.export.svg.dark.hint":"Siempre oscuro","viewer.export.motion6s":"Movimiento de 6 s","viewer.export.unsupported":"No compatible con este navegador","viewer.export.clipboardUnsupported":"Este navegador no admite escribir imágenes en el portapapeles","viewer.export.clipboardUnsupported.short":"Escritura de imágenes en el portapapeles no admitida en este navegador.","viewer.export.motionUnavailable":"Captura de movimiento no disponible en este navegador","viewer.export.webmUnavailable":"WebM no disponible en este navegador","viewer.export.failed":"Falló la exportación: {message}","viewer.export.unknownVariant":"Variante de tarjeta para compartir desconocida: {variant}","viewer.export.routeRequired":"Traza una ruta antes de exportar una tarjeta de ruta para compartir","viewer.export.reachRequired":"Traza el alcance definido antes de exportar una tarjeta de alcance para compartir","viewer.export.unknown":"desconocido","viewer.export.routeFailed":"Falló la exportación de la tarjeta de ruta para compartir: {message}","viewer.export.reachFailed":"Falló la exportación de la tarjeta de alcance para compartir: {message}","viewer.export.copyFailed":"Error al copiar: {message}","viewer.export.copiedPng":"PNG copiado al portapapeles","viewer.export.downloadedRoute":"Tarjeta de ruta para compartir descargada","viewer.export.downloadedReach":"Tarjeta de alcance para compartir descargada","viewer.export.downloadedWebm":"WebM descargado","viewer.export.recording":"Grabando 6 segundos de movimiento…","viewer.export.card.routeSummary.one":"Ruta: {source} → {target} · {count} paso","viewer.export.card.routeSummary.other":"Ruta: {source} → {target} · {count} pasos","viewer.export.card.reachSummary":"Alcance definido {direction} desde {origin} · {nodes} · {links} · máx {hops}","viewer.export.card.node.one":"{count} nodo","viewer.export.card.node.other":"{count} nodos","viewer.export.card.link.one":"{count} enlace","viewer.export.card.link.other":"{count} enlaces","viewer.export.card.hop.one":"{count} salto","viewer.export.card.hop.other":"{count} saltos","viewer.export.card.routeBadge":"ARCHIFY · RUTA · {hops}","viewer.export.card.reachBadge":"ARCHIFY · ALCANCE {direction}","viewer.export.direction.upstream":"Ascendente","viewer.export.direction.downstream":"Descendente","viewer.export.error.canvasUnavailable":"Lienzo no disponible para {label}","viewer.export.error.contextUnavailable":"Contexto de lienzo 2D no disponible para {label}","viewer.export.error.toBlobUnavailable":"canvas.toBlob no disponible para {label}","viewer.export.error.toBlobNull":"canvas.toBlob no devolvió datos para {label}","viewer.export.error.variantsCombined":"Las variantes de tarjeta para compartir no se pueden combinar","viewer.export.error.viewerState":"La exportación de la tarjeta para compartir no pudo quitar el estado temporal del visor","viewer.export.error.routeState":"La exportación de la tarjeta de ruta no pudo preservar la ruta resuelta de forma segura","viewer.export.error.reachState":"La exportación de la tarjeta de alcance no pudo preservar el alcance definido de forma segura","viewer.export.error.webmRequirements":"La exportación de movimiento WebM requiere una animación de traza y compatibilidad del navegador con MediaRecorder","viewer.export.error.mediaRecorder":"MediaRecorder falló","viewer.export.error.emptyWebm":"MediaRecorder produjo un WebM vacío","viewer.export.error.webmBackground":"No se pudo cargar el fondo SVG para la exportación WebM","viewer.guide.title":"Explorar este sistema","viewer.focus.selectedNodes":"{count} nodos seleccionados","viewer.guide.eyebrow":"Guía del diagrama","viewer.guide.close":"Cerrar la guía del diagrama","viewer.guide.inspecting":"Inspeccionando la semántica compilada","viewer.guide.actions":"Acciones de exploración del diagrama","viewer.guide.find":"Buscar cualquier nodo","viewer.guide.find.hint":"Busca por etiquetas, responsabilidades, tipos e IDs estables.","viewer.guide.route":"Trazar una ruta","viewer.guide.route.aria":"Trazar una ruta dirigida","viewer.guide.route.hint":"Pregunta cómo se conectan dos nodos semánticos en el sentido definido.","viewer.guide.map":"Ver todo el sistema","viewer.guide.map.hint":"Abre el Radar semántico con un viewport en vivo y nodos estables.","viewer.guide.lens":"Comparar tipos semánticos","viewer.guide.lens.hint":"Cuenta roles, revela su tráfico y compara enlaces directos definidos.","viewer.guide.present":"Entrar al modo presentación","viewer.guide.present.hint":"Dale al diagrama en vivo todo el viewport sin cambiar la exportación.","viewer.guide.shortcuts":"Atajos de teclado adicionales","viewer.guide.shortcut.export":"Exportar","viewer.guide.shortcut.theme":"Tema","viewer.guide.shortcut.style":"Estilo","viewer.guide.shortcut.reset":"Restablecer","viewer.guide.shortcut.zoomIn":"Acercar","viewer.guide.shortcut.zoomOut":"Alejar","viewer.guide.shortcut.close":"Cerrar","viewer.guide.facts":"{nodes} · {relationships}","viewer.guide.fact.node.one":"{count} nodo semántico","viewer.guide.fact.node.other":"{count} nodos semánticos","viewer.guide.fact.relationship.one":"{count} relación","viewer.guide.fact.relationship.other":"{count} relaciones","viewer.guide.open":"Abrir la guía del diagrama","viewer.finder.title":"Buscar un nodo","viewer.finder.close":"Cerrar el buscador de nodos","viewer.finder.placeholder":"Buscar etiquetas o IDs","viewer.finder.search":"Buscar nodos del diagrama","viewer.finder.results":"Nodos del diagrama","viewer.finder.empty":"No hay nodos coincidentes","viewer.finder.result.focus":"Enfocar {label}","viewer.finder.result.routeStart":"Elegir {label} como inicio de la ruta","viewer.finder.result.routeTarget":"Elegir {label} como destino de la ruta, {links}","viewer.finder.status.empty":"No hay nodos coincidentes","viewer.finder.status.count.one":"{count} nodo coincidente","viewer.finder.status.count.other":"{count} nodos coincidentes","viewer.finder.noun.nodes":"nodos","viewer.finder.link.one":"{count} enlace","viewer.finder.link.other":"{count} enlaces","viewer.finder.result.focus.one":"Enfocar {label}, {count} conexión relacionada","viewer.finder.result.focus.other":"Enfocar {label}, {count} conexiones relacionadas","viewer.finder.status.filtered":"{visible} de {available} {noun}","viewer.finder.status.all":"{available} {noun}","viewer.passport.eyebrow":"Pasaporte semántico","viewer.passport.metadata":"Metadatos del nodo","viewer.passport.evidence":"Evidencia de fuente verificada","viewer.passport.verified":"Fuente verificada","viewer.passport.verificationScope":"Verificado contra el Git local en la revisión fijada. No se ha comprobado el acceso remoto.","viewer.passport.reach":"Alcance definido","viewer.passport.reach.trace":"Trazar la alcanzabilidad definida","viewer.passport.upstream":"Ascendente","viewer.passport.downstream":"Descendente","viewer.passport.upstream.trace":"Trazar la alcanzabilidad definida ascendente","viewer.passport.downstream.trace":"Trazar la alcanzabilidad definida descendente","viewer.passport.close":"Cerrar el pasaporte semántico","viewer.passport.move":"Mover el pasaporte semántico. Arrastra, usa las flechas o pulsa Inicio para restablecer.","viewer.passport.copy":"Copiar enlace","viewer.passport.copy.focus":"Copiar enlace al nodo enfocado","viewer.passport.relations":"Relaciones","viewer.passport.relations.show":"Mostrar relaciones conectadas","viewer.passport.relations.hide":"Ocultar relaciones conectadas","viewer.passport.relations.list":"Relaciones conectadas","viewer.passport.copyRelation":"Copiar relación","viewer.passport.copyNode":"Copiar nodo","viewer.passport.copyPinned":"Copiar enlace a la relación fijada","viewer.passport.copySource":"Copiar enlace al nodo de origen","viewer.passport.copy.focused.success":"Enlace del nodo enfocado copiado","viewer.passport.copy.pinned.success":"Enlace de la relación fijada copiado","viewer.passport.copy.focused.failed":"No se pudo copiar el enlace del nodo enfocado","viewer.passport.copy.pinned.failed":"No se pudo copiar el enlace de la relación fijada","viewer.passport.relationship.none":"No hay relaciones conectadas","viewer.passport.relationship.count.one":"{count} relación","viewer.passport.relationship.count.other":"{count} relaciones","viewer.passport.relationship.show.one":"Mostrar {count} relación conectada","viewer.passport.relationship.show.other":"Mostrar {count} relaciones conectadas","viewer.passport.relationship.summary":"{out} salientes · {in} entrantes{loops}","viewer.passport.relationship.loops":" · {count} bucle","viewer.passport.relationship.explorer":"Explorador de relaciones directas","viewer.passport.relationship.help":"Usa las flechas para explorar las relaciones. Pulsa Enter o Espacio para fijar detalles; Escape las borra.","viewer.passport.relationship.loopsBack":"vuelve sobre sí mismo","viewer.passport.relationship.connectsTo":"conecta a","viewer.passport.relationship.connectsFrom":"conecta desde","viewer.passport.relationship.pinned":"Relación fijada · {from} → {to} · {label}","viewer.passport.relationship.inspect":"Inspeccionar relación {index} de {total}: {from} a {to}, {label}. Pulsa Enter para ver detalles.","viewer.passport.relationship.group.out":"Salientes","viewer.passport.relationship.group.in":"Entrantes","viewer.passport.relationship.group.loop":"Bucles propios","viewer.passport.relationship.row":"{group}: {relationship}, {neighbor}","viewer.passport.relationship.direction.out":"SAL →","viewer.passport.relationship.direction.in":"← ENT","viewer.passport.relationship.direction.loop":"BUCLE","viewer.passport.sourceCount.one":"{count} referencia de fuente verificada","viewer.passport.sourceCount.other":"{count} referencias de fuente verificadas","viewer.passport.sourceMarker":"SRC","viewer.passport.beacon.one":"{count} fuente verificada; enfoca este nodo para inspeccionar","viewer.passport.beacon.other":"{count} fuentes verificadas; enfoca este nodo para inspeccionar","viewer.passport.repository.open":"Abrir la revisión verificada del repositorio {revision}","viewer.passport.source.open":"Abrir la fuente verificada {path} en la revisión {revision}","viewer.passport.source.openLink":"Abrir ↗","viewer.passport.reach.upstream.one":"Trazar {count} nodo definido ascendente","viewer.passport.reach.upstream.other":"Trazar {count} nodos definidos ascendentes","viewer.passport.reach.downstream.one":"Trazar {count} nodo definido descendente","viewer.passport.reach.downstream.other":"Trazar {count} nodos definidos descendentes","viewer.passport.reach.noUpstream":"No hay nodos definidos ascendentes","viewer.passport.reach.noDownstream":"No hay nodos definidos descendentes","viewer.passport.reach.status":"{direction} · {nodes} nodos · {links} enlaces · máx {hops} saltos","viewer.route.eyebrow":"Ruta","viewer.route.start":"Haz clic donde empieza la ruta","viewer.route.start.find":"Buscar inicio","viewer.route.start.find.aria":"Buscar un inicio de ruta","viewer.route.copy":"Copiar enlace","viewer.route.copy.aria":"Copiar enlace a la ruta trazada","viewer.route.clear":"Borrar","viewer.route.clear.aria":"Borrar la sonda de ruta","viewer.route.traced":"Ruta","viewer.route.pickTwo":"Haz clic en dos nodos del diagrama","viewer.route.pickOne":"Haz clic en un nodo del diagrama","viewer.route.controls":"Controles del recorrido de la ruta","viewer.route.previous":"Posición anterior de la ruta","viewer.route.play":"Reproducir el recorrido de la ruta","viewer.route.pause":"Pausar el recorrido de la ruta","viewer.route.replay":"Repetir el recorrido de la ruta","viewer.route.next":"Posición siguiente de la ruta","viewer.route.journey":"Recorrido","viewer.route.pause.label":"Pausar","viewer.route.replay.label":"Repetir","viewer.route.overview":"Vista general","viewer.route.overview.aria":"Mostrar la vista general completa de la ruta","viewer.route.instructions":"Haz clic en un inicio y luego en un final. La ruta sigue las flechas.","viewer.route.destination":"¿Dónde termina la ruta desde {label}?","viewer.route.destination.find":"Buscar destino","viewer.route.destination.find.aria":"Buscar un destino de ruta alcanzable","viewer.route.differentDestination":"Elige un destino diferente","viewer.route.distinct":"Elige dos nodos distintos.","viewer.route.unreachable":"No se llega a {label} desde aquí","viewer.route.unreachable.detail":"No se llega a {target} desde {source} siguiendo las flechas. Elige un nodo resaltado.","viewer.route.start.instructions":"Luego elige el final. Solo se iluminan los nodos alcanzables.","viewer.route.copy.success":"Enlace de la ruta trazada copiado","viewer.route.copy.failed":"No se pudo copiar el enlace de la ruta trazada","viewer.route.position":"Posición de la ruta {index} de {total}: {label}","viewer.route.step":"Paso {index} de {total} · {phase} · {label}","viewer.route.motionRequired":"El recorrido automático requiere la animación Activa","viewer.route.trigger.clear":"Borrar la ruta trazada","viewer.route.overview.status":"{nodes} · {hops} · ruta más corta","viewer.route.overview.node.one":"{count} nodo","viewer.route.overview.node.other":"{count} nodos","viewer.route.overview.hop.one":"{count} paso","viewer.route.overview.hop.other":"{count} pasos","viewer.route.phase.playing":"Reproduciendo","viewer.route.phase.complete":"Completo","viewer.route.phase.inspecting":"Inspeccionando","viewer.route.destination.count.one":"{count} nodo alcanzable está resaltado. Haz clic en él.","viewer.route.destination.count.other":"{count} nodos alcanzables están resaltados. Haz clic en uno.","viewer.route.noOutgoing":"Ninguna flecha sale de este nodo. Bórralo y elige otro inicio.","viewer.route.result.title":"{source} a {target}","viewer.route.finder.source.title":"Elegir el inicio de la ruta","viewer.route.finder.source.placeholder":"Buscar orígenes de ruta","viewer.route.finder.source.empty":"No hay orígenes de ruta coincidentes","viewer.route.finder.source.results":"Nodos que pueden iniciar una ruta","viewer.route.finder.source.noun":"orígenes de ruta","viewer.route.finder.source.badge":"inicio","viewer.route.finder.target.title":"Destino desde {label}","viewer.route.finder.target.placeholder":"Buscar destinos alcanzables","viewer.route.finder.target.empty":"No hay destinos alcanzables coincidentes","viewer.route.finder.target.results":"Destinos de ruta alcanzables","viewer.route.finder.target.noun":"destinos alcanzables","viewer.route.hop.one":"{count} salto","viewer.route.hop.other":"{count} saltos","viewer.lens.eyebrow":"Lente semántico","viewer.lens.title":"Comparar roles del sistema","viewer.lens.close":"Cerrar el lente semántico","viewer.lens.instruction":"Elige hasta dos tipos semánticos. Uno revela su tráfico real; dos comparan solo las relaciones directas definidas.","viewer.lens.kinds":"Tipos semánticos","viewer.lens.choose":"Elige un tipo para inspeccionar sus nodos y las relaciones que lo tocan.","viewer.lens.copy":"Copiar enlace al lente semántico","viewer.lens.clear":"Borrar el lente semántico","viewer.lens.open":"Abrir el lente semántico","viewer.lens.openActive":"Abrir el lente semántico activo","viewer.lens.legend":"Leyenda semántica","viewer.lens.legend.inspect.one":"Inspeccionar {label}, {count} nodo","viewer.lens.legend.inspect.other":"Inspeccionar {label}, {count} nodos","viewer.lens.kind.count.one":"{label}, {count} nodo","viewer.lens.kind.count.other":"{label}, {count} nodos","viewer.lens.compare.one":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} relación directa","viewer.lens.compare.other":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} relaciones directas","viewer.lens.single":"{nodes} · {relationships} · los pares conectados permanecen visibles","viewer.lens.node.one":"{count} nodo {label}","viewer.lens.node.other":"{count} nodos {label}","viewer.lens.relationship.one":"{count} relación en contacto","viewer.lens.relationship.other":"{count} relaciones en contacto","viewer.radar.title":"Radar semántico","viewer.radar.building":"Construyendo la vista general","viewer.radar.openFull":"Abrir el radar semántico completo","viewer.radar.open":"Abrir el radar","viewer.radar.close":"Cerrar el radar semántico","viewer.radar.surface":"Vista general del diagrama. Haz clic en un nodo para enfocarlo, o usa las flechas para desplazarte.","viewer.radar.click":"Clic en el nodo","viewer.radar.drag":"Arrastra para desplazar","viewer.radar.space":"El radar semántico necesita más espacio de MAPA.","viewer.radar.nodes":"Nodos del radar del diagrama semántico","viewer.radar.focus":"Enfocar {label} desde el Radar semántico","viewer.radar.status":"{count} nodos · {viewport}","viewer.radar.fullMap":"{count} nodos · mapa completo","viewer.radar.compacted":"Radar compactado para no tapar el Pasaporte semántico ni los controles de MAPA.","viewer.radar.cancelWaiting":"Cancelar la espera del radar semántico por más espacio de MAPA","viewer.radar.needsSpace":"El radar semántico necesita más espacio de MAPA visible","viewer.radar.viewport.full":"mapa completo","viewer.radar.viewport.width":"{percent}% de ancho","viewer.radar.viewport.scale":"{percent}% del viewport","viewer.nav.controls":"Controles de vista del diagrama","viewer.nav.route":"Trazar una ruta dirigida","viewer.nav.route.title":"Trazar ruta (R)","viewer.nav.route.short":"RUTA","viewer.nav.radar":"Abrir el radar semántico","viewer.nav.radar.title":"Radar semántico (M)","viewer.nav.radar.short":"MAPA","viewer.nav.lens":"Abrir el lente semántico","viewer.nav.lens.title":"Lente semántico (L)","viewer.nav.lens.short":"LENTE","viewer.nav.find":"Buscar un nodo","viewer.nav.find.title":"Buscar un nodo (/)","viewer.outline.title":"Índice de nodos","viewer.rail.show":"Notas e índice","viewer.rail.controls":"Panel lateral","viewer.rail.collapse":"Contraer panel lateral","viewer.rail.bottom":"Mover el panel debajo","viewer.rail.right":"Mover el panel al lado","viewer.nav.guide":"Abrir la guía del diagrama","viewer.nav.guide.title":"Guía del diagrama (?)","viewer.nav.zoomOut":"Alejar","viewer.nav.zoomOut.title":"Alejar (-)","viewer.nav.reset":"Restablecer la vista del diagrama","viewer.nav.reset.title":"Restablecer vista (0)","viewer.nav.read":"LEER","viewer.nav.zoomIn":"Acercar","viewer.nav.zoomIn.title":"Acercar (+)","viewer.nav.camera":"{hint}. Restablecer la vista del diagrama","viewer.nav.camera.title":"{semantic}{hint} · restablecer vista (0)","viewer.nav.camera.semantic":"Cámara semántica activa · ","viewer.nav.level.map":"MAPA","viewer.nav.level.read":"LEER","viewer.nav.level.full":"COMPLETO","viewer.nav.level.auto":"AUTO","viewer.nav.detail.map":"Acerca para revelar las etiquetas de relación y el contexto de los nodos","viewer.nav.detail.read":"Acerca de nuevo para revelar etiquetas y anotaciones","viewer.nav.detail.full":"Detalle completo del diagrama","viewer.intent.summary":"{label}. {out} salientes, {in} entrantes{loops}. {total} conexiones. Pulsa Enter para ver detalles.","viewer.intent.loops":", {count} bucle propio","viewer.common.copied":"Copiado","viewer.common.copyFailed":"Error al copiar","viewer.common.copyLink":"Copiar enlace","viewer.common.clear":"Borrar","viewer.common.close":"Cerrar"}}</script>
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / LÁMINA 04">
-      <svg viewBox="0 0 1436 642" role="img" lang="es" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
-        <title id="archify-diagram-title">Modelo de datos de M54 · guías, historial y usuarios</title>
+      <svg viewBox="0 0 1476 772" role="img" lang="es" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase" data-reader-fit="intrinsic-height" data-reader-min-text="7.5" data-reader-primary-text="14">
+        <title id="archify-diagram-title">Modelo de datos de M54.3 · guías, historial y usuarios</title>
         <desc id="archify-diagram-description">Un diagrama de arquitectura generado por Archify.</desc>
         <!-- Definitions -->
         <defs>
@@ -5013,95 +5013,111 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <rect width="100%" height="100%" fill="url(#grid)" />
 
         <!-- Boundaries (behind everything) -->
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="App tracking · tracking/models.py" x="10" y="80" width="982" height="494" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="0" data-composition-frame-label="App tracking · models.py y services.py" x="10" y="80" width="1130" height="624" rx="12" class="c-region" stroke-width="1"/>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="App accounts" x="1126" y="270" width="270" height="114" rx="12" class="c-region" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="region" data-composition-frame-id="1" data-composition-frame-label="App accounts" x="1166" y="250" width="270" height="114" rx="12" class="c-region" stroke-width="1"/>
 
         <!-- Connection paths (before components for correct z-order) -->
         <g data-graph-role="automatic-crossover" style="--step:0">
-          <path data-graph-role="automatic-crossover-underlay" d="M 230 332 L 340 332" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="incident" data-edge-to="guide" data-edge-label="guide · FK" data-edge-key="0" data-edge-id="incident-guide" data-composition-points="230,332;340,332" data-composition-crossover="halo" data-composition-independent="true" d="M 230 332 L 340 332" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 230 312 L 340 312" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="incident" data-edge-to="guide" data-edge-label="guide · FK" data-edge-key="0" data-edge-id="incident-guide" data-composition-points="230,312;340,312" data-composition-crossover="halo" data-composition-independent="true" d="M 230 312 L 340 312" class="a-dashed" stroke-width="1.5" marker-end="url(#arrowhead-dashed)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:1">
-          <path data-graph-role="automatic-crossover-underlay" d="M 732 332 L 570 332" fill="none" stroke="var(--mask)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="history" data-edge-to="guide" data-edge-label="guide · FK PROTECT" data-edge-key="1" data-edge-id="history-guide" data-composition-points="732,332;570,332" data-composition-crossover="halo" data-composition-independent="true" d="M 732 332 L 570 332" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 732 305 L 570 305" fill="none" stroke="var(--mask)" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="history" data-edge-to="guide" data-edge-label="guide · FK PROTECT" data-edge-key="1" data-edge-id="history-guide" data-composition-points="732,305;570,305" data-composition-crossover="halo" data-composition-independent="true" d="M 732 305 L 570 305" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:2">
-          <path data-graph-role="automatic-crossover-underlay" d="M 962 332 L 1156 332" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="history" data-edge-to="user" data-edge-label="updated_by · FK PROTECT" data-edge-key="2" data-edge-id="history-user" data-composition-points="962,332;1156,332" data-composition-crossover="halo" data-composition-independent="true" d="M 962 332 L 1156 332" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 962 312 L 1196 312" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="history" data-edge-to="user" data-edge-label="updated_by · FK PROTECT" data-edge-key="2" data-edge-id="history-user" data-composition-points="962,312;1196,312" data-composition-crossover="halo" data-composition-independent="true" d="M 962 312 L 1196 312" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:3">
-          <path data-graph-role="automatic-crossover-underlay" d="M 455 174 L 455 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="guide_qs" data-edge-to="guide" data-edge-label="objects" data-edge-key="3" data-edge-id="guideqs-guide" data-composition-points="455,174;455,300" data-composition-crossover="halo" data-composition-independent="true" d="M 455 174 L 455 300" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 455 174 L 455 280" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="guide_qs" data-edge-to="guide" data-edge-label="objects" data-edge-key="3" data-edge-id="guideqs-guide" data-composition-points="455,174;455,280" data-composition-crossover="halo" data-composition-independent="true" d="M 455 174 L 455 280" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:4">
-          <path data-graph-role="automatic-crossover-underlay" d="M 847 174 L 847 300" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="history_qs" data-edge-to="history" data-edge-label="objects" data-edge-key="4" data-edge-id="historyqs-history" data-composition-points="847,174;847,300" data-composition-crossover="halo" data-composition-independent="true" d="M 847 174 L 847 300" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 847 174 L 847 280" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="history_qs" data-edge-to="history" data-edge-label="objects" data-edge-key="4" data-edge-id="historyqs-history" data-composition-points="847,174;847,280" data-composition-crossover="halo" data-composition-independent="true" d="M 847 174 L 847 280" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:5">
-          <path data-graph-role="automatic-crossover-underlay" d="M 847 364 L 847 490" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="history" data-edge-to="advance" data-edge-label="save_base" data-edge-key="5" data-edge-id="history-advance" data-composition-points="847,364;847,490" data-composition-crossover="halo" data-composition-independent="true" d="M 847 364 L 847 490" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 840 344 L 840 360 Q 840 368 832 368 L 772 368 Q 764 368 764 376 L 764 474 Q 764 482 756 482 L 740 482" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="history" data-edge-to="advance" data-edge-label="save_base" data-edge-key="5" data-edge-id="history-advance" data-composition-points="840,344;840,368;764,368;764,482;740,482" data-composition-crossover="halo" data-composition-independent="true" d="M 840 344 L 840 360 Q 840 368 832 368 L 772 368 Q 764 368 764 376 L 764 474 Q 764 482 756 482 L 740 482" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
         <g data-graph-role="automatic-crossover" style="--step:6">
-          <path data-graph-role="automatic-crossover-underlay" d="M 732 522 L 463 522 Q 455 522 455 514 L 455 364" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
-          <path data-edge-from="advance" data-edge-to="guide" data-edge-label="avanza current_stage" data-edge-key="6" data-edge-id="advance-guide" data-composition-points="732,522;455,522;455,364" data-composition-crossover="halo" data-composition-independent="true" d="M 732 522 L 463 522 Q 455 522 455 514 L 455 364" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+          <path data-graph-role="automatic-crossover-underlay" d="M 625 450 L 625 434 Q 625 426 617 426 L 602 426 Q 594 426 594 418 L 594 328.05 Q 594 320.05 586 320.05 L 570 320.05" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="advance" data-edge-to="guide" data-edge-label="avanza current_stage" data-edge-key="6" data-edge-id="advance-guide" data-composition-points="625,450;625,426;594,426;594,320.05;570,320.05" data-composition-crossover="halo" data-composition-independent="true" d="M 625 450 L 625 434 Q 625 426 617 426 L 602 426 Q 594 426 594 418 L 594 328.05 Q 594 320.05 586 320.05 L 570 320.05" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+        </g>
+        <g data-graph-role="automatic-crossover" style="--step:7">
+          <path data-graph-role="automatic-crossover-underlay" d="M 995 450 L 995 405 Q 995 397 987 397 L 862 397 Q 854 397 854 389 L 854 344" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="services" data-edge-to="history" data-edge-label="crea la fila" data-edge-key="7" data-edge-id="services-history" data-composition-points="995,450;995,397;854,397;854,344" data-composition-crossover="halo" data-composition-independent="true" d="M 995 450 L 995 405 Q 995 397 987 397 L 862 397 Q 854 397 854 389 L 854 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        </g>
+        <g data-graph-role="automatic-crossover" style="--step:8">
+          <path data-graph-role="automatic-crossover-underlay" d="M 995 514 L 995 559 Q 995 567 987 567 L 855 567 Q 847 567 847 575 L 847 620" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="services" data-edge-to="attempt" data-edge-label="registra el rechazo" data-edge-key="8" data-edge-id="services-attempt" data-composition-points="995,514;995,567;847,567;847,620" data-composition-crossover="halo" data-composition-independent="true" d="M 995 514 L 995 559 Q 995 567 987 567 L 855 567 Q 847 567 847 575 L 847 620" class="a-security" stroke-width="1.5" marker-end="url(#arrowhead-security)"/>
+        </g>
+        <g data-graph-role="automatic-crossover" style="--step:9">
+          <path data-graph-role="automatic-crossover-underlay" d="M 732 652 L 463 652 Q 455 652 455 644 L 455 344" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="attempt" data-edge-to="guide" data-edge-label="guide · FK PROTECT" data-edge-key="9" data-edge-id="attempt-guide" data-composition-points="732,652;455,652;455,344" data-composition-crossover="halo" data-composition-independent="true" d="M 732 652 L 463 652 Q 455 652 455 644 L 455 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        </g>
+        <g data-graph-role="automatic-crossover" style="--step:10">
+          <path data-graph-role="automatic-crossover-underlay" d="M 962 652 L 1293 652 Q 1301 652 1301 644 L 1301 344" fill="none" stroke="var(--mask)" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+          <path data-edge-from="attempt" data-edge-to="user" data-edge-label="attempted_by · FK PROTECT" data-edge-key="10" data-edge-id="attempt-user" data-composition-points="962,652;1301,652;1301,344" data-composition-crossover="halo" data-composition-independent="true" d="M 962 652 L 1293 652 Q 1301 652 1301 644 L 1301 344" class="a-default" stroke-width="1.5" marker-end="url(#arrowhead)"/>
         </g>
 
         <!-- Components -->
-        <g id="node-incident" data-node-id="incident" data-node-label="Incident (propuesta)" tabindex="0" role="button" aria-label="Enfocar Incident (propuesta), contador con alerta · D5, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="contador con alerta · D5" data-node-tag="propuesta · D5" data-node-context="App tracking · tracking/models.py">
-          <title>Incident (propuesta) · contador con alerta · D5 · App tracking · tracking/models.py · propuesta · D5</title>
-          <rect x="40" y="300" width="190" height="64" rx="6" class="c-mask"/>
-          <rect x="40" y="300" width="190" height="64" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(46 306) scale(0.6875)">
+        <g id="node-incident" data-node-id="incident" data-node-label="Incident (propuesta)" tabindex="0" role="button" aria-label="Enfocar Incident (propuesta), contador con alerta · D5, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="contador con alerta · D5" data-node-tag="propuesta · D5" data-node-context="App tracking · models.py y services.py">
+          <title>Incident (propuesta) · contador con alerta · D5 · App tracking · models.py y services.py · propuesta · D5</title>
+          <rect x="40" y="280" width="190" height="64" rx="6" class="c-mask"/>
+          <rect x="40" y="280" width="190" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(46 286) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="135" y="330" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Incident (propuesta)</text>
-        <text data-detail="context" x="135" y="346" class="t-muted" font-size="9" text-anchor="middle">contador con alerta · D5</text>
-        <text data-detail="fine" x="135" y="356" class="t-database" font-size="7" text-anchor="middle">propuesta · D5</text>
+          <text data-node-label="" data-detail-anchor="" x="135" y="310" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Incident (propuesta)</text>
+        <text data-detail="context" x="135" y="326" class="t-muted" font-size="9" text-anchor="middle">contador con alerta · D5</text>
+        <text data-detail="fine" x="135" y="336" class="t-database" font-size="7" text-anchor="middle">propuesta · D5</text>
         </g>
 
-        <g id="node-guide" data-node-id="guide" data-node-label="Guide" tabindex="0" role="button" aria-label="Enfocar Guide, tracking_number único · current_stage, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="tracking_number único · current_stage" data-node-tag="CheckConstraint ×2" data-node-context="App tracking · tracking/models.py">
-          <title>Guide · tracking_number único · current_stage · App tracking · tracking/models.py · CheckConstraint ×2</title>
-          <rect x="340" y="300" width="230" height="64" rx="6" class="c-mask"/>
-          <rect x="340" y="300" width="230" height="64" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(346 306) scale(0.6875)">
+        <g id="node-guide" data-node-id="guide" data-node-label="Guide" tabindex="0" role="button" aria-label="Enfocar Guide, tracking_number único · current_stage, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="tracking_number único · current_stage" data-node-tag="CheckConstraint ×3" data-node-context="App tracking · models.py y services.py">
+          <title>Guide · tracking_number único · current_stage · App tracking · models.py y services.py · CheckConstraint ×3</title>
+          <rect x="340" y="280" width="230" height="64" rx="6" class="c-mask"/>
+          <rect x="340" y="280" width="230" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(346 286) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="455" y="330" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Guide</text>
-        <text data-detail="context" x="455" y="346" class="t-muted" font-size="9" text-anchor="middle">tracking_number único · current_stage</text>
-        <text data-detail="fine" x="455" y="356" class="t-database" font-size="7" text-anchor="middle">CheckConstraint ×2</text>
+          <text data-node-label="" data-detail-anchor="" x="455" y="310" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Guide</text>
+        <text data-detail="context" x="455" y="326" class="t-muted" font-size="9" text-anchor="middle">tracking_number único · current_stage</text>
+        <text data-detail="fine" x="455" y="336" class="t-database" font-size="7" text-anchor="middle">CheckConstraint ×3</text>
         </g>
 
-        <g id="node-history" data-node-id="history" data-node-label="StatusHistory" tabindex="0" role="button" aria-label="Enfocar StatusHistory, solo inserción · una fila por etapa, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="solo inserción · una fila por etapa" data-node-tag="UniqueConstraint(guide, stage)" data-node-context="App tracking · tracking/models.py">
-          <title>StatusHistory · solo inserción · una fila por etapa · App tracking · tracking/models.py · UniqueConstraint(guide, stage)</title>
-          <rect x="732" y="300" width="230" height="64" rx="6" class="c-mask"/>
-          <rect x="732" y="300" width="230" height="64" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(738 306) scale(0.6875)">
+        <g id="node-history" data-node-id="history" data-node-label="StatusHistory" tabindex="0" role="button" aria-label="Enfocar StatusHistory, solo inserción · autor y department, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="solo inserción · autor y department" data-node-tag="UniqueConstraint(guide, stage)" data-node-context="App tracking · models.py y services.py">
+          <title>StatusHistory · solo inserción · autor y department · App tracking · models.py y services.py · UniqueConstraint(guide, stage)</title>
+          <rect x="732" y="280" width="230" height="64" rx="6" class="c-mask"/>
+          <rect x="732" y="280" width="230" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(738 286) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="847" y="330" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">StatusHistory</text>
-        <text data-detail="context" x="847" y="346" class="t-muted" font-size="9" text-anchor="middle">solo inserción · una fila por etapa</text>
-        <text data-detail="fine" x="847" y="356" class="t-database" font-size="7" text-anchor="middle">UniqueConstraint(guide, stage)</text>
+          <text data-node-label="" data-detail-anchor="" x="847" y="310" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">StatusHistory</text>
+        <text data-detail="context" x="847" y="326" class="t-muted" font-size="9" text-anchor="middle">solo inserción · autor y department</text>
+        <text data-detail="fine" x="847" y="336" class="t-database" font-size="7" text-anchor="middle">UniqueConstraint(guide, stage)</text>
         </g>
 
         <g id="node-user" data-node-id="user" data-node-label="User (accounts)" tabindex="0" role="button" aria-label="Enfocar User (accounts), AbstractUser · department, App accounts" aria-pressed="false" data-node-kind="database" data-node-sublabel="AbstractUser · department" data-node-tag="framework" data-node-context="App accounts">
           <title>User (accounts) · AbstractUser · department · App accounts · framework</title>
-          <rect x="1156" y="300" width="210" height="64" rx="6" class="c-mask"/>
-          <rect x="1156" y="300" width="210" height="64" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(1162 306) scale(0.6875)">
+          <rect x="1196" y="280" width="210" height="64" rx="6" class="c-mask"/>
+          <rect x="1196" y="280" width="210" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(1202 286) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="1261" y="330" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">User (accounts)</text>
-        <text data-detail="context" x="1261" y="346" class="t-muted" font-size="9" text-anchor="middle">AbstractUser · department</text>
-        <text data-detail="fine" x="1261" y="356" class="t-database" font-size="7" text-anchor="middle">framework</text>
+          <text data-node-label="" data-detail-anchor="" x="1301" y="310" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">User (accounts)</text>
+        <text data-detail="context" x="1301" y="326" class="t-muted" font-size="9" text-anchor="middle">AbstractUser · department</text>
+        <text data-detail="fine" x="1301" y="336" class="t-database" font-size="7" text-anchor="middle">framework</text>
         </g>
 
-        <g id="node-guide_qs" data-node-id="guide_qs" data-node-label="GuideQuerySet" tabindex="0" role="button" aria-label="Enfocar GuideQuerySet, analogía de Proxy · vigila current_stage, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="security" data-node-sublabel="analogía de Proxy · vigila current_stage" data-node-tag="analogía de Proxy" data-node-context="App tracking · tracking/models.py">
-          <title>GuideQuerySet · analogía de Proxy · vigila current_stage · App tracking · tracking/models.py · analogía de Proxy</title>
+        <g id="node-guide_qs" data-node-id="guide_qs" data-node-label="GuideQuerySet" tabindex="0" role="button" aria-label="Enfocar GuideQuerySet, analogía de Proxy · vigila current_stage, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="security" data-node-sublabel="analogía de Proxy · vigila current_stage" data-node-tag="analogía de Proxy" data-node-context="App tracking · models.py y services.py">
+          <title>GuideQuerySet · analogía de Proxy · vigila current_stage · App tracking · models.py y services.py · analogía de Proxy</title>
           <rect x="340" y="110" width="230" height="64" rx="6" class="c-mask"/>
           <rect x="340" y="110" width="230" height="64" rx="6" class="c-security" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(346 116) scale(0.6875)">
@@ -5113,8 +5129,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <text data-detail="fine" x="455" y="166" class="t-security" font-size="7" text-anchor="middle">analogía de Proxy</text>
         </g>
 
-        <g id="node-history_qs" data-node-id="history_qs" data-node-label="StatusHistoryQuerySet" tabindex="0" role="button" aria-label="Enfocar StatusHistoryQuerySet, analogía de Proxy · sin update ni delete, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="security" data-node-sublabel="analogía de Proxy · sin update ni delete" data-node-tag="analogía de Proxy" data-node-context="App tracking · tracking/models.py">
-          <title>StatusHistoryQuerySet · analogía de Proxy · sin update ni delete · App tracking · tracking/models.py · analogía de Proxy</title>
+        <g id="node-history_qs" data-node-id="history_qs" data-node-label="StatusHistoryQuerySet" tabindex="0" role="button" aria-label="Enfocar StatusHistoryQuerySet, analogía de Proxy · sin update ni delete, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="security" data-node-sublabel="analogía de Proxy · sin update ni delete" data-node-tag="analogía de Proxy" data-node-context="App tracking · models.py y services.py">
+          <title>StatusHistoryQuerySet · analogía de Proxy · sin update ni delete · App tracking · models.py y services.py · analogía de Proxy</title>
           <rect x="732" y="110" width="230" height="64" rx="6" class="c-mask"/>
           <rect x="732" y="110" width="230" height="64" rx="6" class="c-security" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="security" class="semantic-sigil s-security" transform="translate(738 116) scale(0.6875)">
@@ -5126,73 +5142,114 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <text data-detail="fine" x="847" y="166" class="t-security" font-size="7" text-anchor="middle">analogía de Proxy</text>
         </g>
 
-        <g id="node-advance" data-node-id="advance" data-node-label="_advance_current_stage" tabindex="0" role="button" aria-label="Enfocar _advance_current_stage, State simple · UPDATE condicional, App tracking · tracking/models.py" aria-pressed="false" data-node-kind="backend" data-node-sublabel="State simple · UPDATE condicional" data-node-tag="State simple · compare-and-set" data-node-context="App tracking · tracking/models.py">
-          <title>_advance_current_stage · State simple · UPDATE condicional · App tracking · tracking/models.py · State simple · compare-and-set</title>
-          <rect x="732" y="490" width="230" height="64" rx="6" class="c-mask"/>
-          <rect x="732" y="490" width="230" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(738 496) scale(0.6875)">
+        <g id="node-advance" data-node-id="advance" data-node-label="_advance_current_stage" tabindex="0" role="button" aria-label="Enfocar _advance_current_stage, State simple · UPDATE condicional, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="backend" data-node-sublabel="State simple · UPDATE condicional" data-node-tag="State simple · compare-and-set" data-node-context="App tracking · models.py y services.py">
+          <title>_advance_current_stage · State simple · UPDATE condicional · App tracking · models.py y services.py · State simple · compare-and-set</title>
+          <rect x="510" y="450" width="230" height="64" rx="6" class="c-mask"/>
+          <rect x="510" y="450" width="230" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(516 456) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="847" y="520" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">_advance_current_stage</text>
-        <text data-detail="context" x="847" y="536" class="t-muted" font-size="9" text-anchor="middle">State simple · UPDATE condicional</text>
-        <text data-detail="fine" x="847" y="546" class="t-backend" font-size="7" text-anchor="middle">State simple · compare-and-set</text>
+          <text data-node-label="" data-detail-anchor="" x="625" y="480" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">_advance_current_stage</text>
+        <text data-detail="context" x="625" y="496" class="t-muted" font-size="9" text-anchor="middle">State simple · UPDATE condicional</text>
+        <text data-detail="fine" x="625" y="506" class="t-backend" font-size="7" text-anchor="middle">State simple · compare-and-set</text>
+        </g>
+
+        <g id="node-services" data-node-id="services" data-node-label="tracking.services" tabindex="0" role="button" aria-label="Enfocar tracking.services, API y admin · primera etapa y avance, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="backend" data-node-sublabel="API y admin · primera etapa y avance" data-node-tag="Facade" data-node-context="App tracking · models.py y services.py">
+          <title>tracking.services · API y admin · primera etapa y avance · App tracking · models.py y services.py · Facade</title>
+          <rect x="880" y="450" width="230" height="64" rx="6" class="c-mask"/>
+          <rect x="880" y="450" width="230" height="64" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(886 456) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="995" y="480" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">tracking.services</text>
+        <text data-detail="context" x="995" y="496" class="t-muted" font-size="9" text-anchor="middle">API y admin · primera etapa y avance</text>
+        <text data-detail="fine" x="995" y="506" class="t-backend" font-size="7" text-anchor="middle">Facade</text>
+        </g>
+
+        <g id="node-attempt" data-node-id="attempt" data-node-label="StageTransitionAttempt" tabindex="0" role="button" aria-label="Enfocar StageTransitionAttempt, auditoría de avances rechazados, App tracking · models.py y services.py" aria-pressed="false" data-node-kind="database" data-node-sublabel="auditoría de avances rechazados" data-node-tag="skip · backwards · delivered · archived" data-node-context="App tracking · models.py y services.py">
+          <title>StageTransitionAttempt · auditoría de avances rechazados · App tracking · models.py y services.py · skip · backwards · delivered · archived</title>
+          <rect x="732" y="620" width="230" height="64" rx="6" class="c-mask"/>
+          <rect x="732" y="620" width="230" height="64" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(738 626) scale(0.6875)">
+            <ellipse cx="8" cy="4" rx="5" ry="2"/>
+            <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="847" y="650" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">StageTransitionAttempt</text>
+        <text data-detail="context" x="847" y="666" class="t-muted" font-size="9" text-anchor="middle">auditoría de avances rechazados</text>
+        <text data-detail="fine" x="847" y="676" class="t-database" font-size="7" text-anchor="middle">skip · backwards · delivered · archived</text>
         </g>
 
         <!-- Connection labels -->
         <g data-detail="context" data-edge-from="incident" data-edge-to="guide" data-edge-label="guide · FK" data-edge-key="0" data-edge-id="incident-guide">
-          <rect x="256" y="312" width="58" height="14" rx="3" class="c-mask"/>
-          <text x="285" y="322" class="t-edge-dashed" font-size="8" text-anchor="middle">guide · FK</text>
+          <rect x="256" y="292" width="58" height="14" rx="3" class="c-mask"/>
+          <text x="285" y="302" class="t-edge-dashed" font-size="8" text-anchor="middle">guide · FK</text>
         </g>
         <g data-detail="context" data-edge-from="history" data-edge-to="guide" data-edge-label="guide · FK PROTECT" data-edge-key="1" data-edge-id="history-guide">
-          <rect x="602.8" y="312" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="651" y="322" class="t-edge-emphasis" font-size="8" text-anchor="middle">guide · FK PROTECT</text>
+          <rect x="602.8" y="285" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="651" y="295" class="t-edge-emphasis" font-size="8" text-anchor="middle">guide · FK PROTECT</text>
         </g>
         <g data-detail="context" data-edge-from="history" data-edge-to="user" data-edge-label="updated_by · FK PROTECT" data-edge-key="2" data-edge-id="history-user">
-          <rect x="998.8" y="312" width="120.39999999999999" height="14" rx="3" class="c-mask"/>
-          <text x="1059" y="322" class="t-edge-default" font-size="8" text-anchor="middle">updated_by · FK PROTECT</text>
+          <rect x="1018.8" y="292" width="120.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="1079" y="302" class="t-edge-default" font-size="8" text-anchor="middle">updated_by · FK PROTECT</text>
         </g>
         <g data-detail="context" data-edge-from="guide_qs" data-edge-to="guide" data-edge-label="objects" data-edge-key="3" data-edge-id="guideqs-guide">
-          <rect x="405.4" y="230" width="43.6" height="14" rx="3" class="c-mask"/>
-          <text x="427.2" y="240" class="t-edge-security" font-size="8" text-anchor="middle">objects</text>
+          <rect x="405.4" y="220" width="43.6" height="14" rx="3" class="c-mask"/>
+          <text x="427.2" y="230" class="t-edge-security" font-size="8" text-anchor="middle">objects</text>
         </g>
         <g data-detail="context" data-edge-from="history_qs" data-edge-to="history" data-edge-label="objects" data-edge-key="4" data-edge-id="historyqs-history">
-          <rect x="797.4000000000001" y="230" width="43.6" height="14" rx="3" class="c-mask"/>
-          <text x="819.2" y="240" class="t-edge-security" font-size="8" text-anchor="middle">objects</text>
+          <rect x="797.4000000000001" y="220" width="43.6" height="14" rx="3" class="c-mask"/>
+          <text x="819.2" y="230" class="t-edge-security" font-size="8" text-anchor="middle">objects</text>
         </g>
         <g data-detail="context" data-edge-from="history" data-edge-to="advance" data-edge-label="save_base" data-edge-key="5" data-edge-id="history-advance">
-          <rect x="787.8" y="420" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
-          <text x="814.4" y="430" class="t-edge-default" font-size="8" text-anchor="middle">save_base</text>
+          <rect x="775.4" y="348" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+          <text x="802" y="358" class="t-edge-default" font-size="8" text-anchor="middle">save_base</text>
         </g>
         <g data-detail="context" data-edge-from="advance" data-edge-to="guide" data-edge-label="avanza current_stage" data-edge-key="6" data-edge-id="advance-guide">
-          <rect x="402" y="423" width="106" height="14" rx="3" class="c-mask"/>
-          <text x="455" y="433" class="t-edge-security" font-size="8" text-anchor="middle">avanza current_stage</text>
+          <rect x="556.5" y="406" width="106" height="14" rx="3" class="c-mask"/>
+          <text x="609.5" y="416" class="t-edge-security" font-size="8" text-anchor="middle">avanza current_stage</text>
+        </g>
+        <g data-detail="context" data-edge-from="services" data-edge-to="history" data-edge-label="crea la fila" data-edge-key="7" data-edge-id="services-history">
+          <rect x="890.7" y="377" width="67.6" height="14" rx="3" class="c-mask"/>
+          <text x="924.5" y="387" class="t-edge-default" font-size="8" text-anchor="middle">crea la fila</text>
+        </g>
+        <g data-detail="context" data-edge-from="services" data-edge-to="attempt" data-edge-label="registra el rechazo" data-edge-key="8" data-edge-id="services-attempt">
+          <rect x="870.4" y="547" width="101.2" height="14" rx="3" class="c-mask"/>
+          <text x="921" y="557" class="t-edge-security" font-size="8" text-anchor="middle">registra el rechazo</text>
+        </g>
+        <g data-detail="context" data-edge-from="attempt" data-edge-to="guide" data-edge-label="guide · FK PROTECT" data-edge-key="9" data-edge-id="attempt-guide">
+          <rect x="406.8" y="478" width="96.39999999999999" height="14" rx="3" class="c-mask"/>
+          <text x="455" y="488" class="t-edge-default" font-size="8" text-anchor="middle">guide · FK PROTECT</text>
+        </g>
+        <g data-detail="context" data-edge-from="attempt" data-edge-to="user" data-edge-label="attempted_by · FK PROTECT" data-edge-key="10" data-edge-id="attempt-user">
+          <rect x="1236" y="478" width="130" height="14" rx="3" class="c-mask"/>
+          <text x="1301" y="488" class="t-edge-default" font-size="8" text-anchor="middle">attempted_by · FK PROTECT</text>
         </g>
 
         <!-- Boundary labels (foreground masks keep routes out of titles) -->
-        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="region" data-composition-frame-label="App tracking · tracking/models.py">
-          <rect data-graph-role="structural-frame-label-mask" x="14" y="89" width="193.4374391548387" height="17" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="18" y="102.26451712903226" class="t-cloud" font-size="9.264517129032258" font-weight="600">App tracking · tracking/models.py</text>
+        <g data-graph-role="structural-frame-label" data-composition-frame-id="0" data-composition-frame-kind="region" data-composition-frame-label="App tracking · models.py y services.py">
+          <rect data-graph-role="structural-frame-label-mask" x="14" y="89" width="227.11486150967735" height="17" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="18" y="102.5225816451613" class="t-cloud" font-size="9.522581645161289" font-weight="600">App tracking · models.py y services.py</text>
         </g>
 
         <g data-graph-role="structural-frame-label" data-composition-frame-id="1" data-composition-frame-kind="region" data-composition-frame-label="App accounts">
-          <rect data-graph-role="structural-frame-label-mask" x="1130" y="279" width="76.70452332903226" height="17" rx="3" class="c-mask"/>
-          <text data-boundary-label="" x="1134" y="292.26451712903224" class="t-cloud" font-size="9.264517129032258" font-weight="600">App accounts</text>
+          <rect data-graph-role="structural-frame-label-mask" x="1170" y="259" width="78.56258784516127" height="17" rx="3" class="c-mask"/>
+          <text data-boundary-label="" x="1174" y="272.52258164516127" class="t-cloud" font-size="9.522581645161289" font-weight="600">App accounts</text>
         </g>
 
         <!-- Legend -->
         <g data-legend="" data-legend-bridge="">
-          <text x="40" y="606" class="t-primary" font-size="12" font-weight="650">Leyenda</text>
-          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Backend" data-legend-x="40" data-legend-baseline="626" data-legend-width="78">
-            <rect x="40" y="617" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
-            <text x="62" y="626" class="t-muted" font-size="10" font-weight="500">Backend</text>
+          <text x="40" y="736" class="t-primary" font-size="12" font-weight="650">Leyenda</text>
+          <g data-legend-semantic-kind="backend" data-legend-kind="backend" data-legend-label="Backend" data-legend-x="40" data-legend-baseline="756" data-legend-width="78">
+            <rect x="40" y="747" width="16" height="10" rx="2.5" class="c-backend" stroke-width="1"/>
+            <text x="62" y="756" class="t-muted" font-size="10" font-weight="500">Backend</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="Base de datos" data-legend-x="140" data-legend-baseline="626" data-legend-width="108">
-            <rect x="140" y="617" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
-            <text x="162" y="626" class="t-muted" font-size="10" font-weight="500">Base de datos</text>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="Base de datos" data-legend-x="140" data-legend-baseline="756" data-legend-width="108">
+            <rect x="140" y="747" width="16" height="10" rx="2.5" class="c-database" stroke-width="1"/>
+            <text x="162" y="756" class="t-muted" font-size="10" font-weight="500">Base de datos</text>
           </g>
-          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="Seguridad" data-legend-x="270" data-legend-baseline="626" data-legend-width="88">
-            <rect x="270" y="617" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
-            <text x="292" y="626" class="t-muted" font-size="10" font-weight="500">Seguridad</text>
+          <g data-legend-semantic-kind="security" data-legend-kind="security" data-legend-label="Seguridad" data-legend-x="270" data-legend-baseline="756" data-legend-width="88">
+            <rect x="270" y="747" width="16" height="10" rx="2.5" class="c-security" stroke-width="1"/>
+            <text x="292" y="756" class="t-muted" font-size="10" font-weight="500">Seguridad</text>
           </g>
         </g>
       </svg>
@@ -5377,10 +5434,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <h3>Restricciones en la base</h3>
         </div>
         <ul>
-          <li>tracking_number: único, 22 caracteres y formato con CheckConstraint (models.py:163, :185)</li>
-          <li>current_stage solo admite las cinco etapas (models.py:189)</li>
-          <li>Una fila por etapa y guía: unique_stage_per_guide (models.py:341)</li>
-          <li>PROTECT impide borrar una guía o un usuario con historial (models.py:327, :330)</li>
+          <li>tracking_number: único, 22 caracteres y formato con CheckConstraint (models.py:170-172, :196-199)</li>
+          <li>current_stage solo admite las cinco etapas (models.py:200-203)</li>
+          <li>Una fila por etapa y guía: unique_stage_per_guide (models.py:354)</li>
+          <li>PROTECT impide borrar una guía o un usuario con historial o intentos (models.py:339, :343, :420, :423)</li>
         </ul>
       </div>
 
@@ -5390,10 +5447,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <h3>Patrones que el código usa</h3>
         </div>
         <ul>
-          <li>State, forma simple: Stage y solo la etapa siguiente (models.py:41, :59)</li>
-          <li>Template Method del framework: save_base sobrescrito (models.py:198, :354)</li>
-          <li>Compare-and-set, no GoF: UPDATE condicional (models.py:97-101)</li>
-          <li>Analogía de Proxy de protección: QuerySet que vigila escrituras (models.py:111, :243)</li>
+          <li>State, forma simple: Stage y solo la etapa siguiente (models.py:43, :61)</li>
+          <li>Template Method del framework: save_base sobrescrito (models.py:209, :367)</li>
+          <li>Compare-and-set, no GoF: UPDATE condicional (models.py:104-108)</li>
+          <li>Analogía de Proxy de protección: QuerySet que vigila escrituras (models.py:118, :254)</li>
+          <li>Facade: casos de uso sobre las invariantes (services.py:1, :59, :73)</li>
+          <li>Value Object: TrackingNumber normaliza y valida (values.py:19-23)</li>
         </ul>
       </div>
 
@@ -5404,8 +5463,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         </div>
         <ul>
           <li>Incident para el contador con alerta (M66, decisión D5)</li>
-          <li>Registro de intentos de avance rechazados (M64)</li>
-          <li>Área del autor copiada en cada fila del historial (M64)</li>
           <li>Rol de PostgreSQL sin UPDATE ni DELETE sobre el historial (M66)</li>
         </ul>
       </div>
@@ -5417,8 +5474,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         </div>
         <ul>
           <li>SQL directo, raw y loaddata saltan las validaciones (models.py:12-16)</li>
-          <li>En recepción de carga una guía puede tener 0 o 1 filas (models.py:79-82)</li>
-          <li>El historial se ordena por timestamp y pk (models.py:380)</li>
+          <li>Una guía creada fuera de los servicios no tiene historial y responde 409 (services.py:82-83)</li>
+          <li>El historial se valida por orden de inserción (models.py:394)</li>
         </ul>
       </div>
     </div>

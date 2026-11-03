@@ -445,7 +445,12 @@
       "viewer.common.clear": "Borrar",
       "viewer.common.close": "Cerrar"
     },
-    "quality_profile": "showcase"
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/pipeTawns-x/Houndxpress.git",
+      "revision": "59f04705119e8875aea1c4e8ecffb0579b4b48e2",
+      "link_mode": "local-only"
+    }
   },
   "components": [
     {
@@ -468,12 +473,31 @@
       "label": "Frontend React",
       "sublabel": "Vite · Sass · Redux · Router",
       "pos": [
-        287,
+        320,
         300
       ],
       "size": [
         170,
         64
+      ],
+      "sources": [
+        {
+          "path": "frontend/src/App.tsx",
+          "line": 25,
+          "label": "App: rutas de la SPA"
+        },
+        {
+          "path": "frontend/src/services/guideRepository.ts",
+          "line": 3,
+          "end_line": 18,
+          "label": "GuideRepository"
+        },
+        {
+          "path": "frontend/src/services/apiClient.ts",
+          "line": 64,
+          "end_line": 101,
+          "label": "cliente HTTP con sesión y CSRF"
+        }
       ]
     },
     {
@@ -482,12 +506,32 @@
       "label": "Proxy /api",
       "sublabel": "Vite :5173 · nginx :8080",
       "pos": [
-        567,
+        600,
         300
       ],
       "size": [
         170,
         64
+      ],
+      "sources": [
+        {
+          "path": "frontend/nginx.conf",
+          "line": 23,
+          "end_line": 32,
+          "label": "nginx reenvía /api, /admin y /static"
+        },
+        {
+          "path": "frontend/vite.config.ts",
+          "line": 8,
+          "end_line": 12,
+          "label": "proxy de Vite"
+        },
+        {
+          "path": "frontend/nginx.conf",
+          "line": 11,
+          "end_line": 14,
+          "label": "cabeceras y CSP de nginx"
+        }
       ]
     },
     {
@@ -496,12 +540,32 @@
       "label": "API Django + DRF",
       "sublabel": "Django 5.2 · :8000",
       "pos": [
-        847,
+        880,
         300
       ],
       "size": [
         170,
         64
+      ],
+      "sources": [
+        {
+          "path": "backend/config/urls.py",
+          "line": 9,
+          "end_line": 17,
+          "label": "rutas del proyecto"
+        },
+        {
+          "path": "backend/config/settings.py",
+          "line": 105,
+          "end_line": 113,
+          "label": "MIDDLEWARE"
+        },
+        {
+          "path": "backend/config/settings.py",
+          "line": 180,
+          "end_line": 207,
+          "label": "REST_FRAMEWORK"
+        }
       ]
     },
     {
@@ -510,28 +574,90 @@
       "label": "SQLite",
       "sublabel": "db.sqlite3",
       "pos": [
-        1120,
+        1218,
         300
       ],
       "size": [
         150,
         64
+      ],
+      "sources": [
+        {
+          "path": "backend/config/settings.py",
+          "line": 136,
+          "end_line": 143,
+          "label": "SQLite en DATABASES"
+        }
       ]
     },
     {
-      "id": "tracking",
+      "id": "services",
       "type": "backend",
-      "label": "App tracking",
-      "sublabel": "guías, historial y servicios",
+      "label": "tracking.services",
+      "sublabel": "casos de uso de las guías",
       "pos": [
-        847,
-        470
+        880,
+        130
       ],
       "size": [
         170,
         64
       ],
-      "tag": "planeado"
+      "tag": "Facade",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 1,
+          "label": "fachada transaccional"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 59,
+          "end_line": 70,
+          "label": "create_guide"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 73,
+          "end_line": 120,
+          "label": "advance_guide"
+        }
+      ]
+    },
+    {
+      "id": "login_limit",
+      "type": "security",
+      "label": "Límite de login",
+      "sublabel": "API y admin · 5/min por IP",
+      "pos": [
+        680,
+        440
+      ],
+      "size": [
+        170,
+        64
+      ],
+      "tag": "analogía de Decorator",
+      "sources": [
+        {
+          "path": "backend/config/admin_throttle.py",
+          "line": 13,
+          "end_line": 28,
+          "label": "throttled_admin_login"
+        },
+        {
+          "path": "backend/accounts/api/views.py",
+          "line": 19,
+          "end_line": 24,
+          "label": "LoginThrottle"
+        },
+        {
+          "path": "backend/config/urls.py",
+          "line": 11,
+          "end_line": 12,
+          "label": "ruta antes de admin.site.urls"
+        }
+      ]
     },
     {
       "id": "health",
@@ -539,14 +665,22 @@
       "label": "HealthView",
       "sublabel": "GET /api/v1/health/",
       "pos": [
-        847,
-        130
+        880,
+        560
       ],
       "size": [
         170,
         64
       ],
-      "tag": "público"
+      "tag": "público",
+      "sources": [
+        {
+          "path": "backend/core/views.py",
+          "line": 21,
+          "end_line": 33,
+          "label": "HealthView con AllowAny"
+        }
+      ]
     }
   ],
   "boundaries": [
@@ -564,7 +698,8 @@
         "proxy",
         "api",
         "db",
-        "tracking",
+        "services",
+        "login_limit",
         "health"
       ]
     }
@@ -574,7 +709,7 @@
       "id": "users-spa",
       "from": "users",
       "to": "spa",
-      "label": "HTTPS",
+      "label": "HTTP local",
       "variant": "emphasis"
     },
     {
@@ -593,20 +728,32 @@
       "id": "api-db",
       "from": "api",
       "to": "db",
-      "label": "ORM · SQL"
+      "label": "sesiones · SELECT 1"
     },
     {
-      "id": "api-tracking",
+      "id": "api-services",
       "from": "api",
-      "to": "tracking",
-      "label": "servicios",
-      "variant": "dashed",
+      "to": "services",
+      "label": "casos de uso",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "services-db",
+      "from": "services",
+      "to": "db",
+      "label": "ORM · SQL",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "api-login",
+      "from": "api",
+      "to": "login_limit",
+      "label": "login",
+      "variant": "security",
       "fromSide": "bottom",
-      "toSide": "top",
-      "labelAt": [
-        982,
-        378
-      ]
+      "toSide": "right"
     },
     {
       "id": "api-health",
@@ -614,8 +761,8 @@
       "to": "health",
       "label": "sin sesión",
       "variant": "security",
-      "fromSide": "top",
-      "toSide": "bottom"
+      "fromSide": "bottom",
+      "toSide": "top"
     }
   ],
   "cards": [
@@ -632,9 +779,22 @@
       "dot": "emerald",
       "title": "Backend",
       "items": [
-        "Base de datos: guías e historial que no se edita ni se borra",
-        "API (M64): guías, avance, historial, archivo, resumen, rastreo público y sesión",
-        "Todo endpoint exige personal salvo salud, rastreo público y acceso"
+        "Guías e historial que no se edita ni se borra; los rechazos se auditan",
+        "API: guías, avance, historial, archivo, resumen, rastreo público y sesión",
+        "Las guías exigen personal; salud, rastreo público y acceso son públicos",
+        "El admin crea guías con la misma primera etapa (admin.py:47-51, services.py:49-56)"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Patrones que el código usa",
+      "items": [
+        "Facade: las vistas solo adaptan HTTP (services.py:1, api/views.py:1)",
+        "Repository en el frontend, con dos implementaciones (guideRepository.ts:3-7)",
+        "Value Object: TrackingNumber (values.py:19-23)",
+        "Chain of Responsibility, del framework: MIDDLEWARE (settings.py:105-113)",
+        "Strategy, del framework: renderers y throttles de DRF (settings.py:186-197)",
+        "Analogía de Decorator: el límite envuelve el login del admin (admin_throttle.py:13-28)"
       ]
     },
     {
@@ -642,6 +802,7 @@
       "title": "Siguientes pasos",
       "items": [
         "M66: despliegue en producción con HTTPS",
+        "Caché compartida y NUM_PROXIES real antes de desplegar (settings.py:206)",
         "Portal de cliente con acceso por objeto",
         "Incidencias y alertas de operación"
       ]
