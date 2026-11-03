@@ -18,7 +18,7 @@ Proyecto final del programa *Profesión: Desarrollador Full Stack Python* de EBA
 
 ## Reglas
 
-1. Código e identificadores en inglés; documentación, commits y textos de interfaz en español.
+1. Código e identificadores en inglés; documentación y textos de interfaz en español; commits en inglés y español, con el formato de la sección Ramas.
 2. Sin dependencias AGPL/GPL. `backend/requirements*.txt` se exportan desde `uv.lock`, nunca a mano (comandos en `docs/STACK_HOUND_EXPRESS.md`).
 3. Cada bloque de comandos del README tiene un job de CI que lo reproduce. Si cambias uno, cambia el otro en el mismo commit.
 4. Las etiquetas de entrega (`m52`, …) no se mueven sin que Eduardo lo pida.
@@ -41,8 +41,9 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras.
 
 - Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`. El código y la documentación de producto de `practicas-ebac` siguen el mismo camino, con el filtro escolar aplicado antes de entrar en `pruebas`.
 - **Filtro de salida escolar:** no pasan `docs/loops/`, las entregas y mensajes del LMS, las notas de práctica, los documentos Word, las capturas de práctica ni los prompts. Solo pasan código y documentación en tono de producto. Revisar el diff de salida; no integrar toda la rama escolar sin filtrar ni copiar el árbol completo, porque puede reintroducir archivos eliminados.
+- **Reglas por rama:** cada rama trabaja con sus propias reglas y estilos, sin mezclarlos con los de otra. Cada merge se adapta a la rama destino, incluidos sus mensajes de commit.
 - Un agente por rama y un worktree por rama. No compartir la escritura de una misma rama entre agentes.
-- Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
+- Commits con Conventional Commits, en inglés y español: `tipo(scope): description in English / descripción en español` (`feat(backend): add the guide model / agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
 - PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
 - La rama escolar publicada se sincroniza mediante **merge**, no rebase: conservar su historial compartido. Antes de publicar, obtener y revisar los cambios remotos e integrarlos mediante merge si corresponde. Nunca usar `--force` ni `--force-with-lease`.
 
