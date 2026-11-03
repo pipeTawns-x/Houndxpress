@@ -34,7 +34,7 @@ con un límite de 60/minuto por IP además de los límites ordinarios. Los lími
 usan la caché configurada: la caché local de desarrollo no proporciona un límite
 atómico entre procesos. Antes de producción se requiere caché compartida y
 configurar el proxy de confianza; `NUM_PROXIES=0` no confía en cabeceras del cliente.
-El login del admin no queda cubierto por el scope de la API.
+El login del admin comparte el límite de 5/minuto del login de la API.
 
 Las nuevas respuestas de negocio y autenticación incluyen `Cache-Control: no-store`.
 El filtro de `backend/config/logging.py` elimina la query del rastreo público en el
