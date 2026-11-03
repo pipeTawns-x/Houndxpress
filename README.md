@@ -29,7 +29,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Rastreo limitado a 60 números/minuto por IP; muestra ubicaciones del catálogo cerrado y oculta valores antiguos no catalogados | [`backend/tracking/api/throttles.py`](backend/tracking/api/throttles.py), [`backend/tracking/api/serializers.py`](backend/tracking/api/serializers.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Lint y 193 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 311 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 195 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 311 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 | Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido | [`frontend/`](frontend/) |
 | Pila con Docker: Django y nginx con la web compilada | [`docker-compose.yml`](docker-compose.yml) |
 
@@ -112,7 +112,7 @@ Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv
 .venv/bin/python -m ruff check .
 ```
 
-En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 193 tests` seguido de `OK`, y luego `All checks passed!`.
+En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 195 tests` seguido de `OK`, y luego `All checks passed!`.
 
 Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>. Para cargar guías de demostración en la base local: `.venv/bin/python manage.py loaddata demo_guides`.
 
@@ -232,7 +232,7 @@ El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md)
 
 ## Derechos de uso
 
-Es un proyecto académico: no es el sitio oficial de Hound Express, y su nombre y logotipo pertenecen a la empresa.
+Es un rediseño no oficial: no es el sitio de Hound Express, y su nombre y logotipo pertenecen a la empresa.
 
 Este repositorio no incluye una licencia de código abierto. El código se cederá a Hound Express y el aviso de licencia se agregará cuando se formalice esa cesión. Las licencias de las dependencias están en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md).
 
