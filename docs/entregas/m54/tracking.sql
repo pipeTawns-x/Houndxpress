@@ -2,7 +2,9 @@
 -- accounts 0001 a 0003 y tracking 0001 a 0005 ya aplicadas.
 -- Fuente: python manage.py migrate, y el esquema guardado en sqlite_master.
 -- La restricción del formato del número de guía usa REGEXP: Django registra esa función en
--- cada conexión SQLite; en un cliente sqlite3 suelto no existe al insertar. En PostgreSQL es nativa.
+-- cada conexión SQLite. La línea de comandos de sqlite3 carga este script, pero un cliente sin
+-- REGEXP puede fallar al crearlo o al insertar: en Python hay que registrarla antes con
+-- create_function. En PostgreSQL es nativa.
 
 -- Tabla accounts_user
 CREATE TABLE "accounts_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(150) NOT NULL, "last_name" varchar(150) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL, "department" varchar(20) NOT NULL, "updated_at" datetime NOT NULL);

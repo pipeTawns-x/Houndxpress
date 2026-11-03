@@ -1,13 +1,13 @@
 # M54.3 · OWASP ASVS 5.0.0, nivel 1, contra el código actual
 
-**Resultado:** de las 31 filas, 24 cumplen, 4 son parciales, 1 sigue pendiente y 2 no aplican. Lo que falta está en [Pendientes](#pendientes). Ninguna fila se da por cumplida sin revisar el código citado.
+**Resultado:** de las 31 filas, 23 cumplen, 5 son parciales, 1 sigue pendiente y 2 no aplican. Lo que falta está en [Pendientes](#pendientes). Ninguna fila se da por cumplida sin revisar el código citado.
 
 ## Alcance
 
 - **Fuente:** `OWASP/ASVS`, carpeta `5.0/en`, leída con `gh api` el 2026-10-27. Se tomaron las filas de nivel 1 de los capítulos V2, V3, V4, V6, V7, V8, V12, V13, V15 y V16: 44 requisitos, repartidos en 31 filas. V16 no tiene requisitos de nivel 1.
 - **No leídos todavía:** V1, V5, V9 a V11, V14 y V17.
 - **Código revisado:** versión M54.3 de esta edición, commit `59f0470`. Las rutas son relativas a `backend/`, salvo `frontend/`, `.github/`, `docker-compose.yml`, `backend/.dockerignore` y `SECURITY.md`, que parten de la raíz.
-- **Pruebas:** corren con `python manage.py test` desde `backend/` (`.github/workflows/ci.yml:44`). Resultado observado en esta revisión: `Ran 193 tests` y `OK`.
+- **Pruebas:** corren con `python manage.py test` desde `backend/` (`.github/workflows/ci.yml:44`). Resultado observado en esta revisión: `Ran 195 tests` y `OK`.
 
 ## Requisitos
 
@@ -29,7 +29,7 @@
 | 6.2.1 | Contraseña de 8 caracteres o más | Cumple: el mínimo es 12 | `config/settings.py:155-158` | `accounts/tests/test_password_policy.py:17`, `:20` |
 | 6.2.4 | Rechazo de contraseñas comunes | Cumple | `config/settings.py:159` | `accounts/tests/test_password_policy.py:23` |
 | 6.2.5 | Sin reglas de composición | Cumple | `NumericPasswordValidator` retirado: `config/settings.py:160-161` | `accounts/tests/test_password_policy.py:26` |
-| 6.2.2, 6.2.3, 6.2.8 | Cambio de contraseña con la actual; verificación exacta | Cumple por Django, sin prueba propia del flujo | Solo el admin cambia contraseñas (`config/urls.py:13`); la API no tiene esa ruta (`accounts/api/urls.py:7-12`) | Solo la verificación: `core/tests/test_asvs_controls.py:137` |
+| 6.2.2, 6.2.3, 6.2.8 | Cambio de contraseña con la actual; verificación exacta | Parcial, ver P10 | Solo el admin cambia contraseñas (`config/urls.py:13`); `/admin/password_change/` pide la actual, y la pantalla de usuarios del admin no; la API no tiene esa ruta (`accounts/api/urls.py:7-12`) | Solo la verificación: `core/tests/test_asvs_controls.py:137` |
 | 6.2.6, 6.2.7 | El campo oculta la contraseña y se puede pegar o usar un gestor | Cumple, sin prueba propia | `frontend/src/pages/Access.tsx:67-68`, sin bloqueo de pegado; `PasswordInput` en el admin | Sin prueba propia |
 | 6.3.2 | Sin cuentas por defecto | Cumple | El fixture `tracking/fixtures/demo_guides.json` no crea usuarios | `accounts/tests/test_authentication.py:75` |
 | 6.4.1 | Contraseñas iniciales generadas por el sistema | No aplica | No se generan; `createsuperuser` las pide | No aplica |
@@ -40,7 +40,7 @@
 | 8.2.1, 8.3.1 | Acceso por función, aplicado en el servidor | Cumple | `config/settings.py:183`; `tracking/api/views.py:32` | `core/tests/test_security.py:69`; `tracking/tests/test_api.py:171`, `:178`, `:425`; `tracking/tests/test_archived_list.py:25` |
 | 8.2.2 | Acceso por objeto (IDOR) | **Parcial** | Todo el personal ve todas las guías por diseño (`tracking/api/views.py:32`). El rastreo público responde por número (`tracking/api/views.py:81-93`). Falta P3 | `tracking/tests/test_api.py:233`, `:425` |
 | 12.1.1, 12.2.1, 12.2.2 | TLS | **Pendiente** | Solo hay configuración: `config/settings.py:76`. Docker Compose sirve HTTP local (`docker-compose.yml:10-11`, `frontend/nginx.conf:2`). Falta P5 | `core/tests/test_settings.py:111` comprueba la configuración, no un despliegue |
-| 13.4.1 | Sin `.git` en el despliegue | Cumple en Docker local | Contexto `./backend` (`docker-compose.yml:7`), `backend/.dockerignore:9-10`; nginx responde 404 a los dotfiles (`frontend/nginx.conf:18-20`) | `core/tests/test_asvs_controls.py:184`; `.github/workflows/ci.yml:172-175` |
+| 13.4.1 | Sin `.git` en el despliegue | Cumple en Docker local | Contexto `./backend` (`docker-compose.yml:7`), nginx responde 404 a los dotfiles (`frontend/nginx.conf:18-20`) | `core/tests/test_asvs_controls.py:184`; `.github/workflows/ci.yml:172-175` |
 | 15.1.1 | Plazos de remediación documentados | Cumple | `SECURITY.md`, sección *Plazos para corregir componentes vulnerables* | No aplica: es documentación |
 | 15.2.1 | Componentes dentro de esos plazos | **Parcial** | Django 5.2.18 y DRF 3.18.3 (`requirements.txt:5`, `:9`); job `security` en `.github/workflows/ci.yml:140-152`. Falta P4 | Sin prueba unitaria: lo comprueba el job |
 | 15.3.1 | Devolver solo los campos necesarios | Cumple | `tracking/api/serializers.py:36-43`, `:66-69`; `accounts/api/views.py:15-16`; `core/views.py:29` | `tracking/tests/test_api.py:233`, `:393`; `core/tests/test_asvs_controls.py:167` |
@@ -58,6 +58,7 @@
 | P7 | El registro de acceso de nginx no omite la query del rastreo público; Django sí | `config/logging.py:10-29`; `frontend/nginx.conf` no define `access_log` | Configurar ese registro en el proxy de producción |
 | P8 | Faltan pruebas propias de 3.2.2, 6.2.2, 6.2.3, 6.2.6 y 6.2.7 | Tabla de requisitos | Agregarlas cuando esos flujos dejen de ser solo de Django o de React |
 | P9 | Faltan por leer los capítulos V1, V5, V9 a V11, V14 y V17 | Sección *Alcance* | Leerlos y ampliar esta tabla |
+| P10 | La pantalla de usuarios del admin cambia una contraseña sin pedir la actual | Comportamiento de Django admin, comprobado en `/admin/accounts/user/<id>/password/` | Retirar esa pantalla o pedir de nuevo la contraseña |
 
 ## Cruce con el curso de hacking ético de Big School
 
