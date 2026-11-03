@@ -122,15 +122,15 @@ Eduardo ejecuta npm, Homebrew y git con red, aprueba compuertas y publica. En un
 5. **Mes 5.** La URL pública del admin recibe un ataque de diccionario. No hay freno (C21) y la cuenta del personal de demostración cae; aparecen guías con textos ofensivos en la vitrina que Hound iba a evaluar.
 6. **Mes 6.** Un miembro del personal avanza una guía por error. El historial no admite correcciones (C24); alguien la "arregla" con SQL directo, la ruta que el propio docstring declara sin control (`models.py:12-16`).
 7. **Mes 8.** Con dos instancias detrás del balanceador, una fila de historial queda ordenada antes que su predecesora por desfase de relojes; la guía no admite más etapas (BD12).
-8. **Mes 12.** Se clona el repositorio en otra máquina para continuar. `docs/investigacion/privado/` no está en el `.gitignore` versionado y un `git add .` publica notas de investigación que debían quedar privadas (C22). Es el único error de la lista que no se puede deshacer.
+8. **Mes 12.** Se clona el repositorio en otra máquina para continuar y un `git add .` publica archivos locales que no debían subirse (C22). Es el único error de la lista que no se puede deshacer.
 
 ### Ángulo 8 · Puntos ciegos
 
 **C21 · El login del admin no tiene freno de fuerza bruta.** Severidad **Media** hoy (sin despliegue), **Alta** en M66. CWE-307, OWASP A07:2025, ASVS 6.3.1.
 Los límites de DRF no cubren `/admin/` y el código lo dice (`settings.py:180-183`). La política de 12 caracteres y la lista de contraseñas comunes (`settings.py:142-152`) reducen el riesgo, no lo eliminan. El material de seguridad por diseño del curso de Big School (clase 2, p. 16) lo pide sin rodeos: limitar el número de intentos fallidos de inicio de sesión. Es el aviso 2 del verificador independiente (L13).
 
-**C22 · La investigación privada solo está excluida en local.** Severidad **Alta**. CWE-538, OWASP A02:2025.
-`docs/investigacion/privado/`, `04` y `07` se excluyeron en `.git/info/exclude` (L4). Ese archivo no viaja con el repositorio: un clon nuevo o una copia en otra máquina los trata como archivos nuevos. La política de divulgación responsable de la v1 (§15.6) depende de que nadie ejecute `git add .` fuera de esta copia.
+**C22 · Las exclusiones locales no viajan con el repositorio.** Severidad **Alta**. CWE-538, OWASP A02:2025.
+Lo excluido en `.git/info/exclude` no viaja con el repositorio: un clon nuevo trata esos archivos como nuevos. Hay que revisar el estado de git antes de cada commit en otra copia.
 
 **C23 · Datos personales sin plazo de retención.** Severidad **Media**. CWE-359.
 `recipient` (`models.py:168`) y `note` (`models.py:334`) guardan datos personales sin plazo ni anonimización. `PROTECT` en `updated_by` (`models.py:330-332`) impide borrar a un usuario con historial, y eso choca con el derecho de cancelación de la ley de datos personales. La propia v1 advierte que la ley de 2025 debe verificarse en el DOF (§15.2).
@@ -211,7 +211,7 @@ Lista del rol: RPO y RTO, restauración probada, migraciones con presupuesto de 
 
 ## 5. Arreglos priorizados
 
-1. **Versionar la propuesta y la exclusión privada** (C01, C22). La v2 entra en `docs/propuesta/`, y `docs/investigacion/privado/` pasa al `.gitignore` versionado. Ambos los ejecuta Eduardo.
+1. **Versionar la propuesta** (C01). La v2 entra en `docs/propuesta/`.
 2. **Decidir el entorno de M66 antes de escribir M64** (C17, BD02, BD13, BD14): host sin pausa durante la revisión, PostgreSQL con roles separados y la decisión "datos de demostración o reales".
 3. **Cerrar el contrato de M64 con lo que M66 necesita** (C06, C09, C13, C15, C25, BD04, BD05, BD07, BD09, BD12): alta con historial inicial, registro de intentos rechazados, PUT idempotente, límite por guía, área copiada al historial y orden por `pk`.
 4. **Freno de fuerza bruta y CI de seguridad antes de publicar** (C21, C26).

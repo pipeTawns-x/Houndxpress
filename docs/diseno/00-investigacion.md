@@ -9,7 +9,7 @@ El dominio sirve dos aplicaciones distintas que el visitante percibe como una so
 | Parte | URL | Tecnología | Evidencia |
 |---|---|---|---|
 | Sitio institucional | `/hx/` y subpáginas | WordPress con Elementor Pro, Revolution Slider, Forminator y Weglot | rutas `wp-content/plugins/elementor-pro`, `revslider`, `forminator`, `weglot` en `home.html` |
-| Rastreo de paquetes | `/tracking.html` | Página estática con Bootstrap 4, jQuery 3.4.1 y 12 plugins de jQuery | `<script src="js/jquery-3.4.1.min.js">`, `owl.carousel`, `cubeportfolio`, `revolution` en `tracking.html` |
+| Rastreo de paquetes | `/tracking.html` | Página estática con Bootstrap y plugins de jQuery | marcado de `tracking.html` |
 
 Consecuencias observables en el código:
 

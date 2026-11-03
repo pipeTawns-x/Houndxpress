@@ -95,11 +95,11 @@ Las cifras comerciales son **afirmaciones del sitio**, no datos auditados. El po
 
 **Flujo propuesto:** ingresar guía → validar → cargar → mostrar estado e historial → ofrecer ayuda pertinente. Separar “guía no encontrada” de “servicio no disponible”; no convertir incidentes en etapas obligatorias.
 
-## 5. Seguridad: observada, documentada y heredada
+## 5. Seguridad: lo que dice la documentación pública
 
-| Nivel | Hallazgo | Límite |
+| Nivel | Dato | Límite |
 |---|---|---|
-| Observado en contenido | Contacto presenta aceptación de privacidad; FAQ contiene enlace textual HTTP al rastreo | No prueba validación del consentimiento ni comportamiento de redirección |
+| Observado en contenido | Contacto presenta aceptación de privacidad | No prueba validación del consentimiento |
 | Documentado oficialmente | Sabueso describe autenticación mediante identificador de cliente y clave de socio, roles y límites de acceso | No se probó su aplicación efectiva. [Documentación](https://apis.hound-express.com/docs/getting-started) |
 | No evaluado | Autorización por guía, enumeración, CORS, CSP, cookies, límites reales y exposición de datos personales | No afirmar vulnerabilidad ni protección sin evidencia |
 

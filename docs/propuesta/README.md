@@ -101,12 +101,12 @@ Detalle y evidencia de cada una en [`abogado-del-diablo.md`](abogado-del-diablo.
 | C19 | Una persona para red, git y aprobaciones | Media | Aceptada | Un frente a la vez y un bloque de comandos por intervención | Ahora |
 | C20 | Sin prueba de concurrencia real | Media | Aceptada | `TransactionTestCase` contra PostgreSQL en CI | M66 |
 | C21 | Admin sin freno de fuerza bruta | Media / Alta en M66 | Aceptada | Bloquea M66; el mecanismo lo elige Eduardo (E1) | Eduardo |
-| C22 | Exclusión privada solo en local | Alta | Aceptada | `.gitignore` versionado (E8) | Eduardo |
+| C22 | Exclusiones solo en local | Alta | Aceptada | Revisión antes de cada push (E8) | Eduardo |
 | C23 | Datos personales sin retención | Media | Aceptada | Pasa a decisión E5 | Eduardo |
 | C24 | Sin vía de corrección operativa | Media | Aceptada | Pasa a decisión E4 | Eduardo |
 | C25 | El historial no guarda el área | Media | Aceptada | Columna nueva, migración aditiva | M64 |
 | C26 | El CI no corre los controles declarados | Media | Aceptada | Pasa a decisión E9 | Eduardo |
-| C27 | Notificación a Hound y permiso de marca pendientes | Alta | Aceptada | Ya eran pendientes de la v1 (E10) | Eduardo |
+| C27 | Permiso de marca pendiente | Alta | Aceptada | Ya eran pendientes de la v1 (E10) | Eduardo |
 | C28 | HSTS de un año con precarga | Info | Rechazada | Los hosts candidatos solo sirven HTTPS; se revisa si aparece un dominio propio | — |
 | C29 | Se aceptan contraseñas solo numéricas | Info | Rechazada | ASVS 6.2.5 prohíbe reglas de composición | — |
 | C30 | Usar librería de estados o State completo | Baja | Rechazada | Flujo lineal sin comportamiento por etapa; licencias (v1 §8.2) | — |
@@ -206,7 +206,7 @@ Fuente: sitemap del sitio vivo (`/hx/sitemap_index.xml`, 2026-10-13) y observaci
 
 ### 3.3 Seguridad
 
-Este documento no incluye análisis de seguridad del sitio vivo (§15.5).
+Esta propuesta no evalúa la seguridad del sitio actual (§15.5).
 
 ### 3.4 Diseño y experiencia
 
@@ -242,7 +242,7 @@ Toda la experiencia cuelga de las **cinco etapas de la regla de negocio**, en or
 
 El sitio público cuenta el viaje, el rastreo muestra el de un paquete, el portal reúne los de una cuenta y el panel opera todos. La tarjeta `ops-card` (etapa actual, última ubicación y progreso) aparece en el héroe del Inicio, en el resultado del rastreo y en cada fila del panel.
 
-**Hound frente a las cinco etapas (REA §3).** El sitio actual separa la búsqueda (rastreando, encontrado o no encontrado) del progreso del envío, que muestra como pasos `cPaso` de catálogo desconocido. No hay equivalencia definida entre esos pasos y nuestras etapas, y no se inventa (regla de `hound-dominio`). Si algún día se integra Sabueso, la tabla de equivalencias vive en el adaptador (ola 3). Diagrama: [`docs/diagramas/ciclo-de-vida-guia.html`](../diagramas/ciclo-de-vida-guia.html).
+**Hound frente a las cinco etapas (REA §3).** El sitio actual separa la búsqueda (rastreando, encontrado o no encontrado) del progreso del envío, que muestra como pasos de catálogo desconocido. No hay equivalencia definida entre esos pasos y nuestras etapas, y no se inventa (regla de `hound-dominio`). Si algún día se integra Sabueso, la tabla de equivalencias vive en el adaptador (ola 3). Diagrama: [`docs/diagramas/ciclo-de-vida-guia.html`](../diagramas/ciclo-de-vida-guia.html).
 
 ### 4.2 Principios
 
@@ -691,7 +691,7 @@ Un cambio está terminado cuando sus specs se verificaron con salida registrada 
 | Asistente X1 | Inyección de instrucciones, fuga entre clientes | Recuperación acotada a las guías propias, fuentes permitidas, pruebas dedicadas |
 | Dependencias | Cadena de suministro | `uv.lock`, OSV, regla de licencias, plazos de `SECURITY.md`, enfriamiento antes de subir versión |
 | Secretos | Exposición | Variables de entorno, gitleaks antes de cada push |
-| Investigación privada | Publicación accidental | `.gitignore` versionado (E8) |
+| Archivos locales | Publicación accidental | Revisión con gitleaks antes de cada push (E8) |
 
 ### 15.2 Cumplimiento
 
@@ -706,9 +706,9 @@ Un reporte "antes y después" con la rúbrica de `cyber-neo` (OWASP 2025 y CWE T
 
 El frontend usa los logotipos reales. Antes de publicar M66 se pide autorización escrita a Hound (D15, E10).
 
-### 15.5 Divulgación responsable
+### 15.5 Alcance frente al sitio actual
 
-Este repositorio no publica análisis de seguridad del sitio vivo. Cualquier comunicación con la empresa aliada va por un canal privado, y la vitrina de seguridad describe clases de problema sin señalar archivos ni servicios.
+Este repositorio no evalúa la seguridad del sitio actual. La vitrina de seguridad describe clases de problema de este proyecto.
 
 ---
 
@@ -745,7 +745,7 @@ El detalle paso a paso, con su "hecho cuando" y su comando de verificación, est
 | Entorno de M66 sin probar | Alto | Paso 5 de §17 antes de publicar |
 | Host que se pausa durante la revisión | Alto | E2 |
 | Admin sin freno en una URL pública | Alto | E1 antes de M66 |
-| Publicar la investigación privada | Alto | E8 |
+| Publicar archivos locales por error | Alto | E8 |
 | Alcance de 42 vistas | Alto | Ruta crítica separada (§5) |
 | Créditos de Claude Design | Medio | Lotes cortos; M64 y M66 no esperan |
 | Licencias (`psycopg`, GSAP, plantillas de pago) | Medio | Registro en `STACK_HOUND_EXPRESS.md` |
@@ -790,7 +790,6 @@ Las nuevas de este ciclo están en el [blueprint §20](blueprint.md#20-puerta-de
 |---|---|---|
 | "En tránsito" calculado como etapas 1 a 4 | `frontend/src/components/panel/StageSummary.tsx` | Pendiente para M66 |
 | `docs/propuesta/` sin versionar | — | Lo resuelve el paso 1 de §17 |
-| Investigación privada excluida solo en local | `.git/info/exclude` | E8 |
 | `backend/.env.example` versionado | — | Eliminado en `9b334c0` (rama `backend`) |
 | README con "13 pruebas" | `README.md` | Corregido en `aed7967` |
 | `.gitignore` sin `*.pem`, `*.key` ni `secrets/` | `.gitignore` | Corregido en `aed7967` |
@@ -806,7 +805,6 @@ Las nuevas de este ciclo están en el [blueprint §20](blueprint.md#20-puerta-de
 | Guía | Envío identificado por un número de guía |
 | Etapa | Uno de los cinco pasos de la regla de negocio |
 | Estado de la interfaz | Lo que muestra la pantalla de rastreo (rastreando, encontrado, no encontrado); no es una etapa |
-| Paso `cPaso` | Unidad del historial del sitio actual de Hound; su catálogo no se conoce |
 | Historial inmutable | Registro de etapas que solo admite inserciones |
 | Intento rechazado | Petición de avance que violó el orden; se registra para el indicador de cumplimiento |
 | Archivar | Retirar una guía de las vistas activas sin borrarla |
