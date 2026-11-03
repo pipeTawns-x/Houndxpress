@@ -236,6 +236,8 @@ El detalle está en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md)
 
 ## Derechos de uso
 
+Es un proyecto académico: no es el sitio oficial de Hound Express, y su nombre y logotipo pertenecen a la empresa.
+
 Este repositorio no incluye una licencia de código abierto. El código se cederá a Hound Express y el aviso de licencia se agregará cuando se formalice esa cesión. Las licencias de las dependencias están en [`docs/STACK_HOUND_EXPRESS.md`](docs/STACK_HOUND_EXPRESS.md).
 
 El logotipo de `frontend/public/brand/` y los datos públicos del sitio (cifras, teléfonos, preguntas frecuentes) son de Hound Express y se usan porque el proyecto se desarrolla para la empresa; el frontend es un rediseño no oficial, no el sitio oficial. La skill de `.claude/skills/archify/` conserva su licencia MIT original.
