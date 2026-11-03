@@ -3,6 +3,6 @@
 PROVIDER="opencode:nvidia/minimaxai/minimax-m3.1-flash"
 RULES_FILE="AGENTS.md"
 STRICT_MODE="true"
-TIMEOUT="300"
+TIMEOUT="900"
 FILE_PATTERNS="*.py,*.ts,*.tsx,*.js,*.jsx,*.scss"
 EXCLUDE_PATTERNS="*.test.*,*.spec.*,*/tests/*,test_*.py,*_test.py,tests.py,*.d.ts,backend/*/migrations/*"
