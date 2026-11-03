@@ -44,6 +44,11 @@ class GuideAdmin(admin.ModelAdmin):
             readonly_fields.append("tracking_number")
         return readonly_fields
 
+    def get_exclude(self, request, obj=None):
+        # Una guía nace activa: una archivada no admite su primera etapa.
+        exclude = list(super().get_exclude(request, obj) or [])
+        return [*exclude, "is_archived"] if obj is None else exclude
+
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
         if not change:
