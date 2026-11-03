@@ -1,6 +1,6 @@
 # M54 · Matriz de requisitos
 
-Entrega: "Proyecto Empresa Aliada - M54 Entregable 10" (generar las entidades de la base de datos), versión M54.2, etiqueta `m54.2`. El código está en `backend/`.
+Entrega: "Proyecto Empresa Aliada - M54 Entregable 10" (generar las entidades de la base de datos), versión M54.3. El código está en `backend/`.
 
 ## Fuentes
 
@@ -11,7 +11,7 @@ Entrega: "Proyecto Empresa Aliada - M54 Entregable 10" (generar las entidades de
 
 La consigna se cumple campo por campo. En siete puntos, la definición literal no funciona en Django o no cumple el propósito de la entidad. En esos casos se implementó el equivalente correcto y se explica el motivo.
 
-### Guide (`backend/tracking/models.py:162-177`)
+### Guide (`backend/tracking/models.py:169-184`)
 
 Campos que pide la consigna: `id`, `trackingNumber` (`CharField`, 15), `origin` (`CharField`, 100), `destination` (`CharField`, 100), `createdAt` (`DateField`, `default=timezone.now`), `updatedAt` (`AutoDateTimeField`) y `currentStatus` (`CharField`, 20).
 
@@ -27,7 +27,7 @@ Campos que pide la consigna: `id`, `trackingNumber` (`CharField`, 15), `origin` 
 
 Campos agregados por necesidad del negocio: `recipient` (destinatario), `service_level` (nivel de servicio) e `is_archived` (archivado lógico, para no borrar guías con historial).
 
-### StatusHistory (`backend/tracking/models.py:326-341`)
+### StatusHistory (`backend/tracking/models.py:338-355`)
 
 Campos que pide la consigna: `id`, `guideId` (`IntegerField`, como llave foránea), `status` (`CharField`, 20), `timestamp` (`AutoDateTimeField`) y `updatedBy` (`CharField`, 20).
 
@@ -39,7 +39,9 @@ Campos que pide la consigna: `id`, `guideId` (`IntegerField`, como llave foráne
 | `timestamp` (`AutoDateTimeField`) | `timestamp`: `DateTimeField(auto_now_add=True)` | Lo asigna el servidor al crear el registro, y el registro no se modifica después. |
 | `updatedBy` (`CharField(20)`) | `updated_by`: `ForeignKey(User, on_delete=PROTECT)` | Apunta al usuario real que hizo el cambio, en lugar de un texto libre que se puede escribir mal. |
 
-Campos agregados: `location` (ubicación) y `note` (nota). Restricción: una sola fila por etapa y por guía (`unique_stage_per_guide`, línea 341).
+Campos agregados: `department` (área del autor, línea 345), `location` (ubicación) y `note` (nota). Restricción: una sola fila por etapa y por guía (`unique_stage_per_guide`, línea 354).
+
+Entidad agregada: `StageTransitionAttempt` (`backend/tracking/models.py:417-436`) audita los avances rechazados sin tocar el historial válido.
 
 ### User (`backend/accounts/models.py:14-24`)
 
@@ -64,9 +66,9 @@ Estas reglas resuelven el problema del caso Hound Express: solo 31 de cada 100 g
 
 | Regla | Implementación | Evidencia |
 |---|---|---|
-| Las etapas avanzan solo en orden, sin saltos | `save_base` valida la etapa siguiente y bloquea la guía con `select_for_update` | `backend/tracking/models.py:354-376`; prueba `test_save_base_new_with_skipped_stage_raises_without_inserting` |
+| Las etapas avanzan solo en orden, sin saltos | `save_base` valida la etapa siguiente y bloquea la guía con `select_for_update` | `backend/tracking/models.py:367-408`; prueba `test_save_base_new_with_skipped_stage_raises_without_inserting` |
 | Las fechas las pone el servidor | `auto_now_add` y `auto_now` en `Guide` y `StatusHistory`; `date_joined` y `updated_at` en `User` | Pruebas `test_created_and_updated_at_are_set_by_server` y `test_updated_at_is_set_by_server_and_moves_on_save` |
-| El historial es inmutable | Los QuerySet bloquean `delete`, `update` y las inserciones masivas con conflictos | `backend/tracking/models.py:246-255`; pruebas `test_append_only_delete_raises` y `test_bulk_create_update_conflicts_is_rejected` |
+| El historial es inmutable | Los QuerySet bloquean `delete`, `update` y las inserciones masivas con conflictos | `backend/tracking/models.py:254-280`; pruebas `test_append_only_delete_raises` y `test_bulk_create_update_conflicts_is_rejected` |
 
 ## 3. Entregables y calidad
 
@@ -74,8 +76,8 @@ Estas reglas resuelven el problema del caso Hound Express: solo 31 de cada 100 g
 |---|---|
 | Scripts SQL o `models.py` | `backend/tracking/models.py`, `backend/accounts/models.py` y [`tracking.sql`](tracking.sql) |
 | Tablas y migraciones | `tracking/0001` a `0005` y `accounts/0002` a `0003`; el CI comprueba que no queden migraciones pendientes |
-| Pruebas | 157 pruebas de backend en verde (`manage.py test`) y 311 de frontend (`npm test`) |
-| Seguridad | Django 5.2.18 y DRF 3.18.3, sin vulnerabilidades conocidas; controles OWASP ASVS 5.0 nivel 1 en [`asvs-l1-checklist.md`](asvs-l1-checklist.md) |
+| Pruebas | 193 pruebas de backend en verde (`manage.py test`) y 311 de frontend (`npm test`) |
+| Seguridad | Django 5.2.18 y DRF 3.18.3, sin vulnerabilidades en pip-audit contra PyPI y OSV el 2026-11-02; el job `security` del CI repite la revisión; controles OWASP ASVS 5.0 nivel 1 en [`asvs-l1-checklist.md`](asvs-l1-checklist.md) |
 | Configuración | Variables de entorno sin secretos en el repositorio; no hay archivos `.env` de ejemplo |
 | Documentación | El README explica cómo instalar, probar y arrancar el proyecto; los diagramas están en [`docs/diagramas`](../../diagramas/README.md) |
 
@@ -89,4 +91,4 @@ python manage.py loaddata demo_guides
 python manage.py test
 ```
 
-Resultado esperado: `Ran 157 tests` y `OK`.
+Resultado esperado: `Ran 193 tests` y `OK`.
