@@ -76,7 +76,7 @@ Estas reglas resuelven el problema del caso Hound Express: solo 31 de cada 100 g
 |---|---|
 | Scripts SQL o `models.py` | `backend/tracking/models.py`, `backend/accounts/models.py` y [`tracking.sql`](tracking.sql) |
 | Tablas y migraciones | `tracking/0001` a `0005` y `accounts/0002` a `0003`; el CI comprueba que no queden migraciones pendientes |
-| Pruebas | 195 pruebas de backend en verde (`manage.py test`) y 311 de frontend (`npm test`) |
+| Pruebas | 200 pruebas de backend en verde (`manage.py test`) y 311 de frontend (`npm test`) |
 | Seguridad | Django 5.2.18 y DRF 3.18.3, sin vulnerabilidades en pip-audit contra PyPI y OSV el 2026-11-02; el job `security` del CI repite la revisión; controles OWASP ASVS 5.0 nivel 1 en [`asvs-l1-checklist.md`](asvs-l1-checklist.md) |
 | Configuración | Variables de entorno sin secretos en el repositorio; no hay archivos `.env` de ejemplo |
 | Documentación | El README explica cómo instalar, probar y arrancar el proyecto; los diagramas están en [`docs/diagramas`](../../diagramas/README.md) |
@@ -91,4 +91,4 @@ python manage.py loaddata demo_guides
 python manage.py test
 ```
 
-Resultado esperado: `Ran 195 tests` y `OK`.
+Resultado esperado: `Ran 200 tests` y `OK`.

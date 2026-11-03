@@ -47,6 +47,8 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
 | T5 Validación externa | S1 a S7 | Inline en navegador; revisión de seguridad independiente (Risk: item 2) | Hecha | `77c657a`, `5c0f081`, `95a6c43`, `2a49868`, `b00bf89`; L17 y L18 |
 | T6 Publicar y mensaje del LMS | S1 | Inline | Hecha | PR #15 a #21; `main` en `59bb8c6`; etiqueta `m54.3` |
 | T7 Limpieza pública y endurecimiento | L23 | Delegada a agentes por pedido de Eduardo | En curso | L24 y L25 |
+| T8 Cuenta de revisión | L27 | Inline con TDD; verificador independiente (Risk: item 2) | En curso | `create_reviewer`, 200 pruebas |
+| T9 Orden de ramas, commits y PR | L27 | Inline, sin `--force` | En curso | Se publica con aprobación de Eduardo |
 
 ## Log
 - L1 · 2026-11-02, pedido original: "suena bello pero un proyecto sin img con un diseño que se desvorda amm el .zip era para que se tomara de referencia y se utilizaran los recursos para añadirle ese plus al diseño para que se vea premium tienes varios recursos para saber estandares de webs modernas de compañias y empreas mas top actualmente asi como estandares sacados de paginas como horizon y las otras con disñeos modernos con animaciones esteticos y muy bellos no estas utilizando nada para mejorar antes de que sigas esta bien que aca en loop ya saabes hagas lo de mejorar el promt con el meta promting y despues hagas lo que te pido entregar una funcionalidad completa de web desarrollando con el odd ya tienes contexto no lo utilizas sigues sin utilizarlo"
@@ -84,3 +86,5 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
   9. Django y DRF: usados por agente. `django-drf` y `pytest` con Bash una vez cada una, y context7 con 2 `resolve-library-id` y 2 `query-docs`. Backend: 193 pruebas observadas, 157 antes.
   10. Archify: usado. Los cuatro diagramas de las dos ediciones pasaron `finalize` en modo `showcase` y `visual-check` con Brave. Las imágenes de `docs/diagramas/img/` se abrieron una por una.
 - L26 · 2026-11-03, verificador independiente, primera pasada: bloqueado. Una guía nueva marcada como archivada daba 500 en el admin; ahora el formulario de alta no ofrece ese campo y una prueba lo cubre. Se retiraron referencias restantes a material no publicado y detalle de dependencias del sitio actual, y se corrigió la fila 6.2.2 del checklist, que pasa a parcial. Backend: 195 pruebas; frontend: 311.
+- L27 · 2026-11-03, Eduardo, por medio de la sesión global: "debiste haber desarrollado un usuario. Sino como vamos a revisar la práctica" y "dile al agente que priorice y entregue el menaje para entregar ya asi la practica claro solo arreglado lo del usuiario y lo de la org de las ramas y commits y pr la org de todo el repo pues".
+- L28 · 2026-11-03, pendientes después de la entrega, por decisión de Eduardo: defectos visuales, estándar visual y recursos de diseño.

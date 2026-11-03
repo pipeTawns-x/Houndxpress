@@ -1,13 +1,13 @@
 # M54.3 · OWASP ASVS 5.0.0, nivel 1, contra el código actual
 
-**Resultado:** de las 31 filas, 23 cumplen, 5 son parciales, 1 sigue pendiente y 2 no aplican. Lo que falta está en [Pendientes](#pendientes). Ninguna fila se da por cumplida sin revisar el código citado.
+**Resultado:** de las 31 filas, 23 cumplen, 6 son parciales, 1 sigue pendiente y 1 no aplica. Lo que falta está en [Pendientes](#pendientes). Ninguna fila se da por cumplida sin revisar el código citado.
 
 ## Alcance
 
 - **Fuente:** `OWASP/ASVS`, carpeta `5.0/en`, leída con `gh api` el 2026-10-27. Se tomaron las filas de nivel 1 de los capítulos V2, V3, V4, V6, V7, V8, V12, V13, V15 y V16: 44 requisitos, repartidos en 31 filas. V16 no tiene requisitos de nivel 1.
 - **No leídos todavía:** V1, V5, V9 a V11, V14 y V17.
-- **Código revisado:** versión M54.3 de esta edición, commit `59f0470`. Las rutas son relativas a `backend/`, salvo `frontend/`, `.github/`, `docker-compose.yml`, `backend/.dockerignore` y `SECURITY.md`, que parten de la raíz.
-- **Pruebas:** corren con `python manage.py test` desde `backend/` (`.github/workflows/ci.yml:44`). Resultado observado en esta revisión: `Ran 195 tests` y `OK`.
+- **Código revisado:** versión M54.3 de esta edición, commit `59f0470`. La fila 6.4.1 y el pendiente P11 se revisaron después, sobre el commit que agrega `create_reviewer`. Las rutas son relativas a `backend/`, salvo `frontend/`, `.github/`, `docker-compose.yml`, `backend/.dockerignore` y `SECURITY.md`, que parten de la raíz.
+- **Pruebas:** corren con `python manage.py test` desde `backend/` (`.github/workflows/ci.yml:44`). Resultado observado en el commit final de la entrega: `Ran 200 tests` y `OK`.
 
 ## Requisitos
 
@@ -32,7 +32,7 @@
 | 6.2.2, 6.2.3, 6.2.8 | Cambio de contraseña con la actual; verificación exacta | Parcial, ver P10 | Solo el admin cambia contraseñas (`config/urls.py:13`); `/admin/password_change/` pide la actual, y la pantalla de usuarios del admin no; la API no tiene esa ruta (`accounts/api/urls.py:7-12`) | Solo la verificación: `core/tests/test_asvs_controls.py:137` |
 | 6.2.6, 6.2.7 | El campo oculta la contraseña y se puede pegar o usar un gestor | Cumple, sin prueba propia | `frontend/src/pages/Access.tsx:67-68`, sin bloqueo de pegado; `PasswordInput` en el admin | Sin prueba propia |
 | 6.3.2 | Sin cuentas por defecto | Cumple | El fixture `tracking/fixtures/demo_guides.json` no crea usuarios | `accounts/tests/test_authentication.py:75` |
-| 6.4.1 | Contraseñas iniciales generadas por el sistema | No aplica | No se generan; `createsuperuser` las pide | No aplica |
+| 6.4.1 | Contraseñas iniciales generadas por el sistema | Parcial, ver P11 | `create_reviewer` genera una aleatoria con `secrets`, la imprime una vez y solo corre con `DEBUG` encendido (`accounts/management/commands/create_reviewer.py`); no caduca | `accounts/tests/test_create_reviewer.py` |
 | 6.4.2 | Sin pistas de contraseña ni preguntas secretas | Cumple | No existen en `accounts/models.py:14-24` | Sin prueba propia |
 | 7.2.1, 7.2.2, 7.2.3, 7.2.4 | Sesión del lado del servidor, aleatoria y nueva al iniciar sesión | Cumple | `config/settings.py:107`; `accounts/api/views.py:50` | `accounts/tests/test_authentication.py:37`; `tracking/tests/test_api.py:301` |
 | 7.4.1, 7.4.2 | Cerrar sesión la invalida; un usuario desactivado la pierde | Cumple | `accounts/api/views.py:56`; `ModelBackend` de Django | `accounts/tests/test_authentication.py:52`, `:64` |
@@ -59,10 +59,11 @@
 | P8 | Faltan pruebas propias de 3.2.2, 6.2.2, 6.2.3, 6.2.6 y 6.2.7 | Tabla de requisitos | Agregarlas cuando esos flujos dejen de ser solo de Django o de React |
 | P9 | Faltan por leer los capítulos V1, V5, V9 a V11, V14 y V17 | Sección *Alcance* | Leerlos y ampliar esta tabla |
 | P10 | La pantalla de usuarios del admin cambia una contraseña sin pedir la actual | Comportamiento de Django admin, comprobado en `/admin/accounts/user/<id>/password/` | Retirar esa pantalla o pedir de nuevo la contraseña |
+| P11 | La contraseña de la cuenta de revisión no caduca | Cambia si se corre de nuevo `create_reviewer` o se edita desde el admin; el comando se niega a correr con `DEBUG` apagado | Hacerla caducar antes de usar el comando fuera de desarrollo |
 
 ## Cruce con el curso de hacking ético de Big School
 
-Fuente: el checklist defensivo de 20 controles de las clases de Mario Álvarez y Chema Alonso (Engram #1172). La fuente mapea a ASVS de forma aproximada; aquí se usa la numeración verificada de este archivo cuando existe. Se cumplen 11, hay 5 parciales y 4 no aplican. Todas las pruebas corren contra nuestra aplicación, en local.
+Fuente: el checklist defensivo de 20 controles de las clases de Mario Álvarez y Chema Alonso (Engram #1172). La fuente mapea a ASVS de forma aproximada; aquí se usa la numeración verificada de este archivo cuando existe. Se cumplen 10, hay 6 parciales y 4 no aplican. Todas las pruebas corren contra nuestra aplicación, en local.
 
 | # | Control | ASVS | Estado en M54.3 | Evidencia | Prueba |
 |---|---|---|---|---|---|
