@@ -13,6 +13,8 @@ const proxy = {
 
 export default defineConfig({
   plugins: [react()],
+  // La CSP de nginx solo permite fuentes del propio origen, así que ningún recurso se incrusta.
+  build: { assetsInlineLimit: 0 },
   server: { proxy },
   preview: { proxy },
 });
