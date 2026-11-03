@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "receiptId": "c7367833-8fdc-468f-98f0-418bcd97ad60",
+  "receiptId": "608a19a3-41d8-4081-af52-ec5f5797da57",
   "status": "current",
   "command": "deliver",
   "type": "architecture",
-  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/fuentes/modelo-de-datos.json",
-  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.CMOmREBHtx/Houndxpress/docs/diagramas/modelo-de-datos.html",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.sbYH1OoVlx/Houndxpress/docs/diagramas/fuentes/modelo-de-datos.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.sbYH1OoVlx/Houndxpress/docs/diagramas/modelo-de-datos.html",
   "specification": {
-    "sha256": "3b3a68acee30101129dedbb056da8112bec42b755e7037aefb8c6ed92b3a3584",
-    "bytes": 37487
+    "sha256": "efdbd3c10b517e87fbfd20e594cf8f669b8256e3850f60364664198ee2c539a4",
+    "bytes": 39810
   },
   "artifact": {
-    "sha256": "e766874f96ec44329a4bcfe964f798989c79f791e1d60b4ce8c19c86170bfa79",
-    "bytes": 768052
+    "sha256": "1b401f0bb13f5a3e1208101fd2b0549c4b41e718108c897d6a63c514efada4cf",
+    "bytes": 777287
   }
 }

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "diagram_type": "sequence",
   "meta": {
-    "title": "Consultas del frontend: estado de la API y rastreo",
+    "title": "Consultas de la web: estado de la API, rastreo, avance y acceso",
     "output": "docs/diagramas/secuencia-consultas.html",
     "locale": "es",
     "translations": {
@@ -446,7 +446,12 @@
       "viewer.common.close": "Cerrar"
     },
     "quality_profile": "showcase",
-    "column_fit": "spread"
+    "column_fit": "spread",
+    "repository": {
+      "url": "https://github.com/pipeTawns-x/Houndxpress.git",
+      "revision": "7b4141f9f711fc5853be1013ac028f7dff797eb4",
+      "link_mode": "web"
+    }
   },
   "participants": [
     {
@@ -459,25 +464,112 @@
       "id": "web",
       "type": "frontend",
       "label": "Frontend React",
-      "sublabel": "páginas y hooks"
+      "sublabel": "páginas y hooks",
+      "sources": [
+        {
+          "path": "frontend/src/hooks/useApiHealth.ts",
+          "line": 7,
+          "end_line": 21,
+          "label": "useApiHealth"
+        },
+        {
+          "path": "frontend/src/hooks/useGuideLookup.ts",
+          "line": 18,
+          "label": "useGuideLookup llama a publicTracker"
+        }
+      ]
     },
     {
-      "id": "repo",
+      "id": "http",
       "type": "frontend",
-      "label": "GuideRepository",
-      "sublabel": "cliente HTTP"
+      "label": "Servicios HTTP",
+      "sublabel": "tracker y repositorio",
+      "sources": [
+        {
+          "path": "frontend/src/services/publicTracking.ts",
+          "line": 7,
+          "end_line": 14,
+          "label": "publicTracker"
+        },
+        {
+          "path": "frontend/src/services/httpRepository.ts",
+          "line": 66,
+          "end_line": 69,
+          "label": "advance con PUT"
+        },
+        {
+          "path": "frontend/src/services/auth.ts",
+          "line": 20,
+          "end_line": 21,
+          "label": "login con POST"
+        }
+      ]
     },
     {
       "id": "api",
       "type": "backend",
       "label": "API Django",
-      "sublabel": "/api/v1/"
+      "sublabel": "vistas de /api/v1/",
+      "sources": [
+        {
+          "path": "backend/tracking/api/views.py",
+          "line": 81,
+          "end_line": 93,
+          "label": "PublicTrackView"
+        },
+        {
+          "path": "backend/tracking/api/views.py",
+          "line": 54,
+          "end_line": 60,
+          "label": "update de GuideViewSet"
+        },
+        {
+          "path": "backend/accounts/api/views.py",
+          "line": 40,
+          "end_line": 51,
+          "label": "LoginView"
+        }
+      ]
+    },
+    {
+      "id": "svc",
+      "type": "backend",
+      "label": "Servicios",
+      "sublabel": "tracking.services",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 141,
+          "end_line": 144,
+          "label": "public_guides"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 73,
+          "end_line": 120,
+          "label": "advance_guide"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 94,
+          "end_line": 100,
+          "label": "registra el rechazo"
+        }
+      ]
     },
     {
       "id": "db",
       "type": "database",
       "label": "SQLite",
-      "sublabel": "db.sqlite3"
+      "sublabel": "db.sqlite3",
+      "sources": [
+        {
+          "path": "backend/config/settings.py",
+          "line": 136,
+          "end_line": 143,
+          "label": "SQLite en DATABASES"
+        }
+      ]
     }
   ],
   "segments": [
@@ -488,13 +580,18 @@
     },
     {
       "from": 325,
-      "to": 465,
-      "label": "Pruebas · repositorio en memoria"
+      "to": 635,
+      "label": "Rastreo público contra la API real"
     },
     {
-      "from": 480,
-      "to": 710,
-      "label": "Rastreo público contra la API real"
+      "from": 650,
+      "to": 960,
+      "label": "Avance de etapa · personal con sesión"
+    },
+    {
+      "from": 975,
+      "to": 1195,
+      "label": "Acceso · API y admin con el mismo límite"
     }
   ],
   "messages": [
@@ -538,85 +635,206 @@
       "variant": "return"
     },
     {
-      "id": "demo-input",
+      "id": "track-input",
       "from": "user",
       "to": "web",
-      "y": 360,
+      "y": 350,
       "label": "número de guía"
     },
     {
-      "id": "demo-get",
+      "id": "track-call",
       "from": "web",
-      "to": "repo",
-      "y": 390,
-      "label": "get(número)"
+      "to": "http",
+      "y": 380,
+      "label": "publicTracker(números)"
     },
     {
-      "id": "demo-result",
-      "from": "repo",
-      "to": "web",
-      "y": 420,
-      "label": "Guide o null",
-      "variant": "return"
-    },
-    {
-      "id": "demo-render",
-      "from": "web",
-      "to": "user",
-      "y": 450,
-      "label": "línea de tiempo",
-      "variant": "return"
-    },
-    {
-      "id": "api-input",
-      "from": "user",
-      "to": "web",
-      "y": 515,
-      "label": "número de guía"
-    },
-    {
-      "id": "api-get",
-      "from": "web",
-      "to": "repo",
-      "y": 545,
-      "label": "get(número)"
-    },
-    {
-      "id": "api-http",
-      "from": "repo",
+      "id": "track-get",
+      "from": "http",
       "to": "api",
-      "y": 575,
-      "label": "GET /api/v1/public/track/?numbers=n"
+      "y": 410,
+      "label": "GET /public/track/?numbers=n"
     },
     {
-      "id": "api-query",
+      "id": "track-service",
       "from": "api",
-      "to": "db",
-      "y": 605,
-      "label": "guía e historial"
+      "to": "svc",
+      "y": 440,
+      "label": "public_guides(números)"
     },
     {
-      "id": "api-rows",
+      "id": "track-query",
+      "from": "svc",
+      "to": "db",
+      "y": 470,
+      "label": "guías e historial"
+    },
+    {
+      "id": "track-rows",
       "from": "db",
-      "to": "api",
-      "y": 635,
+      "to": "svc",
+      "y": 500,
       "label": "filas",
       "variant": "return"
     },
     {
-      "id": "api-json",
-      "from": "api",
-      "to": "repo",
-      "y": 665,
-      "label": "200 JSON o 404",
+      "id": "track-guides",
+      "from": "svc",
+      "to": "api",
+      "y": 530,
+      "label": "guías encontradas",
       "variant": "return"
     },
     {
-      "id": "api-result",
-      "from": "repo",
+      "id": "track-json",
+      "from": "api",
+      "to": "http",
+      "y": 560,
+      "label": "200 · campos mínimos o found: false",
+      "variant": "return"
+    },
+    {
+      "id": "track-result",
+      "from": "http",
       "to": "web",
-      "y": 695,
-      "label": "Guide o null",
+      "y": 590,
+      "label": "resultados",
+      "variant": "return"
+    },
+    {
+      "id": "track-render",
+      "from": "web",
+      "to": "user",
+      "y": 620,
+      "label": "línea de tiempo o no encontrada",
+      "variant": "return"
+    },
+    {
+      "id": "advance-input",
+      "from": "user",
+      "to": "web",
+      "y": 675,
+      "label": "avanzar etapa"
+    },
+    {
+      "id": "advance-call",
+      "from": "web",
+      "to": "http",
+      "y": 705,
+      "label": "advance(número, etapa)"
+    },
+    {
+      "id": "advance-put",
+      "from": "http",
+      "to": "api",
+      "y": 735,
+      "label": "PUT /guides/n/ · CSRF"
+    },
+    {
+      "id": "advance-service",
+      "from": "api",
+      "to": "svc",
+      "y": 765,
+      "label": "advance_guide(número)"
+    },
+    {
+      "id": "advance-insert",
+      "from": "svc",
+      "to": "db",
+      "y": 795,
+      "label": "fila + UPDATE condicional"
+    },
+    {
+      "id": "advance-reject",
+      "from": "svc",
+      "to": "db",
+      "y": 825,
+      "label": "o rechazo auditado",
+      "variant": "security"
+    },
+    {
+      "id": "advance-result",
+      "from": "svc",
+      "to": "api",
+      "y": 855,
+      "label": "guía o Conflict",
+      "variant": "return"
+    },
+    {
+      "id": "advance-json",
+      "from": "api",
+      "to": "http",
+      "y": 885,
+      "label": "200 o 409 invalid_transition",
+      "variant": "return"
+    },
+    {
+      "id": "advance-guide",
+      "from": "http",
+      "to": "web",
+      "y": 915,
+      "label": "Guide o RepositoryError",
+      "variant": "return"
+    },
+    {
+      "id": "advance-render",
+      "from": "web",
+      "to": "user",
+      "y": 945,
+      "label": "etapa nueva o aviso",
+      "variant": "return"
+    },
+    {
+      "id": "login-input",
+      "from": "user",
+      "to": "web",
+      "y": 1000,
+      "label": "usuario y contraseña"
+    },
+    {
+      "id": "login-call",
+      "from": "web",
+      "to": "http",
+      "y": 1030,
+      "label": "login(usuario, contraseña)"
+    },
+    {
+      "id": "login-post",
+      "from": "http",
+      "to": "api",
+      "y": 1060,
+      "label": "POST /auth/login/ · CSRF"
+    },
+    {
+      "id": "login-json",
+      "from": "api",
+      "to": "http",
+      "y": 1090,
+      "label": "200, 403 genérico o 429",
+      "variant": "return"
+    },
+    {
+      "id": "login-render",
+      "from": "http",
+      "to": "web",
+      "y": 1120,
+      "label": "panel o aviso",
+      "variant": "return"
+    },
+    {
+      "id": "admin-post",
+      "from": "user",
+      "to": "api",
+      "y": 1150,
+      "label": "POST /admin/login/ · mismo límite",
+      "variant": "security"
+    },
+    {
+      "id": "admin-limit",
+      "from": "api",
+      "to": "user",
+      "y": 1180,
+      "label": "429 tras 5 intentos por minuto",
       "variant": "return"
     }
   ],
@@ -641,66 +859,125 @@
     },
     {
       "participant": "web",
-      "from": 355,
-      "to": 456,
+      "from": 345,
+      "to": 626,
       "type": "frontend"
     },
     {
-      "participant": "repo",
-      "from": 385,
-      "to": 426,
-      "type": "frontend"
-    },
-    {
-      "participant": "web",
-      "from": 510,
-      "to": 701,
-      "type": "frontend"
-    },
-    {
-      "participant": "repo",
-      "from": 540,
-      "to": 701,
+      "participant": "http",
+      "from": 375,
+      "to": 596,
       "type": "frontend"
     },
     {
       "participant": "api",
-      "from": 570,
-      "to": 671,
+      "from": 405,
+      "to": 566,
+      "type": "backend"
+    },
+    {
+      "participant": "svc",
+      "from": 435,
+      "to": 536,
       "type": "backend"
     },
     {
       "participant": "db",
-      "from": 600,
-      "to": 641,
+      "from": 465,
+      "to": 506,
       "type": "database"
+    },
+    {
+      "participant": "web",
+      "from": 670,
+      "to": 951,
+      "type": "frontend"
+    },
+    {
+      "participant": "http",
+      "from": 700,
+      "to": 921,
+      "type": "frontend"
+    },
+    {
+      "participant": "api",
+      "from": 730,
+      "to": 891,
+      "type": "backend"
+    },
+    {
+      "participant": "svc",
+      "from": 760,
+      "to": 861,
+      "type": "backend"
+    },
+    {
+      "participant": "db",
+      "from": 790,
+      "to": 831,
+      "type": "database"
+    },
+    {
+      "participant": "web",
+      "from": 995,
+      "to": 1126,
+      "type": "frontend"
+    },
+    {
+      "participant": "http",
+      "from": 1025,
+      "to": 1126,
+      "type": "frontend"
+    },
+    {
+      "participant": "api",
+      "from": 1055,
+      "to": 1096,
+      "type": "backend"
+    },
+    {
+      "participant": "api",
+      "from": 1145,
+      "to": 1186,
+      "type": "security"
     }
   ],
   "cards": [
     {
       "dot": "emerald",
-      "title": "Real hoy",
+      "title": "Estado de la API",
       "items": [
-        "El panel y el pie consultan /api/v1/health/",
-        "La vista hace SELECT 1 y responde 503 si la base falla",
-        "Vite o nginx reenvían /api al puerto 8000: mismo origen, sin CORS"
-      ]
-    },
-    {
-      "dot": "amber",
-      "title": "Pruebas",
-      "items": [
-        "demoRepository solo se usa en las pruebas de Jest",
-        "La interfaz usa la API por defecto"
+        "La plantilla pública consulta /api/v1/health/ al cargar (useApiHealth.ts:7-21)",
+        "La vista hace SELECT 1 y responde 503 si la base falla (core/views.py:10-33)",
+        "Vite o nginx reenvían /api al puerto 8000: mismo origen, sin CORS (nginx.conf:23-24)"
       ]
     },
     {
       "dot": "cyan",
-      "title": "Rastreo real",
+      "title": "Rastreo y avance",
       "items": [
-        "GuideRepository normaliza el número y llama a la API",
-        "Responde con campos mínimos y una ciudad de la lista cerrada",
-        "Un número inexistente se muestra como no encontrado"
+        "publicTracker normaliza de 1 a 10 números (publicTracking.ts:10-12)",
+        "Un número inexistente responde found: false, no 404 (api/views.py:86-92)",
+        "Un salto o retroceso responde 409 y queda auditado (services.py:88-100)"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Acceso",
+      "items": [
+        "CSRF obligatorio también al iniciar sesión (accounts/api/views.py:41)",
+        "API y admin comparten 5 intentos por minuto y por IP (admin_throttle.py:16-18)",
+        "Con NUM_PROXIES=0, detrás de un proxy todos comparten ese límite (settings.py:206)"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Patrones que el código usa",
+      "items": [
+        "Facade: la vista solo llama a tracking.services (api/views.py:59)",
+        "Repository: httpRepository implementa GuideRepository (httpRepository.ts:12)",
+        "Analogía de Decorator: el límite va antes del login del admin (urls.py:11-12)",
+        "Compare-and-set, no GoF: UPDATE condicional (models.py:104-108)"
       ]
     }
   ]

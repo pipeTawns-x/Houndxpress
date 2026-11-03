@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="generator" content="archify 3.0.1">
   <meta name="archify-reader-contract" content="declared-wide-v1">
-  <title>Consultas del frontend: estado de la API y rastreo · Diagrama</title>
+  <title>Consultas de la web: estado de la API, rastreo, avance y acceso · Diagrama</title>
   <script>
     // Resolve the theme before first paint so light-preference users don't
     // see a dark flash. The toolbar script below re-applies with UI state.
@@ -4978,17 +4978,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
            data-preset-badge-blueprint="PLANO / REV 01"
            data-preset-badge-editorial="EDITORIAL / NOTA DE CAMPO">
         <div class="pulse-dot"></div>
-        <h1>Consultas del frontend: estado de la API y rastreo</h1>
+        <h1>Consultas de la web: estado de la API, rastreo, avance y acceso</h1>
       </div>
     </div>
 
-
+    <script id="archify-source-evidence-data" type="application/json">{"schemaVersion":1,"verified":true,"repository":{"url":"https://github.com/pipeTawns-x/Houndxpress","revision":"7b4141f9f711fc5853be1013ac028f7dff797eb4","shortRevision":"7b4141f","label":"pipeTawns-x/Houndxpress","href":"https://github.com/pipeTawns-x/Houndxpress/tree/7b4141f9f711fc5853be1013ac028f7dff797eb4"},"referenceCount":12,"nodes":{"web":[{"path":"frontend/src/hooks/useApiHealth.ts","line":7,"endLine":21,"label":"useApiHealth","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/frontend/src/hooks/useApiHealth.ts#L7-L21"},{"path":"frontend/src/hooks/useGuideLookup.ts","line":18,"label":"useGuideLookup llama a publicTracker","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/frontend/src/hooks/useGuideLookup.ts#L18"}],"http":[{"path":"frontend/src/services/publicTracking.ts","line":7,"endLine":14,"label":"publicTracker","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/frontend/src/services/publicTracking.ts#L7-L14"},{"path":"frontend/src/services/httpRepository.ts","line":66,"endLine":69,"label":"advance con PUT","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/frontend/src/services/httpRepository.ts#L66-L69"},{"path":"frontend/src/services/auth.ts","line":20,"endLine":21,"label":"login con POST","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/frontend/src/services/auth.ts#L20-L21"}],"api":[{"path":"backend/tracking/api/views.py","line":81,"endLine":93,"label":"PublicTrackView","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/tracking/api/views.py#L81-L93"},{"path":"backend/tracking/api/views.py","line":54,"endLine":60,"label":"update de GuideViewSet","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/tracking/api/views.py#L54-L60"},{"path":"backend/accounts/api/views.py","line":40,"endLine":51,"label":"LoginView","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/accounts/api/views.py#L40-L51"}],"svc":[{"path":"backend/tracking/services.py","line":141,"endLine":144,"label":"public_guides","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/tracking/services.py#L141-L144"},{"path":"backend/tracking/services.py","line":73,"endLine":120,"label":"advance_guide","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/tracking/services.py#L73-L120"},{"path":"backend/tracking/services.py","line":94,"endLine":100,"label":"registra el rechazo","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/tracking/services.py#L94-L100"}],"db":[{"path":"backend/config/settings.py","line":136,"endLine":143,"label":"SQLite en DATABASES","href":"https://github.com/pipeTawns-x/Houndxpress/blob/7b4141f9f711fc5853be1013ac028f7dff797eb4/backend/config/settings.py#L136-L143"}]}}</script>
     <script id="archify-i18n-data" type="application/json">{"locale":"es","messages":{"viewer.kind.frontend":"Frontend","viewer.kind.backend":"Backend","viewer.kind.database":"Base de datos","viewer.kind.cloud":"Nube","viewer.kind.security":"Seguridad","viewer.kind.messagebus":"Bus de mensajes","viewer.kind.external":"Externo","viewer.kind.neutral":"Neutral","viewer.kind.node":"Nodo","viewer.kind.start":"Inicio","viewer.kind.active":"Activo","viewer.kind.waiting":"En espera","viewer.kind.decision":"Decisión","viewer.kind.success":"Éxito","viewer.kind.failure":"Fallo","viewer.toolbar.actions":"Acciones del diagrama","viewer.theme.toggle.title":"Cambiar tema (T)","viewer.theme.toggle":"Cambiar tema de color","viewer.theme.dark":"Oscuro","viewer.theme.light":"Claro","viewer.preset.choose.title":"Elegir estilo visual (S alterna)","viewer.preset.choose":"Elegir estilo visual","viewer.preset.style":"Estilo","viewer.preset.menu":"Estilo visual","viewer.preset.identity":"Identidad visual","viewer.preset.cycles":"alterna","viewer.preset.classic":"Clásico","viewer.preset.classic.short":"Clásico","viewer.preset.classic.hint":"Predeterminado técnico estable","viewer.preset.flow":"Flujo de señal","viewer.preset.flow.short":"Flujo","viewer.preset.flow.hint":"Presentación con énfasis en el movimiento","viewer.preset.blueprint":"Plano","viewer.preset.blueprint.hint":"Revisión de ingeniería","viewer.preset.editorial":"Editorial","viewer.preset.editorial.hint":"Notas de publicación y lanzamiento","viewer.preset.badge.signalFlow":"FLUJO DE SEÑAL","viewer.preset.badge.blueprint":"PLANO / REV 01","viewer.preset.badge.editorial":"EDITORIAL / NOTA DE CAMPO","viewer.preset.badge.editorialPlate":"ARCHIFY / LÁMINA 04","viewer.preset.current":"Estilo visual: {style}. Elegir estilo visual","viewer.motion.live":"Activa","viewer.motion.still":"Fija","viewer.motion.pause":"Pausar animación","viewer.motion.resume":"Reanudar animación","viewer.motion.reduced":"Animación pausada por la preferencia de movimiento reducido","viewer.motion.hidden":"Animación pausada mientras esta página está oculta","viewer.motion.yielding":"Pausar animación; cediendo a {owner}","viewer.motion.yielding.title":"Vista previa en vivo activada · cediendo a {owner}","viewer.owner.route":"Sonda de ruta","viewer.owner.lens":"Lente semántico","viewer.owner.relationship":"Vista previa de relación","viewer.owner.intent":"Traza de intención","viewer.owner.focus":"enfoque semántico","viewer.owner.legend":"vista previa de la leyenda","viewer.owner.reader":"interacción del lector","viewer.present.enter":"Entrar al modo presentación","viewer.present.enter.title":"Modo presentación (F)","viewer.present.exit":"Salir del modo presentación","viewer.present.exit.title":"Salir del modo presentación (F o Escape)","viewer.present.present":"Presentar","viewer.present.exit.label":"Salir","viewer.export.button":"Exportar","viewer.export.button.title":"Exportar diagrama (E)","viewer.export.diagram":"Exportar diagrama","viewer.export.menu":"Exportar","viewer.export.subtitle":"Salidas portables y limpias","viewer.export.share":"Compartir","viewer.export.shareCard":"Tarjeta para compartir","viewer.export.routeShareCard":"Tarjeta de ruta para compartir","viewer.export.reachShareCard":"Tarjeta de alcance para compartir","viewer.export.copyDiagram":"Copiar diagrama","viewer.export.clipboardPng":"PNG al portapapeles","viewer.export.raster":"Imágenes rasterizadas","viewer.export.image":"Imagen","viewer.export.lossless":"Imagen sin pérdida","viewer.export.compact":"Imagen compacta","viewer.export.modern":"Imagen moderna","viewer.export.vectorMotion":"Vector y movimiento","viewer.export.vectorMotion.heading":"Vector y movimiento","viewer.export.editable":"Vector editable","viewer.export.svg.auto":"SVG · Auto","viewer.export.svg.auto.hint":"Coincide con el tema del host","viewer.export.svg.light":"SVG · Claro","viewer.export.svg.light.hint":"Siempre claro","viewer.export.svg.dark":"SVG · Oscuro","viewer.export.svg.dark.hint":"Siempre oscuro","viewer.export.motion6s":"Movimiento de 6 s","viewer.export.unsupported":"No compatible con este navegador","viewer.export.clipboardUnsupported":"Este navegador no admite escribir imágenes en el portapapeles","viewer.export.clipboardUnsupported.short":"Escritura de imágenes en el portapapeles no admitida en este navegador.","viewer.export.motionUnavailable":"Captura de movimiento no disponible en este navegador","viewer.export.webmUnavailable":"WebM no disponible en este navegador","viewer.export.failed":"Falló la exportación: {message}","viewer.export.unknownVariant":"Variante de tarjeta para compartir desconocida: {variant}","viewer.export.routeRequired":"Traza una ruta antes de exportar una tarjeta de ruta para compartir","viewer.export.reachRequired":"Traza el alcance definido antes de exportar una tarjeta de alcance para compartir","viewer.export.unknown":"desconocido","viewer.export.routeFailed":"Falló la exportación de la tarjeta de ruta para compartir: {message}","viewer.export.reachFailed":"Falló la exportación de la tarjeta de alcance para compartir: {message}","viewer.export.copyFailed":"Error al copiar: {message}","viewer.export.copiedPng":"PNG copiado al portapapeles","viewer.export.downloadedRoute":"Tarjeta de ruta para compartir descargada","viewer.export.downloadedReach":"Tarjeta de alcance para compartir descargada","viewer.export.downloadedWebm":"WebM descargado","viewer.export.recording":"Grabando 6 segundos de movimiento…","viewer.export.card.routeSummary.one":"Ruta: {source} → {target} · {count} paso","viewer.export.card.routeSummary.other":"Ruta: {source} → {target} · {count} pasos","viewer.export.card.reachSummary":"Alcance definido {direction} desde {origin} · {nodes} · {links} · máx {hops}","viewer.export.card.node.one":"{count} nodo","viewer.export.card.node.other":"{count} nodos","viewer.export.card.link.one":"{count} enlace","viewer.export.card.link.other":"{count} enlaces","viewer.export.card.hop.one":"{count} salto","viewer.export.card.hop.other":"{count} saltos","viewer.export.card.routeBadge":"ARCHIFY · RUTA · {hops}","viewer.export.card.reachBadge":"ARCHIFY · ALCANCE {direction}","viewer.export.direction.upstream":"Ascendente","viewer.export.direction.downstream":"Descendente","viewer.export.error.canvasUnavailable":"Lienzo no disponible para {label}","viewer.export.error.contextUnavailable":"Contexto de lienzo 2D no disponible para {label}","viewer.export.error.toBlobUnavailable":"canvas.toBlob no disponible para {label}","viewer.export.error.toBlobNull":"canvas.toBlob no devolvió datos para {label}","viewer.export.error.variantsCombined":"Las variantes de tarjeta para compartir no se pueden combinar","viewer.export.error.viewerState":"La exportación de la tarjeta para compartir no pudo quitar el estado temporal del visor","viewer.export.error.routeState":"La exportación de la tarjeta de ruta no pudo preservar la ruta resuelta de forma segura","viewer.export.error.reachState":"La exportación de la tarjeta de alcance no pudo preservar el alcance definido de forma segura","viewer.export.error.webmRequirements":"La exportación de movimiento WebM requiere una animación de traza y compatibilidad del navegador con MediaRecorder","viewer.export.error.mediaRecorder":"MediaRecorder falló","viewer.export.error.emptyWebm":"MediaRecorder produjo un WebM vacío","viewer.export.error.webmBackground":"No se pudo cargar el fondo SVG para la exportación WebM","viewer.guide.title":"Explorar este sistema","viewer.focus.selectedNodes":"{count} nodos seleccionados","viewer.guide.eyebrow":"Guía del diagrama","viewer.guide.close":"Cerrar la guía del diagrama","viewer.guide.inspecting":"Inspeccionando la semántica compilada","viewer.guide.actions":"Acciones de exploración del diagrama","viewer.guide.find":"Buscar cualquier nodo","viewer.guide.find.hint":"Busca por etiquetas, responsabilidades, tipos e IDs estables.","viewer.guide.route":"Trazar una ruta","viewer.guide.route.aria":"Trazar una ruta dirigida","viewer.guide.route.hint":"Pregunta cómo se conectan dos nodos semánticos en el sentido definido.","viewer.guide.map":"Ver todo el sistema","viewer.guide.map.hint":"Abre el Radar semántico con un viewport en vivo y nodos estables.","viewer.guide.lens":"Comparar tipos semánticos","viewer.guide.lens.hint":"Cuenta roles, revela su tráfico y compara enlaces directos definidos.","viewer.guide.present":"Entrar al modo presentación","viewer.guide.present.hint":"Dale al diagrama en vivo todo el viewport sin cambiar la exportación.","viewer.guide.shortcuts":"Atajos de teclado adicionales","viewer.guide.shortcut.export":"Exportar","viewer.guide.shortcut.theme":"Tema","viewer.guide.shortcut.style":"Estilo","viewer.guide.shortcut.reset":"Restablecer","viewer.guide.shortcut.zoomIn":"Acercar","viewer.guide.shortcut.zoomOut":"Alejar","viewer.guide.shortcut.close":"Cerrar","viewer.guide.facts":"{nodes} · {relationships}","viewer.guide.fact.node.one":"{count} nodo semántico","viewer.guide.fact.node.other":"{count} nodos semánticos","viewer.guide.fact.relationship.one":"{count} relación","viewer.guide.fact.relationship.other":"{count} relaciones","viewer.guide.open":"Abrir la guía del diagrama","viewer.finder.title":"Buscar un nodo","viewer.finder.close":"Cerrar el buscador de nodos","viewer.finder.placeholder":"Buscar etiquetas o IDs","viewer.finder.search":"Buscar nodos del diagrama","viewer.finder.results":"Nodos del diagrama","viewer.finder.empty":"No hay nodos coincidentes","viewer.finder.result.focus":"Enfocar {label}","viewer.finder.result.routeStart":"Elegir {label} como inicio de la ruta","viewer.finder.result.routeTarget":"Elegir {label} como destino de la ruta, {links}","viewer.finder.status.empty":"No hay nodos coincidentes","viewer.finder.status.count.one":"{count} nodo coincidente","viewer.finder.status.count.other":"{count} nodos coincidentes","viewer.finder.noun.nodes":"nodos","viewer.finder.link.one":"{count} enlace","viewer.finder.link.other":"{count} enlaces","viewer.finder.result.focus.one":"Enfocar {label}, {count} conexión relacionada","viewer.finder.result.focus.other":"Enfocar {label}, {count} conexiones relacionadas","viewer.finder.status.filtered":"{visible} de {available} {noun}","viewer.finder.status.all":"{available} {noun}","viewer.passport.eyebrow":"Pasaporte semántico","viewer.passport.metadata":"Metadatos del nodo","viewer.passport.evidence":"Evidencia de fuente verificada","viewer.passport.verified":"Fuente verificada","viewer.passport.verificationScope":"Verificado contra el Git local en la revisión fijada. No se ha comprobado el acceso remoto.","viewer.passport.reach":"Alcance definido","viewer.passport.reach.trace":"Trazar la alcanzabilidad definida","viewer.passport.upstream":"Ascendente","viewer.passport.downstream":"Descendente","viewer.passport.upstream.trace":"Trazar la alcanzabilidad definida ascendente","viewer.passport.downstream.trace":"Trazar la alcanzabilidad definida descendente","viewer.passport.close":"Cerrar el pasaporte semántico","viewer.passport.move":"Mover el pasaporte semántico. Arrastra, usa las flechas o pulsa Inicio para restablecer.","viewer.passport.copy":"Copiar enlace","viewer.passport.copy.focus":"Copiar enlace al nodo enfocado","viewer.passport.relations":"Relaciones","viewer.passport.relations.show":"Mostrar relaciones conectadas","viewer.passport.relations.hide":"Ocultar relaciones conectadas","viewer.passport.relations.list":"Relaciones conectadas","viewer.passport.copyRelation":"Copiar relación","viewer.passport.copyNode":"Copiar nodo","viewer.passport.copyPinned":"Copiar enlace a la relación fijada","viewer.passport.copySource":"Copiar enlace al nodo de origen","viewer.passport.copy.focused.success":"Enlace del nodo enfocado copiado","viewer.passport.copy.pinned.success":"Enlace de la relación fijada copiado","viewer.passport.copy.focused.failed":"No se pudo copiar el enlace del nodo enfocado","viewer.passport.copy.pinned.failed":"No se pudo copiar el enlace de la relación fijada","viewer.passport.relationship.none":"No hay relaciones conectadas","viewer.passport.relationship.count.one":"{count} relación","viewer.passport.relationship.count.other":"{count} relaciones","viewer.passport.relationship.show.one":"Mostrar {count} relación conectada","viewer.passport.relationship.show.other":"Mostrar {count} relaciones conectadas","viewer.passport.relationship.summary":"{out} salientes · {in} entrantes{loops}","viewer.passport.relationship.loops":" · {count} bucle","viewer.passport.relationship.explorer":"Explorador de relaciones directas","viewer.passport.relationship.help":"Usa las flechas para explorar las relaciones. Pulsa Enter o Espacio para fijar detalles; Escape las borra.","viewer.passport.relationship.loopsBack":"vuelve sobre sí mismo","viewer.passport.relationship.connectsTo":"conecta a","viewer.passport.relationship.connectsFrom":"conecta desde","viewer.passport.relationship.pinned":"Relación fijada · {from} → {to} · {label}","viewer.passport.relationship.inspect":"Inspeccionar relación {index} de {total}: {from} a {to}, {label}. Pulsa Enter para ver detalles.","viewer.passport.relationship.group.out":"Salientes","viewer.passport.relationship.group.in":"Entrantes","viewer.passport.relationship.group.loop":"Bucles propios","viewer.passport.relationship.row":"{group}: {relationship}, {neighbor}","viewer.passport.relationship.direction.out":"SAL →","viewer.passport.relationship.direction.in":"← ENT","viewer.passport.relationship.direction.loop":"BUCLE","viewer.passport.sourceCount.one":"{count} referencia de fuente verificada","viewer.passport.sourceCount.other":"{count} referencias de fuente verificadas","viewer.passport.sourceMarker":"SRC","viewer.passport.beacon.one":"{count} fuente verificada; enfoca este nodo para inspeccionar","viewer.passport.beacon.other":"{count} fuentes verificadas; enfoca este nodo para inspeccionar","viewer.passport.repository.open":"Abrir la revisión verificada del repositorio {revision}","viewer.passport.source.open":"Abrir la fuente verificada {path} en la revisión {revision}","viewer.passport.source.openLink":"Abrir ↗","viewer.passport.reach.upstream.one":"Trazar {count} nodo definido ascendente","viewer.passport.reach.upstream.other":"Trazar {count} nodos definidos ascendentes","viewer.passport.reach.downstream.one":"Trazar {count} nodo definido descendente","viewer.passport.reach.downstream.other":"Trazar {count} nodos definidos descendentes","viewer.passport.reach.noUpstream":"No hay nodos definidos ascendentes","viewer.passport.reach.noDownstream":"No hay nodos definidos descendentes","viewer.passport.reach.status":"{direction} · {nodes} nodos · {links} enlaces · máx {hops} saltos","viewer.route.eyebrow":"Ruta","viewer.route.start":"Haz clic donde empieza la ruta","viewer.route.start.find":"Buscar inicio","viewer.route.start.find.aria":"Buscar un inicio de ruta","viewer.route.copy":"Copiar enlace","viewer.route.copy.aria":"Copiar enlace a la ruta trazada","viewer.route.clear":"Borrar","viewer.route.clear.aria":"Borrar la sonda de ruta","viewer.route.traced":"Ruta","viewer.route.pickTwo":"Haz clic en dos nodos del diagrama","viewer.route.pickOne":"Haz clic en un nodo del diagrama","viewer.route.controls":"Controles del recorrido de la ruta","viewer.route.previous":"Posición anterior de la ruta","viewer.route.play":"Reproducir el recorrido de la ruta","viewer.route.pause":"Pausar el recorrido de la ruta","viewer.route.replay":"Repetir el recorrido de la ruta","viewer.route.next":"Posición siguiente de la ruta","viewer.route.journey":"Recorrido","viewer.route.pause.label":"Pausar","viewer.route.replay.label":"Repetir","viewer.route.overview":"Vista general","viewer.route.overview.aria":"Mostrar la vista general completa de la ruta","viewer.route.instructions":"Haz clic en un inicio y luego en un final. La ruta sigue las flechas.","viewer.route.destination":"¿Dónde termina la ruta desde {label}?","viewer.route.destination.find":"Buscar destino","viewer.route.destination.find.aria":"Buscar un destino de ruta alcanzable","viewer.route.differentDestination":"Elige un destino diferente","viewer.route.distinct":"Elige dos nodos distintos.","viewer.route.unreachable":"No se llega a {label} desde aquí","viewer.route.unreachable.detail":"No se llega a {target} desde {source} siguiendo las flechas. Elige un nodo resaltado.","viewer.route.start.instructions":"Luego elige el final. Solo se iluminan los nodos alcanzables.","viewer.route.copy.success":"Enlace de la ruta trazada copiado","viewer.route.copy.failed":"No se pudo copiar el enlace de la ruta trazada","viewer.route.position":"Posición de la ruta {index} de {total}: {label}","viewer.route.step":"Paso {index} de {total} · {phase} · {label}","viewer.route.motionRequired":"El recorrido automático requiere la animación Activa","viewer.route.trigger.clear":"Borrar la ruta trazada","viewer.route.overview.status":"{nodes} · {hops} · ruta más corta","viewer.route.overview.node.one":"{count} nodo","viewer.route.overview.node.other":"{count} nodos","viewer.route.overview.hop.one":"{count} paso","viewer.route.overview.hop.other":"{count} pasos","viewer.route.phase.playing":"Reproduciendo","viewer.route.phase.complete":"Completo","viewer.route.phase.inspecting":"Inspeccionando","viewer.route.destination.count.one":"{count} nodo alcanzable está resaltado. Haz clic en él.","viewer.route.destination.count.other":"{count} nodos alcanzables están resaltados. Haz clic en uno.","viewer.route.noOutgoing":"Ninguna flecha sale de este nodo. Bórralo y elige otro inicio.","viewer.route.result.title":"{source} a {target}","viewer.route.finder.source.title":"Elegir el inicio de la ruta","viewer.route.finder.source.placeholder":"Buscar orígenes de ruta","viewer.route.finder.source.empty":"No hay orígenes de ruta coincidentes","viewer.route.finder.source.results":"Nodos que pueden iniciar una ruta","viewer.route.finder.source.noun":"orígenes de ruta","viewer.route.finder.source.badge":"inicio","viewer.route.finder.target.title":"Destino desde {label}","viewer.route.finder.target.placeholder":"Buscar destinos alcanzables","viewer.route.finder.target.empty":"No hay destinos alcanzables coincidentes","viewer.route.finder.target.results":"Destinos de ruta alcanzables","viewer.route.finder.target.noun":"destinos alcanzables","viewer.route.hop.one":"{count} salto","viewer.route.hop.other":"{count} saltos","viewer.lens.eyebrow":"Lente semántico","viewer.lens.title":"Comparar roles del sistema","viewer.lens.close":"Cerrar el lente semántico","viewer.lens.instruction":"Elige hasta dos tipos semánticos. Uno revela su tráfico real; dos comparan solo las relaciones directas definidas.","viewer.lens.kinds":"Tipos semánticos","viewer.lens.choose":"Elige un tipo para inspeccionar sus nodos y las relaciones que lo tocan.","viewer.lens.copy":"Copiar enlace al lente semántico","viewer.lens.clear":"Borrar el lente semántico","viewer.lens.open":"Abrir el lente semántico","viewer.lens.openActive":"Abrir el lente semántico activo","viewer.lens.legend":"Leyenda semántica","viewer.lens.legend.inspect.one":"Inspeccionar {label}, {count} nodo","viewer.lens.legend.inspect.other":"Inspeccionar {label}, {count} nodos","viewer.lens.kind.count.one":"{label}, {count} nodo","viewer.lens.kind.count.other":"{label}, {count} nodos","viewer.lens.compare.one":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} relación directa","viewer.lens.compare.other":"{first} → {second}: {forward} · {second} → {first}: {reverse} · {count} relaciones directas","viewer.lens.single":"{nodes} · {relationships} · los pares conectados permanecen visibles","viewer.lens.node.one":"{count} nodo {label}","viewer.lens.node.other":"{count} nodos {label}","viewer.lens.relationship.one":"{count} relación en contacto","viewer.lens.relationship.other":"{count} relaciones en contacto","viewer.radar.title":"Radar semántico","viewer.radar.building":"Construyendo la vista general","viewer.radar.openFull":"Abrir el radar semántico completo","viewer.radar.open":"Abrir el radar","viewer.radar.close":"Cerrar el radar semántico","viewer.radar.surface":"Vista general del diagrama. Haz clic en un nodo para enfocarlo, o usa las flechas para desplazarte.","viewer.radar.click":"Clic en el nodo","viewer.radar.drag":"Arrastra para desplazar","viewer.radar.space":"El radar semántico necesita más espacio de MAPA.","viewer.radar.nodes":"Nodos del radar del diagrama semántico","viewer.radar.focus":"Enfocar {label} desde el Radar semántico","viewer.radar.status":"{count} nodos · {viewport}","viewer.radar.fullMap":"{count} nodos · mapa completo","viewer.radar.compacted":"Radar compactado para no tapar el Pasaporte semántico ni los controles de MAPA.","viewer.radar.cancelWaiting":"Cancelar la espera del radar semántico por más espacio de MAPA","viewer.radar.needsSpace":"El radar semántico necesita más espacio de MAPA visible","viewer.radar.viewport.full":"mapa completo","viewer.radar.viewport.width":"{percent}% de ancho","viewer.radar.viewport.scale":"{percent}% del viewport","viewer.nav.controls":"Controles de vista del diagrama","viewer.nav.route":"Trazar una ruta dirigida","viewer.nav.route.title":"Trazar ruta (R)","viewer.nav.route.short":"RUTA","viewer.nav.radar":"Abrir el radar semántico","viewer.nav.radar.title":"Radar semántico (M)","viewer.nav.radar.short":"MAPA","viewer.nav.lens":"Abrir el lente semántico","viewer.nav.lens.title":"Lente semántico (L)","viewer.nav.lens.short":"LENTE","viewer.nav.find":"Buscar un nodo","viewer.nav.find.title":"Buscar un nodo (/)","viewer.outline.title":"Índice de nodos","viewer.rail.show":"Notas e índice","viewer.rail.controls":"Panel lateral","viewer.rail.collapse":"Contraer panel lateral","viewer.rail.bottom":"Mover el panel debajo","viewer.rail.right":"Mover el panel al lado","viewer.nav.guide":"Abrir la guía del diagrama","viewer.nav.guide.title":"Guía del diagrama (?)","viewer.nav.zoomOut":"Alejar","viewer.nav.zoomOut.title":"Alejar (-)","viewer.nav.reset":"Restablecer la vista del diagrama","viewer.nav.reset.title":"Restablecer vista (0)","viewer.nav.read":"LEER","viewer.nav.zoomIn":"Acercar","viewer.nav.zoomIn.title":"Acercar (+)","viewer.nav.camera":"{hint}. Restablecer la vista del diagrama","viewer.nav.camera.title":"{semantic}{hint} · restablecer vista (0)","viewer.nav.camera.semantic":"Cámara semántica activa · ","viewer.nav.level.map":"MAPA","viewer.nav.level.read":"LEER","viewer.nav.level.full":"COMPLETO","viewer.nav.level.auto":"AUTO","viewer.nav.detail.map":"Acerca para revelar las etiquetas de relación y el contexto de los nodos","viewer.nav.detail.read":"Acerca de nuevo para revelar etiquetas y anotaciones","viewer.nav.detail.full":"Detalle completo del diagrama","viewer.intent.summary":"{label}. {out} salientes, {in} entrantes{loops}. {total} conexiones. Pulsa Enter para ver detalles.","viewer.intent.loops":", {count} bucle propio","viewer.common.copied":"Copiado","viewer.common.copyFailed":"Error al copiar","viewer.common.copyLink":"Copiar enlace","viewer.common.clear":"Borrar","viewer.common.close":"Cerrar"}}</script>
     <!-- Main Diagram -->
     <div class="diagram-container" data-detail-level="read"
          data-preset-badge-editorial-plate="ARCHIFY / LÁMINA 04">
-      <svg viewBox="0 0 920 808" data-sequence-column-fit="spread" data-reader-fit="intrinsic-height" role="img" lang="es" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
-        <title id="archify-diagram-title">Consultas del frontend: estado de la API y rastreo</title>
+      <svg viewBox="0 0 920 1293" data-sequence-column-fit="spread" data-reader-fit="intrinsic-height" role="img" lang="es" aria-labelledby="archify-diagram-title archify-diagram-description" data-preset="classic" data-quality-profile="showcase">
+        <title id="archify-diagram-title">Consultas de la web: estado de la API, rastreo, avance y acceso</title>
         <desc id="archify-diagram-description">Un diagrama de secuencia generado por Archify.</desc>
         <!-- Definitions -->
         <defs>
@@ -5015,163 +5015,310 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <!-- Time Segments -->
         <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="0" x="48" y="150" width="824" height="160" rx="10" class="c-lane" stroke-width="1"/>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="1" x="48" y="325" width="824" height="140" rx="10" class="c-lane" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="1" x="48" y="325" width="824" height="310" rx="10" class="c-lane" stroke-width="1"/>
 
-        <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="2" x="48" y="480" width="824" height="230" rx="10" class="c-lane" stroke-width="1"/>
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="2" x="48" y="650" width="824" height="310" rx="10" class="c-lane" stroke-width="1"/>
+
+        <rect data-graph-role="structural-frame" data-composition-frame-kind="segment" data-composition-frame-id="3" x="48" y="975" width="824" height="220" rx="10" class="c-lane" stroke-width="1"/>
 
         <!-- Lifelines -->
-        <path d="M 129.5 142 L 129.5 712" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
-        <path d="M 300.25 142 L 300.25 712" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
-        <path d="M 471 142 L 471 712" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
-        <path d="M 641.75 142 L 641.75 712" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
-        <path d="M 812.5 142 L 812.5 712" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 116.5 142 L 116.5 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 258.3 142 L 258.3 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 400.1 142 L 400.1 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 541.9000000000001 142 L 541.9000000000001 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 683.7 142 L 683.7 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
+        <path d="M 825.5 142 L 825.5 1197" class="a-default" stroke-width="0.8" stroke-dasharray="3,7"/>
 
         <!-- Activations -->
-        <rect x="295.25" y="170" width="10" height="131" rx="3" class="c-mask"/>
-        <rect x="295.25" y="170" width="10" height="131" rx="3" class="c-frontend" stroke-width="1"/>
-        <rect x="636.75" y="175" width="10" height="96" rx="3" class="c-mask"/>
-        <rect x="636.75" y="175" width="10" height="96" rx="3" class="c-backend" stroke-width="1"/>
-        <rect x="807.5" y="200" width="10" height="41" rx="3" class="c-mask"/>
-        <rect x="807.5" y="200" width="10" height="41" rx="3" class="c-database" stroke-width="1"/>
-        <rect x="295.25" y="355" width="10" height="101" rx="3" class="c-mask"/>
-        <rect x="295.25" y="355" width="10" height="101" rx="3" class="c-frontend" stroke-width="1"/>
-        <rect x="466" y="385" width="10" height="41" rx="3" class="c-mask"/>
-        <rect x="466" y="385" width="10" height="41" rx="3" class="c-frontend" stroke-width="1"/>
-        <rect x="295.25" y="510" width="10" height="191" rx="3" class="c-mask"/>
-        <rect x="295.25" y="510" width="10" height="191" rx="3" class="c-frontend" stroke-width="1"/>
-        <rect x="466" y="540" width="10" height="161" rx="3" class="c-mask"/>
-        <rect x="466" y="540" width="10" height="161" rx="3" class="c-frontend" stroke-width="1"/>
-        <rect x="636.75" y="570" width="10" height="101" rx="3" class="c-mask"/>
-        <rect x="636.75" y="570" width="10" height="101" rx="3" class="c-backend" stroke-width="1"/>
-        <rect x="807.5" y="600" width="10" height="41" rx="3" class="c-mask"/>
-        <rect x="807.5" y="600" width="10" height="41" rx="3" class="c-database" stroke-width="1"/>
+        <rect x="253.3" y="170" width="10" height="131" rx="3" class="c-mask"/>
+        <rect x="253.3" y="170" width="10" height="131" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="536.9000000000001" y="175" width="10" height="96" rx="3" class="c-mask"/>
+        <rect x="536.9000000000001" y="175" width="10" height="96" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="820.5" y="200" width="10" height="41" rx="3" class="c-mask"/>
+        <rect x="820.5" y="200" width="10" height="41" rx="3" class="c-database" stroke-width="1"/>
+        <rect x="253.3" y="345" width="10" height="281" rx="3" class="c-mask"/>
+        <rect x="253.3" y="345" width="10" height="281" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="395.1" y="375" width="10" height="221" rx="3" class="c-mask"/>
+        <rect x="395.1" y="375" width="10" height="221" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="536.9000000000001" y="405" width="10" height="161" rx="3" class="c-mask"/>
+        <rect x="536.9000000000001" y="405" width="10" height="161" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="678.7" y="435" width="10" height="101" rx="3" class="c-mask"/>
+        <rect x="678.7" y="435" width="10" height="101" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="820.5" y="465" width="10" height="41" rx="3" class="c-mask"/>
+        <rect x="820.5" y="465" width="10" height="41" rx="3" class="c-database" stroke-width="1"/>
+        <rect x="253.3" y="670" width="10" height="281" rx="3" class="c-mask"/>
+        <rect x="253.3" y="670" width="10" height="281" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="395.1" y="700" width="10" height="221" rx="3" class="c-mask"/>
+        <rect x="395.1" y="700" width="10" height="221" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="536.9000000000001" y="730" width="10" height="161" rx="3" class="c-mask"/>
+        <rect x="536.9000000000001" y="730" width="10" height="161" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="678.7" y="760" width="10" height="101" rx="3" class="c-mask"/>
+        <rect x="678.7" y="760" width="10" height="101" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="820.5" y="790" width="10" height="41" rx="3" class="c-mask"/>
+        <rect x="820.5" y="790" width="10" height="41" rx="3" class="c-database" stroke-width="1"/>
+        <rect x="253.3" y="995" width="10" height="131" rx="3" class="c-mask"/>
+        <rect x="253.3" y="995" width="10" height="131" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="395.1" y="1025" width="10" height="101" rx="3" class="c-mask"/>
+        <rect x="395.1" y="1025" width="10" height="101" rx="3" class="c-frontend" stroke-width="1"/>
+        <rect x="536.9000000000001" y="1055" width="10" height="41" rx="3" class="c-mask"/>
+        <rect x="536.9000000000001" y="1055" width="10" height="41" rx="3" class="c-backend" stroke-width="1"/>
+        <rect x="536.9000000000001" y="1145" width="10" height="41" rx="3" class="c-mask"/>
+        <rect x="536.9000000000001" y="1145" width="10" height="41" rx="3" class="c-security" stroke-width="1"/>
 
         <!-- Messages -->
         <g data-edge-from="web" data-edge-to="api" data-edge-label="GET /api/v1/health/" data-edge-key="0" data-edge-id="health-get">
-          <path data-composition-edge-from="web" data-composition-edge-to="api" data-composition-edge-id="health-get" data-composition-points="307.25,175;634.75,175" d="M 307.25 175 L 634.75 175" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+          <path data-composition-edge-from="web" data-composition-edge-to="api" data-composition-edge-id="health-get" data-composition-points="265.3,175;534.9000000000001,175" d="M 265.3 175 L 534.9000000000001 175" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <g data-detail="context">
-          <rect x="402.3" y="155" width="137.39999999999998" height="18" rx="3" class="c-mask"/>
-          <text x="471" y="165" class="t-edge-emphasis" font-size="11" text-anchor="middle">GET /api/v1/health/</text>
+          <rect x="331.40000000000003" y="155" width="137.39999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="400.1" y="165" class="t-edge-emphasis" font-size="11" text-anchor="middle">GET /api/v1/health/</text>
         </g>
         </g>
 
         <g data-edge-from="api" data-edge-to="db" data-edge-label="SELECT 1" data-edge-key="1" data-edge-id="health-select">
-          <path data-composition-edge-from="api" data-composition-edge-to="db" data-composition-edge-id="health-select" data-composition-points="648.75,205;805.5,205" d="M 648.75 205 L 805.5 205" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+          <path data-composition-edge-from="api" data-composition-edge-to="db" data-composition-edge-id="health-select" data-composition-points="548.9000000000001,205;818.5,205" d="M 548.9000000000001 205 L 818.5 205" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="694.725" y="185" width="64.8" height="18" rx="3" class="c-mask"/>
-          <text x="727.125" y="195" class="t-muted" font-size="11" text-anchor="middle">SELECT 1</text>
+          <rect x="651.3000000000001" y="185" width="64.8" height="18" rx="3" class="c-mask"/>
+          <text x="683.7" y="195" class="t-muted" font-size="11" text-anchor="middle">SELECT 1</text>
         </g>
         </g>
 
         <g data-edge-from="db" data-edge-to="api" data-edge-label="fila" data-edge-key="2" data-edge-id="health-row">
-          <path data-composition-edge-from="db" data-composition-edge-to="api" data-composition-edge-id="health-row" data-composition-points="805.5,235;648.75,235" d="M 805.5 235 L 648.75 235" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+          <path data-composition-edge-from="db" data-composition-edge-to="api" data-composition-edge-id="health-row" data-composition-points="818.5,235;548.9000000000001,235" d="M 818.5 235 L 548.9000000000001 235" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="707.925" y="215" width="38.4" height="18" rx="3" class="c-mask"/>
-          <text x="727.125" y="225" class="t-muted" font-size="11" text-anchor="middle">fila</text>
+          <rect x="664.5" y="215" width="38.4" height="18" rx="3" class="c-mask"/>
+          <text x="683.7" y="225" class="t-muted" font-size="11" text-anchor="middle">fila</text>
         </g>
         </g>
 
         <g data-edge-from="api" data-edge-to="web" data-edge-label="200 · status ok" data-edge-key="3" data-edge-id="health-ok">
-          <path data-composition-edge-from="api" data-composition-edge-to="web" data-composition-edge-id="health-ok" data-composition-points="634.75,265;307.25,265" d="M 634.75 265 L 307.25 265" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+          <path data-composition-edge-from="api" data-composition-edge-to="web" data-composition-edge-id="health-ok" data-composition-points="534.9000000000001,265;265.3,265" d="M 534.9000000000001 265 L 265.3 265" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="415.5" y="245" width="111" height="18" rx="3" class="c-mask"/>
-          <text x="471" y="255" class="t-muted" font-size="11" text-anchor="middle">200 · status ok</text>
+          <rect x="344.6" y="245" width="111" height="18" rx="3" class="c-mask"/>
+          <text x="400.1" y="255" class="t-muted" font-size="11" text-anchor="middle">200 · status ok</text>
         </g>
         </g>
 
         <g data-edge-from="web" data-edge-to="user" data-edge-label="API en línea" data-edge-key="4" data-edge-id="health-chip">
-          <path data-composition-edge-from="web" data-composition-edge-to="user" data-composition-edge-id="health-chip" data-composition-points="293.25,295;136.5,295" d="M 293.25 295 L 136.5 295" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+          <path data-composition-edge-from="web" data-composition-edge-to="user" data-composition-edge-id="health-chip" data-composition-points="251.3,295;123.5,295" d="M 251.3 295 L 123.5 295" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="169.275" y="275" width="91.19999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="214.875" y="285" class="t-muted" font-size="11" text-anchor="middle">API en línea</text>
+          <rect x="141.8" y="275" width="91.19999999999999" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="285" class="t-muted" font-size="11" text-anchor="middle">API en línea</text>
         </g>
         </g>
 
-        <g data-edge-from="user" data-edge-to="web" data-edge-label="número de guía" data-edge-key="5" data-edge-id="demo-input">
-          <path data-composition-edge-from="user" data-composition-edge-to="web" data-composition-edge-id="demo-input" data-composition-points="136.5,360;293.25,360" d="M 136.5 360 L 293.25 360" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="user" data-edge-to="web" data-edge-label="número de guía" data-edge-key="5" data-edge-id="track-input">
+          <path data-composition-edge-from="user" data-composition-edge-to="web" data-composition-edge-id="track-input" data-composition-points="123.5,350;251.3,350" d="M 123.5 350 L 251.3 350" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="162.675" y="340" width="104.39999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="214.875" y="350" class="t-muted" font-size="11" text-anchor="middle">número de guía</text>
+          <rect x="135.20000000000002" y="330" width="104.39999999999999" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="340" class="t-muted" font-size="11" text-anchor="middle">número de guía</text>
         </g>
         </g>
 
-        <g data-edge-from="web" data-edge-to="repo" data-edge-label="get(número)" data-edge-key="6" data-edge-id="demo-get">
-          <path data-composition-edge-from="web" data-composition-edge-to="repo" data-composition-edge-id="demo-get" data-composition-points="307.25,390;464,390" d="M 307.25 390 L 464 390" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="web" data-edge-to="http" data-edge-label="publicTracker(números)" data-edge-key="6" data-edge-id="track-call">
+          <path data-composition-edge-from="web" data-composition-edge-to="http" data-composition-edge-id="track-call" data-composition-points="265.3,380;393.1,380" d="M 265.3 380 L 393.1 380" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="343.325" y="370" width="84.6" height="18" rx="3" class="c-mask"/>
-          <text x="385.625" y="380" class="t-muted" font-size="11" text-anchor="middle">get(número)</text>
+          <rect x="250.60000000000005" y="360" width="157.2" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="370" class="t-muted" font-size="11" text-anchor="middle">publicTracker(números)</text>
         </g>
         </g>
 
-        <g data-edge-from="repo" data-edge-to="web" data-edge-label="Guide o null" data-edge-key="7" data-edge-id="demo-result">
-          <path data-composition-edge-from="repo" data-composition-edge-to="web" data-composition-edge-id="demo-result" data-composition-points="464,420;307.25,420" d="M 464 420 L 307.25 420" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="http" data-edge-to="api" data-edge-label="GET /public/track/?numbers=n" data-edge-key="7" data-edge-id="track-get">
+          <path data-composition-edge-from="http" data-composition-edge-to="api" data-composition-edge-id="track-get" data-composition-points="407.1,410;534.9000000000001,410" d="M 407.1 410 L 534.9000000000001 410" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="340.025" y="400" width="91.19999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="385.625" y="410" class="t-muted" font-size="11" text-anchor="middle">Guide o null</text>
+          <rect x="372.6000000000001" y="390" width="196.79999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="400" class="t-muted" font-size="11" text-anchor="middle">GET /public/track/?numbers=n</text>
         </g>
         </g>
 
-        <g data-edge-from="web" data-edge-to="user" data-edge-label="línea de tiempo" data-edge-key="8" data-edge-id="demo-render">
-          <path data-composition-edge-from="web" data-composition-edge-to="user" data-composition-edge-id="demo-render" data-composition-points="293.25,450;136.5,450" d="M 293.25 450 L 136.5 450" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="api" data-edge-to="svc" data-edge-label="public_guides(números)" data-edge-key="8" data-edge-id="track-service">
+          <path data-composition-edge-from="api" data-composition-edge-to="svc" data-composition-edge-id="track-service" data-composition-points="548.9000000000001,440;676.7,440" d="M 548.9000000000001 440 L 676.7 440" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="159.375" y="430" width="111" height="18" rx="3" class="c-mask"/>
-          <text x="214.875" y="440" class="t-muted" font-size="11" text-anchor="middle">línea de tiempo</text>
+          <rect x="534.2" y="420" width="157.2" height="18" rx="3" class="c-mask"/>
+          <text x="612.8000000000001" y="430" class="t-muted" font-size="11" text-anchor="middle">public_guides(números)</text>
         </g>
         </g>
 
-        <g data-edge-from="user" data-edge-to="web" data-edge-label="número de guía" data-edge-key="9" data-edge-id="api-input">
-          <path data-composition-edge-from="user" data-composition-edge-to="web" data-composition-edge-id="api-input" data-composition-points="136.5,515;293.25,515" d="M 136.5 515 L 293.25 515" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="svc" data-edge-to="db" data-edge-label="guías e historial" data-edge-key="9" data-edge-id="track-query">
+          <path data-composition-edge-from="svc" data-composition-edge-to="db" data-composition-edge-id="track-query" data-composition-points="690.7,470;818.5,470" d="M 690.7 470 L 818.5 470" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="162.675" y="495" width="104.39999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="214.875" y="505" class="t-muted" font-size="11" text-anchor="middle">número de guía</text>
+          <rect x="692.5" y="450" width="124.19999999999999" height="18" rx="3" class="c-mask"/>
+          <text x="754.6" y="460" class="t-muted" font-size="11" text-anchor="middle">guías e historial</text>
         </g>
         </g>
 
-        <g data-edge-from="web" data-edge-to="repo" data-edge-label="get(número)" data-edge-key="10" data-edge-id="api-get">
-          <path data-composition-edge-from="web" data-composition-edge-to="repo" data-composition-edge-id="api-get" data-composition-points="307.25,545;464,545" d="M 307.25 545 L 464 545" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="db" data-edge-to="svc" data-edge-label="filas" data-edge-key="10" data-edge-id="track-rows">
+          <path data-composition-edge-from="db" data-composition-edge-to="svc" data-composition-edge-id="track-rows" data-composition-points="818.5,500;690.7,500" d="M 818.5 500 L 690.7 500" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="343.325" y="525" width="84.6" height="18" rx="3" class="c-mask"/>
-          <text x="385.625" y="535" class="t-muted" font-size="11" text-anchor="middle">get(número)</text>
+          <rect x="732.1" y="480" width="45" height="18" rx="3" class="c-mask"/>
+          <text x="754.6" y="490" class="t-muted" font-size="11" text-anchor="middle">filas</text>
         </g>
         </g>
 
-        <g data-edge-from="repo" data-edge-to="api" data-edge-label="GET /api/v1/public/track/?numbers=n" data-edge-key="11" data-edge-id="api-http">
-          <path data-composition-edge-from="repo" data-composition-edge-to="api" data-composition-edge-id="api-http" data-composition-points="478,575;634.75,575" d="M 478 575 L 634.75 575" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="svc" data-edge-to="api" data-edge-label="guías encontradas" data-edge-key="11" data-edge-id="track-guides">
+          <path data-composition-edge-from="svc" data-composition-edge-to="api" data-composition-edge-id="track-guides" data-composition-points="676.7,530;548.9000000000001,530" d="M 676.7 530 L 548.9000000000001 530" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="434.875" y="555" width="243" height="18" rx="3" class="c-mask"/>
-          <text x="556.375" y="565" class="t-muted" font-size="11" text-anchor="middle">GET /api/v1/public/track/?numbers=n</text>
+          <rect x="550.7" y="510" width="124.19999999999999" height="18" rx="3" class="c-mask"/>
+          <text x="612.8000000000001" y="520" class="t-muted" font-size="11" text-anchor="middle">guías encontradas</text>
         </g>
         </g>
 
-        <g data-edge-from="api" data-edge-to="db" data-edge-label="guía e historial" data-edge-key="12" data-edge-id="api-query">
-          <path data-composition-edge-from="api" data-composition-edge-to="db" data-composition-edge-id="api-query" data-composition-points="648.75,605;805.5,605" d="M 648.75 605 L 805.5 605" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="api" data-edge-to="http" data-edge-label="200 · campos mínimos o found: false" data-edge-key="12" data-edge-id="track-json">
+          <path data-composition-edge-from="api" data-composition-edge-to="http" data-composition-edge-id="track-json" data-composition-points="534.9000000000001,560;407.1,560" d="M 534.9000000000001 560 L 407.1 560" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="668.325" y="585" width="117.6" height="18" rx="3" class="c-mask"/>
-          <text x="727.125" y="595" class="t-muted" font-size="11" text-anchor="middle">guía e historial</text>
+          <rect x="349.50000000000006" y="540" width="243" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="550" class="t-muted" font-size="11" text-anchor="middle">200 · campos mínimos o found: false</text>
         </g>
         </g>
 
-        <g data-edge-from="db" data-edge-to="api" data-edge-label="filas" data-edge-key="13" data-edge-id="api-rows">
-          <path data-composition-edge-from="db" data-composition-edge-to="api" data-composition-edge-id="api-rows" data-composition-points="805.5,635;648.75,635" d="M 805.5 635 L 648.75 635" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="http" data-edge-to="web" data-edge-label="resultados" data-edge-key="13" data-edge-id="track-result">
+          <path data-composition-edge-from="http" data-composition-edge-to="web" data-composition-edge-id="track-result" data-composition-points="393.1,590;265.3,590" d="M 393.1 590 L 265.3 590" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="704.625" y="615" width="45" height="18" rx="3" class="c-mask"/>
-          <text x="727.125" y="625" class="t-muted" font-size="11" text-anchor="middle">filas</text>
+          <rect x="290.20000000000005" y="570" width="78" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="580" class="t-muted" font-size="11" text-anchor="middle">resultados</text>
         </g>
         </g>
 
-        <g data-edge-from="api" data-edge-to="repo" data-edge-label="200 JSON o 404" data-edge-key="14" data-edge-id="api-json">
-          <path data-composition-edge-from="api" data-composition-edge-to="repo" data-composition-edge-id="api-json" data-composition-points="634.75,665;478,665" d="M 634.75 665 L 478 665" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="web" data-edge-to="user" data-edge-label="línea de tiempo o no encontrada" data-edge-key="14" data-edge-id="track-render">
+          <path data-composition-edge-from="web" data-composition-edge-to="user" data-composition-edge-id="track-render" data-composition-points="251.3,620;123.5,620" d="M 251.3 620 L 123.5 620" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="504.175" y="645" width="104.39999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="556.375" y="655" class="t-muted" font-size="11" text-anchor="middle">200 JSON o 404</text>
+          <rect x="79.10000000000001" y="600" width="216.6" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="610" class="t-muted" font-size="11" text-anchor="middle">línea de tiempo o no encontrada</text>
         </g>
         </g>
 
-        <g data-edge-from="repo" data-edge-to="web" data-edge-label="Guide o null" data-edge-key="15" data-edge-id="api-result">
-          <path data-composition-edge-from="repo" data-composition-edge-to="web" data-composition-edge-id="api-result" data-composition-points="464,695;307.25,695" d="M 464 695 L 307.25 695" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="user" data-edge-to="web" data-edge-label="avanzar etapa" data-edge-key="15" data-edge-id="advance-input">
+          <path data-composition-edge-from="user" data-composition-edge-to="web" data-composition-edge-id="advance-input" data-composition-points="123.5,675;251.3,675" d="M 123.5 675 L 251.3 675" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="340.025" y="675" width="91.19999999999999" height="18" rx="3" class="c-mask"/>
-          <text x="385.625" y="685" class="t-muted" font-size="11" text-anchor="middle">Guide o null</text>
+          <rect x="138.5" y="655" width="97.8" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="665" class="t-muted" font-size="11" text-anchor="middle">avanzar etapa</text>
+        </g>
+        </g>
+
+        <g data-edge-from="web" data-edge-to="http" data-edge-label="advance(número, etapa)" data-edge-key="16" data-edge-id="advance-call">
+          <path data-composition-edge-from="web" data-composition-edge-to="http" data-composition-edge-id="advance-call" data-composition-points="265.3,705;393.1,705" d="M 265.3 705 L 393.1 705" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="250.60000000000005" y="685" width="157.2" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="695" class="t-muted" font-size="11" text-anchor="middle">advance(número, etapa)</text>
+        </g>
+        </g>
+
+        <g data-edge-from="http" data-edge-to="api" data-edge-label="PUT /guides/n/ · CSRF" data-edge-key="17" data-edge-id="advance-put">
+          <path data-composition-edge-from="http" data-composition-edge-to="api" data-composition-edge-id="advance-put" data-composition-points="407.1,735;534.9000000000001,735" d="M 407.1 735 L 534.9000000000001 735" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="395.70000000000005" y="715" width="150.6" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="725" class="t-muted" font-size="11" text-anchor="middle">PUT /guides/n/ · CSRF</text>
+        </g>
+        </g>
+
+        <g data-edge-from="api" data-edge-to="svc" data-edge-label="advance_guide(número)" data-edge-key="18" data-edge-id="advance-service">
+          <path data-composition-edge-from="api" data-composition-edge-to="svc" data-composition-edge-id="advance-service" data-composition-points="548.9000000000001,765;676.7,765" d="M 548.9000000000001 765 L 676.7 765" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="537.5000000000001" y="745" width="150.6" height="18" rx="3" class="c-mask"/>
+          <text x="612.8000000000001" y="755" class="t-muted" font-size="11" text-anchor="middle">advance_guide(número)</text>
+        </g>
+        </g>
+
+        <g data-edge-from="svc" data-edge-to="db" data-edge-label="fila + UPDATE condicional" data-edge-key="19" data-edge-id="advance-insert">
+          <path data-composition-edge-from="svc" data-composition-edge-to="db" data-composition-edge-id="advance-insert" data-composition-points="690.7,795;818.5,795" d="M 690.7 795 L 818.5 795" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="666.1" y="775" width="177" height="18" rx="3" class="c-mask"/>
+          <text x="754.6" y="785" class="t-muted" font-size="11" text-anchor="middle">fila + UPDATE condicional</text>
+        </g>
+        </g>
+
+        <g data-edge-from="svc" data-edge-to="db" data-edge-label="o rechazo auditado" data-edge-key="20" data-edge-id="advance-reject">
+          <path data-composition-edge-from="svc" data-composition-edge-to="db" data-composition-edge-id="advance-reject" data-composition-points="690.7,825;818.5,825" d="M 690.7 825 L 818.5 825" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <g data-detail="context">
+          <rect x="689.2" y="805" width="130.8" height="18" rx="3" class="c-mask"/>
+          <text x="754.6" y="815" class="t-edge-security" font-size="11" text-anchor="middle">o rechazo auditado</text>
+        </g>
+        </g>
+
+        <g data-edge-from="svc" data-edge-to="api" data-edge-label="guía o Conflict" data-edge-key="21" data-edge-id="advance-result">
+          <path data-composition-edge-from="svc" data-composition-edge-to="api" data-composition-edge-id="advance-result" data-composition-points="676.7,855;548.9000000000001,855" d="M 676.7 855 L 548.9000000000001 855" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="557.3000000000001" y="835" width="111" height="18" rx="3" class="c-mask"/>
+          <text x="612.8000000000001" y="845" class="t-muted" font-size="11" text-anchor="middle">guía o Conflict</text>
+        </g>
+        </g>
+
+        <g data-edge-from="api" data-edge-to="http" data-edge-label="200 o 409 invalid_transition" data-edge-key="22" data-edge-id="advance-json">
+          <path data-composition-edge-from="api" data-composition-edge-to="http" data-composition-edge-id="advance-json" data-composition-points="534.9000000000001,885;407.1,885" d="M 534.9000000000001 885 L 407.1 885" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="372.6000000000001" y="865" width="196.79999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="875" class="t-muted" font-size="11" text-anchor="middle">200 o 409 invalid_transition</text>
+        </g>
+        </g>
+
+        <g data-edge-from="http" data-edge-to="web" data-edge-label="Guide o RepositoryError" data-edge-key="23" data-edge-id="advance-guide">
+          <path data-composition-edge-from="http" data-composition-edge-to="web" data-composition-edge-id="advance-guide" data-composition-points="393.1,915;265.3,915" d="M 393.1 915 L 265.3 915" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="247.30000000000007" y="895" width="163.79999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="905" class="t-muted" font-size="11" text-anchor="middle">Guide o RepositoryError</text>
+        </g>
+        </g>
+
+        <g data-edge-from="web" data-edge-to="user" data-edge-label="etapa nueva o aviso" data-edge-key="24" data-edge-id="advance-render">
+          <path data-composition-edge-from="web" data-composition-edge-to="user" data-composition-edge-id="advance-render" data-composition-points="251.3,945;123.5,945" d="M 251.3 945 L 123.5 945" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="118.70000000000002" y="925" width="137.39999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="935" class="t-muted" font-size="11" text-anchor="middle">etapa nueva o aviso</text>
+        </g>
+        </g>
+
+        <g data-edge-from="user" data-edge-to="web" data-edge-label="usuario y contraseña" data-edge-key="25" data-edge-id="login-input">
+          <path data-composition-edge-from="user" data-composition-edge-to="web" data-composition-edge-id="login-input" data-composition-points="123.5,1000;251.3,1000" d="M 123.5 1000 L 251.3 1000" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="115.4" y="980" width="144" height="18" rx="3" class="c-mask"/>
+          <text x="187.4" y="990" class="t-muted" font-size="11" text-anchor="middle">usuario y contraseña</text>
+        </g>
+        </g>
+
+        <g data-edge-from="web" data-edge-to="http" data-edge-label="login(usuario, contraseña)" data-edge-key="26" data-edge-id="login-call">
+          <path data-composition-edge-from="web" data-composition-edge-to="http" data-composition-edge-id="login-call" data-composition-points="265.3,1030;393.1,1030" d="M 265.3 1030 L 393.1 1030" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="237.40000000000003" y="1010" width="183.6" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="1020" class="t-muted" font-size="11" text-anchor="middle">login(usuario, contraseña)</text>
+        </g>
+        </g>
+
+        <g data-edge-from="http" data-edge-to="api" data-edge-label="POST /auth/login/ · CSRF" data-edge-key="27" data-edge-id="login-post">
+          <path data-composition-edge-from="http" data-composition-edge-to="api" data-composition-edge-id="login-post" data-composition-points="407.1,1060;534.9000000000001,1060" d="M 407.1 1060 L 534.9000000000001 1060" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="385.80000000000007" y="1040" width="170.39999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="1050" class="t-muted" font-size="11" text-anchor="middle">POST /auth/login/ · CSRF</text>
+        </g>
+        </g>
+
+        <g data-edge-from="api" data-edge-to="http" data-edge-label="200, 403 genérico o 429" data-edge-key="28" data-edge-id="login-json">
+          <path data-composition-edge-from="api" data-composition-edge-to="http" data-composition-edge-id="login-json" data-composition-points="534.9000000000001,1090;407.1,1090" d="M 534.9000000000001 1090 L 407.1 1090" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="389.1000000000001" y="1070" width="163.79999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="471.00000000000006" y="1080" class="t-muted" font-size="11" text-anchor="middle">200, 403 genérico o 429</text>
+        </g>
+        </g>
+
+        <g data-edge-from="http" data-edge-to="web" data-edge-label="panel o aviso" data-edge-key="29" data-edge-id="login-render">
+          <path data-composition-edge-from="http" data-composition-edge-to="web" data-composition-edge-id="login-render" data-composition-points="393.1,1120;265.3,1120" d="M 393.1 1120 L 265.3 1120" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="280.30000000000007" y="1100" width="97.8" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="1110" class="t-muted" font-size="11" text-anchor="middle">panel o aviso</text>
+        </g>
+        </g>
+
+        <g data-edge-from="user" data-edge-to="api" data-edge-label="POST /admin/login/ · mismo límite" data-edge-key="30" data-edge-id="admin-post">
+          <path data-composition-edge-from="user" data-composition-edge-to="api" data-composition-edge-id="admin-post" data-composition-points="123.5,1150;534.9000000000001,1150" d="M 123.5 1150 L 534.9000000000001 1150" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <g data-detail="context">
+          <rect x="214.30000000000007" y="1130" width="229.79999999999998" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="1140" class="t-edge-security" font-size="11" text-anchor="middle">POST /admin/login/ · mismo límite</text>
+        </g>
+        </g>
+
+        <g data-edge-from="api" data-edge-to="user" data-edge-label="429 tras 5 intentos por minuto" data-edge-key="31" data-edge-id="admin-limit">
+          <path data-composition-edge-from="api" data-composition-edge-to="user" data-composition-edge-id="admin-limit" data-composition-points="534.9000000000001,1180;123.5,1180" d="M 534.9000000000001 1180 L 123.5 1180" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="224.20000000000005" y="1160" width="210" height="18" rx="3" class="c-mask"/>
+          <text x="329.20000000000005" y="1170" class="t-muted" font-size="11" text-anchor="middle">429 tras 5 intentos por minuto</text>
         </g>
         </g>
 
@@ -5181,92 +5328,111 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <text x="62" y="141" class="t-dim" font-size="9" font-weight="600">Estado de la API · real desde la Fase 0</text>
         </g>
         <g data-graph-role="segment-label" data-segment-id="1">
-          <rect x="56" y="303" width="180.4" height="18" rx="3" class="c-mask"/>
-          <text x="62" y="316" class="t-dim" font-size="9" font-weight="600">Pruebas · repositorio en memoria</text>
+          <rect x="56" y="303" width="190.8" height="18" rx="3" class="c-mask"/>
+          <text x="62" y="316" class="t-dim" font-size="9" font-weight="600">Rastreo público contra la API real</text>
         </g>
         <g data-graph-role="segment-label" data-segment-id="2">
-          <rect x="56" y="458" width="190.8" height="18" rx="3" class="c-mask"/>
-          <text x="62" y="471" class="t-dim" font-size="9" font-weight="600">Rastreo público contra la API real</text>
+          <rect x="56" y="628" width="206.4" height="18" rx="3" class="c-mask"/>
+          <text x="62" y="641" class="t-dim" font-size="9" font-weight="600">Avance de etapa · personal con sesión</text>
+        </g>
+        <g data-graph-role="segment-label" data-segment-id="3">
+          <rect x="56" y="953" width="222" height="18" rx="3" class="c-mask"/>
+          <text x="62" y="966" class="t-dim" font-size="9" font-weight="600">Acceso · API y admin con el mismo límite</text>
         </g>
 
         <!-- Participants -->
         <g id="node-user" data-node-id="user" data-node-label="Usuario" tabindex="0" role="button" aria-label="Enfocar Usuario, visitante o personal, Participante de secuencia" aria-pressed="false" data-node-kind="external" data-node-sublabel="visitante o personal" data-node-context="Participante de secuencia">
           <title>Usuario · visitante o personal · Participante de secuencia</title>
-          <rect x="62" y="72" width="135" height="60" rx="6" class="c-mask"/>
-          <rect x="62" y="72" width="135" height="60" rx="6" class="c-external" stroke-width="1.5"/>
+          <rect x="62" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="62" y="72" width="109" height="60" rx="6" class="c-external" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="external" class="semantic-sigil s-external" transform="translate(68 78) scale(0.6875)">
             <rect x="2.5" y="5" width="8.5" height="8" rx="1.5"/>
             <path d="M8 2.5h5.5V8M13.5 2.5 7.5 8.5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="129.5" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Usuario</text>
-          <text data-detail="context" x="129.5" y="122" class="t-muted" font-size="7" text-anchor="middle">visitante o personal</text>
+          <text data-node-label="" data-detail-anchor="" x="116.5" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Usuario</text>
+          <text data-detail="context" x="116.5" y="122" class="t-muted" font-size="7" text-anchor="middle">visitante o personal</text>
         </g>
 
         <g id="node-web" data-node-id="web" data-node-label="Frontend React" tabindex="0" role="button" aria-label="Enfocar Frontend React, páginas y hooks, Participante de secuencia" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="páginas y hooks" data-node-context="Participante de secuencia">
           <title>Frontend React · páginas y hooks · Participante de secuencia</title>
-          <rect x="232.75" y="72" width="135" height="60" rx="6" class="c-mask"/>
-          <rect x="232.75" y="72" width="135" height="60" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(238.75 78) scale(0.6875)">
+          <rect x="203.8" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="203.8" y="72" width="109" height="60" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(209.8 78) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="300.25" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Frontend React</text>
-          <text data-detail="context" x="300.25" y="122" class="t-muted" font-size="7" text-anchor="middle">páginas y hooks</text>
+          <text data-node-label="" data-detail-anchor="" x="258.3" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Frontend React</text>
+          <text data-detail="context" x="258.3" y="122" class="t-muted" font-size="7" text-anchor="middle">páginas y hooks</text>
         </g>
 
-        <g id="node-repo" data-node-id="repo" data-node-label="GuideRepository" tabindex="0" role="button" aria-label="Enfocar GuideRepository, cliente HTTP, Participante de secuencia" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="cliente HTTP" data-node-context="Participante de secuencia">
-          <title>GuideRepository · cliente HTTP · Participante de secuencia</title>
-          <rect x="403.5" y="72" width="135" height="60" rx="6" class="c-mask"/>
-          <rect x="403.5" y="72" width="135" height="60" rx="6" class="c-frontend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(409.5 78) scale(0.6875)">
+        <g id="node-http" data-node-id="http" data-node-label="Servicios HTTP" tabindex="0" role="button" aria-label="Enfocar Servicios HTTP, tracker y repositorio, Participante de secuencia" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="tracker y repositorio" data-node-context="Participante de secuencia">
+          <title>Servicios HTTP · tracker y repositorio · Participante de secuencia</title>
+          <rect x="345.6" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="345.6" y="72" width="109" height="60" rx="6" class="c-frontend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="frontend" class="semantic-sigil s-frontend" transform="translate(351.6 78) scale(0.6875)">
             <rect x="2" y="3" width="12" height="10" rx="2"/>
             <path d="M2 6.5h12"/>
             <circle cx="4.1" cy="4.8" r=".7" class="sigil-fill"/>
             <circle cx="6.3" cy="4.8" r=".7" class="sigil-fill"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="471" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">GuideRepository</text>
-          <text data-detail="context" x="471" y="122" class="t-muted" font-size="7" text-anchor="middle">cliente HTTP</text>
+          <text data-node-label="" data-detail-anchor="" x="400.1" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Servicios HTTP</text>
+          <text data-detail="context" x="400.1" y="122" class="t-muted" font-size="7" text-anchor="middle">tracker y repositorio</text>
         </g>
 
-        <g id="node-api" data-node-id="api" data-node-label="API Django" tabindex="0" role="button" aria-label="Enfocar API Django, /api/v1/, Participante de secuencia" aria-pressed="false" data-node-kind="backend" data-node-sublabel="/api/v1/" data-node-context="Participante de secuencia">
-          <title>API Django · /api/v1/ · Participante de secuencia</title>
-          <rect x="574.25" y="72" width="135" height="60" rx="6" class="c-mask"/>
-          <rect x="574.25" y="72" width="135" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(580.25 78) scale(0.6875)">
+        <g id="node-api" data-node-id="api" data-node-label="API Django" tabindex="0" role="button" aria-label="Enfocar API Django, vistas de /api/v1/, Participante de secuencia" aria-pressed="false" data-node-kind="backend" data-node-sublabel="vistas de /api/v1/" data-node-context="Participante de secuencia">
+          <title>API Django · vistas de /api/v1/ · Participante de secuencia</title>
+          <rect x="487.4000000000001" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="487.4000000000001" y="72" width="109" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(493.4000000000001 78) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="641.75" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">API Django</text>
-          <text data-detail="context" x="641.75" y="122" class="t-muted" font-size="7" text-anchor="middle">/api/v1/</text>
+          <text data-node-label="" data-detail-anchor="" x="541.9000000000001" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">API Django</text>
+          <text data-detail="context" x="541.9000000000001" y="122" class="t-muted" font-size="7" text-anchor="middle">vistas de /api/v1/</text>
+        </g>
+
+        <g id="node-svc" data-node-id="svc" data-node-label="Servicios" tabindex="0" role="button" aria-label="Enfocar Servicios, tracking.services, Participante de secuencia" aria-pressed="false" data-node-kind="backend" data-node-sublabel="tracking.services" data-node-context="Participante de secuencia">
+          <title>Servicios · tracking.services · Participante de secuencia</title>
+          <rect x="629.2" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="629.2" y="72" width="109" height="60" rx="6" class="c-backend" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(635.2 78) scale(0.6875)">
+            <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
+          </g>
+          <text data-node-label="" data-detail-anchor="" x="683.7" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">Servicios</text>
+          <text data-detail="context" x="683.7" y="122" class="t-muted" font-size="7" text-anchor="middle">tracking.services</text>
         </g>
 
         <g id="node-db" data-node-id="db" data-node-label="SQLite" tabindex="0" role="button" aria-label="Enfocar SQLite, db.sqlite3, Participante de secuencia" aria-pressed="false" data-node-kind="database" data-node-sublabel="db.sqlite3" data-node-context="Participante de secuencia">
           <title>SQLite · db.sqlite3 · Participante de secuencia</title>
-          <rect x="745" y="72" width="135" height="60" rx="6" class="c-mask"/>
-          <rect x="745" y="72" width="135" height="60" rx="6" class="c-database" stroke-width="1.5"/>
-          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(751 78) scale(0.6875)">
+          <rect x="771" y="72" width="109" height="60" rx="6" class="c-mask"/>
+          <rect x="771" y="72" width="109" height="60" rx="6" class="c-database" stroke-width="1.5"/>
+          <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(777 78) scale(0.6875)">
             <ellipse cx="8" cy="4" rx="5" ry="2"/>
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="812.5" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">SQLite</text>
-          <text data-detail="context" x="812.5" y="122" class="t-muted" font-size="7" text-anchor="middle">db.sqlite3</text>
+          <text data-node-label="" data-detail-anchor="" x="825.5" y="108" class="t-primary" font-size="11" font-weight="600" text-anchor="middle">SQLite</text>
+          <text data-detail="context" x="825.5" y="122" class="t-muted" font-size="7" text-anchor="middle">db.sqlite3</text>
         </g>
 
         <!-- Legend -->
         <g data-legend="">
-          <text x="40" y="734" class="t-primary" font-size="12" font-weight="650">Leyenda</text>
-          <g data-legend-semantic-kind="emphasis" data-legend-x="40" data-legend-baseline="754" data-legend-width="138">
-            <path d="M 40 751 L 74 751" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
-            <text x="83" y="754" class="t-muted" font-size="10" font-weight="500">solicitud principal</text>
+          <text x="40" y="1219" class="t-primary" font-size="12" font-weight="650">Leyenda</text>
+          <g data-legend-semantic-kind="emphasis" data-legend-x="40" data-legend-baseline="1239" data-legend-width="138">
+            <path d="M 40 1236 L 74 1236" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
+            <text x="83" y="1239" class="t-muted" font-size="10" font-weight="500">solicitud principal</text>
           </g>
-          <g data-legend-semantic-kind="return" data-legend-x="200" data-legend-baseline="754" data-legend-width="88">
-            <path d="M 200 751 L 234 751" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
-            <text x="243" y="754" class="t-muted" font-size="10" font-weight="500">respuesta</text>
+          <g data-legend-semantic-kind="return" data-legend-x="200" data-legend-baseline="1239" data-legend-width="88">
+            <path d="M 200 1236 L 234 1236" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+            <text x="243" y="1239" class="t-muted" font-size="10" font-weight="500">respuesta</text>
           </g>
-          <g data-legend-semantic-kind="default" data-legend-x="310" data-legend-baseline="754" data-legend-width="78">
-            <path d="M 310 751 L 344 751" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-            <text x="353" y="754" class="t-muted" font-size="10" font-weight="500">mensaje</text>
+          <g data-legend-semantic-kind="security" data-legend-x="310" data-legend-baseline="1239" data-legend-width="88">
+            <path d="M 310 1236 L 344 1236" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+            <text x="353" y="1239" class="t-muted" font-size="10" font-weight="500">seguridad</text>
+          </g>
+          <g data-legend-semantic-kind="default" data-legend-x="420" data-legend-baseline="1239" data-legend-width="78">
+            <path d="M 420 1236 L 454 1236" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+            <text x="463" y="1239" class="t-muted" font-size="10" font-weight="500">mensaje</text>
           </g>
         </g>
       </svg>
@@ -5448,35 +5614,49 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <div class="card">
         <div class="card-header">
           <div class="card-dot emerald"></div>
-          <h3>Real hoy</h3>
+          <h3>Estado de la API</h3>
         </div>
         <ul>
-          <li>El panel y el pie consultan /api/v1/health/</li>
-          <li>La vista hace SELECT 1 y responde 503 si la base falla</li>
-          <li>Vite o nginx reenvían /api al puerto 8000: mismo origen, sin CORS</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-dot amber"></div>
-          <h3>Pruebas</h3>
-        </div>
-        <ul>
-          <li>demoRepository solo se usa en las pruebas de Jest</li>
-          <li>La interfaz usa la API por defecto</li>
+          <li>La plantilla pública consulta /api/v1/health/ al cargar (useApiHealth.ts:7-21)</li>
+          <li>La vista hace SELECT 1 y responde 503 si la base falla (core/views.py:10-33)</li>
+          <li>Vite o nginx reenvían /api al puerto 8000: mismo origen, sin CORS (nginx.conf:23-24)</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot cyan"></div>
-          <h3>Rastreo real</h3>
+          <h3>Rastreo y avance</h3>
         </div>
         <ul>
-          <li>GuideRepository normaliza el número y llama a la API</li>
-          <li>Responde con campos mínimos y una ciudad de la lista cerrada</li>
-          <li>Un número inexistente se muestra como no encontrado</li>
+          <li>publicTracker normaliza de 1 a 10 números (publicTracking.ts:10-12)</li>
+          <li>Un número inexistente responde found: false, no 404 (api/views.py:86-92)</li>
+          <li>Un salto o retroceso responde 409 y queda auditado (services.py:88-100)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot amber"></div>
+          <h3>Acceso</h3>
+        </div>
+        <ul>
+          <li>CSRF obligatorio también al iniciar sesión (accounts/api/views.py:41)</li>
+          <li>API y admin comparten 5 intentos por minuto y por IP (admin_throttle.py:16-18)</li>
+          <li>Con NUM_PROXIES=0, detrás de un proxy todos comparten ese límite (settings.py:206)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-dot violet"></div>
+          <h3>Patrones que el código usa</h3>
+        </div>
+        <ul>
+          <li>Facade: la vista solo llama a tracking.services (api/views.py:59)</li>
+          <li>Repository: httpRepository implementa GuideRepository (httpRepository.ts:12)</li>
+          <li>Analogía de Decorator: el límite va antes del login del admin (urls.py:11-12)</li>
+          <li>Compare-and-set, no GoF: UPDATE condicional (models.py:104-108)</li>
         </ul>
       </div>
     </div>
