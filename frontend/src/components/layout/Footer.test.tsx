@@ -3,15 +3,13 @@ import { MemoryRouter } from "react-router";
 import { Footer } from "./Footer.tsx";
 
 describe("Footer", () => {
-  it("avisa que es un proyecto académico y no el sitio oficial", () => {
+  it("avisa que es un rediseño no oficial", () => {
     render(
       <MemoryRouter>
         <Footer />
       </MemoryRouter>,
     );
 
-    expect(
-      screen.getByText(/Proyecto académico\. No es el sitio oficial de Hound Express\./),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Rediseño no oficial de Hound Express\./)).toBeInTheDocument();
   });
 });
