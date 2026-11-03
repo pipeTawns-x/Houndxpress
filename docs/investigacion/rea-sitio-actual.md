@@ -93,7 +93,7 @@ Modelo: `houndxpress-backend/backend/tracking/models.py`.
 |---|---|---|---|
 | Formato de guía | FAQ: 16 o 22 caracteres (01 §4, *sin contraste*). El campo no restringe longitud ni patrón en el HTML (**nuevo**). | `CharField(max_length=22, unique=True)` con regex `^(21[0-9]{14}\|[A-Z0-9]{22})$` y `CheckConstraint` igual. | Mantener. **M64**: normalizar la entrada (`strip`, `upper`) antes de validar. |
 | Rastreo múltiple | Varias guías por consulta. | Una guía (no hay API todavía). | **M64/M66**: consulta múltiple con tope y limitación de tasa por guía. |
-| Etapas | Historial por pasos, catálogo desconocido; incidencias aparte. | 5 etapas lineales: recepción de carga → vehículo cargado → vehículo liberado → vehículo en camino → carga entregada; una por guía (`UniqueConstraint`). | Mantener en M54. **M64/M66**: incidencias como eventos separados y una tabla de equivalencias `cPaso` → etapa si se integra Sabueso. |
+| Etapas | Historial por pasos, catálogo desconocido; incidencias aparte. | 5 etapas lineales: recepción de carga → vehículo cargado → vehículo liberado → vehículo en camino → carga entregada; una por guía (`UniqueConstraint`). | Mantener en M54. **M64/M66**: incidencias como eventos separados y una tabla de equivalencias pasos → etapa si se integra Sabueso. |
 | Estados de la interfaz | rastreando, encontrado y no encontrado. | No aplica (backend). | **M66**: añadir "servicio no disponible" y "sin eventos todavía". |
 | Fecha por evento | Fecha por paso (contrato). | `timestamp` con fecha del servidor. | Mantener. |
 | Quién recibió | Fuera de este resumen. | `recipient` obligatorio. | **M64**: la vista pública nunca devuelve `recipient`; solo el vendedor dueño autenticado. |

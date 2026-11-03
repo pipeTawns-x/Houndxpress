@@ -69,12 +69,12 @@ Fuente: el checklist defensivo de 20 controles de las clases de Mario Álvarez y
 | 1 | SQL crudo o `.extra()` | 2.2.x (V1 no leído) | Cumple | Solo `cursor.execute("SELECT 1")` constante (`core/views.py:14`); ORM en el resto | `core/tests/test_asvs_controls.py:64`, `:71`, `:82`, `:92`, `:99`, `:109`, `:120` |
 | 2 | Inyección por cabeceras guardadas | Sin requisito ASVS | No aplica | Ninguna vista ni middleware propio guarda `request.META` | No aplica |
 | 3 | IDOR en endpoints de objeto | 8.2.2 | **Parcial** | Guías solo para personal (`tracking/api/views.py:32`), sin dueño por objeto; ver P3 | `tracking/tests/test_api.py:425` |
-| 4 | Cambio de contraseña con usuario destino | 6.2.2, 6.2.3 | Cumple (admin de Django) | La API no tiene ese endpoint (`accounts/api/urls.py:7-12`) | Sin prueba propia |
+| 4 | Cambio de contraseña con usuario destino | 6.2.2, 6.2.3 | Parcial, ver P10 (admin de Django) | La API no tiene ese endpoint (`accounts/api/urls.py:7-12`) | Sin prueba propia |
 | 5 | Flag de MFA confiado desde el cliente | 6.x | No aplica | No hay MFA | No aplica |
 | 6 | Contraseñas con hash | V11 no leído | Cumple (PBKDF2 de Django) | `accounts/models.py:14` | `core/tests/test_asvs_controls.py:139`, `:144`, `:149`, `:167` |
 | 7 | `SECRET_KEY` débil o en el código | V13 | Cumple | `config/settings.py:46-56`: la clave de desarrollo se rechaza en producción | `core/tests/test_settings.py:61`, `:66` |
 | 8 | JWT forjado para escalar el rol | 7.2.x, 8.3.1 | Cumple: no hay JWT | Sesión del servidor (`config/settings.py:182`); el rol se lee de la base | No aplica |
-| 9 | `.git` o respaldos expuestos | 13.4.1 | Cumple en Docker local | `frontend/nginx.conf:18-20`; `backend/.dockerignore:9-10` | `core/tests/test_asvs_controls.py:184`; `.github/workflows/ci.yml:172-175` |
+| 9 | `.git` o respaldos expuestos | 13.4.1 | Cumple en Docker local | `frontend/nginx.conf:18-20` | `core/tests/test_asvs_controls.py:184`; `.github/workflows/ci.yml:172-175` |
 | 10 | Secretos en el repo o en el bundle | V13 | Cumple | gitleaks en `.github/workflows/ci.yml:131-136`; la única variable del bundle es `VITE_DATA_SOURCE` (`frontend/src/vite-env.d.ts:5`) | Lo comprueba el job `security` |
 | 11 | Inclusión de archivos o path traversal | V5 no leído | No aplica | No hay vistas que sirvan archivos | No aplica |
 | 12 | Inyección de plantillas | V1 no leído | Cumple | Ninguna plantilla se construye con datos del usuario | Sin prueba propia |
