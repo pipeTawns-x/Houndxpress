@@ -1,5 +1,5 @@
 # Respaldo manual: GGA_PROVIDER=opencode:opencode/big-pickle
-# nemotron-3-ultra-free dejó de existir (2026-10-27); se alinea con el proveedor de backend y practicas-ebac.
+# nemotron-3-ultra-free dejó de existir (2026-10-27); se alinea con el proveedor de backend.
 PROVIDER="opencode:nvidia/minimaxai/minimax-m3.1-flash"
 OPENCODE_AGENT="gga-review"
 RULES_FILE="AGENTS.md"

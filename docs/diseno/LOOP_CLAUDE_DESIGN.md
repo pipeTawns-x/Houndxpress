@@ -1,6 +1,6 @@
 # Loop para Claude Design
 
-Los documentos del loop (diseño en Claude Design y su continuación en código) no se conservan en esta rama; las instrucciones para agentes, incluido dónde consultarlos, están en [`CLAUDE.md`](../../CLAUDE.md) y [`AGENTS.md`](../../AGENTS.md). El loop ya incluye los requisitos técnicos del frontend: Sass con BEM, Redux y Jest.
+Los documentos del loop (diseño en Claude Design y su continuación en código) no se conservan en esta rama; las instrucciones para agentes están en [`CLAUDE.md`](../../CLAUDE.md) y [`AGENTS.md`](../../AGENTS.md). El loop ya incluye los requisitos técnicos del frontend: Sass con BEM, Redux y Jest.
 
 ## Cómo se usó en la versión 1
 
