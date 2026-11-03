@@ -29,7 +29,7 @@ Cada fila existe en el repositorio y se verifica en cada push con GitHub Actions
 | Rastreo limitado a 60 números/minuto por IP; muestra ubicaciones del catálogo cerrado y oculta valores antiguos no catalogados | [`backend/tracking/api/throttles.py`](backend/tracking/api/throttles.py), [`backend/tracking/api/serializers.py`](backend/tracking/api/serializers.py) |
 | Configuración por variables de entorno, sin secretos en el repositorio | [`backend/config/settings.py`](backend/config/settings.py), [`backend/core/tests/test_settings.py`](backend/core/tests/test_settings.py) |
 | Dependencias con versiones fijas | [`backend/requirements.txt`](backend/requirements.txt), [`backend/uv.lock`](backend/uv.lock) |
-| Lint y 195 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 311 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Lint y 200 pruebas de backend en Linux (Python 3.10 y 3.12) y Windows; lint, typecheck, build y 311 pruebas de frontend | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 | Web en React, TypeScript, Redux y Sass BEM: sitio público, rastreo real, acceso de personal y panel protegido | [`frontend/`](frontend/) |
 | Pila con Docker: Django y nginx con la web compilada | [`docker-compose.yml`](docker-compose.yml) |
 
@@ -112,9 +112,16 @@ Pruebas y lint, desde `backend/` en cualquier terminal (usan el Python de `.venv
 .venv/bin/python -m ruff check .
 ```
 
-En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 195 tests` seguido de `OK`, y luego `All checks passed!`.
+En Windows, escribe `.venv\Scripts\python` en lugar de `.venv/bin/python`. Resultado esperado: `Ran 200 tests` seguido de `OK`, y luego `All checks passed!`.
 
-Para el panel de administración, crea un usuario con `.venv/bin/python manage.py createsuperuser` y abre <http://127.0.0.1:8000/admin/>. Para cargar guías de demostración en la base local: `.venv/bin/python manage.py loaddata demo_guides`.
+Para revisar el panel y el admin, carga las guías de demostración y crea la cuenta local:
+
+```bash
+.venv/bin/python manage.py loaddata demo_guides
+.venv/bin/python manage.py create_reviewer
+```
+
+El comando imprime el usuario `revisor` y una contraseña aleatoria que no se guarda en ningún archivo. Si la pierdes, córrelo de nuevo. Solo funciona con `DJANGO_DEBUG=true`, el valor por defecto en desarrollo. Entra en <http://127.0.0.1:8000/admin/>.
 
 ## La web
 
@@ -126,9 +133,16 @@ npm ci
 npm run dev
 ```
 
-Abre <http://localhost:5173/>. Para entrar al panel, crea un usuario de personal desde `backend/` con `python manage.py createsuperuser`, y carga datos de ejemplo con `python manage.py loaddata demo_guides`.
+Abre <http://localhost:5173/>. Para entrar al panel, desde `backend/` carga los datos de ejemplo con `python manage.py loaddata demo_guides`, crea la cuenta con `python manage.py create_reviewer` y entra en <http://localhost:5173/acceso>.
 
-Con Docker, `docker compose up --build` levanta Django en <http://localhost:8000/> y la web en <http://localhost:8080/>.
+Con Docker, `docker compose up --build` levanta Django en <http://localhost:8000/> y la web en <http://localhost:8080/>. Para entrar al panel, en otra terminal corre:
+
+```bash
+docker compose exec backend python manage.py loaddata demo_guides
+docker compose exec backend python manage.py create_reviewer
+```
+
+Después entra en <http://localhost:8080/acceso> con el usuario y la contraseña que imprime el comando.
 
 Verificación del frontend: `npm test` (311 pruebas), `npm run typecheck`, `npm run lint` y `npm run build`.
 

@@ -64,6 +64,9 @@ jobs:
           source .venv/bin/activate
           python -m pip install -r requirements.txt
           python manage.py migrate
+          python manage.py loaddata demo_guides
+          reviewer_output="$(python manage.py create_reviewer)"
+          grep -q '^Usuario: revisor$' <<< "$reviewer_output"
           python manage.py runserver 127.0.0.1:8000 --noreload > runserver.log 2>&1 &
           for _ in $(seq 1 30); do
             curl -fsS http://127.0.0.1:8000/api/v1/health/ -o health.json && break
@@ -94,6 +97,8 @@ jobs:
       - run: python -m venv .venv
       - run: .venv\Scripts\python -m pip install -r requirements.txt
       - run: .venv\Scripts\python manage.py migrate
+      - run: .venv\Scripts\python manage.py loaddata demo_guides
+      - run: .venv\Scripts\python manage.py create_reviewer | Out-Null
       - run: .venv\Scripts\python manage.py check
 
   frontend:
@@ -159,6 +164,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker compose up --build --detach --wait --wait-timeout 180
+      - name: README block for the review account
+        run: |
+          docker compose exec -T backend python manage.py loaddata demo_guides
+          reviewer_output="$(docker compose exec -T backend python manage.py create_reviewer)"
+          grep -q '^Usuario: revisor$' <<< "$reviewer_output"
       - name: nginx forwards the API to Django
         run: test "$(curl -fsS http://127.0.0.1:8080/api/v1/health/)" = '{"status":"ok","database":"ok"}'
       - name: nginx serves the SPA on client-side routes
