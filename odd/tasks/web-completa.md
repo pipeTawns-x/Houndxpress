@@ -41,11 +41,12 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
 | ID | Specs | Ruta | Estado | Evidencia |
 |---|---|---|---|---|
 | T1 API con TDD | S1, S5, S7 | Delegada a Codex: unidad paralela con superficie propia | Hecha | `71deaef`, 154 pruebas |
-| T2 React contra la API | S1, S6, S7 | Delegada a Codex: unidad paralela con superficie propia | Hecha | 310 pruebas; E2E en navegador |
-| T3 Rediseño premium | S2, S3, S4 | Delegada a Codex, misma unidad que T2 | Hecha | 42 combinaciones sin desborde |
-| T4 Imágenes y video propios | S4 | Inline: mflux y ffmpeg locales | Hecha | 7 WebP y `hero.mp4` |
-| T5 Validación externa | S1 a S7 | Inline en navegador; revisión de seguridad independiente (Risk: item 2) | Hecha | L17 y L18 |
+| T2 React contra la API | S1, S6, S7 | Delegada a Codex: unidad paralela con superficie propia | Hecha | `e8af21a`, `1eff878`, `cdd4f17`; 310 pruebas; E2E en navegador |
+| T3 Rediseño premium | S2, S3, S4 | Delegada a Codex, misma unidad que T2 | Hecha | `cdd4f17`, `5d7dda8`; 42 combinaciones sin desborde |
+| T4 Imágenes y video propios | S4 | Inline: mflux y ffmpeg locales | Hecha | `03bf98a`; 7 WebP y `hero.mp4` |
+| T5 Validación externa | S1 a S7 | Inline en navegador; revisión de seguridad independiente (Risk: item 2) | Hecha | `77c657a`, `5c0f081`, `95a6c43`, `2a49868`, `b00bf89`; L17 y L18 |
 | T6 Publicar y mensaje del LMS | S1 | Inline | Hecha | PR #15 a #21; `main` en `59bb8c6`; etiqueta `m54.3` |
+| T7 Limpieza pública y endurecimiento | L23 | Delegada a agentes por pedido de Eduardo | En curso | L24 y L25 |
 
 ## Log
 - L1 · 2026-11-02, pedido original: "suena bello pero un proyecto sin img con un diseño que se desvorda amm el .zip era para que se tomara de referencia y se utilizaran los recursos para añadirle ese plus al diseño para que se vea premium tienes varios recursos para saber estandares de webs modernas de compañias y empreas mas top actualmente asi como estandares sacados de paginas como horizon y las otras con disñeos modernos con animaciones esteticos y muy bellos no estas utilizando nada para mejorar antes de que sigas esta bien que aca en loop ya saabes hagas lo de mejorar el promt con el meta promting y despues hagas lo que te pido entregar una funcionalidad completa de web desarrollando con el odd ya tienes contexto no lo utilizas sigues sin utilizarlo"
@@ -69,4 +70,16 @@ Formato tomado de `nschurmann/hola-ai`: historias verticales de una línea, con 
 - L20 · Revisión del script `tracking.sql`: no corría completo y no tenía las migraciones nuevas. Reescrito con el esquema final de una base migrada y probado en SQLite.
 - L21 · T6: PR #15 a `backend`, #16 a `frontend`, #17 y #20 a `pruebas`, #18 a `main` (`59bb8c6`), #19 y #21 a `practicas-ebac`; CI en verde en todos antes de fusionar. `docs/diseno` de trabajo retirado de `main`; solo quedan arquitectura y sistema de diseño. gitleaks y semgrep: 0 hallazgos.
 - L22 · Pendiente que no bloquea: despliegue público, efectos con `lenis`, `motion` y `cobe` (requieren `npm install` de Eduardo), portal de cliente y páginas sin contenido real confirmado (blog, noticias, ofertas, alianzas).
-
+- L23 · 2026-11-02: "arregla esto ya tenemos que terminar" y "deja todo listo y bien hecho".
+- L24 · 2026-11-02, T7. Documentos corregidos: checklist ASVS y matriz en versión M54.3, `SECURITY.md` igual en ambas ediciones, y los cuatro diagramas regenerados en ambas ediciones con patrones y `archivo:línea`. Se retiró la investigación de herramientas de los documentos públicos. Defecto corregido: una guía creada en el admin quedaba sin su primera fila de historial; ahora el admin usa `record_first_stage` y una guía sin historial responde 409. El login del admin quedó limitado a 5 intentos por minuto y comparte el límite con el de la API. nginx responde 404 a los dotfiles y envía una CSP completa. El CI suma el job `security` con gitleaks, pip-audit, bandit y npm audit. El pie avisa que el sitio es un proyecto académico. Conteos: 193 pruebas de backend, observadas en las dos ediciones, y 311 de frontend. Pendientes honestos en `docs/entregas/m54/asvs-l1-checklist.md`.
+- L25 · 2026-11-02, recibo de recursos del kit de Hound Express, con la tarea abierta. "Agente" indica que sale del informe o de las llamadas registradas de un agente.
+  1. REA: usado solo como lectura de resultados previos de la observación pasiva, sin captura nueva. `docs/investigacion/rea-sitio-actual.md` se corrigió en `c8328b3`.
+  2. roadmap.sh: usado por agente. Nodos aplicados: transactions, migrations, rate-limiting, session-based-auth, pagination e idempotency. Falta database-indexes.
+  3. Patrones (#1075, #1076, #809, #810 y la ficha): usados. Al abrir esta tarea solo 2 de 4 diagramas anotaban patrones; ahora los cuatro los anotan contra la versión M54.3.
+  4. Seguridad: usada salvo lo indicado. gitleaks sin fugas (149 commits; luego 153, según agente). `check --deploy` sin avisos. pip-audit contra PyPI y OSV sin vulnerabilidades. bandit 1.9.4 sin problemas tras un `nosec` justificado, según agente. `npm audit --omit=dev` en 0. semgrep con 2 avisos en `nginx.conf`. `security-review`, en agente, sin avisos con confianza 8 o más. No usado, sin OK de Eduardo: `supply-chain-risk-auditor`. Dependabot: decide Eduardo.
+  5. Big School: usado por agente. Clase 2, pp. 9 y 15-16; #1168; #1172 con 20 controles; `core/tests/test_asvs_controls.py` con 17 pruebas.
+  6. EBAC: parcial. #850, #851 y #723 por agente, sin bloqueos. El LMS pide login y no se usó contraseña. `ebac-lms-reader` no se cargó en esta tanda, sin OK de Eduardo.
+  7. Resúmenes de video: parcial, por agente. #1090, #1023, `videos-resto.md:58` y `WM2JAuR-MOU.txt` por tramos. No abiertos, sin OK de Eduardo: `metodo.md`, `Nvn6s3r9ZAw.txt` y `5JjuF1zpNbI.txt`.
+  8. Gemini y Perplexity (#867, #887, #723): usados por agente. #887 es un inventario; la auditoría está en #723.
+  9. Django y DRF: usados por agente. `django-drf` y `pytest` con Bash una vez cada una, y context7 con 2 `resolve-library-id` y 2 `query-docs`. Backend: 193 pruebas observadas, 157 antes.
+  10. Archify: usado. Los cuatro diagramas de las dos ediciones pasaron `finalize` en modo `showcase` y `visual-check` con Brave. Las imágenes de `docs/diagramas/img/` se abrieron una por una.
