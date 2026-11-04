@@ -6,6 +6,7 @@ from pathlib import Path
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.management import call_command
 from django.test import Client, TestCase
 from django.utils.crypto import get_random_string
@@ -22,6 +23,9 @@ def session_exists(session_key: str) -> bool:
 
 class SessionTests(TestCase):
     def setUp(self):
+        # Admin login attempts count against a limit kept in the cache, which outlives each test.
+        cache.clear()
+        self.addCleanup(cache.clear)
         self.credential = get_random_string(20)
         self.staff = get_user_model().objects.create_user(
             username="supervisor", password=self.credential, is_staff=True

@@ -4,7 +4,7 @@ Backend de Hound Express para el seguimiento de guías de logística cross-borde
 
 ## Mapa
 
-Rutas presentes en este worktree; no asumir que contiene el árbol del frontend o de la rama escolar.
+Rutas presentes en este worktree; no asumir que contiene el árbol del frontend.
 
 | Ruta | Qué es |
 |---|---|
@@ -17,7 +17,7 @@ Rutas presentes en este worktree; no asumir que contiene el árbol del frontend 
 
 ## Reglas
 
-1. Código e identificadores en inglés; documentación, commits y textos de interfaz en español.
+1. Código e identificadores en inglés; documentación y textos de interfaz en español; commits en inglés y español, con el formato de la sección Ramas.
 2. Sin dependencias AGPL/GPL. `backend/requirements*.txt` se exportan desde `backend/uv.lock`, nunca a mano (comandos en `docs/STACK_HOUND_EXPRESS.md`).
 3. Cada bloque de comandos del README tiene un job de CI que lo reproduce. Si cambias uno, cambia el otro en el mismo commit.
 4. Las etiquetas existentes no se mueven sin que Eduardo lo pida.
@@ -28,22 +28,21 @@ Rutas presentes en este worktree; no asumir que contiene el árbol del frontend 
 
 ## Ramas
 
-Cinco ramas, con nombre que dice qué contiene. No se crean otras. Esta tabla describe el flujo del repositorio, no rutas disponibles en todas las ramas.
+Ramas de larga duración, con nombre que dice qué contiene. No se crean otras. Esta tabla describe el flujo del repositorio, no rutas disponibles en todas las ramas.
 
 | Rama | Contiene | Recibe cambios de |
 |---|---|---|
 | `frontend` | Rediseño y aplicación React. | trabajo directo |
 | `backend` | API de producto con Django y DRF (`backend/`). | trabajo directo |
-| `practicas-ebac` | Entorno escolar: prácticas del LMS, entregas, documentos de curso y loops. | `frontend`, `backend` y trabajo escolar directo |
-| `pruebas` | Integración del producto: suite completa, `docker compose` y CI en verde. | `frontend`, `backend` y producto filtrado de `practicas-ebac` |
+| `pruebas` | Integración del producto: suite completa, `docker compose` y CI en verde. | `frontend` y `backend` |
 | `main` | El producto integrado, limpio y profesional. Solo lo que ya pasó por `pruebas`. | `pruebas` |
 
-- Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`. El código y la documentación de producto de `practicas-ebac` siguen el mismo camino, con el filtro escolar aplicado antes de entrar en `pruebas`.
-- **Filtro de salida escolar:** no pasan `docs/loops/`, las entregas y mensajes del LMS, las notas de práctica, los documentos Word, las capturas de práctica ni los prompts. Solo pasan código y documentación en tono de producto. Revisar el diff de salida; no integrar toda la rama escolar sin filtrar ni copiar el árbol completo, porque puede reintroducir archivos eliminados.
+- Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`.
+- **Reglas por rama:** las ramas de producto solo llevan código y documentación en tono de producto. Cada rama trabaja con sus propias reglas y estilos, sin mezclarlos con los de otra. Cada merge se adapta a la rama destino, incluidos sus mensajes de commit. Revisar el diff de salida; no integrar una rama completa sin filtrar ni copiar su árbol, porque puede reintroducir archivos eliminados.
 - Un agente por rama y un worktree por rama. No compartir la escritura de una misma rama entre agentes.
-- Commits con Conventional Commits: tipo en inglés, descripción en español (`feat(backend): agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
+- Commits con Conventional Commits, en inglés y español: `tipo(scope): description in English / descripción en español` (`feat(backend): add the guide model / agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
 - PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
-- La rama escolar publicada se sincroniza mediante **merge**, no rebase: conservar su historial compartido. Antes de publicar, obtener y revisar los cambios remotos e integrarlos mediante merge si corresponde. Nunca usar `--force` ni `--force-with-lease`.
+- Las ramas publicadas se sincronizan mediante **merge**, no rebase: conservar su historial compartido. Antes de publicar, obtener y revisar los cambios remotos e integrarlos mediante merge si corresponde. Nunca usar `--force` ni `--force-with-lease`.
 
 ## Ejecución local y permisos
 
@@ -53,21 +52,19 @@ Cinco ramas, con nombre que dice qué contiene. No se crean otras. Esta tabla de
 - Cuando se necesite una operación reservada a Eduardo, entregar un único bloque de comandos con el directorio de ejecución y pedirle que lo ejecute. Detenerse y esperar su salida antes de continuar; no asumir éxito.
 - El agente nunca ejecuta `npm ci`, ni siquiera fuera del sandbox, y no accede a credenciales, llaveros ni archivos de secretos. No cambiar helpers de credenciales ni buscar atajos de autenticación.
 - El sandbox de mínimo privilegio es intencional. Un bloqueo de permisos no autoriza elevar privilegios, desactivar restricciones ni ejecutar la operación por otra vía: corresponde pedir el bloque a Eduardo y esperar.
-- Estas reglas y la sección Ramas prevalecen sobre instrucciones anteriores de los loops o skills que indiquen rebase de la rama escolar publicada, push del agente, npm fuera del sandbox o acceso a credenciales.
+- Estas reglas y la sección Ramas prevalecen sobre instrucciones anteriores de skills que indiquen rebase de una rama publicada, push del agente, npm fuera del sandbox o acceso a credenciales.
 - Una asignación limitada a editar archivos no autoriza Git ni instalación, pruebas o configuración de herramientas.
 
 ## Errores que ya cometimos (reglas para no repetirlos)
-
-El registro completo vive solo en `practicas-ebac`: consultar con `git show origin/practicas-ebac:docs/loops/03-LOOP-OPENCODE.md`, sin copiar el loop a esta rama. El loop de Codex se consulta con `git show origin/practicas-ebac:docs/loops/05-LOOP-CODEX.md`. Son lecturas locales de la referencia disponible; no implican sincronización con red.
 
 1. No reinterpretar el objetivo de Eduardo. Si algo parece innecesario o "no bloqueante", pregunta su plan antes de opinar.
 2. Verificar el estado en el código antes de escribirlo en un documento.
 3. Antes de diseñar, inventariar todas las URLs del sitio vivo; no limitarse a los enlaces del Inicio.
 4. Las herramientas de diseño trabajan por lotes de una o dos pantallas, nunca con todo en un solo prompt.
 5. En zsh, `"$B:ruta"` se rompe por el modificador `:`; usa `"${B}:ruta"`. Si falta una herramienta preferida (`sd`), comprueba con `command -v` y usa otra.
-6. Un documento commiteado cita rutas que existen en la rama, no los nombres del kit que genera un script. Para loops ausentes, usar las consultas indicadas arriba.
+6. Un documento commiteado cita rutas que existen en la rama, no los nombres del kit que genera un script.
 7. No confundir una regla demostrada en el frontend con datos de demostración con una validación implementada en la API.
-8. Las ramas locales sobrantes también rompen la regla de cinco ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
+8. Las ramas locales sobrantes también rompen la regla de ramas: revisar los worktrees viejos y las ramas cuya remota ya se borró. No crear ramas adicionales ni eliminar ramas o worktrees sin autorización de Eduardo.
 9. Engram tiene un solo proyecto, `houndxpress`, en minúsculas. Una búsqueda con otra capitalización no devuelve nada. No se crean alias.
 10. En Codex, npm lo ejecuta Eduardo, no el agente. Git con red también lo ejecuta Eduardo, salvo autorización explícita del propio Eduardo en la sesión. No intentar `npm ci` dentro ni fuera del sandbox: puede dejar `node_modules` a medias. Entregar un único bloque de comandos y esperar su salida, sin acceder a credenciales ni eludir el sandbox de mínimo privilegio.
 

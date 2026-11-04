@@ -448,14 +448,18 @@
     "quality_profile": "showcase",
     "repository": {
       "url": "https://github.com/pipeTawns-x/Houndxpress.git",
-      "revision": "aed7967dd0d3730d1feab3162d00c94033dd9685",
+      "revision": "7e6436b051a0ce7d8ffb71d9f31b2d645dba8c24",
       "link_mode": "web"
     }
   },
   "lanes": [
     {
       "id": "main",
-      "label": "Etapas de una guía"
+      "label": "Etapas en orden estricto"
+    },
+    {
+      "id": "outside",
+      "label": "Alta, rechazos y archivo"
     }
   ],
   "states": [
@@ -471,19 +475,19 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 42,
+          "line": 44,
           "label": "Stage.CARGO_RECEIVED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 224,
-          "end_line": 226,
+          "line": 235,
+          "end_line": 237,
           "label": "el alta empieza en recepción"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -500,13 +504,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 43,
+          "line": 45,
           "label": "Stage.VEHICLE_LOADED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -523,13 +527,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 44,
+          "line": 46,
           "label": "Stage.VEHICLE_RELEASED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -546,13 +550,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 45,
+          "line": 47,
           "label": "Stage.VEHICLE_IN_TRANSIT"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -569,20 +573,101 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 46,
+          "line": 48,
           "label": "Stage.CARGO_DELIVERED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 61,
-          "end_line": 62,
+          "line": 63,
+          "end_line": 64,
           "label": "entregada: no admite más etapas"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
+        }
+      ]
+    },
+    {
+      "id": "guide_created",
+      "type": "neutral",
+      "label": "Alta de la guía",
+      "sublabel": "API o admin",
+      "lane": "outside",
+      "col": 0,
+      "tag": "record_first_stage",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 49,
+          "end_line": 56,
+          "label": "record_first_stage"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 59,
+          "end_line": 70,
+          "label": "alta por la API"
+        },
+        {
+          "path": "backend/tracking/admin.py",
+          "line": 47,
+          "end_line": 51,
+          "label": "alta por el admin"
+        }
+      ]
+    },
+    {
+      "id": "attempt_rejected",
+      "type": "failure",
+      "label": "Avance rechazado",
+      "sublabel": "409 · la etapa no cambia",
+      "lane": "outside",
+      "col": 2,
+      "tag": "StageTransitionAttempt",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 80,
+          "end_line": 91,
+          "label": "motivos del rechazo"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 94,
+          "end_line": 100,
+          "label": "registra el intento"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 417,
+          "end_line": 433,
+          "label": "StageTransitionAttempt"
+        }
+      ]
+    },
+    {
+      "id": "guide_archived",
+      "type": "neutral",
+      "label": "Archivada",
+      "sublabel": "DELETE · is_archived",
+      "lane": "outside",
+      "col": 4,
+      "tag": "desde cualquier etapa",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 123,
+          "end_line": 128,
+          "label": "archive_guide"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 72,
+          "end_line": 74,
+          "label": "archivada: no admite etapas"
         }
       ]
     }
@@ -607,6 +692,29 @@
       "from": "vehicle_in_transit",
       "to": "cargo_delivered",
       "label": "siguiente"
+    },
+    {
+      "from": "guide_created",
+      "to": "cargo_received",
+      "label": "primera fila"
+    },
+    {
+      "from": "vehicle_released",
+      "to": "attempt_rejected",
+      "label": "salto o retroceso",
+      "variant": "security"
+    },
+    {
+      "from": "cargo_delivered",
+      "to": "guide_archived",
+      "label": "archivar",
+      "variant": "dashed"
+    },
+    {
+      "from": "guide_archived",
+      "to": "attempt_rejected",
+      "label": "no admite avance",
+      "variant": "dashed"
     }
   ],
   "cards": [
@@ -614,8 +722,8 @@
       "dot": "cyan",
       "title": "Regla de avance",
       "items": [
-        "La única etapa válida es la siguiente",
-        "Una guía entregada ya no avanza",
+        "La única etapa válida es la siguiente (services.py:88-91)",
+        "Una guía entregada ya no avanza (services.py:86-87)",
         "El panel solo ofrece el botón de la etapa siguiente"
       ]
     },
@@ -623,9 +731,18 @@
       "dot": "emerald",
       "title": "Historial",
       "items": [
-        "Cada avance agrega un evento con fecha y lugar",
-        "Los eventos no se editan ni se borran",
-        "Las fechas se guardan en UTC"
+        "Cada avance agrega un evento con fecha, lugar y área del autor (services.py:110-116)",
+        "Los eventos no se editan ni se borran (models.py:254-264)",
+        "Las fechas se guardan en UTC (settings.py:169-171)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Alta y rechazos",
+      "items": [
+        "La API y el admin crean la primera fila con record_first_stage (services.py:64, admin.py:51)",
+        "Salto, retroceso, entregada o archivada: 409 y queda el intento (services.py:80-100)",
+        "Una guía sin historial responde 409 y solo se registra en el log (services.py:82-83, :93)"
       ]
     },
     {
@@ -641,10 +758,11 @@
       "dot": "violet",
       "title": "Patrones en el código",
       "items": [
-        "State, forma simple: Stage con cinco valores (models.py:41)",
-        "Solo la etapa siguiente es válida (models.py:59-67)",
-        "UPDATE condicional, compare-and-set, no GoF (models.py:93-108)",
-        "Propuestas: Command para avances auditables y Observer para avisos"
+        "State, forma simple: Stage con cinco valores (models.py:43-48)",
+        "Solo la etapa siguiente es válida (models.py:61-69)",
+        "UPDATE condicional, compare-and-set, no GoF (models.py:100-115)",
+        "Facade: advance_guide decide, registra y audita (services.py:73-120)",
+        "Propuesta: Observer para avisos; todavía no existe"
       ]
     }
   ]
