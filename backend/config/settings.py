@@ -41,8 +41,9 @@ def env_list(name: str, default: list[str]) -> list[str]:
 
 DEBUG = env_bool("DJANGO_DEBUG", True)
 
-# Local development only. Production mode (DJANGO_DEBUG=false) refuses to start with it.
-DEV_ONLY_SECRET_KEY = "django-insecure-dev-only-never-use-this-key-outside-local-development"
+# Local development only. Production mode (DJANGO_DEBUG=false) refuses to start with it, so it
+# protects nothing real; that is why bandit's hardcoded-password finding is silenced here.
+DEV_ONLY_SECRET_KEY = "django-insecure-dev-only-never-use-this-key-outside-local-development"  # nosec B105
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "").strip()
 if not SECRET_KEY:
@@ -188,8 +189,8 @@ REST_FRAMEWORK = {
     ],
     # Request limits per client (ASVS 6.1.1). UserRateThrottle also counts anonymous clients
     # by IP address, so both rates leave room for a health probe every few seconds. The
-    # history lives in the default cache. The admin login is a Django view, not a DRF one,
-    # so these limits do not cover it.
+    # history lives in the default cache. The admin login is a Django view, not a DRF one, so
+    # of these limits it only gets "login", through config/admin_throttle.py.
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
