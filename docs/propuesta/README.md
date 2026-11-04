@@ -101,7 +101,7 @@ Detalle y evidencia de cada una en [`abogado-del-diablo.md`](abogado-del-diablo.
 | C19 | Una persona para red, git y aprobaciones | Media | Aceptada | Un frente a la vez y un bloque de comandos por intervención | Ahora |
 | C20 | Sin prueba de concurrencia real | Media | Aceptada | `TransactionTestCase` contra PostgreSQL en CI | M66 |
 | C21 | Admin sin freno de fuerza bruta | Media / Alta en M66 | Aceptada | Bloquea M66; el mecanismo lo elige Eduardo (E1) | Eduardo |
-| C22 | Exclusiones solo en local | Alta | Aceptada | Revisión antes de cada push (E8) | Eduardo |
+| C22 | Exclusiones solo en local | Alta | Aceptada | Revisión de `git status` antes de cada commit (E8) | Eduardo |
 | C23 | Datos personales sin retención | Media | Aceptada | Pasa a decisión E5 | Eduardo |
 | C24 | Sin vía de corrección operativa | Media | Aceptada | Pasa a decisión E4 | Eduardo |
 | C25 | El historial no guarda el área | Media | Aceptada | Columna nueva, migración aditiva | M64 |
@@ -691,7 +691,7 @@ Un cambio está terminado cuando sus specs se verificaron con salida registrada 
 | Asistente X1 | Inyección de instrucciones, fuga entre clientes | Recuperación acotada a las guías propias, fuentes permitidas, pruebas dedicadas |
 | Dependencias | Cadena de suministro | `uv.lock`, OSV, regla de licencias, plazos de `SECURITY.md`, enfriamiento antes de subir versión |
 | Secretos | Exposición | Variables de entorno, gitleaks antes de cada push |
-| Archivos locales | Publicación accidental | Revisión con gitleaks antes de cada push (E8) |
+| Archivos locales | Publicación accidental | Revisión de `git status` antes de cada commit (E8); gitleaks solo detecta secretos |
 
 ### 15.2 Cumplimiento
 

@@ -505,7 +505,7 @@ Decisiones que los documentos no resuelven. Cada una lleva la recomendación del
 | E5 | ¿Cuánto tiempo se guardan `recipient` y `note`, y cómo se anonimizan? | Un plazo fijo después de la entrega y anonimización en lugar de borrado; verificar la ley de 2025 en el DOF | Datos reales | C23 |
 | E6 | ¿Se confirma "en tránsito = solo la etapa 4" y entra "con alerta" en M66? | Sí a la etapa 4; "con alerta" solo si D5 pone `Incident` en el núcleo | M66 | #851, D5 |
 | E7 | ¿Un PUT repetido de la etapa actual responde 200 (reintento) o 409 (v1)? | 200 | M64 | C13 |
-| E8 | ¿Cómo se evita publicar archivos locales por error? | Exclusión local y gitleaks antes de cada push | Cualquier push desde otra copia | C22 |
+| E8 | ¿Cómo se evita publicar archivos locales por error? | Exclusión local y revisión de `git status` antes de cada commit; gitleaks solo detecta secretos | Cualquier commit desde otra copia | C22 |
 | E9 | ¿Se agregan al CI `check --deploy`, OSV o `pip-audit`, gitleaks, Dependabot y acciones fijadas por SHA? | Sí, en un PR propio (riesgo 5: CI) | M66 | C26, L7 |
 | E10 | ¿Cuándo se pide la autorización de marca (D15)? | Antes de publicar la URL de M66 | M66 | C27 |
 | E11 | ¿Caché compartida con `DatabaseCache` (sin dependencia) o Redis (servicio nuevo)? | `DatabaseCache` | M66 | C07 |
