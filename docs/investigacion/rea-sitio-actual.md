@@ -2,13 +2,13 @@
 
 **Fecha de captura:** 2026-10-27. **Herramienta:** REA (Reverse Engineer Anything) 6.7.0, observación pasiva por Chrome DevTools Protocol sobre Brave con perfil dedicado.
 **Alcance:** feature `odd/tasks/contexto-rea-hound.md`, specs S1 y S2. Solo se observaron páginas públicas que ya estaban abiertas. No se consultó ninguna guía, no se recargó ninguna página y no se llamó a ninguna API de Hound.
-**Versión pública y saneada.** La evidencia cruda y el informe completo se conservan en privado. Este resumen deja fuera los hallazgos de seguridad, las claves y los detalles de endpoints.
+**Versión pública.** Este resumen cubre páginas, flujos y datos funcionales. La evidencia cruda no se publica.
 
 ---
 
 ## 0. Cómo leer este resumen
 
-Cada dato indica de qué comando de REA salió y su estado frente a [`01-sitio-y-comparativa.md`](01-sitio-y-comparativa.md) (01) y el documento interno de síntesis (04):
+Cada dato indica de qué comando de REA salió y su estado frente a [`01-sitio-y-comparativa.md`](01-sitio-y-comparativa.md) (01):
 
 - **nuevo**: no figuraba antes.
 - **confirmado**: REA observa lo mismo.
@@ -38,11 +38,11 @@ Inicio (`/hx/`), inicio en inglés (`/hx/en/`), Tracking (`/hx/tracking/`), rast
 2. **`/hx/tracking/` no contiene el formulario de rastreo.** Es una portada que enlaza a `/tracking.html`; su único campo es el selector de idioma. `[I:hx-tracking] "normalized_result.dom.nodes"`. **nuevo**.
 3. En `/tracking.html` la entrada es un **campo de texto de una línea** marcado como obligatorio, con texto de ayuda asociado (`aria-describedby`) y sin restricción de longitud o patrón en el HTML. Hay un segundo control, probablemente el interruptor de rastreo múltiple. `[I:tracking-html] "normalized_result.dom.nodes[INPUT]"`. **contradicho** frente a 04, que describía un `textarea`: en el DOM observado no hay ninguno. El modo múltiple podría crearlo al activarse, y eso no se observó.
 4. **Tres estados ilustrados con la mascota**: rastreando, encontrado y no encontrado. `[I:tracking-html] "normalized_result.metadata.dom_urls"` (imágenes `perro-hound-express-rastreando`, `-encontrando` y `-no-encontrado`). **nuevo**: 01 proponía estos estados sin haberlos observado.
-5. La consulta la hace el JavaScript de la página en el navegador. El detalle se conserva en privado.
+5. La página muestra el resultado de la consulta.
 
 ### 1.4 Audiencias, idiomas y contenido
 
-- **Portal de clientes** en el mismo dominio, enlazado desde todas las páginas en español. **confirmado** (04).
+- **Portal de clientes** en el mismo dominio, enlazado desde todas las páginas en español. **confirmado**.
 - **Espejo en inglés**: la traducción automática reescribe los enlaces de rastreo y del portal bajo `/hx/en/`. Por lo que 01 registró sobre un alias parecido (404), **probablemente quedan rotos**. No se verificó. `[I:en] "normalized_result.metadata.dom_urls"`. **nuevo**.
 - **Página histórica todavía enlazada**: Servicio Cargo enlaza a `/hx/servicio-ecommerce-anterior/`, que 01 marcó como exclusión histórica. `[I:cargo]`. **nuevo**.
 - **Ecommerce con anclas internas**: cross-border, transporte, logística inversa, última milla y almacén. `[I:ecommerce]`. **confirmado** (01 §3).
@@ -53,7 +53,7 @@ Inicio (`/hx/`), inicio en inglés (`/hx/en/`), Tracking (`/hx/tracking/`), rast
 
 ## 2. Endpoints y formas de datos
 
-REA no registró tráfico de red (0 peticiones en las 10 páginas), así que **no hay formas de datos observadas**. El análisis estático no encontró endpoints de la aplicación más allá de los propios de WordPress y de un formulario heredado. Los candidatos y la forma documentada de la respuesta de rastreo se conservan en el informe privado.
+REA no registró tráfico de red (0 peticiones en las 10 páginas), así que **no hay formas de datos observadas**. El análisis estático no encontró endpoints de la aplicación más allá de los propios de WordPress y de un formulario heredado.
 
 ---
 
@@ -62,7 +62,7 @@ REA no registró tráfico de red (0 peticiones en las 10 páginas), así que **n
 | Capa | Qué se observa | Fuente | Estado |
 |---|---|---|---|
 | Estados de la interfaz | rastreando → encontrado o no encontrado | `[I:tracking-html]` (ilustraciones) | **nuevo** |
-| Progreso del envío | historial escalonado `cPaso`; el catálogo de pasos no se conoce | 04 (lectura del JS, 2026-10-12) | *sin contraste* |
+| Progreso del envío | historial por pasos; el catálogo de pasos no se conoce | estudio pasivo | *sin contraste* |
 | Historial del contrato oficial | código, descripción y fecha por evento | 01 §4 (documentación de Sabueso) | *sin contraste* |
 | Incidencias | detenido en aduana, importación prohibida, entregado sin recibir, extraviado, devuelto | 01 §4 (FAQ) | *sin contraste* |
 
@@ -72,7 +72,7 @@ stateDiagram-v2
     [*] --> Rastreando: guía(s) + Rastrear
     Rastreando --> Encontrado: hay resultado
     Rastreando --> NoEncontrado: sin resultado
-    Encontrado --> Historial: pasos cPaso
+    Encontrado --> Historial: pasos
 ```
 
 Nuestro modelo, en cambio, tiene 5 etapas lineales y solo admite la siguiente (§5).
@@ -81,7 +81,7 @@ Nuestro modelo, en cambio, tiene 5 etapas lineales y solo admite la siguiente (�
 
 ## 4. Seguridad
 
-Los hallazgos de seguridad sobre el sitio vivo de Hound se conservan en privado hasta que Hound sea notificado.
+Este resumen no incluye análisis de seguridad del sitio vivo.
 
 ---
 
@@ -92,13 +92,13 @@ Modelo: `houndxpress-backend/backend/tracking/models.py`.
 | Aspecto | Hound | Nuestro M54 | Recomendación |
 |---|---|---|---|
 | Formato de guía | FAQ: 16 o 22 caracteres (01 §4, *sin contraste*). El campo no restringe longitud ni patrón en el HTML (**nuevo**). | `CharField(max_length=22, unique=True)` con regex `^(21[0-9]{14}\|[A-Z0-9]{22})$` y `CheckConstraint` igual. | Mantener. **M64**: normalizar la entrada (`strip`, `upper`) antes de validar. |
-| Rastreo múltiple | Varias guías por consulta (04). | Una guía (no hay API todavía). | **M64/M66**: consulta múltiple con tope y limitación de tasa por guía. |
-| Etapas | Historial `cPaso`, catálogo desconocido; incidencias aparte. | 5 etapas lineales: recepción de carga → vehículo cargado → vehículo liberado → vehículo en camino → carga entregada; una por guía (`UniqueConstraint`). | Mantener en M54. **M64/M66**: incidencias como eventos separados y una tabla de equivalencias `cPaso` → etapa si se integra Sabueso. |
+| Rastreo múltiple | Varias guías por consulta. | Una guía (no hay API todavía). | **M64/M66**: consulta múltiple con tope y limitación de tasa por guía. |
+| Etapas | Historial por pasos, catálogo desconocido; incidencias aparte. | 5 etapas lineales: recepción de carga → vehículo cargado → vehículo liberado → vehículo en camino → carga entregada; una por guía (`UniqueConstraint`). | Mantener en M54. **M64/M66**: incidencias como eventos separados y una tabla de equivalencias pasos → etapa si se integra Sabueso. |
 | Estados de la interfaz | rastreando, encontrado y no encontrado. | No aplica (backend). | **M66**: añadir "servicio no disponible" y "sin eventos todavía". |
 | Fecha por evento | Fecha por paso (contrato). | `timestamp` con fecha del servidor. | Mantener. |
-| Quién recibió | La vista de resultado incluye el nombre de quien recibió (04). | `recipient` obligatorio. | **M64**: la vista pública nunca devuelve `recipient`; solo el vendedor dueño autenticado. |
-| Ubicación | Coordenadas con enlace a mapa (04). | Sin coordenadas; `location` en texto, hasta 100 caracteres. | Mantener sin coordenadas. **M64**: la vista pública muestra solo ciudad o centro. |
-| Referencia del cliente | Aparece en el resultado (04). | No existe. | No añadirla en M54; si llega, solo para el dueño autenticado. |
+| Quién recibió | Fuera de este resumen. | `recipient` obligatorio. | **M64**: la vista pública nunca devuelve `recipient`; solo el vendedor dueño autenticado. |
+| Ubicación | Fuera de este resumen. | Sin coordenadas; `location` en texto, hasta 100 caracteres. | Mantener sin coordenadas. **M64**: la vista pública muestra solo ciudad o centro. |
+| Referencia del cliente | Fuera de este resumen. | No existe. | No añadirla en M54; si llega, solo para el dueño autenticado. |
 | Origen y destino | No observado. | `origin` y `destination`. | **M64**: público solo a nivel de ciudad. |
 | Autor y nota del cambio | No observado. | `updated_by` y `note`. | **M64**: nunca públicos. |
 

@@ -90,7 +90,7 @@ export function Footer({ inert }: { inert?: boolean }) {
       <div className="site-footer__bottom">
         <Container className="site-footer__bottom-inner">
           <p className="site-footer__note">
-            Hound Express · Logística y comercio internacional. Imágenes ilustrativas.
+            Rediseño no oficial de Hound Express. Imágenes ilustrativas.
           </p>
         </Container>
       </div>

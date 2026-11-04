@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "receiptId": "3c7b308e-3428-42a5-96d0-aa0a92749268",
+  "receiptId": "3618e303-566a-45f9-883d-8d8a85e9715c",
   "status": "current",
   "command": "deliver",
   "type": "architecture",
-  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.K788BApmqx/Houndxpress/docs/diagramas/fuentes/arquitectura.json",
-  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.K788BApmqx/Houndxpress/docs/diagramas/arquitectura.html",
+  "input": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.avprMpuRYu/Houndxpress/docs/diagramas/fuentes/arquitectura.json",
+  "output": "/private/var/folders/8p/5pwwmf697fj4hxzlj0v2_jkh0000gn/T/tmp.avprMpuRYu/Houndxpress/docs/diagramas/arquitectura.html",
   "specification": {
-    "sha256": "f682551dbafa1149960136498161625326ffdbf1e2fc69190af933eeb6d65561",
-    "bytes": 33055
+    "sha256": "1bb4b1028355d94ccd797c0a7b0ca2f12930d738c7661b777237d4d38cfa9aa0",
+    "bytes": 37471
   },
   "artifact": {
-    "sha256": "1cb2bcdaadfcb018329feb0bdfbba4a6359fd0698f824e5729e5067d92e4c614",
-    "bytes": 760555
+    "sha256": "fded7a3f8e290e5b2a0aecc810236058939e282896517fe2df850863879ecc92",
+    "bytes": 767733
   }
 }

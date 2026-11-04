@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from . import services
 from .models import Guide, StatusHistory
 
 
@@ -42,6 +43,17 @@ class GuideAdmin(admin.ModelAdmin):
         if obj is not None:
             readonly_fields.append("tracking_number")
         return readonly_fields
+
+    def get_exclude(self, request, obj=None):
+        # Una guía nace activa: una archivada no admite su primera etapa.
+        exclude = list(super().get_exclude(request, obj) or [])
+        return [*exclude, "is_archived"] if obj is None else exclude
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if not change:
+            # La vista de alta corre en una transacción: si esta fila falla, la guía tampoco queda.
+            services.record_first_stage(obj, request.user)
 
 
 @admin.register(StatusHistory)

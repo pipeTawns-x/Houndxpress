@@ -73,7 +73,6 @@ Reconstruida desde Engram #946 el 2026-10-27. El texto completo de la v1 se recu
 | Entorno de M66 | Decisión D6 abierta | Decidir host, base, roles y caché antes de escribir M64 | El defecto que mata la propuesta (§4 del abogado) |
 | Ruta crítica | Diseño de 42 vistas → construcción | Se diseñan las 42 vistas, pero M64 y M66 no esperan a las 34 pendientes | C12 |
 | Patrones | "Proxy de protección existe" | "Analogía de Proxy": control de acceso por herencia | C04 |
-| Hallazgos del sitio vivo | Descritos en §3.3 y §15.4 | Solo en el informe privado hasta notificar a Hound | Divulgación responsable (§15.5) |
 
 ### 0.3 Críticas aceptadas y rechazadas
 
@@ -102,17 +101,17 @@ Detalle y evidencia de cada una en [`abogado-del-diablo.md`](abogado-del-diablo.
 | C19 | Una persona para red, git y aprobaciones | Media | Aceptada | Un frente a la vez y un bloque de comandos por intervención | Ahora |
 | C20 | Sin prueba de concurrencia real | Media | Aceptada | `TransactionTestCase` contra PostgreSQL en CI | M66 |
 | C21 | Admin sin freno de fuerza bruta | Media / Alta en M66 | Aceptada | Bloquea M66; el mecanismo lo elige Eduardo (E1) | Eduardo |
-| C22 | Exclusión privada solo en local | Alta | Aceptada | `.gitignore` versionado (E8) | Eduardo |
+| C22 | Exclusiones solo en local | Alta | Aceptada | Revisión de `git status` antes de cada commit (E8) | Eduardo |
 | C23 | Datos personales sin retención | Media | Aceptada | Pasa a decisión E5 | Eduardo |
 | C24 | Sin vía de corrección operativa | Media | Aceptada | Pasa a decisión E4 | Eduardo |
 | C25 | El historial no guarda el área | Media | Aceptada | Columna nueva, migración aditiva | M64 |
 | C26 | El CI no corre los controles declarados | Media | Aceptada | Pasa a decisión E9 | Eduardo |
-| C27 | Notificación a Hound y permiso de marca pendientes | Alta | Aceptada | Ya eran pendientes de la v1 (E10) | Eduardo |
+| C27 | Permiso de marca pendiente | Alta | Aceptada | Ya eran pendientes de la v1 (E10) | Eduardo |
 | C28 | HSTS de un año con precarga | Info | Rechazada | Los hosts candidatos solo sirven HTTPS; se revisa si aparece un dominio propio | — |
 | C29 | Se aceptan contraseñas solo numéricas | Info | Rechazada | ASVS 6.2.5 prohíbe reglas de composición | — |
 | C30 | Usar librería de estados o State completo | Baja | Rechazada | Flujo lineal sin comportamiento por etapa; licencias (v1 §8.2) | — |
 | C31 | UUID como identificador público | Baja | Rechazada | El cliente tiene el número de guía (D4) | — |
-| C32 | Guardar coordenadas como Hound | Baja | Rechazada | Más datos personales sin beneficio (REA §5) | — |
+| C32 | Guardar coordenadas exactas | Baja | Rechazada | Más datos personales sin beneficio (REA §5) | — |
 | C33 | La vista navegable muestra el `charset` | Info | Rechazada | Aceptado por el verificador; no expone nada | — |
 | BD01 | Mínimo privilegio en la base | Media | Aceptada | Rol de la app sin `UPDATE` ni `DELETE` sobre el historial | M66 |
 | BD02 | Supabase expone `public` sin RLS | Alta, condicional | Aceptada | Si se elige Supabase: esquema no expuesto o RLS sin políticas | M66 |
@@ -207,7 +206,7 @@ Fuente: sitemap del sitio vivo (`/hx/sitemap_index.xml`, 2026-10-13) y observaci
 
 ### 3.3 Seguridad
 
-Los hallazgos de seguridad sobre el sitio vivo se conservan en el informe privado y no se describen en este repositorio hasta notificar a Hound (§15.5). La v1 los describía aquí; la v2 los retira.
+Esta propuesta no evalúa la seguridad del sitio actual (§15.5).
 
 ### 3.4 Diseño y experiencia
 
@@ -243,7 +242,7 @@ Toda la experiencia cuelga de las **cinco etapas de la regla de negocio**, en or
 
 El sitio público cuenta el viaje, el rastreo muestra el de un paquete, el portal reúne los de una cuenta y el panel opera todos. La tarjeta `ops-card` (etapa actual, última ubicación y progreso) aparece en el héroe del Inicio, en el resultado del rastreo y en cada fila del panel.
 
-**Hound frente a las cinco etapas (REA §3).** El sitio actual separa la búsqueda (rastreando, encontrado o no encontrado) del progreso del envío, que muestra como pasos `cPaso` de catálogo desconocido. No hay equivalencia definida entre esos pasos y nuestras etapas, y no se inventa (regla de `hound-dominio`). Si algún día se integra Sabueso, la tabla de equivalencias vive en el adaptador (ola 3). Diagrama: [`docs/diagramas/ciclo-de-vida-guia.html`](../diagramas/ciclo-de-vida-guia.html).
+**Hound frente a las cinco etapas (REA §3).** El sitio actual separa la búsqueda (rastreando, encontrado o no encontrado) del progreso del envío, que muestra como pasos de catálogo desconocido. No hay equivalencia definida entre esos pasos y nuestras etapas, y no se inventa (regla de `hound-dominio`). Si algún día se integra Sabueso, la tabla de equivalencias vive en el adaptador (ola 3). Diagrama: [`docs/diagramas/ciclo-de-vida-guia.html`](../diagramas/ciclo-de-vida-guia.html).
 
 ### 4.2 Principios
 
@@ -266,7 +265,7 @@ El sitio público cuenta el viaje, el rastreo muestra el de un paquete, el porta
 | Vitrina | Antes (sitio vivo) | Después (este proyecto) |
 |---|---|---|
 | Diseño | Plantilla, foto de stock, carrusel, rastreo en otro sitio | Sistema propio, producto como protagonista, un solo lenguaje en 42 vistas |
-| Seguridad | Descrita de forma genérica hasta notificar a Hound (§15.5) | Secretos solo en el servidor, datos mínimos, límite por guía, historial inmutable, controles ASVS nivel 1 con pruebas |
+| Seguridad | Descrita de forma genérica (§15.5) | Secretos solo en el servidor, datos mínimos, límite por guía, historial inmutable, controles ASVS nivel 1 con pruebas |
 | Rendimiento | Muchos servicios de terceros y plugins pesados | LCP < 2,5 s, INP < 200 ms, CLS < 0,1, JS inicial < 150 KB gzip |
 | Privacidad | Seguimiento de terceros en cada página | Analítica propia o ninguna; IA local donde los datos no salen de la empresa |
 
@@ -692,7 +691,7 @@ Un cambio está terminado cuando sus specs se verificaron con salida registrada 
 | Asistente X1 | Inyección de instrucciones, fuga entre clientes | Recuperación acotada a las guías propias, fuentes permitidas, pruebas dedicadas |
 | Dependencias | Cadena de suministro | `uv.lock`, OSV, regla de licencias, plazos de `SECURITY.md`, enfriamiento antes de subir versión |
 | Secretos | Exposición | Variables de entorno, gitleaks antes de cada push |
-| Investigación privada | Publicación accidental | `.gitignore` versionado (E8) |
+| Archivos locales | Publicación accidental | Revisión de `git status` antes de cada commit (E8); gitleaks solo detecta secretos |
 
 ### 15.2 Cumplimiento
 
@@ -701,15 +700,15 @@ Un cambio está terminado cuando sus specs se verificaron con salida registrada 
 
 ### 15.3 Entregable de seguridad
 
-Un reporte "antes y después" con la rúbrica de `cyber-neo` (OWASP 2025 y CWE Top 25), la lista ASVS de `docs/entregas/m54/asvs-l1-checklist.md` y las pruebas de §14.2. Nunca incluye credenciales ni detalles del sitio vivo antes de la notificación.
+Un reporte "antes y después" con la rúbrica de `cyber-neo` (OWASP 2025 y CWE Top 25), la lista ASVS de `docs/entregas/m54/asvs-l1-checklist.md` y las pruebas de §14.2. Nunca incluye credenciales ni detalles del sitio vivo.
 
 ### 15.4 Uso de la marca
 
 El frontend usa los logotipos reales. Antes de publicar M66 se pide autorización escrita a Hound (D15, E10).
 
-### 15.5 Divulgación responsable
+### 15.5 Alcance frente al sitio actual
 
-Los hallazgos sobre el sitio vivo afectan a la empresa aliada. Hasta que Hound los corrija: se le comunican por un canal privado; el informe privado y la evidencia no se versionan en un repositorio público; la vitrina de seguridad describe la clase de problema sin señalar archivos ni servicios.
+Este repositorio no evalúa la seguridad del sitio actual. La vitrina de seguridad describe clases de problema de este proyecto.
 
 ---
 
@@ -746,7 +745,7 @@ El detalle paso a paso, con su "hecho cuando" y su comando de verificación, est
 | Entorno de M66 sin probar | Alto | Paso 5 de §17 antes de publicar |
 | Host que se pausa durante la revisión | Alto | E2 |
 | Admin sin freno en una URL pública | Alto | E1 antes de M66 |
-| Publicar la investigación privada | Alto | E8 |
+| Publicar archivos locales por error | Alto | E8 |
 | Alcance de 42 vistas | Alto | Ruta crítica separada (§5) |
 | Créditos de Claude Design | Medio | Lotes cortos; M64 y M66 no esperan |
 | Licencias (`psycopg`, GSAP, plantillas de pago) | Medio | Registro en `STACK_HOUND_EXPRESS.md` |
@@ -791,7 +790,6 @@ Las nuevas de este ciclo están en el [blueprint §20](blueprint.md#20-puerta-de
 |---|---|---|
 | "En tránsito" calculado como etapas 1 a 4 | `frontend/src/components/panel/StageSummary.tsx` | Pendiente para M66 |
 | `docs/propuesta/` sin versionar | — | Lo resuelve el paso 1 de §17 |
-| Investigación privada excluida solo en local | `.git/info/exclude` | E8 |
 | `backend/.env.example` versionado | — | Eliminado en `9b334c0` (rama `backend`) |
 | README con "13 pruebas" | `README.md` | Corregido en `aed7967` |
 | `.gitignore` sin `*.pem`, `*.key` ni `secrets/` | `.gitignore` | Corregido en `aed7967` |
@@ -807,7 +805,6 @@ Las nuevas de este ciclo están en el [blueprint §20](blueprint.md#20-puerta-de
 | Guía | Envío identificado por un número de guía |
 | Etapa | Uno de los cinco pasos de la regla de negocio |
 | Estado de la interfaz | Lo que muestra la pantalla de rastreo (rastreando, encontrado, no encontrado); no es una etapa |
-| Paso `cPaso` | Unidad del historial del sitio actual de Hound; su catálogo no se conoce |
 | Historial inmutable | Registro de etapas que solo admite inserciones |
 | Intento rechazado | Petición de avance que violó el orden; se registra para el indicador de cumplimiento |
 | Archivar | Retirar una guía de las vistas activas sin borrarla |

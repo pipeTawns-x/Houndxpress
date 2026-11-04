@@ -13,6 +13,9 @@ from tracking.values import TrackingNumber
 
 logger = logging.getLogger(__name__)
 
+# El catálogo de motivos de StageTransitionAttempt no lo incluye; este rechazo solo va al log.
+MISSING_HISTORY = "missing_history"
+
 
 def history_prefetch():
     return Prefetch(
@@ -43,17 +46,22 @@ def get_guide(number, *, lock=False):
         raise NotFound() from exc
 
 
+def record_first_stage(guide, user):
+    """Registra la primera etapa; el autor y el departamento los asigna el servidor."""
+    return StatusHistory.objects.create(
+        guide=guide,
+        stage=Stage.CARGO_RECEIVED,
+        updated_by=user,
+        department=user.department,
+    )
+
+
 def create_guide(data, user):
     number = data["tracking_number"]
     try:
         with transaction.atomic():
             guide = Guide.objects.create(**data)
-            StatusHistory.objects.create(
-                guide=guide,
-                stage=Stage.CARGO_RECEIVED,
-                updated_by=user,
-                department=user.department,
-            )
+            record_first_stage(guide, user)
     except IntegrityError:
         existing = Guide.objects.filter(tracking_number=number).first()
         if existing:
@@ -71,6 +79,8 @@ def advance_guide(number, data, user):
         requested_index = Stage.values.index(stage)
         if guide.is_archived:
             rejection = "archived"
+        elif not guide.status_history.exists():
+            rejection = MISSING_HISTORY
         elif stage == guide.current_stage:
             return get_guide(number)
         elif guide.current_stage == Stage.CARGO_DELIVERED:
@@ -80,13 +90,14 @@ def advance_guide(number, data, user):
         elif requested_index != current_index + 1:
             rejection = "skip"
         if rejection:
-            StageTransitionAttempt.objects.create(
-                guide=guide,
-                requested_stage=stage,
-                current_stage=guide.current_stage,
-                attempted_by=user,
-                reason=rejection,
-            )
+            if rejection != MISSING_HISTORY:
+                StageTransitionAttempt.objects.create(
+                    guide=guide,
+                    requested_stage=stage,
+                    current_stage=guide.current_stage,
+                    attempted_by=user,
+                    reason=rejection,
+                )
             logger.warning(
                 "Transición rechazada: guía=%s etapa=%s actual=%s actor=%s motivo=%s",
                 guide.tracking_number,

@@ -110,13 +110,18 @@ Método de Engram #809 y #810: cada patrón lleva una etiqueta honesta (existe e
 | Chain of Responsibility | Framework | `settings.py:95-103` (`MIDDLEWARE`) | Cada middleware atiende o pasa la petición |
 | Manager y QuerySet | Framework (Fowler, no GoF) | `models.py:179`, `:336` | Hace de Repository; no se agrega otra capa |
 
+**Construidos después (comprobados en M54.3):**
+
+| Patrón | Etiqueta | Dónde | Qué resuelve |
+|---|---|---|---|
+| Facade | Existe | `tracking/services.py:1`, `:59-70`, `:73-120`; `tracking/api/views.py:1`; `tracking/admin.py:47-51` | Las vistas y el admin solo llaman al servicio |
+| Command | **Analogía** | `tracking/services.py:73-120` (`advance_guide`); `tracking/models.py:417-436` (`StageTransitionAttempt`) | `advance_guide` es una función, no un objeto orden; registra el avance o audita el rechazo |
+| Value Object (DDD, no GoF) | Existe | `tracking/values.py:19-23` (`TrackingNumber`: `strip`, `upper`, formato) | Normaliza y valida el número en los límites de la aplicación |
+
 **Planeados:**
 
 | Patrón | Etiqueta | Dónde irá | Cuándo entra |
 |---|---|---|---|
-| Facade | Propuesta | `tracking/services.py` | M64: las vistas solo llaman al servicio |
-| Command | Propuesta | `advance_guide` como orden auditable; `StageTransitionAttempt` guarda las rechazadas | M64 |
-| Value Object (DDD, no GoF) | Propuesta | `tracking/values.py` (`TrackingNumber`: `strip`, `upper`, formato) | M64; nodo `value-objects` de roadmap.sh |
 | Observer | Propuesta | Avisos al registrar una etapa | Ola 3. **Ojo:** `bulk_create` no emite `post_save`, y `StatusHistoryQuerySet.bulk_create` (`models.py:255-323`) es una ruta válida de inserción. El aviso sale del servicio, no de una señal |
 | Adapter | Propuesta | `TrackingProvider` para Sabueso | Ola 3 (#1076) |
 | Strategy | Propuesta | Elección de proveedor (demostración o real) y cotizador por `ServiceLevel` (`models.py:49-51`) | Ola 3 |
@@ -500,9 +505,9 @@ Decisiones que los documentos no resuelven. Cada una lleva la recomendación del
 | E5 | ¿Cuánto tiempo se guardan `recipient` y `note`, y cómo se anonimizan? | Un plazo fijo después de la entrega y anonimización en lugar de borrado; verificar la ley de 2025 en el DOF | Datos reales | C23 |
 | E6 | ¿Se confirma "en tránsito = solo la etapa 4" y entra "con alerta" en M66? | Sí a la etapa 4; "con alerta" solo si D5 pone `Incident` en el núcleo | M66 | #851, D5 |
 | E7 | ¿Un PUT repetido de la etapa actual responde 200 (reintento) o 409 (v1)? | 200 | M64 | C13 |
-| E8 | ¿Se pasa `docs/investigacion/privado/` (y `04`, `07`) del `.git/info/exclude` local al `.gitignore` versionado? | Sí | Cualquier push desde otra copia | C22 |
+| E8 | ¿Cómo se evita publicar archivos locales por error? | Exclusión local y revisión de `git status` antes de cada commit; gitleaks solo detecta secretos | Cualquier commit desde otra copia | C22 |
 | E9 | ¿Se agregan al CI `check --deploy`, OSV o `pip-audit`, gitleaks, Dependabot y acciones fijadas por SHA? | Sí, en un PR propio (riesgo 5: CI) | M66 | C26, L7 |
-| E10 | ¿Cuándo se notifica a Hound y se pide la autorización de marca (D15)? | Antes de publicar la URL de M66 | M66 | C27 |
+| E10 | ¿Cuándo se pide la autorización de marca (D15)? | Antes de publicar la URL de M66 | M66 | C27 |
 | E11 | ¿Caché compartida con `DatabaseCache` (sin dependencia) o Redis (servicio nuevo)? | `DatabaseCache` | M66 | C07 |
 | E12 | ¿El avance se restringe por área (D2) o solo se registra el área? | Solo registrar en M64; restringir como plus en una ola | M64 | D2, C25 |
 

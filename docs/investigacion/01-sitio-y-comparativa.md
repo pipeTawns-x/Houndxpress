@@ -95,14 +95,12 @@ Las cifras comerciales son **afirmaciones del sitio**, no datos auditados. El po
 
 **Flujo propuesto:** ingresar guía → validar → cargar → mostrar estado e historial → ofrecer ayuda pertinente. Separar “guía no encontrada” de “servicio no disponible”; no convertir incidentes en etapas obligatorias.
 
-## 5. Seguridad: observada, documentada y heredada
+## 5. Seguridad: lo que dice la documentación pública
 
-| Nivel | Hallazgo | Límite |
+| Nivel | Dato | Límite |
 |---|---|---|
-| Observado en contenido | Contacto presenta aceptación de privacidad; FAQ contiene enlace textual HTTP al rastreo | No prueba validación del consentimiento ni comportamiento de redirección |
+| Observado en contenido | Contacto presenta aceptación de privacidad | No prueba validación del consentimiento |
 | Documentado oficialmente | Sabueso describe autenticación mediante identificador de cliente y clave de socio, roles y límites de acceso | No se probó su aplicación efectiva. [Documentación](https://apis.hound-express.com/docs/getting-started) |
-| Heredado del repositorio | Investigación anterior reporta una clave de socio en el JS público, dependencias antiguas e inyección de navegación con jQuery | **No revalidado en esta sesión**; no se leyó ni reprodujo ningún valor |
-| No verificable aquí | [JS público del rastreo](https://www.hound-express.com/js/hound_express_tracking_addon.js) | Web: `Cache miss`; MCP: tipo `application/javascript` no admitido |
 | No evaluado | Autorización por guía, enumeración, CORS, CSP, cookies, límites reales y exposición de datos personales | No afirmar vulnerabilidad ni protección sin evidencia |
 
 **Criterio para fase 2:** no portar credenciales ni conectar Sabueso real. Mantener datos de demostración. Una eventual integración requiere autorización y secretos fuera del cliente; no asumir que un proxy, por sí solo, resuelve autorización o abuso.
@@ -135,4 +133,4 @@ Pendientes concretos:
 
 1. Blog y Noticias tienen estructuras distintas; fusionarlos exige conservar esa diferencia.
 2. Un fallo de lectura no demuestra una caída, y un contrato de API no demuestra un flujo ejecutado.
-3. La exposición histórica de una clave no debe presentarse como hallazgo actual sin revalidación.
+3. Una afirmación sobre el sitio actual no se presenta como vigente sin revalidación.

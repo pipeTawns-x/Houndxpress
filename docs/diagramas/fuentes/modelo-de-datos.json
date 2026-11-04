@@ -2,7 +2,7 @@
   "schema_version": 1,
   "diagram_type": "architecture",
   "meta": {
-    "title": "Modelo de datos de M54 · guías, historial y usuarios",
+    "title": "Modelo de datos de M54.3 · guías, historial y usuarios",
     "output": "docs/diagramas/modelo-de-datos.html",
     "locale": "es",
     "translations": {
@@ -448,7 +448,7 @@
     "quality_profile": "showcase",
     "repository": {
       "url": "https://github.com/pipeTawns-x/Houndxpress.git",
-      "revision": "aed7967dd0d3730d1feab3162d00c94033dd9685",
+      "revision": "59f04705119e8875aea1c4e8ecffb0579b4b48e2",
       "link_mode": "local-only"
     }
   },
@@ -460,7 +460,7 @@
       "sublabel": "contador con alerta · D5",
       "pos": [
         40,
-        300
+        280
       ],
       "size": [
         190,
@@ -475,30 +475,30 @@
       "sublabel": "tracking_number único · current_stage",
       "pos": [
         340,
-        300
+        280
       ],
       "size": [
         230,
         64
       ],
-      "tag": "CheckConstraint ×2",
+      "tag": "CheckConstraint ×3",
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 162,
-          "end_line": 193,
-          "label": "Guide, campos y restricciones"
+          "line": 169,
+          "end_line": 184,
+          "label": "Guide y sus campos"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 185,
-          "end_line": 192,
-          "label": "CheckConstraint de formato y etapa"
+          "line": 191,
+          "end_line": 204,
+          "label": "CheckConstraint de servicio, formato y etapa"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 198,
-          "end_line": 240,
+          "line": 209,
+          "end_line": 251,
           "label": "save_base: etapa solo por historial"
         }
       ]
@@ -507,10 +507,10 @@
       "id": "history",
       "type": "database",
       "label": "StatusHistory",
-      "sublabel": "solo inserción · una fila por etapa",
+      "sublabel": "solo inserción · autor y department",
       "pos": [
         732,
-        300
+        280
       ],
       "size": [
         230,
@@ -520,20 +520,19 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 326,
-          "end_line": 343,
+          "line": 338,
+          "end_line": 355,
           "label": "StatusHistory y unique_stage_per_guide"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 348,
-          "end_line": 352,
-          "label": "save fuerza INSERT"
+          "line": 345,
+          "label": "department del autor"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 354,
-          "end_line": 397,
+          "line": 367,
+          "end_line": 411,
           "label": "save_base valida el prefijo"
         }
       ]
@@ -544,8 +543,8 @@
       "label": "User (accounts)",
       "sublabel": "AbstractUser · department",
       "pos": [
-        1156,
-        300
+        1196,
+        280
       ],
       "size": [
         210,
@@ -556,8 +555,8 @@
         {
           "path": "backend/accounts/models.py",
           "line": 14,
-          "end_line": 22,
-          "label": "User con department"
+          "end_line": 24,
+          "label": "User con department y updated_at"
         },
         {
           "path": "backend/accounts/models.py",
@@ -584,20 +583,20 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 111,
-          "end_line": 124,
+          "line": 119,
+          "end_line": 131,
           "label": "update exige la autorización"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 126,
-          "end_line": 131,
+          "line": 133,
+          "end_line": 138,
           "label": "bulk_update rechaza current_stage"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 133,
-          "end_line": 159,
+          "line": 140,
+          "end_line": 166,
           "label": "bulk_create fija la etapa inicial"
         }
       ]
@@ -619,14 +618,14 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 243,
-          "end_line": 253,
+          "line": 257,
+          "end_line": 264,
           "label": "delete y update bloqueados"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 255,
-          "end_line": 323,
+          "line": 266,
+          "end_line": 335,
           "label": "bulk_create valida cada guía"
         }
       ]
@@ -637,8 +636,8 @@
       "label": "_advance_current_stage",
       "sublabel": "State simple · UPDATE condicional",
       "pos": [
-        732,
-        490
+        510,
+        450
       ],
       "size": [
         230,
@@ -648,21 +647,85 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 93,
-          "end_line": 108,
+          "line": 100,
+          "end_line": 115,
           "label": "UPDATE condicional"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 54,
-          "end_line": 56,
+          "line": 56,
+          "end_line": 58,
           "label": "ContextVar de autorización"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "_validate_stage_transition"
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "type": "backend",
+      "label": "tracking.services",
+      "sublabel": "API y admin · primera etapa y avance",
+      "pos": [
+        880,
+        450
+      ],
+      "size": [
+        230,
+        64
+      ],
+      "tag": "Facade",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 49,
+          "end_line": 56,
+          "label": "record_first_stage"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 73,
+          "end_line": 120,
+          "label": "advance_guide"
+        },
+        {
+          "path": "backend/tracking/admin.py",
+          "line": 47,
+          "end_line": 51,
+          "label": "el admin usa record_first_stage"
+        }
+      ]
+    },
+    {
+      "id": "attempt",
+      "type": "database",
+      "label": "StageTransitionAttempt",
+      "sublabel": "auditoría de avances rechazados",
+      "pos": [
+        732,
+        620
+      ],
+      "size": [
+        230,
+        64
+      ],
+      "tag": "skip · backwards · delivered · archived",
+      "sources": [
+        {
+          "path": "backend/tracking/models.py",
+          "line": 417,
+          "end_line": 436,
+          "label": "StageTransitionAttempt"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 94,
+          "end_line": 100,
+          "label": "se crea al rechazar un avance"
         }
       ]
     }
@@ -670,14 +733,16 @@
   "boundaries": [
     {
       "kind": "region",
-      "label": "App tracking · tracking/models.py",
+      "label": "App tracking · models.py y services.py",
       "wraps": [
         "incident",
         "guide",
         "history",
         "guide_qs",
         "history_qs",
-        "advance"
+        "advance",
+        "services",
+        "attempt"
       ]
     },
     {
@@ -733,7 +798,7 @@
       "to": "advance",
       "label": "save_base",
       "fromSide": "bottom",
-      "toSide": "top"
+      "toSide": "right"
     },
     {
       "id": "advance-guide",
@@ -741,7 +806,40 @@
       "to": "guide",
       "label": "avanza current_stage",
       "variant": "security",
+      "fromSide": "top",
+      "toSide": "right"
+    },
+    {
+      "id": "services-history",
+      "from": "services",
+      "to": "history",
+      "label": "crea la fila",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "services-attempt",
+      "from": "services",
+      "to": "attempt",
+      "label": "registra el rechazo",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "attempt-guide",
+      "from": "attempt",
+      "to": "guide",
+      "label": "guide · FK PROTECT",
       "fromSide": "left",
+      "toSide": "bottom"
+    },
+    {
+      "id": "attempt-user",
+      "from": "attempt",
+      "to": "user",
+      "label": "attempted_by · FK PROTECT",
+      "fromSide": "right",
       "toSide": "bottom"
     }
   ],
@@ -750,20 +848,22 @@
       "dot": "cyan",
       "title": "Restricciones en la base",
       "items": [
-        "tracking_number: único, 22 caracteres y formato con CheckConstraint (models.py:163, :185)",
-        "current_stage solo admite las cinco etapas (models.py:189)",
-        "Una fila por etapa y guía: unique_stage_per_guide (models.py:341)",
-        "PROTECT impide borrar una guía o un usuario con historial (models.py:327, :330)"
+        "tracking_number: único, 22 caracteres y formato con CheckConstraint (models.py:170-172, :196-199)",
+        "current_stage solo admite las cinco etapas (models.py:200-203)",
+        "Una fila por etapa y guía: unique_stage_per_guide (models.py:354)",
+        "PROTECT impide borrar una guía o un usuario con historial o intentos (models.py:339, :343, :420, :423)"
       ]
     },
     {
       "dot": "emerald",
       "title": "Patrones que el código usa",
       "items": [
-        "State, forma simple: Stage y solo la etapa siguiente (models.py:41, :59)",
-        "Template Method del framework: save_base sobrescrito (models.py:198, :354)",
-        "Compare-and-set, no GoF: UPDATE condicional (models.py:97-101)",
-        "Analogía de Proxy de protección: QuerySet que vigila escrituras (models.py:111, :243)"
+        "State, forma simple: Stage y solo la etapa siguiente (models.py:43, :61)",
+        "Template Method del framework: save_base sobrescrito (models.py:209, :367)",
+        "Compare-and-set, no GoF: UPDATE condicional (models.py:104-108)",
+        "Analogía de Proxy de protección: QuerySet que vigila escrituras (models.py:118, :254)",
+        "Facade: casos de uso sobre las invariantes (services.py:1, :59, :73)",
+        "Value Object: TrackingNumber normaliza y valida (values.py:19-23)"
       ]
     },
     {
@@ -771,8 +871,6 @@
       "title": "Planeado, todavía no existe",
       "items": [
         "Incident para el contador con alerta (M66, decisión D5)",
-        "Registro de intentos de avance rechazados (M64)",
-        "Área del autor copiada en cada fila del historial (M64)",
         "Rol de PostgreSQL sin UPDATE ni DELETE sobre el historial (M66)"
       ]
     },
@@ -781,8 +879,8 @@
       "title": "Límites conocidos",
       "items": [
         "SQL directo, raw y loaddata saltan las validaciones (models.py:12-16)",
-        "En recepción de carga una guía puede tener 0 o 1 filas (models.py:79-82)",
-        "El historial se ordena por timestamp y pk (models.py:380)"
+        "Una guía creada fuera de los servicios no tiene historial y responde 409 (services.py:82-83)",
+        "El historial se valida por orden de inserción (models.py:394)"
       ]
     }
   ]

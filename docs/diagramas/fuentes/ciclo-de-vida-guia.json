@@ -448,22 +448,18 @@
     "quality_profile": "showcase",
     "repository": {
       "url": "https://github.com/pipeTawns-x/Houndxpress.git",
-      "revision": "aed7967dd0d3730d1feab3162d00c94033dd9685",
+      "revision": "59f04705119e8875aea1c4e8ecffb0579b4b48e2",
       "link_mode": "local-only"
     }
   },
   "lanes": [
     {
       "id": "main",
-      "label": "Este proyecto · 5 etapas"
+      "label": "Etapas en orden estricto"
     },
     {
-      "id": "hound",
-      "label": "Hound hoy · rastreo (REA)"
-    },
-    {
-      "id": "terminal",
-      "label": "Hound · sin resultado"
+      "id": "outside",
+      "label": "Alta, rechazos y archivo"
     }
   ],
   "states": [
@@ -479,19 +475,19 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 42,
+          "line": 44,
           "label": "Stage.CARGO_RECEIVED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 224,
-          "end_line": 226,
+          "line": 235,
+          "end_line": 237,
           "label": "el alta empieza en recepción"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -508,13 +504,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 43,
+          "line": 45,
           "label": "Stage.VEHICLE_LOADED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -531,13 +527,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 44,
+          "line": 46,
           "label": "Stage.VEHICLE_RELEASED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -554,13 +550,13 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 45,
+          "line": 47,
           "label": "Stage.VEHICLE_IN_TRANSIT"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
@@ -577,58 +573,103 @@
       "sources": [
         {
           "path": "backend/tracking/models.py",
-          "line": 46,
+          "line": 48,
           "label": "Stage.CARGO_DELIVERED"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 61,
-          "end_line": 62,
+          "line": 63,
+          "end_line": 64,
           "label": "entregada: no admite más etapas"
         },
         {
           "path": "backend/tracking/models.py",
-          "line": 59,
-          "end_line": 67,
+          "line": 61,
+          "end_line": 69,
           "label": "solo la etapa siguiente"
         }
       ]
     },
     {
-      "id": "hound_tracking",
-      "type": "active",
-      "label": "Rastreando",
-      "sublabel": "búsqueda en curso",
-      "lane": "hound",
-      "col": 0,
-      "tag": "Hound hoy"
-    },
-    {
-      "id": "hound_found",
-      "type": "success",
-      "label": "Encontrado",
-      "sublabel": "muestra el resultado",
-      "lane": "hound",
-      "col": 1,
-      "tag": "Hound hoy"
-    },
-    {
-      "id": "hound_steps",
+      "id": "guide_created",
       "type": "neutral",
-      "label": "Pasos cPaso",
-      "sublabel": "catálogo no observado",
-      "lane": "hound",
-      "col": 2,
-      "tag": "sin contraste"
+      "label": "Alta de la guía",
+      "sublabel": "API o admin",
+      "lane": "outside",
+      "col": 0,
+      "tag": "record_first_stage",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 49,
+          "end_line": 56,
+          "label": "record_first_stage"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 59,
+          "end_line": 70,
+          "label": "alta por la API"
+        },
+        {
+          "path": "backend/tracking/admin.py",
+          "line": 47,
+          "end_line": 51,
+          "label": "alta por el admin"
+        }
+      ]
     },
     {
-      "id": "hound_missing",
+      "id": "attempt_rejected",
       "type": "failure",
-      "label": "No encontrado",
-      "sublabel": "sin resultado",
-      "lane": "terminal",
-      "col": 0,
-      "tag": "Hound hoy"
+      "label": "Avance rechazado",
+      "sublabel": "409 · la etapa no cambia",
+      "lane": "outside",
+      "col": 2,
+      "tag": "StageTransitionAttempt",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 80,
+          "end_line": 91,
+          "label": "motivos del rechazo"
+        },
+        {
+          "path": "backend/tracking/services.py",
+          "line": 94,
+          "end_line": 100,
+          "label": "registra el intento"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 417,
+          "end_line": 433,
+          "label": "StageTransitionAttempt"
+        }
+      ]
+    },
+    {
+      "id": "guide_archived",
+      "type": "neutral",
+      "label": "Archivada",
+      "sublabel": "DELETE · is_archived",
+      "lane": "outside",
+      "col": 4,
+      "tag": "desde cualquier etapa",
+      "sources": [
+        {
+          "path": "backend/tracking/services.py",
+          "line": 123,
+          "end_line": 128,
+          "label": "archive_guide"
+        },
+        {
+          "path": "backend/tracking/models.py",
+          "line": 72,
+          "end_line": 74,
+          "label": "archivada: no admite etapas"
+        }
+      ]
     }
   ],
   "transitions": [
@@ -653,25 +694,26 @@
       "label": "siguiente"
     },
     {
-      "from": "hound_tracking",
-      "to": "hound_found",
-      "label": "hay resultado"
+      "from": "guide_created",
+      "to": "cargo_received",
+      "label": "primera fila"
     },
     {
-      "from": "hound_found",
-      "to": "hound_steps",
-      "label": "historial"
+      "from": "vehicle_released",
+      "to": "attempt_rejected",
+      "label": "salto o retroceso",
+      "variant": "security"
     },
     {
-      "from": "hound_tracking",
-      "to": "hound_missing",
-      "label": "sin resultado",
+      "from": "cargo_delivered",
+      "to": "guide_archived",
+      "label": "archivar",
       "variant": "dashed"
     },
     {
-      "from": "hound_missing",
-      "to": "hound_tracking",
-      "label": "otra guía",
+      "from": "guide_archived",
+      "to": "attempt_rejected",
+      "label": "no admite avance",
       "variant": "dashed"
     }
   ],
@@ -680,8 +722,8 @@
       "dot": "cyan",
       "title": "Regla de avance",
       "items": [
-        "La única etapa válida es la siguiente",
-        "Una guía entregada ya no avanza",
+        "La única etapa válida es la siguiente (services.py:88-91)",
+        "Una guía entregada ya no avanza (services.py:86-87)",
         "El panel solo ofrece el botón de la etapa siguiente"
       ]
     },
@@ -689,9 +731,18 @@
       "dot": "emerald",
       "title": "Historial",
       "items": [
-        "Cada avance agrega un evento con fecha y lugar",
-        "Los eventos no se editan ni se borran",
-        "Las fechas se guardan en UTC"
+        "Cada avance agrega un evento con fecha, lugar y área del autor (services.py:110-116)",
+        "Los eventos no se editan ni se borran (models.py:254-264)",
+        "Las fechas se guardan en UTC (settings.py:169-171)"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Alta y rechazos",
+      "items": [
+        "La API y el admin crean la primera fila con record_first_stage (services.py:64, admin.py:51)",
+        "Salto, retroceso, entregada o archivada: 409 y queda el intento (services.py:80-100)",
+        "Una guía sin historial responde 409 y solo se registra en el log (services.py:82-83, :93)"
       ]
     },
     {
@@ -707,20 +758,11 @@
       "dot": "violet",
       "title": "Patrones en el código",
       "items": [
-        "State, forma simple: Stage con cinco valores (models.py:41)",
-        "Solo la etapa siguiente es válida (models.py:59-67)",
-        "UPDATE condicional, compare-and-set, no GoF (models.py:93-108)",
-        "Propuestas: Command para avances auditables y Observer para avisos"
-      ]
-    },
-    {
-      "dot": "slate",
-      "title": "Hound frente a las cinco etapas",
-      "items": [
-        "Hound separa la búsqueda (rastreando, encontrado o no) del progreso",
-        "Su progreso son pasos cPaso; el catálogo no se observó",
-        "No hay equivalencia definida y no se inventa",
-        "Fuente: docs/investigacion/rea-sitio-actual.md, secciones 1.3 y 3"
+        "State, forma simple: Stage con cinco valores (models.py:43-48)",
+        "Solo la etapa siguiente es válida (models.py:61-69)",
+        "UPDATE condicional, compare-and-set, no GoF (models.py:100-115)",
+        "Facade: advance_guide decide, registra y audita (services.py:73-120)",
+        "Propuesta: Observer para avisos; todavía no existe"
       ]
     }
   ]
