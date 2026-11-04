@@ -38,7 +38,7 @@ Ramas de larga duración, con nombre que dice qué contiene. No se crean otras. 
 | `main` | El producto integrado, limpio y profesional. Solo lo que ya pasó por `pruebas`. | `pruebas` |
 
 - Flujo de producto: `frontend` y `backend` → PR a `pruebas` → PR de `pruebas` a `main`.
-- **Reglas por rama:** esta rama solo lleva código y documentación en tono de producto. Cada rama trabaja con sus propias reglas y estilos, sin mezclarlos con los de otra. Cada merge se adapta a la rama destino, incluidos sus mensajes de commit. Revisar el diff de salida; no integrar una rama completa sin filtrar ni copiar su árbol, porque puede reintroducir archivos eliminados.
+- **Reglas por rama:** las ramas de producto solo llevan código y documentación en tono de producto. Cada rama trabaja con sus propias reglas y estilos, sin mezclarlos con los de otra. Cada merge se adapta a la rama destino, incluidos sus mensajes de commit. Revisar el diff de salida; no integrar una rama completa sin filtrar ni copiar su árbol, porque puede reintroducir archivos eliminados.
 - Un agente por rama y un worktree por rama. No compartir la escritura de una misma rama entre agentes.
 - Commits con Conventional Commits, en inglés y español: `tipo(scope): description in English / descripción en español` (`feat(backend): add the guide model / agrega el modelo de guías`). Sin atribución a IA ni `Co-Authored-By`.
 - PR: título en español; el cuerpo abre con una línea de resumen en inglés y sigue en español.
