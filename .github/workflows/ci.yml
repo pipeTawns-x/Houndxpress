@@ -64,6 +64,9 @@ jobs:
           source .venv/bin/activate
           python -m pip install -r requirements.txt
           python manage.py migrate
+          python manage.py loaddata demo_guides
+          reviewer_output="$(python manage.py create_reviewer)"
+          grep -q '^Usuario: revisor$' <<< "$reviewer_output"
           python manage.py runserver 127.0.0.1:8000 --noreload > runserver.log 2>&1 &
           for _ in $(seq 1 30); do
             curl -fsS http://127.0.0.1:8000/api/v1/health/ -o health.json && break
@@ -94,4 +97,6 @@ jobs:
       - run: python -m venv .venv
       - run: .venv\Scripts\python -m pip install -r requirements.txt
       - run: .venv\Scripts\python manage.py migrate
+      - run: .venv\Scripts\python manage.py loaddata demo_guides
+      - run: .venv\Scripts\python manage.py create_reviewer | Out-Null
       - run: .venv\Scripts\python manage.py check
